@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathe 10 – Bogenmaß & Sinusfunktion</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #131a2e;
+            --panel2: #1a2340;
+            --text: #f4f7ff;
+            --muted: #aeb8d0;
+            --accent: #6ea8ff;
+            --accent2: #7cf0c0;
+            --danger: #ff7070;
+            --border: #2c3858;
+            --gold: #ffd166;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 15% 10%, #172d5d 0, transparent 30%),
+                radial-gradient(circle at 90% 20%, #153c3b 0, transparent 25%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            width: min(1180px, 94%);
+            margin: auto;
+            padding: 24px 0 60px;
+        }
+
+        header {
+            padding: 30px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logoIcon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), #9c6eff);
+            font-size: 27px;
+            box-shadow: 0 10px 35px #0005;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(25px, 4vw, 40px);
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .scoreBox {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 12px 17px;
+            text-align: center;
+        }
+
+        .scoreBox strong {
+            display: block;
+            font-size: 23px;
+            color: var(--gold);
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: #0f1628cc;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            position: sticky;
+            top: 10px;
+            z-index: 20;
+            backdrop-filter: blur(15px);
+        }
+
+        nav button {
+            flex: 1;
+            min-width: 120px;
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        nav button.active,
+        nav button:hover {
+            background: var(--panel2);
+            color: white;
+        }
+
+        .section {
+            display: none;
+            animation: fade .25s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(5px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #151d34, #11182a);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px;
+            margin: 18px 0;
+            box-shadow: 0 12px 35px #0002;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .formula {
+            background: #0a0f1d;
+            border: 1px solid #33415f;
+            border-radius: 13px;
+            padding: 16px;
+            text-align: center;
+            font-family: Georgia, serif;
+            font-size: 21px;
+            margin: 14px 0;
+        }
+
+        .bigFormula {
+            font-size: 29px;
+            color: #dce7ff;
+        }
+
+        .info {
+            border-left: 4px solid var(--accent);
+            padding: 12px 15px;
+            background: #182642;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .warning {
+            border-left-color: var(--gold);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .mini {
+            background: #11192c;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 16px;
+        }
+
+        .mini .letter {
+            color: var(--accent2);
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .mini p {
+            color: var(--muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1a2540;
+        }
+
+        .btn {
+            border: 0;
+            padding: 11px 17px;
+            border-radius: 11px;
+            font-weight: 800;
+            color: white;
+            background: #2b3857;
+        }
+
+        .btn:hover {
+            filter: brightness(1.15);
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, #4d8df7, #7566f7);
+        }
+
+        .btn.green {
+            background: linear-gradient(135deg, #20a875, #168d68);
+        }
+
+        .btn.red {
+            background: #a93e50;
+        }
+
+        .btn.gold {
+            background: #ad7b14;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            background: #0c1324;
+            border: 2px solid #303d5b;
+            color: white;
+            border-radius: 10px;
+            padding: 11px 12px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent);
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .control {
+            margin-bottom: 15px;
+        }
+
+        .rangeRow {
+            display: grid;
+            grid-template-columns: 1fr 75px;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type=range] {
+            padding: 0;
+        }
+
+        #graph {
+            width: 100%;
+            height: 430px;
+            background: #080d18;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+        }
+
+        .parameterGrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .param {
+            background: #10182b;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 14px;
+        }
+
+        .param .value {
+            font-size: 23px;
+            font-weight: 900;
+            color: var(--accent2);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .converter {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: end;
+            gap: 12px;
+        }
+
+        .answer {
+            min-height: 48px;
+            font-size: 17px;
+        }
+
+        .task {
+            border-left: 5px solid var(--accent);
+        }
+
+        .taskNumber {
+            color: var(--accent2);
+            font-weight: 900;
+        }
+
+        .feedback {
+            min-height: 25px;
+            margin-top: 9px;
+            font-weight: 800;
+        }
+
+        .correct {
+            color: var(--accent2);
+        }
+
+        .wrong {
+            color: var(--danger);
+        }
+
+        .hint {
+            display: none;
+            margin-top: 10px;
+            padding: 12px;
+            background: #272238;
+            border-radius: 10px;
+            color: #e8dfff;
+        }
+
+        .solution {
+            display: none;
+            margin-top: 10px;
+            padding: 12px;
+            background: #132d26;
+            border-radius: 10px;
+            color: #c8ffe9;
+        }
+
+        .progressOuter {
+            height: 13px;
+            background: #080d18;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .progressInner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: .4s;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 35px 10px;
+        }
+
+        .hero h2 {
+            font-size: clamp(28px, 5vw, 50px);
+            margin: 10px 0;
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 700px;
+            margin: 15px auto;
+            font-size: 18px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 99px;
+            background: #20365a;
+            color: #bcd7ff;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .bigScore {
+            font-size: 70px;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        .grade {
+            font-size: 32px;
+            font-weight: 900;
+        }
+
+        .statGrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .stat {
+            text-align: center;
+            background: #10182b;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 16px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media(max-width:800px) {
+
+            .grid,
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .grid3 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .parameterGrid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .statGrid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            header {
+                align-items: flex-start;
+            }
+
+        }
+
+        @media(max-width:550px) {
+            .app {
+                width: 96%;
+            }
+
+            header {
+                flex-direction: column;
+            }
+
+            .grid3,
+            .parameterGrid {
+                grid-template-columns: 1fr;
+            }
+
+            .converter {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                position: static;
+            }
+
+            nav button {
+                min-width: 45%;
+            }
+
+            #graph {
+                height: 300px;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <div class="logo">
+                <div class="logoIcon">∿</div>
+                <div>
+                    <h1>Mathe 10</h1>
+                    <div class="subtitle">Bogenmaß & Sinusfunktion</div>
+                </div>
+            </div>
+            <div class="scoreBox">
+                <span>Punkte</span>
+                <strong id="topScore">0 / 0</strong>
+            </div>
+
+        </header>
+        <nav id="nav"> <button class="active" data-page="start">🏠 Start</button> <button data-page="theory">🧠 Theorie</button> <button data-page="graph">📈 Graph</button> <button data-page="converter">📐 Rechner</button> <button data-page="tasks">✏️ Aufgaben</button> <button data-page="result">🏆 Ergebnis</button> </nav> <!-- START -->
+        <section id="start" class="section active">
+            <div class="hero"> <span class="badge">KLASSE 10 · MATHE</span>
+                <h2>Bist du bereit für Sinus?</h2>
+                <p> Lerne zuerst die Theorie, spiele mit den Parametern, rechne Winkel um und teste dich anschließend mit zufälligen Aufgaben. </p>
+                <div class="actions" style="justify-content:center">
+                    <button class="btn primary" onclick="showPage('theory')">
+                        Theorie starten →
+                    </button>
+                    <button class="btn green" onclick="showPage('tasks')">
+                        Direkt zum Test →
+                    </button>
+                </div>
+
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h2>📚 Was kommt dran?</h2>
+                    <ul>
+                        <li>Gradmaß und Bogenmaß</li>
+                        <li>Umrechnung von Winkeln</li>
+                        <li>normale Sinusfunktion</li>
+                        <li>Amplitude</li>
+                        <li>Periodenlänge</li>
+                        <li>Verschiebung</li>
+                        <li>alle Parameter a, b, c, d</li>
+                        <li>Funktionswerte</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2>🎯 Test-System</h2>
+                    <p> Jede Aufgabe kann sofort kontrolliert werden. Du bekommst Punkte, Tipps und bei Bedarf die Lösung. </p>
+                    <div class="info">
+                        <b>Tipp:</b> Erst versuchen, dann Lösung anschauen.
+                    </div>
+
+                </div>
+            </div>
+            <div class="card">
+                <h2>Dein Fortschritt</h2>
+                <div class="progressOuter">
+                    <div class="progressInner" id="startProgress"></div>
+                </div>
+                <p class="muted" id="progressText">Noch keine Aufgaben bearbeitet.</p>
+            </div>
+        </section> <!-- THEORIE -->
+        <section id="theory" class="section">
+            <div class="card"> <span class="badge">THEORIE 1</span>
+                <h2>📐 Gradmaß und Bogenmaß</h2>
+                <p>
+                    Ein Vollwinkel entspricht <b>360°</b>. Im Bogenmaß entspricht
+                    derselbe Winkel <b>2π</b>.
+                </p>
+
+                <div class="formula bigFormula">
+                    180° = π rad
+                </div>
+
+                <div class="cards">
+                    <div class="mini">
+                        <div class="letter">→</div>
+                        <b>Grad → Bogenmaß</b>
+                        <p>Multipliziere mit π/180.</p>
+                        <div class="formula">α · π / 180</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="letter">→</div>
+                        <b>Bogenmaß → Grad</b>
+                        <p>Multipliziere mit 180/π.</p>
+                        <div class="formula">α · 180 / π</div>
+                    </div>
+                </div>
+
+                <h3>Wichtige Winkel</h3>
+
+                <table>
+                    <tr>
+                        <th>Grad</th>
+                        <th>Bogenmaß</th>
+                        <th>sin</th>
+                    </tr>
+                    <tr>
+                        <td>0°</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>30°</td>
+                        <td>π/6</td>
+                        <td>1/2</td>
+                    </tr>
+                    <tr>
+                        <td>45°</td>
+                        <td>π/4</td>
+                        <td>√2/2</td>
+                    </tr>
+                    <tr>
+                        <td>60°</td>
+                        <td>π/3</td>
+                        <td>√3/2</td>
+                    </tr>
+                    <tr>
+                        <td>90°</td>
+                        <td>π/2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>180°</td>
+                        <td>π</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>270°</td>
+                        <td>3π/2</td>
+                        <td>−1</td>
+                    </tr>
+                    <tr>
+                        <td>360°</td>
+                        <td>2π</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="card"> <span class="badge">THEORIE 2</span>
+                <h2>〰️ Die normale Sinusfunktion</h2>
+                <div class="formula bigFormula">
+                    f(x) = sin(x)
+                </div>
+
+                <p>
+                    Die normale Sinusfunktion schwingt regelmäßig zwischen −1 und +1.
+                </p>
+
+                <div class="grid3">
+                    <div class="mini">
+                        <b>Maximum</b>
+                        <p>1</p>
+                    </div>
+                    <div class="mini">
+                        <b>Minimum</b>
+                        <p>−1</p>
+                    </div>
+                    <div class="mini">
+                        <b>Periode</b>
+                        <p>2π</p>
+                    </div>
+                </div>
+
+                <div class="info">
+                    Die <b>Amplitude</b> der normalen Sinusfunktion ist 1.
+                    Die Mittellinie ist y = 0.
+                </div>
+
+            </div>
+            <div class="card"> <span class="badge">THEORIE 3</span>
+                <h2>🎛️ Die vier Parameter</h2>
+                <div class="formula bigFormula">
+                    f(x) = a · sin(b(x − c)) + d
+                </div>
+
+                <div class="cards">
+
+                    <div class="mini">
+                        <div class="letter">a</div>
+                        <b>Amplitude</b>
+                        <p>
+                            Die Amplitude ist <b>|a|</b>.
+                            Bei a = −2 wird der Graph zusätzlich gespiegelt.
+                        </p>
+                    </div>
+
+                    <div class="mini">
+                        <div class="letter">b</div>
+                        <b>Periodenlänge</b>
+                        <p>
+                            b verändert die Breite der Schwingung.
+                        </p>
+                        <div class="formula">T = 2π / |b|</div>
+                    </div>
+
+                    <div class="mini">
+                        <div class="letter">c</div>
+                        <b>Verschiebung</b>
+                        <p>
+                            x − c bedeutet Verschiebung um c nach rechts.
+                            x + c entspricht einer Verschiebung nach links.
+                        </p>
+                    </div>
+
+                    <div class="mini">
+                        <div class="letter">d</div>
+                        <b>Mittellinie</b>
+                        <p>
+                            d verschiebt den Graphen nach oben oder unten.
+                            Die Mittellinie ist y = d.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card">
+                <h2>🧩 Beispiel komplett analysieren</h2>
+                <div class="formula">
+                    f(x) = 3 · sin(2(x − 1)) + 4
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Wert</th>
+                        <th>Bedeutung</th>
+                    </tr>
+                    <tr>
+                        <td>a</td>
+                        <td>3</td>
+                        <td>Amplitude 3</td>
+                    </tr>
+                    <tr>
+                        <td>b</td>
+                        <td>2</td>
+                        <td>T = π</td>
+                    </tr>
+                    <tr>
+                        <td>c</td>
+                        <td>1</td>
+                        <td>1 nach rechts</td>
+                    </tr>
+                    <tr>
+                        <td>d</td>
+                        <td>4</td>
+                        <td>4 nach oben</td>
+                    </tr>
+                </table>
+
+                <div class="info">
+                    <b>Maximum:</b> d + |a| = 7<br>
+                    <b>Minimum:</b> d − |a| = 1<br>
+                    <b>Mittellinie:</b> y = 4<br>
+                    <b>Periode:</b> π
+                </div>
+
+            </div>
+            <div class="card">
+                <h2>🧠 Prüfungs-Merksatz</h2>
+                <div class="formula">
+                    a = Höhe · b = Breite · c = Seite · d = oben/unten
+                </div>
+
+                <p>
+                    Wenn du eine Sinusfunktion siehst, frage dich immer:
+                </p>
+
+                <ol>
+                    <li>Wie hoch schwingt sie? → <b>a</b></li>
+                    <li>Wie breit ist eine Schwingung? → <b>b</b></li>
+                    <li>Wo startet sie horizontal? → <b>c</b></li>
+                    <li>Wo liegt ihre Mittellinie? → <b>d</b></li>
+                </ol>
+
+                <button class="btn primary" onclick="showPage('graph')">
+                    Jetzt Parameter ausprobieren →
+                </button>
+
+            </div>
+        </section> <!-- GRAPH -->
+        <section id="graph" class="section">
+            <div class="card">
+                <h2>📈 Sinusfunktion live verändern</h2>
+                <p class="muted"> Verändere a, b, c und d. Der Graph wird sofort neu gezeichnet. </p>
+                <div class="parameterGrid">
+
+                    <div class="param">
+                        <label>a – Amplitude</label>
+                        <div class="rangeRow">
+                            <input id="aRange" type="range" min="-5" max="5" step="0.5" value="1">
+                            <input id="aNum" type="number" min="-5" max="5" step="0.5" value="1">
+                        </div>
+                        <div class="value" id="aValue">1</div>
+                    </div>
+
+                    <div class="param">
+                        <label>b – Frequenz</label>
+                        <div class="rangeRow">
+                            <input id="bRange" type="range" min="0.5" max="5" step="0.5" value="1">
+                            <input id="bNum" type="number" min="0.5" max="5" step="0.5" value="1">
+                        </div>
+                        <div class="value" id="bValue">1</div>
+                    </div>
+
+                    <div class="param">
+                        <label>c – Verschiebung</label>
+                        <div class="rangeRow">
+                            <input id="cRange" type="range" min="-4" max="4" step="0.5" value="0">
+                            <input id="cNum" type="number" min="-4" max="4" step="0.5" value="0">
+                        </div>
+                        <div class="value" id="cValue">0</div>
+                    </div>
+
+                    <div class="param">
+                        <label>d – Höhe</label>
+                        <div class="rangeRow">
+                            <input id="dRange" type="range" min="-5" max="5" step="0.5" value="0">
+                            <input id="dNum" type="number" min="-5" max="5" step="0.5" value="0">
+                        </div>
+                        <div class="value" id="dValue">0</div>
+                    </div>
+
+                </div>
+
+                <div class="formula" id="liveFormula">
+                    f(x) = sin(x)
+                </div>
+
+                <canvas id="graphCanvas" height="430"></canvas>
+
+                <div class="grid3">
+
+                    <div class="mini">
+                        <b>Amplitude</b>
+                        <p id="liveAmplitude">1</p>
+                    </div>
+
+                    <div class="mini">
+                        <b>Periodenlänge</b>
+                        <p id="livePeriod">2π</p>
+                    </div>
+
+                    <div class="mini">
+                        <b>Mittellinie</b>
+                        <p id="liveMidline">y = 0</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card">
+                <h2>🎯 Kleine Herausforderung</h2>
+                <p> Stelle den Graphen so ein, dass er: </p>
+                <ul>
+                    <li>Amplitude 2 hat</li>
+                    <li>Periodenlänge π hat</li>
+                    <li>um 1 nach rechts verschoben ist</li>
+                    <li>um 3 nach oben verschoben ist</li>
+                </ul>
+
+                <button class="btn green" id="challengeButton">
+                    Einstellung prüfen
+                </button>
+
+                <div class="feedback" id="challengeFeedback"></div>
+
+            </div>
+        </section> <!-- CONVERTER -->
+        <section id="converter" class="section">
+            <div class="card">
+                <h2>📐 Gradmaß ↔ Bogenmaß Rechner</h2>
+                <p class="muted"> Gib einen Wert ein. Der andere Wert wird automatisch berechnet. </p>
+                <div class="converter">
+
+                    <div class="control">
+                        <label>Gradmaß</label>
+                        <input id="degreeInput" type="number" placeholder="z. B. 60">
+                    </div>
+
+                    <div style="text-align:center;padding-bottom:12px;font-size:25px">
+                        ⇄
+                    </div>
+
+                    <div class="control">
+                        <label>Bogenmaß</label>
+                        <input id="radianInput" type="number" step="any" placeholder="z. B. 1.0472">
+                    </div>
+
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" id="degreeToRad">
+                        Grad → Bogenmaß
+                    </button>
+
+                    <button class="btn primary" id="radToDegree">
+                        Bogenmaß → Grad
+                    </button>
+
+                    <button class="btn" id="clearConverter">
+                        Löschen
+                    </button>
+                </div>
+
+                <div class="formula" id="converterResult">
+                    Ergebnis erscheint hier.
+                </div>
+
+            </div>
+            <div class="card">
+                <h2>⚡ Schnellübersicht</h2>
+                <table>
+                    <tr>
+                        <th>Grad</th>
+                        <th>Bogenmaß</th>
+                    </tr>
+                    <tr>
+                        <td>0°</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>30°</td>
+                        <td>π/6 ≈ 0,524</td>
+                    </tr>
+                    <tr>
+                        <td>45°</td>
+                        <td>π/4 ≈ 0,785</td>
+                    </tr>
+                    <tr>
+                        <td>60°</td>
+                        <td>π/3 ≈ 1,047</td>
+                    </tr>
+                    <tr>
+                        <td>90°</td>
+                        <td>π/2 ≈ 1,571</td>
+                    </tr>
+                    <tr>
+                        <td>180°</td>
+                        <td>π ≈ 3,142</td>
+                    </tr>
+                    <tr>
+                        <td>270°</td>
+                        <td>3π/2 ≈ 4,712</td>
+                    </tr>
+                    <tr>
+                        <td>360°</td>
+                        <td>2π ≈ 6,283</td>
+                    </tr>
+                </table>
+
+            </div>
+        </section> <!-- TASKS -->
+        <section id="tasks" class="section">
+            <div class="card">
+                <h2>✏️ Aufgabenmodus</h2>
+                <p>
+                    <b id="taskCount">0</b> von <b id="totalTasks">10</b> Aufgaben bearbeitet.
+                </p>
+
+                <div class="progressOuter">
+                    <div class="progressInner" id="taskProgress"></div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn gold" id="newTasks">
+                        🔀 Neue Aufgaben
+                    </button>
+                    <button class="btn green" id="checkAllTasks">
+                        ✓ Alle prüfen
+                    </button>
+                </div>
+
+            </div>
+            <div id="taskContainer"></div>
+        </section> <!-- RESULT -->
+        <section id="result" class="section">
+            <div class="hero"> <span class="badge">TEST BEENDET</span>
+                <h2>🏆 Deine Auswertung</h2>
+                <div class="bigScore" id="finalScore">0 / 10</div>
+                <div class="grade" id="finalGrade">—</div>
+                <p id="finalText"></p>
+            </div>
+            <div class="statGrid">
+                <div class="stat"> <strong id="correctCount">0</strong> Richtig </div>
+                <div class="stat">
+                    <strong id="wrongCount">0</strong>
+                    Falsch
+                </div>
+
+                <div class="stat">
+                    <strong id="percentCount">0%</strong>
+                    Prozent
+                </div>
+
+                <div class="stat">
+                    <strong id="resultPoints">0</strong>
+                    Punkte
+                </div>
+
+            </div>
+            <div class="card">
+                <h2>📊 Bewertung</h2>
+                <table>
+                    <tr>
+                        <th>Prozent</th>
+                        <th>Note</th>
+                    </tr>
+                    <tr>
+                        <td>90–100 %</td>
+                        <td>1 – sehr gut</td>
+                    </tr>
+                    <tr>
+                        <td>80–89 %</td>
+                        <td>2 – gut</td>
+                    </tr>
+                    <tr>
+                        <td>65–79 %</td>
+                        <td>3 – befriedigend</td>
+                    </tr>
+                    <tr>
+                        <td>50–64 %</td>
+                        <td>4 – ausreichend</td>
+                    </tr>
+                    <tr>
+                        <td>30–49 %</td>
+                        <td>5 – mangelhaft</td>
+                    </tr>
+                    <tr>
+                        <td>0–29 %</td>
+                        <td>6 – ungenügend</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="card">
+                <h2>🔁 Was möchtest du machen?</h2>
+                <div class="actions">
+                    <button class="btn primary" onclick="showPage('tasks')">
+                        Aufgaben nochmal
+                    </button>
+
+                    <button class="btn" onclick="showPage('theory')">
+                        Theorie wiederholen
+                    </button>
+
+                    <button class="btn green" onclick="newTest()">
+                        Komplett neu starten
+                    </button>
+                </div>
+
+            </div>
+        </section>
+    </div>
+    <script>
+        /* ========================================================= GRUNDNAVIGATION ========================================================= */
+        const pages = document.querySelectorAll(".section");
+        const navButtons = document.querySelectorAll("nav button");
+
+        function showPage(id) {
+            pages.forEach(p => p.classList.remove("active"));
+            navButtons.forEach(b => b.classList.remove("active"));
+
+            const page = document.getElementById(id);
+            const button = document.querySelector(`nav button[data-page="${id}"]`);
+
+            if (page) page.classList.add("active");
+            if (button) button.classList.add("active");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+        navButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                showPage(button.dataset.page);
+            });
+        });
+
+        /* =========================================================
+        SINUS GRAPH
+        ========================================================= */
+
+        const canvas = document.getElementById("graphCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const controls = {
+            a: {
+                range: document.getElementById("aRange"),
+                num: document.getElementById("aNum"),
+                value: document.getElementById("aValue")
+            },
+            b: {
+                range: document.getElementById("bRange"),
+                num: document.getElementById("bNum"),
+                value: document.getElementById("bValue")
+            },
+            c: {
+                range: document.getElementById("cRange"),
+                num: document.getElementById("cNum"),
+                value: document.getElementById("cValue")
+            },
+            d: {
+                range: document.getElementById("dRange"),
+                num: document.getElementById("dNum"),
+                value: document.getElementById("dValue")
+            }
+        };
+
+        function getParameter(key) {
+            return Number(controls[key].num.value);
+        }
+
+        function niceNumber(n) {
+            if (Math.abs(n) < 0.000001) return "0";
+            return Number(n.toFixed(2)).toString();
+        }
+
+        function formatPi(x) {
+            if (Math.abs(x - Math.PI) < 0.001) return "π";
+            if (Math.abs(x - 2 * Math.PI) < 0.001) return "2π";
+            if (Math.abs(x - Math.PI / 2) < 0.001) return "π/2";
+            if (Math.abs(x - Math.PI / 3) < 0.001) return "π/3";
+            if (Math.abs(x - Math.PI / 4) < 0.001) return "π/4";
+
+            const ratio = x / Math.PI;
+            if (Math.abs(ratio - Math.round(ratio)) < 0.001) {
+                const n = Math.round(ratio);
+                return n === 1 ? "π" : n + "π";
+            }
+
+            return niceNumber(x);
+
+        }
+
+        function drawGraph() {
+
+            const a = getParameter("a");
+            const b = getParameter("b");
+            const c = getParameter("c");
+            const d = getParameter("d");
+
+            const rect = canvas.getBoundingClientRect();
+            const ratio = window.devicePixelRatio || 1;
+
+            canvas.width = rect.width * ratio;
+            canvas.height = rect.height * ratio;
+
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const xMin = -2 * Math.PI;
+            const xMax = 2 * Math.PI;
+
+            const yMin = -7;
+            const yMax = 7;
+
+            function px(x) {
+                return (x - xMin) / (xMax - xMin) * w;
+            }
+
+            function py(y) {
+                return h - (y - yMin) / (yMax - yMin) * h;
+            }
+
+            /* Grid */
+
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "#1d2940";
+
+            for (let x = Math.ceil(xMin / Math.PI) * Math.PI; x <= xMax; x += Math.PI / 2) {
+                ctx.beginPath();
+                ctx.moveTo(px(x), 0);
+                ctx.lineTo(px(x), h);
+                ctx.stroke();
+            }
+
+            for (let y = Math.ceil(yMin); y <= yMax; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, py(y));
+                ctx.lineTo(w, py(y));
+                ctx.stroke();
+            }
+
+            /* Axes */
+
+            ctx.strokeStyle = "#60708f";
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(0, py(0));
+            ctx.lineTo(w, py(0));
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(px(0), 0);
+            ctx.lineTo(px(0), h);
+            ctx.stroke();
+
+            /* Labels */
+
+            ctx.fillStyle = "#9daac4";
+            ctx.font = "13px system-ui";
+
+            const labels = [
+                [-2 * Math.PI, "−2π"],
+                [-Math.PI, "−π"],
+                [0, "0"],
+                [Math.PI, "π"],
+                [2 * Math.PI, "2π"]
+            ];
+
+            labels.forEach(item => {
+                ctx.fillText(item[1], px(item[0]) - 10, py(0) + 20);
+            });
+
+            for (let y = -6; y <= 6; y += 2) {
+                ctx.fillText(String(y), px(0) + 7, py(y) + 4);
+            }
+
+            /* Midline */
+
+            ctx.setLineDash([6, 6]);
+            ctx.strokeStyle = "#7cf0c0";
+            ctx.beginPath();
+            ctx.moveTo(0, py(d));
+            ctx.lineTo(w, py(d));
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            /* Curve */
+
+            ctx.strokeStyle = "#6ea8ff";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            const steps = Math.max(400, Math.floor(w));
+
+            for (let i = 0; i <= steps; i++) {
+
+                const x = xMin + (xMax - xMin) * i / steps;
+                const y = a * Math.sin(b * (x - c)) + d;
+
+                const X = px(x);
+                const Y = py(y);
+
+                if (i === 0) ctx.moveTo(X, Y);
+                else ctx.lineTo(X, Y);
+            }
+
+            ctx.stroke();
+
+            /* Formula */
+
+            let formula = "f(x) = ";
+
+            if (a === 0) {
+                formula += niceNumber(d);
+            } else {
+                if (a === 1) formula += "sin";
+                else if (a === -1) formula += "−sin";
+                else formula += niceNumber(a) + " · sin";
+
+                let inside = "";
+
+                if (b !== 1) {
+                    inside += niceNumber(b);
+                }
+
+                if (c !== 0) {
+                    inside += "(x " + (c > 0 ? "− " + niceNumber(c) : "+ " + niceNumber(Math.abs(c))) + ")";
+                } else {
+                    inside += "x";
+                }
+
+                formula += "(" + inside + ")";
+
+                if (d !== 0) {
+                    formula += d > 0 ? " + " + niceNumber(d) : " − " + niceNumber(Math.abs(d));
+                }
+            }
+
+            document.getElementById("liveFormula").textContent = formula;
+
+            document.getElementById("liveAmplitude").textContent = niceNumber(Math.abs(a));
+            document.getElementById("livePeriod").textContent =
+                b === 0 ? "∞" : formatPi(2 * Math.PI / Math.abs(b));
+
+            document.getElementById("liveMidline").textContent = "y = " + niceNumber(d);
+
+            Object.keys(controls).forEach(k => {
+                controls[k].value.textContent = niceNumber(getParameter(k));
+            });
+
+        }
+
+        Object.keys(controls).forEach(key => {
+
+            controls[key].range.addEventListener("input", () => {
+                controls[key].num.value = controls[key].range.value;
+                drawGraph();
+            });
+
+            controls[key].num.addEventListener("input", () => {
+                let value = Number(controls[key].num.value);
+
+                if (!Number.isFinite(value)) return;
+
+                const min = Number(controls[key].range.min);
+                const max = Number(controls[key].range.max);
+
+                value = Math.max(min, Math.min(max, value));
+
+                controls[key].range.value = value;
+                drawGraph();
+            });
+
+        });
+
+        window.addEventListener("resize", drawGraph);
+
+        document.getElementById("challengeButton").addEventListener("click", () => {
+
+            const a = getParameter("a");
+            const b = getParameter("b");
+            const c = getParameter("c");
+            const d = getParameter("d");
+
+            const ok =
+                Math.abs(Math.abs(a) - 2) < 0.001 &&
+                Math.abs(b - 2) < 0.001 &&
+                Math.abs(c - 1) < 0.001 &&
+                Math.abs(d - 3) < 0.001;
+
+            const feedback = document.getElementById("challengeFeedback");
+
+            if (ok) {
+                feedback.textContent = "✓ Perfekt! Deine Funktion ist f(x) = 2 · sin(2(x − 1)) + 3.";
+                feedback.className = "feedback correct";
+            } else {
+                feedback.textContent = "✗ Noch nicht. Gesucht sind |a| = 2, b = 2, c = 1 und d = 3.";
+                feedback.className = "feedback wrong";
+            }
+
+        });
+
+        drawGraph();
+
+        /* =========================================================
+        KONVERTER
+        ========================================================= */
+
+        const degreeInput = document.getElementById("degreeInput");
+        const radianInput = document.getElementById("radianInput");
+        const converterResult = document.getElementById("converterResult");
+
+        function cleanNumber(n) {
+            return Number(n.toFixed(6));
+        }
+
+        document.getElementById("degreeToRad").addEventListener("click", () => {
+
+            const degree = Number(degreeInput.value);
+
+            if (!Number.isFinite(degree)) {
+                converterResult.textContent = "Bitte zuerst einen gültigen Winkel eingeben.";
+                return;
+            }
+
+            const rad = degree * Math.PI / 180;
+
+            radianInput.value = cleanNumber(rad);
+
+            converterResult.innerHTML =
+                `${degree}° = <b>${cleanNumber(rad)}</b> rad ≈ <b>${cleanNumber(rad/Math.PI)}π</b>`;
+
+        });
+
+        document.getElementById("radToDegree").addEventListener("click", () => {
+
+            const rad = Number(radianInput.value);
+
+            if (!Number.isFinite(rad)) {
+                converterResult.textContent = "Bitte zuerst einen gültigen Winkel eingeben.";
+                return;
+            }
+
+            const degree = rad * 180 / Math.PI;
+
+            degreeInput.value = cleanNumber(degree);
+
+            converterResult.innerHTML =
+                `${rad} rad = <b>${cleanNumber(degree)}°</b>`;
+
+        });
+
+        document.getElementById("clearConverter").addEventListener("click", () => {
+            degreeInput.value = "";
+            radianInput.value = "";
+            converterResult.textContent = "Ergebnis erscheint hier.";
+        });
+
+        /* =========================================================
+        AUFGABEN-SYSTEM
+        ========================================================= */
+
+        let tasks = [];
+        let taskResults = {};
+
+        function randomChoice(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateTasks() {
+
+            taskResults = {};
+
+            tasks = [
+
+                {
+                    type: "text",
+                    question: "Wandle 60° in das Bogenmaß um.",
+                    answer: ["pi/3", "π/3", "1/3pi", "1/3π"],
+                    display: "π/3",
+                    hint: "Nutze α · π / 180.",
+                    solution: "60 · π / 180 = π/3"
+                },
+
+                {
+                    type: "number",
+                    question: "Wandle 3π/4 in Grad um.",
+                    answer: 135,
+                    tolerance: 0.01,
+                    display: "135°",
+                    hint: "Nutze α · 180 / π.",
+                    solution: "3π/4 · 180/π = 135°"
+                },
+
+                {
+                    type: "number",
+                    question: "Wie groß ist sin(π/2)?",
+                    answer: 1,
+                    tolerance: 0.01,
+                    display: "1",
+                    hint: "Denke an den Einheitskreis.",
+                    solution: "sin(π/2) = 1"
+                },
+
+                {
+                    type: "number",
+                    question: "Wie groß ist die Amplitude von f(x) = −4 · sin(x) + 2?",
+                    answer: 4,
+                    tolerance: 0.01,
+                    display: "4",
+                    hint: "Die Amplitude ist |a|.",
+                    solution: "|−4| = 4"
+                },
+
+                {
+                    type: "text",
+                    question: "Welche Periodenlänge besitzt f(x) = sin(2x)?",
+                    answer: ["pi", "π"],
+                    display: "π",
+                    hint: "T = 2π / |b|.",
+                    solution: "T = 2π / 2 = π"
+                },
+
+                {
+                    type: "number",
+                    question: "Um wie viele Einheiten wird f(x) = sin(x − 3) nach rechts verschoben?",
+                    answer: 3,
+                    tolerance: 0.01,
+                    display: "3",
+                    hint: "x − c bedeutet Verschiebung nach rechts.",
+                    solution: "c = 3 → 3 Einheiten nach rechts"
+                },
+
+                {
+                    type: "number",
+                    question: "Wie groß ist das Maximum von f(x) = 2 · sin(x) + 5?",
+                    answer: 7,
+                    tolerance: 0.01,
+                    display: "7",
+                    hint: "Maximum = d + |a|.",
+                    solution: "5 + 2 = 7"
+                },
+
+                {
+                    type: "number",
+                    question: "Wie groß ist das Minimum von f(x) = 3 · sin(x) − 1?",
+                    answer: -4,
+                    tolerance: 0.01,
+                    display: "−4",
+                    hint: "Minimum = d − |a|.",
+                    solution: "−1 − 3 = −4"
+                },
+
+                {
+                    type: "number",
+                    question: "Wie groß ist b bei einer Periodenlänge T = π?",
+                    answer: 2,
+                    tolerance: 0.01,
+                    display: "2",
+                    hint: "Stelle T = 2π / |b| nach b um.",
+                    solution: "π = 2π/|b| → |b| = 2"
+                },
+
+                {
+                    type: "text",
+                    question: "Gib eine passende Funktion mit Amplitude 2, Periode π und Verschiebung um 1 nach oben an.",
+                    answer: [
+                        "2sin(2x)+1",
+                        "2 sin(2x)+1",
+                        "2*sin(2x)+1"
+                    ],
+                    display: "z. B. 2 · sin(2x) + 1",
+                    hint: "Amplitude → 2, T = π → b = 2, d = 1.",
+                    solution: "Eine mögliche Lösung: f(x) = 2 · sin(2x) + 1"
+                }
+
+            ];
+
+            renderTasks();
+
+        }
+
+        function normalizeAnswer(value) {
+            return value
+                .toLowerCase()
+                .replaceAll(" ", "")
+                .replaceAll("°", "")
+                .replaceAll("·", "*")
+                .replaceAll("−", "-");
+        }
+
+        function renderTasks() {
+
+            const container = document.getElementById("taskContainer");
+
+            container.innerHTML = "";
+
+            tasks.forEach((task, index) => {
+
+                const card = document.createElement("div");
+                card.className = "card task";
+
+                card.innerHTML = `
+        <div class="taskNumber">AUFGABE ${index+1} · 1 PUNKT</div>
+        <h2>${task.question}</h2>
+
+        <input
+            class="answer"
+            id="answer-${index}"
+            placeholder="${task.type==="number"?"Antwort eingeben":"z. B. π/3"}"
+            autocomplete="off"
+        >
+
+        <div class="feedback" id="feedback-${index}"></div>
+
+        <div class="actions">
+            <button class="btn primary checkTask" data-index="${index}">
+                ✓ Prüfen
+            </button>
+
+            <button class="btn hintButton" data-index="${index}">
+                💡 Tipp
+            </button>
+
+            <button class="btn solutionButton" data-index="${index}">
+                👁 Lösung
+            </button>
+        </div>
+
+        <div class="hint" id="hint-${index}">
+            ${task.hint}
+        </div>
+
+        <div class="solution" id="solution-${index}">
+            <b>Lösung:</b> ${task.solution}
+        </div>
+    `;
+
+                container.appendChild(card);
+            });
+
+            container.querySelectorAll(".checkTask").forEach(button => {
+                button.addEventListener("click", () => {
+                    checkTask(Number(button.dataset.index));
+                });
+            });
+
+            container.querySelectorAll(".hintButton").forEach(button => {
+                button.addEventListener("click", () => {
+                    const box = document.getElementById("hint-" + button.dataset.index);
+                    box.style.display = box.style.display === "block" ? "none" : "block";
+                });
+            });
+
+            container.querySelectorAll(".solutionButton").forEach(button => {
+                button.addEventListener("click", () => {
+                    const box = document.getElementById("solution-" + button.dataset.index);
+                    box.style.display = box.style.display === "block" ? "none" : "block";
+                });
+            });
+
+            container.querySelectorAll(".answer").forEach(input => {
+                input.addEventListener("keydown", event => {
+                    if (event.key === "Enter") {
+                        checkTask(Number(input.id.split("-")[1]));
+                    }
+                });
+            });
+
+            updateTaskProgress();
+
+        }
+
+        function checkTask(index) {
+
+            const task = tasks[index];
+
+            const input = document.getElementById("answer-" + index);
+            const feedback = document.getElementById("feedback-" + index);
+
+            const value = input.value.trim();
+
+            if (value === "") {
+                feedback.textContent = "Bitte erst eine Antwort eingeben.";
+                feedback.className = "feedback wrong";
+                return;
+            }
+
+            let correct = false;
+
+            if (task.type === "number") {
+
+                const n = Number(
+                    value
+                    .replace(",", ".")
+                    .replace("°", "")
+                );
+
+                correct =
+                    Number.isFinite(n) &&
+                    Math.abs(n - task.answer) <= task.tolerance;
+
+            } else {
+
+                const normalized = normalizeAnswer(value);
+
+                correct = task.answer
+                    .map(normalizeAnswer)
+                    .includes(normalized);
+            }
+
+            taskResults[index] = correct;
+
+            if (correct) {
+
+                feedback.textContent = "✓ Richtig! +1 Punkt";
+                feedback.className = "feedback correct";
+                input.style.borderColor = "var(--accent2)";
+
+            } else {
+
+                feedback.textContent = "✗ Noch nicht richtig.";
+                feedback.className = "feedback wrong";
+                input.style.borderColor = "var(--danger)";
+            }
+
+            updateScore();
+            updateTaskProgress();
+
+        }
+
+        function updateTaskProgress() {
+
+            const total = tasks.length;
+            const done = Object.keys(taskResults).length;
+            const correct = Object.values(taskResults).filter(Boolean).length;
+
+            document.getElementById("taskCount").textContent = done;
+
+            document.getElementById("taskProgress").style.width =
+                (done / total * 100) + "%";
+
+            document.getElementById("startProgress").style.width =
+                (done / total * 100) + "%";
+
+            document.getElementById("progressText").textContent =
+                done === 0 ?
+                "Noch keine Aufgaben bearbeitet." :
+                `${done} von ${total} bearbeitet · ${correct} richtig`;
+
+        }
+
+        function updateScore() {
+
+            const correct = Object.values(taskResults).filter(Boolean).length;
+
+            document.getElementById("topScore").textContent =
+                `${correct} / ${tasks.length}`;
+
+        }
+
+        document.getElementById("checkAllTasks").addEventListener("click", () => {
+
+            for (let i = 0; i < tasks.length; i++) {
+                checkTask(i);
+            }
+
+            updateResult();
+            showPage("result");
+
+        });
+
+        document.getElementById("newTasks").addEventListener("click", () => {
+            generateTasks();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        /* =========================================================
+        ERGEBNIS
+        ========================================================= */
+
+        function updateResult() {
+
+            const total = tasks.length;
+            const correct = Object.values(taskResults).filter(Boolean).length;
+            const wrong = total - correct;
+
+            const percent = Math.round(correct / total * 100);
+
+            let grade;
+
+            if (percent >= 90) grade = 1;
+            else if (percent >= 80) grade = 2;
+            else if (percent >= 65) grade = 3;
+            else if (percent >= 50) grade = 4;
+            else if (percent >= 30) grade = 5;
+            else grade = 6;
+
+            document.getElementById("finalScore").textContent =
+                `${correct} / ${total}`;
+
+            document.getElementById("finalGrade").textContent =
+                `Note ${grade}`;
+
+            document.getElementById("correctCount").textContent = correct;
+            document.getElementById("wrongCount").textContent = wrong;
+            document.getElementById("percentCount").textContent = percent + "%";
+            document.getElementById("resultPoints").textContent = correct;
+
+            let message = "";
+
+            if (grade === 1) {
+                message = "🏆 Stark! Du bist sehr sicher bei diesem Thema.";
+            } else if (grade === 2) {
+                message = "🔥 Sehr gut! Nur noch ein bisschen Feinschliff.";
+            } else if (grade === 3) {
+                message = "👍 Gute Grundlage. Übe besonders die Stellen, die falsch waren.";
+            } else if (grade === 4) {
+                message = "📚 Du hast die Grundlagen teilweise drauf. Wiederhole die Theorie.";
+            } else {
+                message = "🔁 Kein Stress. Geh die Theorie Schritt für Schritt durch und versuche den Test nochmal.";
+            }
+
+            document.getElementById("finalText").textContent = message;
+
+        }
+
+        /* =========================================================
+        RESET
+        ========================================================= */
+
+        function newTest() {
+
+            taskResults = {};
+
+            document.getElementById("topScore").textContent = "0 / 10";
+
+            generateTasks();
+
+            showPage("start");
+
+        }
+
+        generateTasks();
+    </script>
+</body>
+
+</html>
