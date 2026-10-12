@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathe verstehen | Interaktive Lernplattform</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts (Inter + Fira Code für Mathe-Optik) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            math: ['Fira Code', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              100: '#cffaff',
+              400: '#22d3ee',
+              500: '#06b6d4',
+              600: '#0891b2',
+              900: '#164e63',
+            },
+            accent: {
+              purple: '#8b5cf6',
+              emerald: '#10b981',
+              pink: '#ec4899',
+            }
+          },
+          animation: {
+            'float-slow': 'float 8s ease-in-out infinite',
+            'float-medium': 'float 5s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-15px) rotate(5deg)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: 0.4 },
+              '50%': { opacity: 0.8 },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Background Math Pattern Overlay */
+    .bg-math-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    
+    /* Subtle Glassmorphism Card Style */
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.25);
+    }
+
+    /* Glow text effect */
+    .glow-text {
+      text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans min-h-screen relative overflow-x-hidden bg-math-pattern flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+  <!-- Schwebende Mathe-Formeln & Symbole im Hintergrund -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none opacity-20">
+    <span class="absolute top-[10%] left-[8%] font-math text-4xl text-cyan-400 animate-float-slow">f(x) = ∫ x² dx</span>
+    <span class="absolute top-[20%] right-[12%] font-math text-6xl text-purple-400 animate-float-medium" style="animation-delay: 1s;">π ≈ 3.14159</span>
+    <span class="absolute top-[60%] left-[5%] font-math text-5xl text-emerald-400 animate-float-slow" style="animation-delay: 2s;">∑_{i=1}^n i</span>
+    <span class="absolute top-[75%] right-[8%] font-math text-4xl text-pink-400 animate-float-medium" style="animation-delay: 1.5s;">E = mc²</span>
+    <span class="absolute top-[40%] right-[25%] font-math text-3xl text-yellow-400 animate-float-slow" style="animation-delay: 0.5s;">a² + b² = c²</span>
+    <span class="absolute top-[85%] left-[30%] font-math text-4xl text-blue-400 animate-float-medium" style="animation-delay: 2.5s;">e^{iπ} + 1 = 0</span>
+    <span class="absolute top-[15%] left-[45%] font-math text-5xl text-indigo-400 animate-float-slow" style="animation-delay: 3s;">lim_{x→∞}</span>
+  </div>
+
+  <!-- Umgebende Leucht-Glows -->
+  <div class="fixed -top-40 -left-40 w-96 h-96 bg-brand-500/15 rounded-full blur-[120px] pointer-events-none animate-pulse-glow"></div>
+  <div class="fixed -bottom-40 -right-40 w-96 h-96 bg-accent-purple/15 rounded-full blur-[120px] pointer-events-none animate-pulse-glow"></div>
+
+  <!-- Navigation / Header -->
+  <header class="relative z-10 w-full border-b border-slate-800/80 bg-[#0b0f19]/80 backdrop-blur-md sticky top-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo & Titel -->
+      <a href="#" class="flex items-center space-x-3 group">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-400 to-accent-purple p-0.5 shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-[#0b0f19] rounded-[10px] flex items-center justify-center">
+            <span class="font-math text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-purple">√x</span>
+          </div>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Mathe<span class="text-brand-400">Verstehen</span></span>
+          <span class="block text-xs text-slate-400 font-math">v2.0 • Dashboard</span>
+        </div>
+      </a>
+
+      <!-- Quick Stats / Badges -->
+      <div class="hidden sm:flex items-center space-x-3">
+        <span class="px-3 py-1 text-xs font-medium rounded-full bg-slate-800/80 text-slate-300 border border-slate-700/50 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Bereit zum Lernen
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+
+    <!-- Hero Header -->
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold mb-4 backdrop-blur-md">
+        <i class="fa-solid fa-graduation-cap">text-sm</i> Mathematische Konzepte einfach erklärt
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-4">
+        Mathe verstehen. <br>
+        <span class="bg-gradient-to-r from-brand-400 via-accent-purple to-accent-pink bg-clip-text text-transparent glow-text">Klar & Logisch.</span>
+      </h1>
+      <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
+        Wähle ein Thema aus der Übersicht oder nutze die Schnellsuche, um direkt zu deinen Lernmaterialien zu gelangen.
+      </p>
+
+      <!-- Suchfeld & Filter -->
+      <div class="mt-8 max-w-xl mx-auto space-y-4">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input 
+            type="text" 
+            id="searchInput"
+            onkeyup="filterCards()" 
+            placeholder="Thema suchen (z. B. Bogenmaß, Vektoren, Ableitung...)" 
+            class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all text-sm shadow-xl"
+          >
+        </div>
+
+        <!-- Filter Buttons (Kategorien) -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-2" id="filterContainer">
+          <button onclick="setFilter('all')" class="filter-btn active-filter px-4 py-1.5 rounded-xl text-xs font-medium transition-all bg-brand-500 text-white shadow-md shadow-brand-500/20">Alle Themen</button>
+          <button onclick="setFilter('7-10')" class="filter-btn px-4 py-1.5 rounded-xl text-xs font-medium transition-all bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700/50">Klasse 7-10</button>
+          <button onclick="setFilter('oberstufe')" class="filter-btn px-4 py-1.5 rounded-xl text-xs font-medium transition-all bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700/50">Oberstufe</button>
+          <button onclick="setFilter('grundlagen')" class="filter-btn px-4 py-1.5 rounded-xl text-xs font-medium transition-all bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700/50">Grundlagen</button>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      ===================================================================
+      ANLEITUNG FÜR NEUE LINKS / CARDS:
+      1. Kopiere einfach einen kompletten <a>...</a>-Block unterhalb.
+      2. Passe href="..." an deine HTML-Datei an (z. B. href="Ma7-10.html").
+      3. Passe 'data-category' an ('7-10', 'oberstufe' oder 'grundlagen').
+      4. Passe Icon, Titel, Formel und Beschreibung an. Fertig!
+      ===================================================================
+    -->
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsGrid">
+
+      <!-- THEMEN-KARTE 1: Bogenmaß / Gradmaß -->
+      <a href="Ma7-10.html" data-category="7-10" class="topic-card glass-card p-6 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-500/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-400 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+              <i class="fa-solid fa-compass-drafting text-xl"></i>
+            </div>
+            <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20">Klasse 10</span>
+          </div>
+          <h2 class="text-xl font-bold text-white group-hover:text-brand-400 transition-colors flex items-center gap-2">
+            Bogenmaß / Gradmaß
+          </h2>
+          <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+            Einfach erklärt.
+          </p>
+        </div>
+        
+        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+          <span class="font-math text-xs text-slate-500 group-hover:text-slate-300">x = α · π / 180°</span>
+          <span class="text-xs font-semibold text-brand-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Öffnen <i class="fa-solid fa-arrow-right"></i>
+          </span>
+        </div>
+      </a>
+    <!-- Hinweistext / Keine Ergebnisse gefunden -->
+    <div id="noResults" class="hidden text-center py-16">
+      <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-4 text-slate-500 text-2xl">
+        <i class="fa-solid fa-calculator"></i>
+      </div>
+      <h3 class="text-lg font-bold text-white">Keine passenden Themen gefunden</h3>
+      <p class="text-slate-400 text-sm mt-1">Versuche einen anderen Suchbegriff oder passe den Filter an.</p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-slate-800/80 bg-[#0b0f19]/90 mt-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-slate-500 font-math">
+        &copy; Mathe Verstehen • Interaktive Formelsammlung & Lernplattform
+      </div>
+      <div class="flex items-center space-x-4 text-xs text-slate-400">
+        <span class="hover:text-brand-400 transition-colors">Kompakt • Übersichtlich • Flexibel</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts (Filter & Search) -->
+  <script>
+    let currentFilter = 'all';
+
+    // Such-Funktion
+    function filterCards() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.topic-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector('h2').innerText.toLowerCase();
+        const description = card.querySelector('p').innerText.toLowerCase();
+        const category = card.getAttribute('data-category');
+
+        const matchesSearch = title.includes(searchInput) || description.includes(searchInput);
+        const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
+
+        if (matchesSearch && matchesCategory) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // No results hint
+      const noResults = document.getElementById('noResults');
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+
+    // Kategorie-Filter Funktion
+    function setFilter(category) {
+      currentFilter = category;
+      
+      // Update Button Styles
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-brand-500', 'text-white', 'shadow-md', 'shadow-brand-500/20');
+        btn.classList.add('bg-slate-800/80', 'text-slate-300');
+      });
+
+      // Highlight active button
+      event.currentTarget.classList.remove('bg-slate-800/80', 'text-slate-300');
+      event.currentTarget.classList.add('bg-brand-500', 'text-white', 'shadow-md', 'shadow-brand-500/20');
+
+      filterCards();
+    }
+  </script>
+
+</body>
+</html>
