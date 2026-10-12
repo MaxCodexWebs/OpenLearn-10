@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poetry Magic ✨ Interaktive Gedichtinterpretation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0e0b12',
+                        darkCard: '#171221',
+                        darkBorder: '#291f38',
+                        cutePink: '#ff65a3',
+                        cutePinkHover: '#ff408c',
+                        cutePurple: '#a855f7',
+                        cutePurpleLight: '#c084fc',
+                        cuteGlowPink: 'rgba(255, 101, 163, 0.25)',
+                        cuteGlowPurple: 'rgba(168, 85, 247, 0.25)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #0e0b12;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 101, 163, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        .glow-pink {
+            box-shadow: 0 0 20px -3px rgba(255, 101, 163, 0.3);
+        }
+
+        .glow-purple {
+            box-shadow: 0 0 20px -3px rgba(168, 85, 247, 0.3);
+        }
+
+        .cute-card {
+            background: linear-gradient(145deg, rgba(23, 18, 33, 0.9), rgba(18, 14, 26, 0.95));
+            border: 1px solid rgba(168, 85, 247, 0.18);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cute-card:hover {
+            border-color: rgba(255, 101, 163, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(255, 101, 163, 0.15);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #120e17;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2b1f3c;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #ff65a3;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #ff65a3, #a855f7);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 101, 163, 0.35);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #1f142e;
+            color: #ff65a3;
+            text-align: center;
+            border-radius: 9999px;
+            padding: 12px 24px;
+            position: fixed;
+            z-index: 50;
+            bottom: 30px;
+            right: 30px;
+            border: 1px solid #ff65a3;
+            box-shadow: 0 0 20px rgba(255, 101, 163, 0.4);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 40px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 border-b border-darkBorder bg-darkBg/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cutePink to-cutePurple flex items-center justify-center glow-pink animate-float">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-heading text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cutePink via-cutePurpleLight to-cutePurple">
+                            PoetryMagic ✨
+                        </span>
+                        <span class="block text-xs text-purple-300/70">Gedichtinterpretation leicht gemacht</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex items-center gap-2 bg-darkCard/80 p-1.5 rounded-2xl border border-darkBorder">
+                    <button onclick="switchTab('agenda')" id="tab-agenda" class="tab-btn active px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2">
+                        <i data-lucide="list-checks" class="w-4 h-4"></i> Agenda
+                    </button>
+                    <button onclick="switchTab('formulierung')" id="tab-formulierung" class="tab-btn px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 text-gray-300 hover:text-white">
+                        <i data-lucide="wand-2" class="w-4 h-4"></i> Formulierungen
+                    </button>
+                    <button onclick="switchTab('stilmittel')" id="tab-stilmittel" class="tab-btn px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 text-gray-300 hover:text-white">
+                        <i data-lucide="book-open-check" class="w-4 h-4"></i> Stilmittel
+                    </button>
+                    <button onclick="switchTab('metrum')" id="tab-metrum" class="tab-btn px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 text-gray-300 hover:text-white">
+                        <i data-lucide="music" class="w-4 h-4"></i> Metrum & Form
+                    </button>
+                    <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 text-gray-300 hover:text-white">
+                        <i data-lucide="brain-circuit" class="w-4 h-4"></i> Mini-Quiz
+                    </button>
+                </nav>
+
+                <!-- Quick Action Checklist Toggle -->
+                <button onclick="toggleChecklistDrawer()" class="flex items-center gap-2 bg-cutePink/10 border border-cutePink/30 hover:bg-cutePink/20 text-cutePink px-4 py-2 rounded-xl text-sm font-semibold transition-all">
+                    <i data-lucide="check-square" class="w-4 h-4"></i>
+                    <span>Checkliste</span>
+                    <span id="checklist-counter" class="bg-cutePink text-darkBg text-xs font-bold px-2 py-0.5 rounded-full ml-1">0/8</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav bar -->
+        <div class="md:hidden flex overflow-x-auto gap-2 p-2 px-4 border-t border-darkBorder bg-darkCard/90 custom-scrollbar">
+            <button onclick="switchTab('agenda')" id="mob-tab-agenda" class="tab-btn active whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium">Agenda</button>
+            <button onclick="switchTab('formulierung')" id="mob-tab-formulierung" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300">Formulierungen</button>
+            <button onclick="switchTab('stilmittel')" id="mob-tab-stilmittel" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300">Stilmittel</button>
+            <button onclick="switchTab('metrum')" id="mob-tab-metrum" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300">Metrum</button>
+            <button onclick="switchTab('quiz')" id="mob-tab-quiz" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300">Mini-Quiz</button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-950/60 via-darkCard to-pink-950/50 border border-cutePurple/30 p-8 mb-10 glow-purple">
+            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-cutePink/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-60 h-60 bg-cutePurple/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cutePink/10 border border-cutePink/30 text-cutePink text-xs font-bold mb-3">
+                        <i data-lucide="heart" class="w-3.5 h-3.5 fill-cutePink"></i>
+                        <span>Dein süßer Spickzettel für Top-Noten</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+                        Gedichte verstehen & meisterhaft interpretieren 💖
+                    </h1>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        Keine Panik vor Deutsch-Klausuren! Hier findest du eine Schritt-für-Schritt Anleitung, perfekte Formulierungshilfen, eine durchsuchbare Stilmittel-Bibliothek und smarte Spickzettel.
+                    </p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full lg:w-auto">
+                    <div class="bg-darkBg/60 border border-darkBorder rounded-2xl p-3.5 text-center">
+                        <div class="text-cutePink font-extrabold text-2xl font-heading">4 Step</div>
+                        <div class="text-xs text-gray-400">Perfekter Aufbau</div>
+                    </div>
+                    <div class="bg-darkBg/60 border border-darkBorder rounded-2xl p-3.5 text-center">
+                        <div class="text-cutePurpleLight font-extrabold text-2xl font-heading">30+</div>
+                        <div class="text-xs text-gray-400">Bausteine & Text-Sätze</div>
+                    </div>
+                    <div class="bg-darkBg/60 border border-darkBorder rounded-2xl p-3.5 text-center col-span-2 sm:col-span-1">
+                        <div class="text-cutePink font-extrabold text-2xl font-heading">15+</div>
+                        <div class="text-xs text-gray-400">Wichtige Stilmittel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: AGENDA & ANLEITUNG -->
+        <section id="sec-agenda" class="tab-content space-y-8">
+            <div class="flex items-center justify-between border-b border-darkBorder pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="map-pin" class="text-cutePink"></i> Die Perfekte Interpretations-Agenda
+                    </h2>
+                    <p class="text-sm text-gray-400">Arbeite dich Schritt für Schritt durch dein Gedicht für einen klaren Roten Faden.</p>
+                </div>
+            </div>
+
+            <!-- Step 0: Vorbereitung -->
+            <div class="cute-card rounded-3xl p-6 sm:p-8 relative">
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="w-10 h-10 rounded-2xl bg-cutePurple/20 border border-cutePurple text-cutePurpleLight flex items-center justify-center font-bold text-lg">0</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Vorbereitung: Lesen, Markieren & Verstehen 🖍️</h3>
+                        <p class="text-xs text-purple-300">Der Schlüssel zur erfolgreichen Analyse (5-10 Minuten)</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 mt-4">
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                        <div class="text-cutePink font-semibold text-sm mb-1 flex items-center gap-2">
+                            <i data-lucide="eye" class="w-4 h-4"></i> 1. Erster Lesedurchgang
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Lies das Gedicht einmal ganz in Ruhe durch. Welches Gefühl oder Thema kommt spontan hoch? (z.B. Trauer, Liebe, Naturromantik, Großstadtchaos).
+                        </p>
+                    </div>
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                        <div class="text-cutePurpleLight font-semibold text-sm mb-1 flex items-center gap-2">
+                            <i data-lucide="palette" class="w-4 h-4"></i> 2. Farbsystem nutzen
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Markiere mit Buntstiften: <br>
+                            <span class="text-pink-400">Pink</span> = Stilmittel & Metaphern<br>
+                            <span class="text-purple-400">Lila</span> = Reimschema & Auffälligkeiten<br>
+                            <span class="text-blue-400">Blau</span> = Stimmungen & Wortfelder
+                        </p>
+                    </div>
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                        <div class="text-cutePink font-semibold text-sm mb-1 flex items-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> 3. Randnotizen machen
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Schreibe dir neben jede Strophe stichpunktartig die Kernaussage. Wer spricht? An wen richtet sich das Gedicht?
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Einleitung (TATTE) -->
+            <div class="cute-card rounded-3xl p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 rounded-2xl bg-cutePink/20 border border-cutePink text-cutePink flex items-center justify-center font-bold text-lg">1</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Einleitung: Die TATTE-Formel 📝</h3>
+                            <p class="text-xs text-pink-300">Der perfekte Einstieg in deine Arbeit</p>
+                        </div>
+                    </div>
+                    <span class="bg-cutePink/10 text-cutePink text-xs px-3 py-1 rounded-full font-semibold border border-cutePink/20 hidden sm:inline-block">Ca. 10% des Textes</span>
+                </div>
+
+                <p class="text-sm text-gray-300 mb-4">
+                    Jede Einleitung muss die 5 Grundbausteine enthalten (<strong class="text-cutePink">TATTE</strong>):
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+                    <div class="bg-darkBg/80 p-3 rounded-2xl border border-pink-500/20 text-center">
+                        <div class="text-cutePink font-bold text-base">T</div>
+                        <div class="text-xs text-gray-300 font-medium">Titel</div>
+                    </div>
+                    <div class="bg-darkBg/80 p-3 rounded-2xl border border-pink-500/20 text-center">
+                        <div class="text-cutePink font-bold text-base">A</div>
+                        <div class="text-xs text-gray-300 font-medium">Autor/in</div>
+                    </div>
+                    <div class="bg-darkBg/80 p-3 rounded-2xl border border-pink-500/20 text-center">
+                        <div class="text-cutePink font-bold text-base">T</div>
+                        <div class="text-xs text-gray-300 font-medium">Textsorte</div>
+                    </div>
+                    <div class="bg-darkBg/80 p-3 rounded-2xl border border-pink-500/20 text-center">
+                        <div class="text-cutePink font-bold text-base">T</div>
+                        <div class="text-xs text-gray-300 font-medium">Thema</div>
+                    </div>
+                    <div class="bg-darkBg/80 p-3 rounded-2xl border border-pink-500/20 text-center col-span-2 sm:col-span-1">
+                        <div class="text-cutePink font-bold text-base">E</div>
+                        <div class="text-xs text-gray-300 font-medium">Erscheinungsjahr / Epoche</div>
+                    </div>
+                </div>
+
+                <!-- Live Example Box -->
+                <div class="bg-purple-950/30 border border-cutePurple/30 p-4 rounded-2xl relative">
+                    <div class="text-xs text-cutePurpleLight font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Musterbeispiel Einleitungssatz:
+                    </div>
+                    <p class="text-sm text-gray-200 italic leading-relaxed">
+                        "Das Gedicht <span class="text-cutePink font-medium">'Mondnacht'</span> von <span class="text-cutePink font-medium">Joseph von Eichendorff</span> aus dem Jahr <span class="text-cutePink font-medium">1837</span> lässt sich der Epoche der <span class="text-cutePink font-medium">Romantik</span> zuordnen. Das Lyrische Werk thematisiert <span class="text-cutePink font-medium">die innige Verschmelzung von Natur und Seele sowie das Sehnsuchtsgefühl nach metaphysischer Geborgenheit</span>."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2: Hauptteil -->
+            <div class="cute-card rounded-3xl p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 rounded-2xl bg-cutePurple/20 border border-cutePurple text-cutePurpleLight flex items-center justify-center font-bold text-lg">2</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Hauptteil: Form, Inhalt & Sprache 🔍</h3>
+                            <p class="text-xs text-purple-300">Das Herzstück deiner Gedichtinterpretation</p>
+                        </div>
+                    </div>
+                    <span class="bg-cutePurple/10 text-cutePurpleLight text-xs px-3 py-1 rounded-full font-semibold border border-cutePurple/20 hidden sm:inline-block">Ca. 75% des Textes</span>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- A: Formaler Aufbau -->
+                    <div class="border-l-2 border-cutePink pl-4 space-y-2">
+                        <h4 class="font-bold text-white text-base flex items-center gap-2">
+                            A. Formaler Aufbau (Äußere Form)
+                        </h4>
+                        <p class="text-xs text-gray-300">
+                            Nenne die Anzahl der Strophen und Verse. Bestimme das Reimschema (z.B. Kreuzreim abab) und untersuche das Metrum (z.B. 4-hebiger Jambus) sowie die Kadenzen (männlich/weiblich).
+                        </p>
+                    </div>
+
+                    <!-- B: Inhaltliche Analyse -->
+                    <div class="border-l-2 border-cutePurple pl-4 space-y-2">
+                        <h4 class="font-bold text-white text-base flex items-center gap-2">
+                            B. Inhalt & Sinnabschnitte
+                        </h4>
+                        <p class="text-xs text-gray-300">
+                            Gliedere das Gedicht in Sinnabschnitte. Fasse Strophe für Strophe in eigenen Worten zusammen. Achte auf Stimmungsumschläge oder Wendepunkte (z.B. von Freude zu Trauer).
+                        </p>
+                    </div>
+
+                    <!-- C: Sprachliche Mittel & Wirkung -->
+                    <div class="border-l-2 border-cutePink pl-4 space-y-2">
+                        <h4 class="font-bold text-white text-base flex items-center gap-2">
+                            C. Sprachliche Analyse & Stilmittel (Sehr wichtig!)
+                        </h4>
+                        <div class="bg-darkBg/60 p-3.5 rounded-2xl border border-darkBorder text-xs text-gray-300 space-y-2">
+                            <p><strong class="text-cutePink">Goldene Regel:</strong> Nenne NIEMALS nur ein Stilmittel, ohne seine Wirkung zu erklären!</p>
+                            <p class="text-purple-300 font-mono bg-darkBg p-2 rounded-xl">
+                                Dreischritt: Stilmittel benennen (mit Zeile) ➔ Bedeutung erklären ➔ Wirkung auf den Leser beschreiben
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- D: Das Lyrische Ich -->
+                    <div class="border-l-2 border-cutePurple pl-4 space-y-2">
+                        <h4 class="font-bold text-white text-base flex items-center gap-2">
+                            D. Das Lyrische Ich & Haltung
+                        </h4>
+                        <p class="text-xs text-gray-300">
+                            Wer spricht im Gedicht? Ist es ein explizites Lyrisches Ich ("Ich sehe...") oder verdeckt? Wie ist die Gefühlswelt (einsam, schwärmerisch, verzweifelt)?
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Schluss -->
+            <div class="cute-card rounded-3xl p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 rounded-2xl bg-pink-500/20 border border-pink-400 text-pink-400 flex items-center justify-center font-bold text-lg">3</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Schluss: Fazit & Synthese 🌟</h3>
+                            <p class="text-xs text-pink-300">Abrundung & Epochenbezug</p>
+                        </div>
+                    </div>
+                    <span class="bg-pink-500/10 text-pink-400 text-xs px-3 py-1 rounded-full font-semibold border border-pink-500/20 hidden sm:inline-block">Ca. 15% des Textes</span>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                        <div class="text-cutePink font-semibold text-sm mb-1">1. Hauptaussage zusammenfassen</div>
+                        <p class="text-xs text-gray-300">Bringe deine wichtigsten Erkenntnisse kurz auf den Punkt. Was möchte das Gedicht sagen?</p>
+                    </div>
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                        <div class="text-cutePurpleLight font-semibold text-sm mb-1">2. Rückbezug zur Einleitung</div>
+                        <p class="text-xs text-gray-300">Bestätige oder ergänze deine in der Einleitung formulierte Vermutung/Deutungshypothese.</p>
+                    </div>
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                        <div class="text-cutePink font-semibold text-sm mb-1">3. Epochenbezug / Ausblick</div>
+                        <p class="text-xs text-gray-300">Warum ist das Gedicht typisch für seine Epoche? (z.B. Natursehnsucht in der Romantik, Weltuntergang im Expressionismus).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: FORMULIERUNGSHILFEN GENERATOR -->
+        <section id="sec-formulierung" class="tab-content hidden space-y-8">
+            <div class="flex items-center justify-between border-b border-darkBorder pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="wand-2" class="text-cutePink"></i> Formulierungshilfen & Textbausteine
+                    </h2>
+                    <p class="text-sm text-gray-400">Klicke auf eine Formulierung, um sie direkt in deine Zwischenablage zu kopieren!</p>
+                </div>
+            </div>
+
+            <!-- Categories Tabs -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterPhrases('all')" class="phrase-cat-btn active bg-cutePink text-white px-4 py-2 rounded-xl text-xs font-semibold">Alle Bausteine</button>
+                <button onclick="filterPhrases('einleitung')" class="phrase-cat-btn bg-darkCard border border-darkBorder text-gray-300 px-4 py-2 rounded-xl text-xs font-semibold hover:border-cutePink">Einleitung & Hypothese</button>
+                <button onclick="filterPhrases('überleitung')" class="phrase-cat-btn bg-darkCard border border-darkBorder text-gray-300 px-4 py-2 rounded-xl text-xs font-semibold hover:border-cutePink">Überleitungen</button>
+                <button onclick="filterPhrases('stilmittel')" class="phrase-cat-btn bg-darkCard border border-darkBorder text-gray-300 px-4 py-2 rounded-xl text-xs font-semibold hover:border-cutePink">Stilmittel analysieren</button>
+                <button onclick="filterPhrases('schluss')" class="phrase-cat-btn bg-darkCard border border-darkBorder text-gray-300 px-4 py-2 rounded-xl text-xs font-semibold hover:border-cutePink">Schluss & Fazit</button>
+            </div>
+
+            <!-- Phrases Grid -->
+            <div class="grid md:grid-cols-2 gap-4" id="phrases-container">
+                <!-- Phrases populated via Javascript -->
+            </div>
+        </section>
+
+        <!-- TAB 3: STILMITTEL BIBLIOTHEK -->
+        <section id="sec-stilmittel" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-darkBorder pb-4 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="book-open-check" class="text-cutePurple"></i> Stilmittel-Bibliothek
+                    </h2>
+                    <p class="text-sm text-gray-400">Suche nach rhetorischen Figuren, Beispielen und ihrer konkreten Wirkung.</p>
+                </div>
+
+                <!-- Search bar -->
+                <div class="relative w-full sm:w-72">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="stilmittel-search" oninput="searchStilmittel()" placeholder="z.B. Metapher, Anapher..." class="w-full bg-darkCard border border-darkBorder rounded-2xl pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-cutePink transition-all">
+                </div>
+            </div>
+
+            <!-- Devices Cards Container -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="stilmittel-container">
+                <!-- Populated via Javascript -->
+            </div>
+        </section>
+
+        <!-- TAB 4: METRUM & FORM -->
+        <section id="sec-metrum" class="tab-content hidden space-y-8">
+            <div class="flex items-center justify-between border-b border-darkBorder pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="music" class="text-cutePink"></i> Metrum, Kadenz & Reimschema
+                    </h2>
+                    <p class="text-sm text-gray-400">Rhythmus und Klangstruktur eines Gedichts leicht verstehen.</p>
+                </div>
+            </div>
+
+            <!-- Metrum Grid -->
+            <div>
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="activity" class="text-cutePink w-5 h-5"></i> Die 4 Haupt-Metren (Versmaße)
+                </h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Jambus -->
+                    <div class="cute-card p-5 rounded-2xl">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-cutePink font-bold text-lg font-heading">Jambus</span>
+                            <span class="text-xs bg-cutePink/10 text-cutePink px-2 py-0.5 rounded-full font-mono">v –</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mb-3">Unbetont, Betont</p>
+                        <div class="bg-darkBg/80 p-3 rounded-xl border border-darkBorder text-xs text-purple-200 italic mb-2">
+                            "Es <strong>schlägt</strong> mein <strong>Herz</strong>..."
+                        </div>
+                        <p class="text-xs text-gray-400">Wirkung: Dynamisch, vorwärtstreibend, oft lebhaft oder ruhig fließend.</p>
+                    </div>
+
+                    <!-- Trochäus -->
+                    <div class="cute-card p-5 rounded-2xl">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-cutePurpleLight font-bold text-lg font-heading">Trochäus</span>
+                            <span class="text-xs bg-cutePurple/10 text-cutePurpleLight px-2 py-0.5 rounded-full font-mono">– v</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mb-3">Betont, Unbetont</p>
+                        <div class="bg-darkBg/80 p-3 rounded-xl border border-darkBorder text-xs text-purple-200 italic mb-2">
+                            "<strong>Freu</strong>de, <strong>schö</strong>ner <strong>Göt</strong>ter<strong>fun</strong>ken"
+                        </div>
+                        <p class="text-xs text-gray-400">Wirkung: Getragen, beruhigend, manchmal auch drängend oder festlich.</p>
+                    </div>
+
+                    <!-- Daktylus -->
+                    <div class="cute-card p-5 rounded-2xl">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-cutePink font-bold text-lg font-heading">Daktylus</span>
+                            <span class="text-xs bg-cutePink/10 text-cutePink px-2 py-0.5 rounded-full font-mono">– v v</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mb-3">Betont, Unbetont, Unbetont</p>
+                        <div class="bg-darkBg/80 p-3 rounded-xl border border-darkBorder text-xs text-purple-200 italic mb-2">
+                            "<strong>Wol</strong>ken am <strong>Him</strong>mel so <strong>grau</strong>"
+                        </div>
+                        <p class="text-xs text-gray-400">Wirkung: Tänzerisch, beschwingt, schaukelnd, oft bewegt.</p>
+                    </div>
+
+                    <!-- Anapäst -->
+                    <div class="cute-card p-5 rounded-2xl">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-cutePurpleLight font-bold text-lg font-heading">Anapäst</span>
+                            <span class="text-xs bg-cutePurple/10 text-cutePurpleLight px-2 py-0.5 rounded-full font-mono">v v –</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mb-3">Unbetont, Unbetont, Betont</p>
+                        <div class="bg-darkBg/80 p-3 rounded-xl border border-darkBorder text-xs text-purple-200 italic mb-2">
+                            "Wie das <strong>Meer</strong> in der <strong>Nacht</strong>"
+                        </div>
+                        <p class="text-xs text-gray-400">Wirkung: Ansteigend, mitreißend, drängend oder leidenschaftlich.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reimschemata & Kadenzen -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Reimschema -->
+                <div class="cute-card p-6 rounded-3xl space-y-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="layers" class="text-cutePurpleLight w-5 h-5"></i> Die wichtigsten Reimschemata
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-darkBg/60 p-3.5 rounded-2xl border border-darkBorder flex items-center justify-between">
+                            <div>
+                                <div class="text-sm font-semibold text-white">Paarreim (aabb)</div>
+                                <div class="text-xs text-gray-400">Zeilen 1 & 2 sowieso 3 & 4 reimen sich.</div>
+                            </div>
+                            <span class="font-mono text-xs bg-purple-900/40 text-purple-300 border border-purple-500/30 px-2 py-1 rounded-lg">aa bb</span>
+                        </div>
+                        <div class="bg-darkBg/60 p-3.5 rounded-2xl border border-darkBorder flex items-center justify-between">
+                            <div>
+                                <div class="text-sm font-semibold text-white">Kreuzreim (abab)</div>
+                                <div class="text-xs text-gray-400">Zeilen reimen sich abwechselnd.</div>
+                            </div>
+                            <span class="font-mono text-xs bg-pink-900/40 text-pink-300 border border-pink-500/30 px-2 py-1 rounded-lg">ab ab</span>
+                        </div>
+                        <div class="bg-darkBg/60 p-3.5 rounded-2xl border border-darkBorder flex items-center justify-between">
+                            <div>
+                                <div class="text-sm font-semibold text-white">Umarmender Reim (abba)</div>
+                                <div class="text-xs text-gray-400">Zeile 1 & 4 umschließen Zeile 2 & 3.</div>
+                            </div>
+                            <span class="font-mono text-xs bg-purple-900/40 text-purple-300 border border-purple-500/30 px-2 py-1 rounded-lg">ab ba</span>
+                        </div>
+                        <div class="bg-darkBg/60 p-3.5 rounded-2xl border border-darkBorder flex items-center justify-between">
+                            <div>
+                                <div class="text-sm font-semibold text-white">Schweifreim (aabccb)</div>
+                                <div class="text-xs text-gray-400">Paarreim gefolgt von einem umarmenden Motiv.</div>
+                            </div>
+                            <span class="font-mono text-xs bg-pink-900/40 text-pink-300 border border-pink-500/30 px-2 py-1 rounded-lg">aab ccb</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kadenzen -->
+                <div class="cute-card p-6 rounded-3xl space-y-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="git-commit" class="text-cutePink w-5 h-5"></i> Kadenzen (Versenden)
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-cutePink text-sm">Männliche (stumpfe) Kadenz</span>
+                                <span class="text-xs text-gray-400 font-mono">Endet betont</span>
+                            </div>
+                            <p class="text-xs text-gray-300 italic mb-2">"Der helle <strong>Tag</strong>"</p>
+                            <p class="text-xs text-gray-400">Wirkt oft hart, abgeschlossen, bestimmt oder kraftvoll.</p>
+                        </div>
+
+                        <div class="bg-darkBg/60 p-4 rounded-2xl border border-darkBorder">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-cutePurpleLight text-sm">Weibliche (klingende) Kadenz</span>
+                                <span class="text-xs text-gray-400 font-mono">Endet unbetont</span>
+                            </div>
+                            <p class="text-xs text-gray-300 italic mb-2">"In stillem <strong>Ta</strong>le"</p>
+                            <p class="text-xs text-gray-400">Wirkt weich, offen, sanft, manchmal wehmütig oder unvollendet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: INTERAKTIVES MINI-QUIZ -->
+        <section id="sec-quiz" class="tab-content hidden space-y-8">
+            <div class="flex items-center justify-between border-b border-darkBorder pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="brain-circuit" class="text-cutePink"></i> Interpretations-Quiz
+                    </h2>
+                    <p class="text-sm text-gray-400">Teste dein Wissen rund um Stilmittel, Metrum & Interpretationsregeln!</p>
+                </div>
+            </div>
+
+            <div class="max-w-2xl mx-auto cute-card p-6 sm:p-8 rounded-3xl relative" id="quiz-card">
+                <!-- Quiz Container -->
+                <div id="quiz-box">
+                    <!-- Progress Bar -->
+                    <div class="flex items-center justify-between text-xs text-gray-400 mb-2">
+                        <span id="quiz-step-text">Frage 1 von 5</span>
+                        <span id="quiz-score-text" class="text-cutePink font-bold">Punkte: 0</span>
+                    </div>
+                    <div class="w-full bg-darkBg rounded-full h-2 mb-6 border border-darkBorder">
+                        <div id="quiz-progress" class="bg-gradient-to-r from-cutePink to-cutePurple h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+                    </div>
+
+                    <!-- Question & Options -->
+                    <h3 id="quiz-question" class="text-lg font-bold text-white mb-6">
+                        Frage wird geladen...
+                    </h3>
+
+                    <div id="quiz-options" class="space-y-3 mb-6">
+                        <!-- Options injected by JS -->
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-sm mb-4"></div>
+
+                    <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden w-full bg-gradient-to-r from-cutePink to-cutePurple hover:opacity-90 text-white font-bold py-3 rounded-2xl transition-all glow-pink flex items-center justify-center gap-2">
+                        <span>Nächste Frage</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Quiz Completed Screen -->
+                <div id="quiz-result" class="hidden text-center py-8 space-y-4">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-cutePink/20 border-2 border-cutePink flex items-center justify-center text-cutePink glow-pink animate-float">
+                        <i data-lucide="trophy" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">Quiz abgeschlossen! 🎉</h3>
+                    <p id="quiz-final-score" class="text-gray-300 text-base">Du hast X von Y Fragen richtig beantwortet.</p>
+                    <button onclick="restartQuiz()" class="inline-flex items-center gap-2 bg-gradient-to-r from-cutePink to-cutePurple text-white font-bold px-6 py-3 rounded-2xl glow-pink hover:opacity-90 transition-all">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Erneut versuchen
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CHECKLIST SLIDE-OVER DRAWER -->
+    <div id="checklist-drawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300">
+        <!-- Backdrop -->
+        <div id="checklist-backdrop" onclick="toggleChecklistDrawer()" class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+        <!-- Content Panel -->
+        <div id="checklist-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-darkCard border-l border-darkBorder p-6 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 pointer-events-auto">
+            <div class="flex items-center justify-between pb-4 border-b border-darkBorder">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-square" class="text-cutePink w-5 h-5"></i>
+                    <h3 class="font-bold text-white text-lg">Klausur-Checkliste</h3>
+                </div>
+                <button onclick="toggleChecklistDrawer()" class="text-gray-400 hover:text-white p-1 rounded-xl">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-gray-400 my-4">Hake während deiner Vorbereitung oder Aufsatzkorrektur alle wichtigen Punkte ab:</p>
+
+            <!-- Checklist Items -->
+            <div class="flex-grow space-y-3 overflow-y-auto pr-1 custom-scrollbar" id="checklist-items">
+                <!-- Checkbox Items -->
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Gedicht gründlich gelesen & farbig markiert</div>
+                        <div class="text-xs text-gray-400">Reimschema, Auffälligkeiten & Stimmungen hervorgehoben.</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Einleitung (TATTE) vollständig</div>
+                        <div class="text-xs text-gray-400">Titel, Autor, Textsorte, Thema & Epoche vorhanden.</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Deutungshypothese aufgestellt</div>
+                        <div class="text-xs text-gray-400">Eine erste Vermutung zur Gesamtaussage formuliert.</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Formale Analyse ausgeführt</div>
+                        <div class="text-xs text-gray-400">Strophen, Verse, Reimschema, Metrum & Kadenzen bestimmt.</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Inhaltliche Sinnabschnitte gegliedert</div>
+                        <div class="text-xs text-gray-400">Strophenweise Zusammenfassung in eigenen Worten.</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Stilmittel mit Dreischritt analysiert</div>
+                        <div class="text-xs text-gray-400">Benennung ➔ Erläuterung ➔ Wirkung mit Zitaten (V. X).</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Lyrisches Ich charakterisiert</div>
+                        <div class="text-xs text-gray-400">Haltung, Gefühle und Sichtweise beschrieben.</div>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3 rounded-2xl bg-darkBg/60 border border-darkBorder hover:border-cutePink/40 cursor-pointer transition-all">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 rounded border-darkBorder text-cutePink focus:ring-cutePink bg-darkBg">
+                    <div>
+                        <div class="text-sm font-semibold text-white">Schluss & Epochenbezug geschrieben</div>
+                        <div class="text-xs text-gray-400">Synthese der Ergebnisse & Fazit zur Deutungshypothese.</div>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Progress status -->
+            <div class="pt-4 border-t border-darkBorder mt-2">
+                <div class="flex justify-between text-xs text-gray-300 mb-2">
+                    <span>Fortschritt:</span>
+                    <span id="checklist-percent" class="text-cutePink font-bold">0%</span>
+                </div>
+                <div class="w-full bg-darkBg rounded-full h-2 border border-darkBorder">
+                    <div id="checklist-bar" class="bg-gradient-to-r from-cutePink to-cutePurple h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4 text-cutePink"></i>
+        <span id="toast-message">In die Zwischenablage kopiert! ✨</span>
+    </div>
+
+    <script>
+        // Data Structures
+        const PHRASES = [
+            {
+                category: 'einleitung',
+                text: 'Das vorliegende Gedicht "[Titel]" aus dem Jahr [Jahr], verfasst von [Autor], gehört der Epoche [Epoche] an und thematisiert [Thema].',
+                tag: 'Einleitung Satz 1'
+            },
+            {
+                category: 'einleitung',
+                text: 'In dem Gedicht "[Titel]" von [Autor] steht die Auseinandersetzung mit [Thema/Motiv] im Zentrum der Betrachtung.',
+                tag: 'Einleitung Variante'
+            },
+            {
+                category: 'einleitung',
+                text: 'Als Deutungshypothese lässt sich formulieren, dass der Autor mithilfe der Naturmetaphorik die innere Zerrissenheit des Lyrischen Ichs zum Ausdruck bringt.',
+                tag: 'Deutungshypothese'
+            },
+            {
+                category: 'überleitung',
+                text: 'Bereits in der ersten Strophe wird deutlich, dass...',
+                tag: 'Anfang Strophe 1'
+            },
+            {
+                category: 'überleitung',
+                text: 'Ein zentraler Umschwung der Stimmung vollzieht sich im Übergang von der zweiten zur dritten Strophe, da...',
+                tag: 'Stimmungswechsel'
+            },
+            {
+                category: 'überleitung',
+                text: 'Diese formale Struktur Spiegelt sich auch auf der inhaltlichen Ebene wider...',
+                tag: 'Form & Inhalt Verknüpfung'
+            },
+            {
+                category: 'stilmittel',
+                text: 'Die Metapher in Zeile [X] ("...") verdeutlicht dem Leser, dass...',
+                tag: 'Metapher'
+            },
+            {
+                category: 'stilmittel',
+                text: 'Durch die Anapher "[Wort]" (V. Xf.) wird das Gefühl der Ausweglosigkeit intensiviert und rhythmisch verstärkt.',
+                tag: 'Anapher'
+            },
+            {
+                category: 'stilmittel',
+                text: 'Die Personifikation der Natur ("...") verleiht den Umgebungsbeschreibungen einen lebendigen, fast bedrohlichen Charakter.',
+                tag: 'Personifikation'
+            },
+            {
+                category: 'schluss',
+                text: 'Zusammenfassend lässt sich festhalten, dass das Gedicht die anfängliche Deutungshypothese bestätigt, indem...',
+                tag: 'Fazit'
+            },
+            {
+                category: 'schluss',
+                text: 'Typisch für die Epoche der [Epoche] sind in diesem Werk insbesondere die Motive der [Sehnsucht/Natur/Verganglichkeit].',
+                tag: 'Epochenbezug'
+            },
+            {
+                category: 'schluss',
+                text: 'Das Gedicht behält auch heute seine Aktualität, da das Thema [Thema] zeitlos emotionale Relevanz besitzt.',
+                tag: 'Aktualität'
+            }
+        ];
+
+        const STILMITTEL = [
+            {
+                title: 'Metapher',
+                def: 'Bildhafter Vergleich ohne das Vergleichswort "wie". Übertragung aus einem anderen Bereich.',
+                example: '"Rabenschwarze Nacht", "Mauer des Schweigens"',
+                effect: 'Veranschaulicht abstrakte Gefühle, regt Fantasie an, erzeugt tiefe Bilder im Kopf.',
+                tag: 'Bildlichkeit'
+            },
+            {
+                title: 'Personifikation',
+                def: 'Vermenschlichung von Gegenständen, Tieren oder abstrakten Begriffen.',
+                example: '"Die Sonne lacht", "Der Wind flüstert"',
+                effect: 'Macht Lebloses lebendig, erzeugt eine vertraute oder unheimliche Atmosphäre.',
+                tag: 'Bildlichkeit'
+            },
+            {
+                title: 'Anapher',
+                def: 'Wiederholung desselben Wortes am Anfang aufeinanderfolgender Verszeilen.',
+                example: '"Das Wasser rauscht, / Das Wasser schwoll"',
+                effect: 'Rhythmische Verstärkung, betont eine Aussage eindringlich.',
+                tag: 'Klang & Rhythmus'
+            },
+            {
+                title: 'Alliteration',
+                def: 'Gleicher Anlaut benachbarter Wörter (Stabreim).',
+                example: '"Mit Mann und Maus", "Milch macht müde"',
+                effect: 'Einprägsam, rhythmisch verbindend, erzeugt oft Lautmalerei.',
+                tag: 'Klang & Rhythmus'
+            },
+            {
+                title: 'Hyperbel',
+                def: 'Starke Übertreibung.',
+                example: '"Ein Meer von Tränen", "Blitzesschnelle"',
+                effect: 'Drückt extreme Emotionen aus, dramatisiert das Geschehen.',
+                tag: 'Sinn'
+            },
+            {
+                title: 'Vergleich',
+                def: 'Verknüpfung zweier Bereiche mit dem Vergleichswort "wie" oder "als".',
+                example: '"Stark wie ein Löwe", "Cremig wie Samt"',
+                effect: 'Hebt Eigenschaften hervor, macht Vergleiche greifbar.',
+                tag: 'Bildlichkeit'
+            },
+            {
+                title: 'Enjambement',
+                def: 'Zeilensprung: Ein Satz geht über das Versende hinaus in den nächsten Vers.',
+                example: '"Sein Blick ist vom Vorübergehn der Stäbe / so müde geworden..."',
+                effect: 'Erzeugt Lesefluss, Dynamik oder Unruhe, verbindet Verse gedanklich.',
+                tag: 'Satzbau'
+            },
+            {
+                title: 'Inversion',
+                def: 'Umstellung der gewohnten Wortstellung im Satz (S-P-O).',
+                example: '"Unendlich ist die Nacht" statt "Die Nacht ist unendlich"',
+                effect: 'Hebt das vorangestellte Wort besonders hervor, passt Rhythmus an.',
+                tag: 'Satzbau'
+            },
+            {
+                title: 'Rhetorische Frage',
+                def: 'Scheinfrage, auf die keine Antwort erwartet wird, da sie bereits feststeht.',
+                example: '"Wer glaubt denn das noch?"',
+                effect: 'Bezieht Leser mit ein, regt zum Nachdenken an, drückt Zweifel aus.',
+                tag: 'Sinn'
+            },
+            {
+                title: 'Symbol',
+                def: 'Konkretes Zeichen oder Gegenstand, der für etwas Abstraktes steht.',
+                example: '"Rote Rose" (Liebe), "Kreuz" (Glaube/Tod)',
+                effect: 'Transportiert tiefere kulturelle oder emotionale Bedeutungen.',
+                tag: 'Bildlichkeit'
+            },
+            {
+                title: 'Oxymoron',
+                def: 'Verbindung zweier sich widersprechender Begriffe.',
+                example: '"Hassliebe", "Beredtes Schweigen"',
+                effect: 'Weckt Aufmerksamkeit, drückt innere Konflikte aus.',
+                tag: 'Sinn'
+            },
+            {
+                title: 'Lautmalerei (Onomatopoesie)',
+                def: 'Nachahmung von Klängen durch Wörter.',
+                example: '"Zischen", "Kuckuck", "Knistern"',
+                effect: 'Macht Szenen akustisch erlebbar.',
+                tag: 'Klang & Rhythmus'
+            }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "Was gehört zwingend in den Einleitungssatz (TATTE-Formel)?",
+                options: [
+                    "Titel, Autor, Textsorte, Thema, Epoche/Jahr",
+                    "Reimschema, Metrum, Metaphern, Fazit",
+                    "Zusammenfassung aller Strophen & Personalien",
+                    "Titel, Interpretation, Argumentation, Zitate"
+                ],
+                correct: 0,
+                explain: "Richtig! TATTE steht für Titel, Autor, Textsorte, Thema und Erscheinungsjahr/Epoche."
+            },
+            {
+                q: "Welches Metrum hat das Betonungsmuster 'Unbetont - Betont' (v –)?",
+                options: ["Trochäus", "Jambus", "Daktylus", "Anapäst"],
+                correct: 1,
+                explain: "Genau! Der Jambus steigt an von unbetont zu betont (z.B. 'das MEEER')."
+            },
+            {
+                q: "Wie nennt man die Stilfigur bei einer Vermenschlichung ('Die Sonne lacht')?",
+                options: ["Metapher", "Alliteration", "Personifikation", "Oxymoron"],
+                correct: 2,
+                explain: "Perfekt! Eine Personifikation verleiht unbelebten Dingen menschliche Eigenschaften."
+            },
+            {
+                q: "Was beschreibt ein 'Enjambement'?",
+                options: [
+                    "Ein Reim am Anfang der Zeile",
+                    "Ein Zeilensprung, bei dem ein Satz über das Versende hinausgeht",
+                    "Eine ständige Wortwiederholung",
+                    "Das Fehlen eines Metrums"
+                ],
+                correct: 1,
+                explain: "Sehr gut! Ein Enjambement führt den Satz ohne Pause über die Versgrenze hinaus."
+            },
+            {
+                q: "Welches Reimschema liegt bei der Struktur 'abba' vor?",
+                options: ["Kreuzreim", "Paarreim", "Umarmender Reim", "Schweifreim"],
+                correct: 2,
+                explain: "Richtig! Zeile 1 und 4 'umarmen' die Zeilen 2 und 3."
+            }
+        ];
+
+        // App State
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        // Initialize App
+        window.onload = function() {
+            lucide.createIcons();
+            renderPhrases('all');
+            renderStilmittel(STILMITTEL);
+            loadQuizQuestion();
+            updateChecklistProgress();
+        };
+
+        // Navigation Switcher
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected tab content
+            const targetSec = document.getElementById('sec-' + tabId);
+            if(targetSec) targetSec.classList.remove('hidden');
+
+            // Deactivate all navbar buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-gray-300');
+            });
+
+            // Activate clicked buttons
+            const deskBtn = document.getElementById('tab-' + tabId);
+            const mobBtn = document.getElementById('mob-tab-' + tabId);
+            if(deskBtn) {
+                deskBtn.classList.add('active');
+                deskBtn.classList.remove('text-gray-300');
+            }
+            if(mobBtn) {
+                mobBtn.classList.add('active');
+                mobBtn.classList.remove('text-gray-300');
+            }
+        }
+
+        // Render Phrases
+        function renderPhrases(cat) {
+            const container = document.getElementById('phrases-container');
+            container.innerHTML = '';
+
+            const filtered = cat === 'all' ? PHRASES : PHRASES.filter(p => p.category === cat);
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "cute-card p-4 rounded-2xl cursor-pointer flex flex-col justify-between group hover:border-cutePink/60 transition-all";
+                card.onclick = () => copyText(p.text);
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-cutePurple/20 text-cutePurpleLight border border-cutePurple/30 px-2 py-0.5 rounded-full font-medium">${p.tag}</span>
+                            <span class="text-gray-400 group-hover:text-cutePink text-xs flex items-center gap-1 transition-colors">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Kopieren
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-200 leading-relaxed font-sans font-medium">${p.text}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function filterPhrases(cat) {
+            document.querySelectorAll('.phrase-cat-btn').forEach(btn => {
+                btn.classList.remove('bg-cutePink', 'text-white');
+                btn.classList.add('bg-darkCard', 'text-gray-300');
+            });
+            event.target.classList.remove('bg-darkCard', 'text-gray-300');
+            event.target.classList.add('bg-cutePink', 'text-white');
+            renderPhrases(cat);
+        }
+
+        // Render Stilmittel
+        function renderStilmittel(data) {
+            const container = document.getElementById('stilmittel-container');
+            container.innerHTML = '';
+
+            if(data.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-400">
+                        Kein Stilmittel mit diesem Namen gefunden 🌸
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "cute-card p-5 rounded-2xl flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-bold text-white font-heading">${item.title}</h3>
+                            <span class="text-xs bg-cutePink/10 text-cutePink border border-cutePink/20 px-2 py-0.5 rounded-full">${item.tag}</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mb-3">${item.def}</p>
+                        
+                        <div class="bg-darkBg/80 p-2.5 rounded-xl border border-darkBorder mb-3">
+                            <span class="text-xs text-cutePurpleLight font-semibold block mb-0.5">Beispiel:</span>
+                            <span class="text-xs italic text-gray-200">${item.example}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-darkBorder/60 pt-2.5 mt-2">
+                        <span class="text-xs text-cutePink font-semibold block mb-0.5">Wirkung:</span>
+                        <p class="text-xs text-gray-400">${item.effect}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function searchStilmittel() {
+            const query = document.getElementById('stilmittel-search').value.toLowerCase();
+            const filtered = STILMITTEL.filter(s => 
+                s.title.toLowerCase().includes(query) || 
+                s.def.toLowerCase().includes(query) ||
+                s.example.toLowerCase().includes(query)
+            );
+            renderStilmittel(filtered);
+        }
+
+        // Copy Text Helper
+        function copyText(text) {
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            showToast("Formulierung kopiert! ✨");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-message").innerText = msg;
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 2500);
+        }
+
+        // Checklist Drawer Toggle
+        function toggleChecklistDrawer() {
+            const drawer = document.getElementById('checklist-drawer');
+            const panel = document.getElementById('checklist-panel');
+            const backdrop = document.getElementById('checklist-backdrop');
+
+            if(drawer.classList.contains('pointer-events-none')) {
+                drawer.classList.remove('pointer-events-none');
+                backdrop.classList.add('opacity-100');
+                panel.classList.remove('translate-x-full');
+            } else {
+                panel.classList.add('translate-x-full');
+                backdrop.classList.remove('opacity-100');
+                setTimeout(() => {
+                    drawer.classList.add('pointer-events-none');
+                }, 300);
+            }
+        }
+
+        function updateChecklistProgress() {
+            const checkboxes = document.querySelectorAll('.chk-item');
+            const checked = document.querySelectorAll('.chk-item:checked').length;
+            const total = checkboxes.length;
+
+            const pct = Math.round((checked / total) * 100);
+            document.getElementById('checklist-counter').innerText = `${checked}/${total}`;
+            document.getElementById('checklist-percent').innerText = `${pct}%`;
+            document.getElementById('checklist-bar').style.width = `${pct}%`;
+        }
+
+        // Quiz Logic
+        function loadQuizQuestion() {
+            const current = QUIZ_QUESTIONS[currentQuizIndex];
+            document.getElementById('quiz-question').innerText = `${currentQuizIndex + 1}. ${current.q}`;
+            document.getElementById('quiz-step-text').innerText = `Frage ${currentQuizIndex + 1} von ${QUIZ_QUESTIONS.length}`;
+            document.getElementById('quiz-progress').style.width = `${((currentQuizIndex + 1) / QUIZ_QUESTIONS.length) * 100}%`;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            current.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 rounded-2xl bg-darkBg/70 border border-darkBorder hover:border-cutePink/50 text-sm text-gray-200 transition-all flex items-center justify-between group";
+                btn.onclick = () => selectQuizAnswer(idx);
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <i data-lucide="circle" class="w-4 h-4 text-gray-500 group-hover:text-cutePink transition-colors"></i>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+            lucide.createIcons();
+        }
+
+        function selectQuizAnswer(selectedIndex) {
+            const current = QUIZ_QUESTIONS[currentQuizIndex];
+            const feedback = document.getElementById('quiz-feedback');
+            const options = document.getElementById('quiz-options').children;
+
+            // Disable all option buttons
+            for(let btn of options) {
+                btn.disabled = true;
+                btn.classList.add('opacity-60', 'cursor-not-allowed');
+            }
+
+            if(selectedIndex === current.correct) {
+                quizScore++;
+                options[selectedIndex].classList.remove('bg-darkBg/70', 'border-darkBorder');
+                options[selectedIndex].classList.add('bg-emerald-950/40', 'border-emerald-500', 'text-emerald-200', 'opacity-100');
+                feedback.className = "p-4 rounded-2xl text-sm mb-4 bg-emerald-950/50 border border-emerald-500/40 text-emerald-200";
+                feedback.innerText = "✨ Richtig! " + current.explain;
+            } else {
+                options[selectedIndex].classList.remove('bg-darkBg/70', 'border-darkBorder');
+                options[selectedIndex].classList.add('bg-rose-950/40', 'border-rose-500', 'text-rose-200', 'opacity-100');
+                options[current.correct].classList.remove('bg-darkBg/70', 'border-darkBorder');
+                options[current.correct].classList.add('bg-emerald-950/40', 'border-emerald-500', 'text-emerald-200', 'opacity-100');
+                feedback.className = "p-4 rounded-2xl text-sm mb-4 bg-rose-950/50 border border-rose-500/40 text-rose-200";
+                feedback.innerText = "❌ Leider nicht ganz. " + current.explain;
+            }
+
+            feedback.classList.remove('hidden');
+            document.getElementById('quiz-score-text').innerText = `Punkte: ${quizScore}`;
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if(currentQuizIndex < QUIZ_QUESTIONS.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            document.getElementById('quiz-final-score').innerText = `Du hast ${quizScore} von ${QUIZ_QUESTIONS.length} Fragen richtig beantwortet!`;
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-score-text').innerText = `Punkte: 0`;
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-box').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+    </script>
+</body>
+</html>
