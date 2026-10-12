@@ -1,6 +1,6 @@
 # OpenLearn-10
 
-OpenLearn-10 ist eine moderne Lernplattform, die auf das effiziente Aufbereiten und Vermitteln von Wissen ausgelegt ist. Die Plattform befindet sich derzeit in der aktiven Entwicklung und steht aktuell ausschließlich in deutscher Sprache zur Verfügung.
+OpenLearn-10 ist eine moderne Lernplattform, die auf das effiziente Aufbereiten und Vermitteln von Wissen ausgelegt ist. Die Plattform befindet sich derzeit in der aktiven Entwicklung und steht aktuell ausschließlich in deutscher Sprache zur Verfügung. Die Lerninhalte werden von KI erstellt mit Nutzung von echten Materialien. 
 
 ---
 
