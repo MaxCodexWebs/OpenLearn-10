@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeitreise - Themenübersicht</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Playfair Display für historischen Flair -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        history: {
+                            950: '#0f0a06', // Sehr dunkler, warmer Holzton
+                            900: '#1a120b',
+                            800: '#2b1e16',
+                            700: '#3d2b1f',
+                            600: '#523a2a'
+                        },
+                        accent: {
+                            gold: '#d4af37',   // Klassisches Gold
+                            amber: '#f39c12',  // Warmer Bernsteinton
+                            rose: '#e8b4b8',   // Süßer Altrosa-Akzent
+                            glow: 'rgba(212, 175, 55, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f0a06;
+            color: #f5efe6;
+            background-image: radial-gradient(rgba(214, 175, 55, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glass-card {
+            background: rgba(43, 30, 22, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(61, 43, 31, 0.75);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.25);
+            transform: translateY(-3px);
+        }
+        .glass-nav {
+            background: rgba(26, 18, 11, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans">
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <span class="text-accent-gold text-2xl"><i class="fa-solid fa-hourglass-half"></i></span>
+            <span class="font-serif font-bold text-xl tracking-wide text-amber-100">Geschichtsreise ✨</span>
+        </div>
+        <div class="text-sm text-accent-rose font-medium">
+            <i class="fa-solid fa-compass mr-1"></i> Entdecke die Vergangenheit
+        </div>
+    </nav>
+
+    <!-- Hauptinhalt -->
+    <main class="flex-grow container mx-auto px-4 pt-28 pb-12 max-w-5xl">
+        
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <span class="inline-block px-3 py-1 bg-accent-gold/10 text-accent-gold text-xs rounded-full font-semibold mb-3 border border-accent-gold/20">
+                <i class="fa-solid fa-feather-pointed mr-1"></i> Themenübersicht
+            </span>
+            <h1 class="font-serif text-4xl md:text-5xl font-extrabold text-amber-100 mb-3 tracking-tight">
+                Wohin reisen wir heute?
+            </h1>
+            <p class="text-stone-400 max-w-lg mx-auto text-sm md:text-base">
+                Wähle ein Thema aus, um tiefer in die Geschichten, Ereignisse und Persönlichkeiten einzutauchen.
+            </p>
+        </header>
+
+        <!-- Themen-Grid (Hier kannst du manuell weitere Karten hinzufügen) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Beispiel-Thema 1 -->
+            <a href="Ge15-10-StoryModusOnly.html" class="glass-card rounded-2xl p-6 block group">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-accent-gold/10 flex items-center justify-center text-accent-gold group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-semibold px-2.5 py-1 bg-stone-800/80 text-accent-rose rounded-full border border-stone-700">Vietnamkrieg</span>
+                </div>
+                <h2 class="font-serif text-xl font-bold text-amber-100 group-hover:text-accent-gold transition-colors mb-2">
+                    Den Vietnam krieg kurz und knackig erklärt.
+                </h2>
+                <p class="text-stone-400 text-sm mb-4 line-clamp-2">
+                    Viel Spaß beim Lernen!
+                </p>
+                <div class="flex items-center text-xs text-accent-gold font-medium">
+                    <span>Thema erkunden</span>
+                    <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+            <a href="Ge7-10.html" class="glass-card rounded-2xl p-6 block group">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="w-12 h-12 rounded-xl bg-accent-gold/10 flex items-center justify-center text-accent-gold group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-semibold px-2.5 py-1 bg-stone-800/80 text-accent-rose rounded-full border border-stone-700">Kubakrise</span>
+                </div>
+                <h2 class="font-serif text-xl font-bold text-amber-100 group-hover:text-accent-gold transition-colors mb-2">
+                    Ursachen, Verlauf, Folgen
+                </h2>
+                <p class="text-stone-400 text-sm mb-4 line-clamp-2">
+                    Viel Spaß beim Lernen!
+                </p>
+                <div class="flex items-center text-xs text-accent-gold font-medium">
+                    <span>Thema erkunden</span>
+                    <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-stone-500 border-t border-stone-800/50">
+        <p>Mit <i class="fa-solid fa-heart text-accent-rose"></i> gestaltet für historische Entdeckungen</p>
+    </footer>
+
+</body>
+</html>
