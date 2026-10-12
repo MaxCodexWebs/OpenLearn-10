@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kuba – Die Welt am Rande Nuklearer Vernichtung</title>
+
+    <!-- Modernere Schrift -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* =========================================================
+   RESET
+========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: "Inter", sans-serif;
+            line-height: 1.65;
+
+            color: #d7d9d4;
+
+            background:
+                radial-gradient(circle at 50% -10%,
+                    rgba(126, 145, 103, .10),
+                    transparent 40%),
+                #090b0a;
+        }
+
+
+        /* =========================================================
+   GLOBAL
+========================================================= */
+
+        ::selection {
+            background: #9f292f;
+            color: white;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .mono {
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        .muted {
+            color: #8b9089;
+        }
+
+        .red {
+            color: #c45158;
+        }
+
+        .green {
+            color: #94a67c;
+        }
+
+        .gold {
+            color: #b7a56c;
+        }
+
+
+        /* =========================================================
+   SUBTLE GRID / CRT BACKGROUND
+========================================================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+            z-index: 1000;
+
+            opacity: .035;
+
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .5) 1px,
+                    transparent 1px),
+                linear-gradient(90deg,
+                    rgba(255, 255, 255, .5) 1px,
+                    transparent 1px);
+
+            background-size: 40px 40px;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+            z-index: 1001;
+
+            background:
+                repeating-linear-gradient(0deg,
+                    rgba(255, 255, 255, .012) 0px,
+                    rgba(255, 255, 255, .012) 1px,
+                    transparent 1px,
+                    transparent 4px);
+        }
+
+
+        /* =========================================================
+   HERO
+========================================================= */
+
+        .hero {
+            min-height: 92vh;
+
+            display: flex;
+            align-items: center;
+
+            position: relative;
+            overflow: hidden;
+
+            border-bottom: 1px solid #30352f;
+
+            background:
+                radial-gradient(circle at 75% 45%,
+                    rgba(139, 29, 36, .12),
+                    transparent 25%),
+                radial-gradient(circle at 30% 70%,
+                    rgba(107, 130, 82, .08),
+                    transparent 30%),
+                #0b0d0c;
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+            width: 750px;
+            height: 750px;
+
+            right: -250px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            border: 1px solid rgba(157, 166, 145, .08);
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 100px rgba(157, 166, 145, .025),
+                0 0 0 200px rgba(157, 166, 145, .018),
+                0 0 0 300px rgba(157, 166, 145, .012);
+        }
+
+        .hero::after {
+            content: "DECLASSIFIED";
+
+            position: absolute;
+            right: 7%;
+            top: 15%;
+
+            padding: 8px 14px;
+
+            color: rgba(190, 71, 78, .55);
+            border: 1px solid rgba(190, 71, 78, .35);
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .68rem;
+            letter-spacing: 3px;
+
+            transform: rotate(-8deg);
+        }
+
+        .hero-content {
+            width: min(1150px, 90%);
+            margin: auto;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            margin-bottom: 25px;
+
+            color: #8d9686;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-meta .dot {
+            width: 7px;
+            height: 7px;
+
+            background: #a52b32;
+            border-radius: 50%;
+
+            box-shadow: 0 0 12px rgba(165, 43, 50, .6);
+        }
+
+        .hero h1 {
+            max-width: 1000px;
+
+            font-size: clamp(3.2rem, 8vw, 7.5rem);
+            line-height: .94;
+            letter-spacing: -4px;
+
+            font-weight: 800;
+
+            color: #eceee9;
+        }
+
+        .hero h1 span {
+            color: #9e292f;
+        }
+
+        .hero-description {
+            max-width: 720px;
+
+            margin-top: 30px;
+
+            color: #939891;
+            font-size: 1.05rem;
+        }
+
+        .hero-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+
+            margin-top: 45px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 9px 13px;
+
+            border: 1px solid #30362f;
+            background: rgba(255, 255, 255, .025);
+
+            color: #9ba096;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .72rem;
+            text-transform: uppercase;
+        }
+
+        .status svg {
+            width: 15px;
+            height: 15px;
+        }
+
+
+        /* =========================================================
+   NAVIGATION
+========================================================= */
+
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 500;
+
+            border-bottom: 1px solid #2b302b;
+
+            background: rgba(10, 12, 11, .92);
+            backdrop-filter: blur(16px);
+
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 13px 17px;
+
+            color: #777d76;
+
+            text-decoration: none;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .68rem;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+
+            transition: .2s;
+        }
+
+        .nav a:hover {
+            color: #e4e7df;
+            background: #181c18;
+        }
+
+        .nav svg {
+            width: 14px;
+            height: 14px;
+        }
+
+
+        /* =========================================================
+   MAIN
+========================================================= */
+
+        main {
+            width: min(1120px, 90%);
+            margin: auto;
+        }
+
+        section {
+            padding: 100px 0;
+
+            border-bottom: 1px solid #252a26;
+        }
+
+        .section-head {
+            margin-bottom: 45px;
+        }
+
+        .section-number {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 10px;
+
+            color: #8e9a81;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-number::before {
+            content: "";
+
+            width: 28px;
+            height: 1px;
+
+            background: #8c262c;
+        }
+
+        h2 {
+            color: #e5e7e1;
+
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+        }
+
+        .section-description {
+            max-width: 700px;
+
+            margin-top: 15px;
+
+            color: #80857e;
+        }
+
+
+        /* =========================================================
+   DOSSIER
+========================================================= */
+
+        .dossier {
+            position: relative;
+
+            padding: 35px;
+
+            background:
+                linear-gradient(135deg,
+                    rgba(255, 255, 255, .035),
+                    rgba(255, 255, 255, .012));
+
+            border: 1px solid #353a34;
+
+            border-left: 3px solid #8c262c;
+        }
+
+        .dossier-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding-bottom: 18px;
+            margin-bottom: 22px;
+
+            border-bottom: 1px solid #30352f;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .67rem;
+            color: #717870;
+            text-transform: uppercase;
+        }
+
+        .dossier p {
+            max-width: 900px;
+
+            color: #b5b9b2;
+            font-size: 1.05rem;
+        }
+
+
+        /* =========================================================
+   CAUSE CARDS
+========================================================= */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            position: relative;
+
+            padding: 28px;
+
+            background: #101311;
+
+            border: 1px solid #292e2a;
+
+            transition:
+                transform .25s ease,
+                border-color .25s ease,
+                background .25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+
+            background: #131714;
+            border-color: #4b5349;
+        }
+
+        .card.red-card {
+            border-top: 2px solid #8d282f;
+        }
+
+        .card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+
+            margin-bottom: 22px;
+
+            background: #191d19;
+            border: 1px solid #343a33;
+
+            color: #9ca88d;
+        }
+
+        .card-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .card-number {
+            position: absolute;
+            right: 22px;
+            top: 18px;
+
+            color: #414740;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .65rem;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+
+            color: #dfe2dc;
+
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #898f88;
+            font-size: .94rem;
+        }
+
+        .arrow {
+            color: #a74a50;
+            font-family: "JetBrains Mono", monospace;
+        }
+
+
+        /* =========================================================
+   TIMELINE
+========================================================= */
+
+        .timeline {
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .timeline::before {
+            content: "";
+
+            position: absolute;
+
+            left: 17px;
+            top: 5px;
+            bottom: 5px;
+
+            width: 1px;
+
+            background: #394038;
+        }
+
+        .event {
+            position: relative;
+
+            padding-left: 65px;
+            padding-bottom: 50px;
+        }
+
+        .event:last-child {
+            padding-bottom: 0;
+        }
+
+        .event-dot {
+            position: absolute;
+
+            left: 9px;
+            top: 4px;
+
+            width: 17px;
+            height: 17px;
+
+            border: 3px solid #0b0d0c;
+            border-radius: 50%;
+
+            background: #8c292f;
+
+            box-shadow: 0 0 0 1px #8c292f;
+        }
+
+        .event-date {
+            margin-bottom: 5px;
+
+            color: #9c8e61;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .75rem;
+            letter-spacing: 1px;
+        }
+
+        .event h3 {
+            margin-bottom: 7px;
+
+            color: #dfe2dc;
+            font-size: 1.35rem;
+        }
+
+        .event p {
+            max-width: 700px;
+            color: #858b84;
+        }
+
+
+        /* =========================================================
+   CONSEQUENCES
+========================================================= */
+
+        .dark-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .dark-card {
+            padding: 30px;
+
+            background: #0f1210;
+            border: 1px solid #292e2a;
+
+            min-height: 220px;
+        }
+
+        .dark-card .icon {
+            color: #9e292f;
+            margin-bottom: 25px;
+        }
+
+        .dark-card svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .dark-card h3 {
+            color: #dfe2dc;
+            margin-bottom: 12px;
+            font-size: 1.08rem;
+        }
+
+        .dark-card p {
+            color: #828881;
+            font-size: .9rem;
+        }
+
+
+        /* =========================================================
+   VERSUS
+========================================================= */
+
+        .versus {
+            display: grid;
+            grid-template-columns: 1fr 70px 1fr;
+            gap: 18px;
+        }
+
+        .person {
+            padding: 32px;
+
+            background: #101310;
+            border: 1px solid #2e342f;
+        }
+
+        .person.kennedy {
+            border-top: 3px solid #49627a;
+        }
+
+        .person.chruschtschow {
+            border-top: 3px solid #8c292f;
+        }
+
+        .person-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            margin-bottom: 25px;
+        }
+
+        .person-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+
+            background: #191d19;
+            border: 1px solid #343a33;
+        }
+
+        .person-icon svg {
+            width: 19px;
+        }
+
+        .person h3 {
+            color: #e0e3dc;
+            font-size: 1.2rem;
+        }
+
+        .person ul {
+            list-style: none;
+        }
+
+        .person li {
+            position: relative;
+
+            padding-left: 22px;
+            margin-bottom: 15px;
+
+            color: #898f87;
+            font-size: .92rem;
+        }
+
+        .person li::before {
+            content: "→";
+
+            position: absolute;
+            left: 0;
+
+            color: #9b3b42;
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        .vs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #656b64;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .8rem;
+        }
+
+
+        /* =========================================================
+   ASSESSMENT
+========================================================= */
+
+        .assessment {
+            margin-top: 20px;
+
+            padding: 25px 30px;
+
+            background: #111411;
+
+            border: 1px dashed #41463e;
+
+            color: #8d938b;
+
+            font-size: .92rem;
+        }
+
+        .assessment-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 12px;
+
+            color: #a9945d;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .assessment-title svg {
+            width: 15px;
+        }
+
+
+        /* =========================================================
+   INTERNATIONAL
+========================================================= */
+
+        .international {
+            display: grid;
+            gap: 12px;
+        }
+
+        .int-card {
+            display: grid;
+            grid-template-columns: 65px 1fr;
+            gap: 22px;
+
+            padding: 25px;
+
+            background: #101310;
+            border: 1px solid #292e2a;
+        }
+
+        .int-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 52px;
+            height: 52px;
+
+            color: #9ba58f;
+
+            background: #191d19;
+            border: 1px solid #343a33;
+        }
+
+        .int-icon svg {
+            width: 21px;
+        }
+
+        .int-card h3 {
+            margin-bottom: 6px;
+
+            color: #dfe2dc;
+            font-size: 1.05rem;
+        }
+
+        .int-card p {
+            color: #858b84;
+            font-size: .91rem;
+        }
+
+
+        /* =========================================================
+   FINAL WARNING
+========================================================= */
+
+        .warning-box {
+            position: relative;
+
+            padding: 3px;
+
+            background:
+                repeating-linear-gradient(135deg,
+                    #9b7d28 0,
+                    #9b7d28 10px,
+                    #171913 10px,
+                    #171913 20px);
+        }
+
+        .warning-content {
+            padding: 55px;
+
+            text-align: center;
+
+            background:
+                radial-gradient(circle at center,
+                    rgba(139, 29, 36, .12),
+                    transparent 60%),
+                #0b0d0b;
+        }
+
+        .warning-icon {
+            color: #b79e57;
+            margin-bottom: 20px;
+        }
+
+        .warning-icon svg {
+            width: 46px;
+            height: 46px;
+        }
+
+        .warning-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .warning-content p {
+            max-width: 760px;
+            margin: 0 auto;
+
+            color: #8d938b;
+        }
+
+        .highlight {
+            color: #c4c8c0;
+        }
+
+
+        /* =========================================================
+   SUMMARY
+========================================================= */
+
+        .summary {
+            background: #101310;
+            border: 1px solid #30362f;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+
+            padding: 17px 22px;
+
+            border-bottom: 1px solid #252a26;
+
+            color: #969c94;
+            font-size: .92rem;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item svg {
+            flex: 0 0 auto;
+
+            width: 17px;
+            height: 17px;
+
+            margin-top: 4px;
+
+            color: #899775;
+        }
+
+
+        /* =========================================================
+   EXAM BOX
+========================================================= */
+
+        .exam {
+            margin-top: 18px;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(135deg,
+                    rgba(140, 38, 44, .10),
+                    rgba(140, 38, 44, .025));
+
+            border: 1px solid #522c30;
+        }
+
+        .exam-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 14px;
+
+            color: #bd6267;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .exam-label svg {
+            width: 15px;
+        }
+
+        .exam p {
+            color: #a8ada6;
+        }
+
+
+        /* =========================================================
+   FOOTER
+========================================================= */
+
+        footer {
+            padding: 60px 20px;
+
+            text-align: center;
+
+            border-top: 1px solid #272c28;
+
+            color: #5e645d;
+
+            font-family: "JetBrains Mono", monospace;
+            font-size: .68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-line {
+            width: 80px;
+            height: 1px;
+
+            margin: 0 auto 20px;
+
+            background: #8c292f;
+        }
+
+
+        /* =========================================================
+   MOBILE
+========================================================= */
+
+        @media (max-width: 850px) {
+
+            .grid,
+            .dark-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .versus {
+                grid-template-columns: 1fr;
+            }
+
+            .vs {
+                padding: 8px;
+            }
+
+            .hero {
+                min-height: 80vh;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            main {
+                width: 92%;
+            }
+
+            .hero-content {
+                width: 92%;
+            }
+
+            .hero h1 {
+                font-size: 3.3rem;
+            }
+
+            .hero-description {
+                font-size: .92rem;
+            }
+
+            .nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .nav a {
+                flex: 0 0 auto;
+            }
+
+            .dossier,
+            .warning-content {
+                padding: 25px;
+            }
+
+            .int-card {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+     HERO
+===================================================== -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-meta">
+                <span class="dot"></span>
+                <span>GEHEIMAKTE 1962</span>
+                <span>•</span>
+                <span>KALTER KRIEG</span>
+            </div>
+
+            <h1>
+                Kuba –
+                <span>Die Welt</span>
+                am Rande Nuklearer Vernichtung
+            </h1>
+
+            <p class="hero-description">
+                Die Kuba-Krise als Höhepunkt der nuklearen Konfrontation
+                zwischen den beiden Machtblöcken.
+            </p>
+
+            <div class="hero-bottom">
+
+                <div class="status">
+                    <i data-lucide="radio"></i>
+                    Nukleare Spannung
+                </div>
+
+                <div class="status">
+                    <i data-lucide="calendar"></i>
+                    1959–1964
+                </div>
+
+                <div class="status">
+                    <i data-lucide="shield-alert"></i>
+                    Maximale Bedrohung
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+     NAV
+===================================================== -->
+
+    <nav class="nav">
+
+        <a href="#ursachen">
+            <i data-lucide="crosshair"></i>
+            Ursachen
+        </a>
+
+        <a href="#zeitstrahl">
+            <i data-lucide="clock-3"></i>
+            Chronologie
+        </a>
+
+        <a href="#folgen">
+            <i data-lucide="arrow-down-left"></i>
+            Folgen
+        </a>
+
+        <a href="#bewertung">
+            <i data-lucide="scale"></i>
+            Bewertung
+        </a>
+
+        <a href="#international">
+            <i data-lucide="globe-2"></i>
+            International
+        </a>
+
+        <a href="#entspannung">
+            <i data-lucide="radio-tower"></i>
+            Entspannung
+        </a>
+
+        <a href="#merke">
+            <i data-lucide="bookmark"></i>
+            Merken
+        </a>
+
+    </nav>
+
+
+    <main>
+
+
+        <!-- =====================================================
+     URSACHEN
+===================================================== -->
+
+        <section id="ursachen">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 01 · Hintergrund
+                </div>
+
+                <h2>Ursachen der Krise</h2>
+
+                <p class="section-description">
+                    Warum wurde die Kuba-Krise zu einer Konfrontation,
+                    bei der die Welt am Rand nuklearer Vernichtung stand?
+                </p>
+
+            </div>
+
+
+            <div class="dossier">
+
+                <div class="dossier-top">
+
+                    <span>
+                        <i data-lucide="file-lock-2"></i>
+                        Klassifizierte Analyse
+                    </span>
+
+                    <span>
+                        Kuba · 1962
+                    </span>
+
+                </div>
+
+                <p>
+                    Das nukleare Vernichtungspotential beider Lager erreichte in den
+                    <strong>1960er Jahren den mehrfachen Overkill</strong>.
+                    Der Wettlauf konzentrierte sich nunmehr auf die
+                    <strong>taktische Stationierung der Raketen</strong>, um dem
+                    Gegner so wenig Reaktionszeit wie möglich zu gewähren.
+                </p>
+
+            </div>
+
+
+            <br><br>
+
+
+            <div class="grid">
+
+
+                <article class="card red-card">
+
+                    <span class="card-number">01 / 06</span>
+
+                    <div class="card-icon">
+                        <i data-lucide="radiation"></i>
+                    </div>
+
+                    <h3>Nukleares Vernichtungspotential</h3>
+
+                    <p>
+                        Das nukleare Vernichtungspotential beider Lager erreichte
+                        in den 1960er Jahren den mehrfachen
+                        <strong>Overkill</strong>.
+                    </p>
+
+                </article>
+
+
+                <article class="card">
+
+                    <span class="card-number">02 / 06</span>
+
+                    <div class="card-icon">
+                        <i data-lucide="rocket"></i>
+                    </div>
+
+                    <h3>Taktische Stationierung der Raketen</h3>
+
+                    <p>
+                        Der Wettlauf konzentrierte sich zunehmend auf die
+                        taktische Stationierung von Raketen,
+                        <span class="arrow">
+                            → um dem Gegner so wenig Reaktionszeit wie möglich
+                            zu gewähren.
+                        </span>
+                    </p>
+
+                </article>
+
+
+                <article class="card">
+
+                    <span class="card-number">03 / 06</span>
+
+                    <div class="card-icon">
+                        <i data-lucide="map-pin"></i>
+                    </div>
+
+                    <h3>Atomwaffen in der Türkei / Italien</h3>
+
+                    <p>
+                        Stationierung von Atomwaffen in der
+                        <strong>Türkei / Italien</strong>
+                        <span class="arrow">(Januar 1959)</span>.
+                    </p>
+
+                </article>
+
+
+                <article class="card red-card">
+
+                    <span class="card-number">04 / 06</span>
+
+                    <div class="card-icon">
+                        <i data-lucide="flag"></i>
+                    </div>
+
+                    <h3>Machtübergreifung Fidel Castros</h3>
+
+                    <p>
+                        Kommunistische Machtübergreifung Fidel Castros in Kuba
+                        <strong>(Januar 1959)</strong>.
+                    </p>
+
+                </article>
+
+
+                <article class="card">
+
+                    <span class="card-number">05 / 06</span>
+
+                    <div class="card-icon">
+                        <i data-lucide="ship"></i>
+                    </div>
+
+                    <h3>Schweinebucht-Invasion</h3>
+
+                    <p>
+                        <span class="arrow">→</span>
+                        Die US-Invasion der Schweinebucht scheitert
+                        <strong>(April 1961)</strong>.
+                    </p>
+
+                </article>
+
+
+                <article class="card red-card">
+
+                    <span class="card-number">06 / 06</span>
+
+                    <div class="card-icon">
+                        <i data-lucide="shield"></i>
+                    </div>
+
+                    <h3>Castro sucht Schutz der UdSSR</h3>
+
+                    <p>
+                        <span class="arrow">→</span>
+                        Castro sucht nach dem Scheitern der Invasion den
+                        <strong>Schutz der UdSSR</strong>.
+                    </p>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+     ZEITSTRAHL
+===================================================== -->
+
+        <section id="zeitstrahl">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 02 · Chronologie
+                </div>
+
+                <h2>Der Weg zur Krise</h2>
+
+            </div>
+
+
+            <div class="timeline">
+
+
+                <div class="event">
+
+                    <div class="event-dot"></div>
+
+                    <div class="event-date">
+                        JANUAR 1959
+                    </div>
+
+                    <h3>Machtübergreifung Fidel Castros</h3>
+
+                    <p>
+                        Kommunistische Machtübergreifung Fidel Castros in Kuba.
+                    </p>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="event-dot"></div>
+
+                    <div class="event-date">
+                        APRIL 1961
+                    </div>
+
+                    <h3>US-Invasion der Schweinebucht</h3>
+
+                    <p>
+                        Die US-Invasion der Schweinebucht scheitert.
+                        Castro sucht anschließend den Schutz der UdSSR.
+                    </p>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="event-dot"></div>
+
+                    <div class="event-date">
+                        1962
+                    </div>
+
+                    <h3>Abzug der sowjetischen Nuklearwaffen</h3>
+
+                    <p>
+                        Abzug der sowjetischen Nuklearwaffen aus Kuba.
+                    </p>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="event-dot"></div>
+
+                    <div class="event-date">
+                        1963
+                    </div>
+
+                    <h3>Geheimer Abzug der US-Nuklearwaffen</h3>
+
+                    <p>
+                        Geheimer Abzug der US-Nuklearwaffen aus der Türkei /
+                        Italien nach Geheimabsprache zwischen
+                        Kennedy und Chruschtschow.
+                    </p>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="event-dot"></div>
+
+                    <div class="event-date">
+                        1964
+                    </div>
+
+                    <h3>Sturz Chruschtschows</h3>
+
+                    <p>
+                        Chruschtschow stürzt auch aufgrund von Kritik an
+                        seinem Einlenken.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+     FOLGEN
+===================================================== -->
+
+        <section id="folgen">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 03 · Ergebnis
+                </div>
+
+                <h2>Folgen der Kuba-Krise</h2>
+
+            </div>
+
+
+            <div class="dark-grid">
+
+
+                <article class="dark-card">
+
+                    <div class="icon">
+                        <i data-lucide="rocket"></i>
+                    </div>
+
+                    <h3>Abzug der sowjetischen Nuklearwaffen</h3>
+
+                    <p>
+                        Abzug der sowjetischen Nuklearwaffen aus Kuba
+                        <strong>1962</strong>.
+                    </p>
+
+                </article>
+
+
+                <article class="dark-card">
+
+                    <div class="icon">
+                        <i data-lucide="ban"></i>
+                    </div>
+
+                    <h3>Aufhebung der US-Blockade</h3>
+
+                    <p>
+                        Aufhebung der US-Blockade und
+                        <strong>Garantie, Kuba nicht anzugreifen</strong>.
+                    </p>
+
+                </article>
+
+
+                <article class="dark-card">
+
+                    <div class="icon">
+                        <i data-lucide="lock-keyhole"></i>
+                    </div>
+
+                    <h3>Geheimer Abzug</h3>
+
+                    <p>
+                        Geheimer Abzug der US-Nuklearwaffen aus der
+                        <strong>Türkei / Italien 1963</strong> nach
+                        Geheimabsprache zwischen Kennedy und Chruschtschow.
+                    </p>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+     BEWERTUNG
+===================================================== -->
+
+        <section id="bewertung">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 04 · Historische Bewertung
+                </div>
+
+                <h2>Wer war der Sieger?</h2>
+
+            </div>
+
+
+            <div class="versus">
+
+
+                <article class="person kennedy">
+
+                    <div class="person-header">
+
+                        <div class="person-icon">
+                            <i data-lucide="landmark"></i>
+                        </div>
+
+                        <h3>Kennedy als Hardliner</h3>
+
+                    </div>
+
+                    <ul>
+
+                        <li>
+                            Kennedy ließ sich trotz massiver Bedrohung
+                            nicht einschüchtern.
+                        </li>
+
+                        <li>
+                            Chruschtschow musste seine Raketen zurücknehmen.
+                        </li>
+
+                        <li>
+                            Dies geschah ohne große Zugeständnisse.
+                        </li>
+
+                    </ul>
+
+                </article>
+
+
+                <div class="vs">
+                    VS.
+                </div>
+
+
+                <article class="person chruschtschow">
+
+                    <div class="person-header">
+
+                        <div class="person-icon">
+                            <i data-lucide="flag"></i>
+                        </div>
+
+                        <h3>Chruschtschow als Sieger</h3>
+
+                    </div>
+
+                    <ul>
+
+                        <li>
+                            Durch kurzfristigen Raketeneinsatz sicherte er
+                            Castros Regime.
+                        </li>
+
+                        <li>
+                            Die US-Bedrohung aus der Türkei / Italien
+                            wurde ebenfalls verbannt.
+                        </li>
+
+                        <li>
+                            Trotzdem Sturz Chruschtschows 1964, auch aufgrund
+                            von Kritik an seinem Einlenken.
+                        </li>
+
+                    </ul>
+
+                </article>
+
+            </div>
+
+
+            <div class="assessment">
+
+                <div class="assessment-title">
+                    <i data-lucide="scale"></i>
+                    Unterschiedliche Bewertung
+                </div>
+
+                Kennedy kann als Hardliner gesehen werden, der sich trotz
+                massiver Bedrohung nicht einschüchtern ließ.
+                Chruschtschow wurde gleichzeitig als Verlierer bewertet,
+                da er seine Raketen zurücknehmen musste.
+
+                <br><br>
+
+                Gleichzeitig kann Chruschtschow als Sieger betrachtet werden:
+                Durch den kurzfristigen Raketeneinsatz sicherte er
+                <strong>Castros Regime</strong> und verbannte die
+                <strong>US-Bedrohung aus der Türkei / Italien</strong>.
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+     INTERNATIONAL
+===================================================== -->
+
+        <section id="international">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 05 · Internationale Reaktionen
+                </div>
+
+                <h2>Internationale Folgen</h2>
+
+            </div>
+
+
+            <div class="international">
+
+
+                <article class="int-card">
+
+                    <div class="int-icon">
+                        <i data-lucide="landmark"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Westeuropäischer Protest</h3>
+
+                        <p>
+                            Westeuropäischer Protest aufgrund
+                            <strong>nichterfolgter Kommunikation</strong>
+                            <span class="arrow">
+                                → de Gaulle zieht sich aus der NATO zurück.
+                            </span>
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="int-card">
+
+                    <div class="int-icon">
+                        <i data-lucide="globe-2"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Chinas Kommunisten</h3>
+
+                        <p>
+                            Chinas Kommunisten sahen Chruschtschows Reaktion als
+                            <strong>Schwäche</strong> und verfolgten fortan
+                            einen eigenen Weg.
+                        </p>
+
+                        <p style="margin-top:10px;">
+                            <span class="arrow">→</span>
+                            Später sogar Grenzzwischenfälle mit der UdSSR.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="int-card">
+
+                    <div class="int-icon">
+                        <i data-lucide="radiation"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Erkenntnis der nuklearen Gefahr</h3>
+
+                        <p>
+                            Beide Seiten erkannten die
+                            <strong>imminente Gefahr nuklearer Vernichtung</strong>.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+     ENTSPANNUNG
+===================================================== -->
+
+        <section id="entspannung">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 06 · Konsequenzen
+                </div>
+
+                <h2>Die Lehre aus der Krise</h2>
+
+            </div>
+
+
+            <div class="warning-box">
+
+                <div class="warning-content">
+
+                    <div class="warning-icon">
+                        <i data-lucide="radio-tower"></i>
+                    </div>
+
+                    <h2>
+                        Vermeidung direkter Konfrontation
+                    </h2>
+
+                    <p>
+                        Beide Seiten erkannten die
+                        <span class="highlight">
+                            imminente Gefahr nuklearer Vernichtung
+                        </span>.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Deshalb:
+                        <span class="highlight">
+                            Vermeidung direkter Konfrontation
+                        </span>
+                        und Einrichtung eines
+                        <span class="highlight">
+                            „direkten Drahtes“ zwischen USA und UdSSR
+                        </span>
+                        für schnelle Kommunikation.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Außerdem:
+                        <span class="highlight">
+                            Moskauer Atomteststoppabkommen 1963
+                        </span>.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+     MERKTEIL
+===================================================== -->
+
+        <section id="merke">
+
+            <div class="section-head">
+
+                <div class="section-number">
+                    Dossier 07 · Prüfungsvorbereitung
+                </div>
+
+                <h2>Alles auf einen Blick</h2>
+
+            </div>
+
+
+            <div class="summary">
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Das nukleare Vernichtungspotential beider Lager erreichte
+                    in den 1960er Jahren den mehrfachen Overkill.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Der Wettlauf konzentrierte sich auf die taktische
+                    Stationierung von Raketen, um dem Gegner möglichst wenig
+                    Reaktionszeit zu gewähren.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Stationierung von Atomwaffen in der Türkei / Italien
+                    (Januar 1959).
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Kommunistische Machtübergreifung Fidel Castros in Kuba
+                    (Januar 1959).
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    US-Invasion der Schweinebucht scheitert
+                    (April 1961).
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Castro sucht Schutz der UdSSR.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Abzug der sowjetischen Nuklearwaffen aus Kuba 1962.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Aufhebung der US-Blockade und Garantie,
+                    Kuba nicht anzugreifen.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Geheimer Abzug der US-Nuklearwaffen aus der Türkei /
+                    Italien 1963 nach Geheimabsprache zwischen
+                    Kennedy und Chruschtschow.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Kennedy als Hardliner, der sich trotz massiver Bedrohung
+                    nicht einschüchtern ließ.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Chruschtschow als Verlierer, der seine Raketen zurücknehmen
+                    musste – gleichzeitig aber auch als Sieger, da er
+                    Castros Regime sicherte und die US-Bedrohung aus der
+                    Türkei / Italien verbannte.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Sturz Chruschtschows 1964 auch aufgrund von Kritik
+                    an seinem Einlenken.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Westeuropäischer Protest aufgrund nichterfolgter
+                    Kommunikation → de Gaulle zieht sich aus der NATO zurück.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Chinas Kommunisten sahen Chruschtschows Reaktion als
+                    Schwäche und verfolgten fortan einen eigenen Weg.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Später sogar Grenzzwischenfälle mit der UdSSR.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Beide Seiten erkannten die imminente Gefahr
+                    nuklearer Vernichtung.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Vermeidung direkter Konfrontation.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Einrichtung eines „direkten Drahtes“ zwischen USA und
+                    UdSSR für schnelle Kommunikation.
+                </div>
+
+
+                <div class="summary-item">
+                    <i data-lucide="check"></i>
+                    Moskauer Atomteststoppabkommen 1963.
+                </div>
+
+
+            </div>
+
+
+            <div class="exam">
+
+                <div class="exam-label">
+                    <i data-lucide="star"></i>
+                    Klausur-Kern
+                </div>
+
+                <p>
+                    Die Kuba-Krise war eine direkte Konfrontation im Zeichen des
+                    nuklearen Wettrüstens. Die Raketenstationierung sollte die
+                    Reaktionszeit des Gegners verkürzen. Nach der gescheiterten
+                    Schweinebucht-Invasion suchte Castro den Schutz der UdSSR.
+                    Die Krise führte zum Abzug der sowjetischen Nuklearwaffen aus
+                    Kuba, zur Aufhebung der US-Blockade und zur Garantie,
+                    Kuba nicht anzugreifen. Gleichzeitig wurden geheim
+                    US-Nuklearwaffen aus der Türkei / Italien abgezogen.
+                    Beide Seiten erkannten die Gefahr nuklearer Vernichtung und
+                    suchten anschließend nach Möglichkeiten, eine direkte
+                    Konfrontation zu vermeiden.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-line"></div>
+
+        KUBA · 1962 · KALTER KRIEG · GEHEIMAKTE
+
+    </footer>
+
+
+    <script>
+        /*
+         * Lucide Icons initialisieren.
+         * Falls das CDN nicht geladen wird, bleibt die Seite
+         * trotzdem vollständig benutzbar.
+         */
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    </script>
+
+</body>
+
+</html>

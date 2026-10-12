@@ -1,0 +1,4671 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<title>VIETNAM // STORY MODE</title>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+/* =========================================================
+   VIETNAM STORY MODE
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+
+:root{
+    --bg:#07090c;
+    --bg2:#0c1015;
+    --panel:#11161c;
+    --panel2:#171d24;
+    --line:#28303a;
+
+    --white:#f4f3ee;
+    --muted:#89929d;
+
+    --red:#e34e47;
+    --red2:#ff746b;
+    --orange:#efa84f;
+    --green:#55d48a;
+    --blue:#648eff;
+    --yellow:#e5cd59;
+
+    --shadow:0 30px 100px rgba(0,0,0,.45);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 80% 0%,rgba(227,78,71,.11),transparent 28%),
+        radial-gradient(circle at 5% 35%,rgba(85,110,130,.08),transparent 30%),
+        var(--bg);
+    color:var(--white);
+    font-family:Inter,Arial,sans-serif;
+
+    /*
+       IMPORTANT:
+       The app controls progression itself.
+    */
+    overflow-x:hidden;
+}
+
+/* grain */
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9999;
+    opacity:.025;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+button{
+    font-family:inherit;
+}
+
+svg{
+    stroke-width:2;
+}
+
+/* =========================================================
+   GLOBAL PROGRESS
+   ========================================================= */
+
+.progress-track{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:4px;
+    background:#14181d;
+    z-index:5000;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:
+        linear-gradient(90deg,
+            var(--red),
+            var(--orange),
+            var(--yellow));
+    box-shadow:0 0 20px rgba(227,78,71,.55);
+    transition:width .5s ease;
+}
+
+/* =========================================================
+   APP HEADER
+   ========================================================= */
+
+.app-header{
+    position:fixed;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(650px,calc(100% - 24px));
+    height:54px;
+    z-index:4000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:7px 9px;
+
+    background:rgba(10,13,17,.83);
+    backdrop-filter:blur(22px);
+
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:18px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.08em;
+}
+
+.brand-icon{
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--red);
+    border-radius:11px;
+}
+
+.stats{
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    font-size:11px;
+    font-weight:800;
+}
+
+.stat{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.stat svg{
+    width:15px;
+    height:15px;
+}
+
+.fire{
+    color:var(--orange);
+}
+
+.xp{
+    color:var(--green);
+}
+
+/* =========================================================
+   LOCK OVERLAY
+   ========================================================= */
+
+#lockOverlay{
+    position:fixed;
+    inset:0;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    z-index:3000;
+
+    background:
+        radial-gradient(circle at center,
+            rgba(227,78,71,.12),
+            rgba(0,0,0,.88) 55%);
+
+    backdrop-filter:blur(9px);
+
+    padding:20px;
+}
+
+.lock-box{
+    width:min(540px,100%);
+    background:
+        linear-gradient(145deg,
+            #171c23,
+            #0d1015);
+
+    border:1px solid #323a45;
+    border-radius:28px;
+
+    padding:30px;
+
+    box-shadow:
+        0 50px 150px rgba(0,0,0,.65);
+
+    animation:lockIn .35s ease;
+}
+
+@keyframes lockIn{
+    from{
+        opacity:0;
+        transform:scale(.95) translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+}
+
+.lock-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.lock-icon{
+    width:50px;
+    height:50px;
+
+    display:grid;
+    place-items:center;
+
+    background:rgba(227,78,71,.12);
+    color:var(--red);
+
+    border-radius:15px;
+}
+
+.lock-label{
+    color:var(--red);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.15em;
+}
+
+.lock-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:35px;
+    line-height:1;
+    margin:25px 0 10px;
+}
+
+.lock-box > p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* question */
+
+.gate-progress{
+    height:5px;
+    background:#252b32;
+    border-radius:99px;
+    overflow:hidden;
+    margin:22px 0;
+}
+
+.gate-progress div{
+    height:100%;
+    width:50%;
+    background:var(--red);
+    transition:.35s;
+}
+
+.gate-question{
+    font-size:20px;
+    font-weight:800;
+    line-height:1.25;
+    margin:22px 0;
+}
+
+.gate-answers{
+    display:grid;
+    gap:8px;
+}
+
+.gate-answer{
+    border:1px solid #29313b;
+    background:#11161c;
+    color:#dce0e4;
+
+    text-align:left;
+
+    border-radius:13px;
+    padding:14px;
+
+    cursor:pointer;
+
+    transition:.18s;
+}
+
+.gate-answer:hover{
+    background:#1b222a;
+    border-color:#424c58;
+}
+
+.gate-answer.correct{
+    background:rgba(85,212,138,.12);
+    border-color:var(--green);
+    color:var(--green);
+}
+
+.gate-answer.wrong{
+    background:rgba(227,78,71,.12);
+    border-color:var(--red);
+    color:#ff8078;
+}
+
+.gate-feedback{
+    min-height:22px;
+    margin-top:13px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.gate-actions{
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+}
+
+.ui-btn{
+    border:1px solid #303842;
+    background:#171c22;
+    color:white;
+
+    border-radius:12px;
+    padding:12px 15px;
+
+    font-size:12px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+}
+
+.ui-btn:hover{
+    background:#202731;
+}
+
+.ui-btn.primary{
+    background:var(--red);
+    border-color:var(--red);
+}
+
+.ui-btn.skip{
+    color:#8d96a0;
+}
+
+.ui-btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+/* =========================================================
+   MAIN SECTIONS
+   ========================================================= */
+
+.app{
+    position:relative;
+}
+
+.segment{
+    min-height:100svh;
+
+    padding:
+        130px
+        0
+        100px;
+
+    display:flex;
+    align-items:center;
+
+    position:relative;
+
+    border-bottom:1px solid rgba(255,255,255,.035);
+}
+
+.segment.hidden{
+    display:none;
+}
+
+.container{
+    width:min(1080px,calc(100% - 30px));
+    margin:auto;
+}
+
+.kicker{
+    color:var(--red);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:12px;
+}
+
+.title{
+    font-family:"Playfair Display",serif;
+
+    font-size:
+        clamp(43px,8vw,82px);
+
+    line-height:.92;
+    letter-spacing:-.05em;
+
+    margin:0 0 22px;
+}
+
+.subtitle{
+    max-width:720px;
+    color:var(--muted);
+    font-size:17px;
+    line-height:1.65;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero{
+    min-height:100svh;
+    padding-top:120px;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:after{
+    content:"1945 — 1975";
+
+    position:absolute;
+    right:-30px;
+    bottom:-60px;
+
+    font-size:clamp(90px,18vw,220px);
+    font-weight:900;
+
+    color:rgba(255,255,255,.018);
+
+    white-space:nowrap;
+    pointer-events:none;
+}
+
+.hero-title{
+    max-width:850px;
+
+    font-family:"Playfair Display",serif;
+    font-size:clamp(58px,11vw,120px);
+
+    line-height:.85;
+    letter-spacing:-.065em;
+
+    margin:0;
+}
+
+.hero-title span{
+    color:var(--red);
+}
+
+.hero-description{
+    max-width:650px;
+
+    color:#aeb5bd;
+    font-size:17px;
+
+    margin:30px 0;
+}
+
+.start-card{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px 17px;
+
+    border-radius:14px;
+
+    background:var(--red);
+    border:1px solid var(--red);
+
+    color:white;
+
+    font-weight:900;
+    font-size:12px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 15px 50px rgba(227,78,71,.2);
+}
+
+.hero-meta{
+    margin-top:45px;
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    color:#606974;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+/* =========================================================
+   REELS
+   ========================================================= */
+
+.reel{
+    margin-top:40px;
+
+    padding:34px;
+
+    border-radius:28px;
+
+    background:
+        radial-gradient(circle at 90% 0%,
+            rgba(227,78,71,.12),
+            transparent 30%),
+        linear-gradient(145deg,
+            #161b21,
+            #0c1014);
+
+    border:1px solid var(--line);
+
+    box-shadow:var(--shadow);
+
+    position:relative;
+    overflow:hidden;
+}
+
+.reel-number{
+    position:absolute;
+    top:25px;
+    right:27px;
+
+    color:#444c56;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+.reel-icon{
+    width:53px;
+    height:53px;
+
+    display:grid;
+    place-items:center;
+
+    background:rgba(227,78,71,.11);
+    color:var(--red);
+
+    border-radius:16px;
+
+    margin-bottom:25px;
+}
+
+.reel h3{
+    font-family:"Playfair Display",serif;
+    font-size:38px;
+    line-height:1.05;
+
+    max-width:700px;
+
+    margin:0 0 17px;
+}
+
+.reel p{
+    color:#aeb5bd;
+    max-width:750px;
+}
+
+.big-text{
+    color:#eee !important;
+    font-size:21px;
+    line-height:1.5;
+}
+
+/* =========================================================
+   EXACT SLIDES
+   ========================================================= */
+
+.slide{
+    margin-top:35px;
+
+    background:#e7e7e4;
+    color:#222;
+
+    padding:38px 48px;
+
+    border-radius:5px;
+
+    box-shadow:
+        0 40px 100px rgba(0,0,0,.4),
+        inset 0 0 100px rgba(0,0,0,.03);
+
+    position:relative;
+}
+
+.slide:after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0,0,0,.015) 4px
+        );
+}
+
+.slide-title{
+    text-align:center;
+
+    font-family:Arial,sans-serif;
+    font-weight:500;
+
+    font-size:26px;
+}
+
+.slide-subtitle{
+    text-align:center;
+
+    font-family:Arial,sans-serif;
+
+    font-size:19px;
+    font-weight:700;
+
+    text-decoration:underline;
+
+    margin-bottom:30px;
+}
+
+.slide-row{
+    font-family:Arial,sans-serif;
+
+    font-size:16px;
+    line-height:1.28;
+
+    margin:18px 0;
+
+    position:relative;
+    z-index:1;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+
+    gap:13px;
+
+    margin-top:38px;
+}
+
+.card{
+    background:var(--panel);
+
+    border:1px solid var(--line);
+    border-radius:22px;
+
+    padding:25px;
+
+    transition:
+        transform .25s,
+        background .25s,
+        border-color .25s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    background:var(--panel2);
+    border-color:#414b57;
+}
+
+.card-icon{
+    width:43px;
+    height:43px;
+
+    display:grid;
+    place-items:center;
+
+    background:#1b2128;
+    color:var(--orange);
+
+    border-radius:13px;
+
+    margin-bottom:17px;
+}
+
+.card h3{
+    font-size:20px;
+    margin:0 0 8px;
+}
+
+.card p{
+    color:var(--muted);
+    margin:0;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* =========================================================
+   SPLIT
+   ========================================================= */
+
+.split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:13px;
+
+    margin-top:35px;
+}
+
+.faction{
+    border:1px solid var(--line);
+    border-radius:24px;
+
+    padding:29px;
+}
+
+.faction.north{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(227,78,71,.14),
+            #11161c
+        );
+}
+
+.faction.south{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(100,142,255,.13),
+            #11161c
+        );
+}
+
+.faction h3{
+    margin-top:0;
+}
+
+.faction ul{
+    padding-left:20px;
+    color:#aeb5bd;
+}
+
+.faction li{
+    margin:9px 0;
+}
+
+/* =========================================================
+   TIMELINE
+   ========================================================= */
+
+.timeline{
+    position:relative;
+    margin-top:50px;
+}
+
+.timeline:before{
+    content:"";
+
+    position:absolute;
+
+    left:23px;
+    top:0;
+    bottom:0;
+
+    width:2px;
+
+    background:
+        linear-gradient(
+            var(--red),
+            #343a42
+        );
+}
+
+.event{
+    position:relative;
+
+    padding-left:70px;
+
+    margin-bottom:45px;
+}
+
+.event-dot{
+    position:absolute;
+
+    left:11px;
+    top:0;
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+
+    background:var(--bg);
+
+    border:4px solid var(--red);
+
+    box-shadow:
+        0 0 0 5px rgba(227,78,71,.06);
+}
+
+.event-year{
+    color:var(--orange);
+
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.1em;
+}
+
+.event h3{
+    font-size:24px;
+    margin:4px 0;
+}
+
+.event p{
+    color:var(--muted);
+    max-width:720px;
+    margin:0;
+}
+
+/* =========================================================
+   GUERILLA
+   ========================================================= */
+
+.compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:13px;
+
+    margin-top:35px;
+}
+
+.compare-card{
+    background:var(--panel);
+
+    border:1px solid var(--line);
+
+    border-radius:24px;
+
+    padding:28px;
+}
+
+.compare-card h3{
+    margin-top:0;
+}
+
+.compare-card ul{
+    color:var(--muted);
+    padding-left:20px;
+}
+
+.compare-card li{
+    margin:9px 0;
+}
+
+/* =========================================================
+   FLASHCARDS
+   ========================================================= */
+
+.flash-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:13px;
+
+    margin-top:35px;
+}
+
+.flash{
+    height:225px;
+    perspective:1000px;
+    cursor:pointer;
+}
+
+.flash-inner{
+    height:100%;
+
+    position:relative;
+
+    transform-style:preserve-3d;
+
+    transition:transform .55s;
+}
+
+.flash.flipped .flash-inner{
+    transform:rotateY(180deg);
+}
+
+.flash-front,
+.flash-back{
+    position:absolute;
+    inset:0;
+
+    padding:25px;
+
+    border-radius:21px;
+
+    border:1px solid var(--line);
+
+    backface-visibility:hidden;
+}
+
+.flash-front{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    background:#12171d;
+}
+
+.flash-front small{
+    color:var(--red);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.12em;
+}
+
+.flash-front h3{
+    margin-bottom:0;
+}
+
+.flash-back{
+    transform:rotateY(180deg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #34221f,
+            #171315
+        );
+}
+
+.flash-back b{
+    color:var(--orange);
+}
+
+/* =========================================================
+   FINAL EXAM
+   ========================================================= */
+
+.exam{
+    padding-bottom:150px;
+}
+
+.exam-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:35px;
+}
+
+.exam-score{
+    padding:15px 18px;
+
+    border-radius:15px;
+
+    background:#11161c;
+    border:1px solid var(--line);
+
+    font-size:12px;
+    font-weight:900;
+}
+
+.exam-question{
+    margin-bottom:14px;
+
+    padding:25px;
+
+    border:1px solid var(--line);
+    border-radius:21px;
+
+    background:var(--panel);
+}
+
+.exam-question.skipped{
+    border-color:rgba(227,78,71,.45);
+}
+
+.exam-question h3{
+    margin-top:0;
+}
+
+.exam-options{
+    display:grid;
+    gap:8px;
+}
+
+.exam-option{
+    text-align:left;
+
+    border:1px solid #29313a;
+    background:#0e1318;
+
+    color:#dce0e4;
+
+    border-radius:12px;
+
+    padding:13px;
+
+    cursor:pointer;
+}
+
+.exam-option.correct{
+    border-color:var(--green);
+    color:var(--green);
+    background:rgba(85,212,138,.1);
+}
+
+.exam-option.wrong{
+    border-color:var(--red);
+    color:#ff8078;
+    background:rgba(227,78,71,.1);
+}
+
+/* =========================================================
+   FINAL SCREEN
+   ========================================================= */
+
+#finish{
+    min-height:100svh;
+
+    display:none;
+
+    align-items:center;
+    text-align:center;
+
+    padding:100px 0 150px;
+}
+
+.finish-card{
+    max-width:750px;
+    margin:auto;
+}
+
+.finish-icon{
+    width:80px;
+    height:80px;
+
+    display:grid;
+    place-items:center;
+
+    margin:0 auto 25px;
+
+    background:rgba(85,212,138,.1);
+    color:var(--green);
+
+    border:1px solid rgba(85,212,138,.3);
+
+    border-radius:25px;
+}
+
+.finish-card h2{
+    font-family:"Playfair Display",serif;
+
+    font-size:clamp(50px,9vw,90px);
+
+    line-height:.9;
+
+    margin:0;
+}
+
+.finish-card p{
+    color:var(--muted);
+}
+
+.final-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:10px;
+
+    margin:35px 0;
+}
+
+.final-stat{
+    padding:20px;
+
+    border:1px solid var(--line);
+    border-radius:18px;
+
+    background:var(--panel);
+}
+
+.final-stat strong{
+    display:block;
+
+    color:var(--orange);
+
+    font-size:27px;
+}
+
+.final-stat span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:720px){
+
+    .app-header{
+        top:8px;
+    }
+
+    .segment{
+        padding:
+            110px
+            0
+            90px;
+    }
+
+    .cards,
+    .split,
+    .compare,
+    .flash-grid,
+    .final-stats{
+        grid-template-columns:1fr;
+    }
+
+    .slide{
+        padding:27px 20px;
+    }
+
+    .slide-title{
+        font-size:20px;
+    }
+
+    .slide-subtitle{
+        font-size:16px;
+    }
+
+    .slide-row{
+        font-size:14px;
+    }
+
+    .reel{
+        padding:25px;
+    }
+
+    .reel h3{
+        font-size:31px;
+    }
+
+    .hero-title{
+        font-size:58px;
+    }
+
+    .lock-box{
+        padding:23px;
+    }
+
+    .lock-box h2{
+        font-size:31px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     GLOBAL UI
+     ========================================================= -->
+
+<div class="progress-track">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header class="app-header">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i data-lucide="crosshair" size="16"></i>
+        </div>
+
+        VIETNAM // STORY
+
+    </div>
+
+    <div class="stats">
+
+        <div class="stat fire">
+            <i data-lucide="flame"></i>
+            <span id="streak">1</span>
+        </div>
+
+        <div class="stat xp">
+            <i data-lucide="zap"></i>
+            <span id="xp">0</span> XP
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     QUESTION LOCK
+     ========================================================= -->
+
+<div id="lockOverlay">
+
+    <div class="lock-box">
+
+        <div class="lock-top">
+
+            <div class="lock-icon">
+                <i data-lucide="lock"></i>
+            </div>
+
+            <div class="lock-label">
+                KNOWLEDGE GATE
+            </div>
+
+        </div>
+
+        <h2 id="gateTitle">
+            Erst beweisen.
+        </h2>
+
+        <p id="gateDescription">
+            Beantworte zwei Fragen, um das nächste Kapitel
+            freizuschalten.
+        </p>
+
+        <div class="gate-progress">
+            <div id="gateProgress"></div>
+        </div>
+
+        <div class="gate-question" id="gateQuestion">
+            Frage...
+        </div>
+
+        <div class="gate-answers" id="gateAnswers"></div>
+
+        <div class="gate-feedback" id="gateFeedback"></div>
+
+        <div class="gate-actions">
+
+            <button
+                class="ui-btn primary"
+                id="gateContinue"
+                disabled>
+
+                <i data-lucide="arrow-right"></i>
+                Weiter
+
+            </button>
+
+            <button
+                class="ui-btn skip"
+                id="gateSkip">
+
+                <i data-lucide="fast-forward"></i>
+                Skippen
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     APP
+     ========================================================= -->
+
+<main class="app">
+
+
+<!-- =====================================================
+     SEGMENT 0 — HERO
+     ===================================================== -->
+
+<section
+    class="segment hero"
+    id="segment-0"
+    data-segment="0">
+
+    <div class="container">
+
+        <div class="kicker">
+            HISTORY · INTERACTIVE STORY
+        </div>
+
+        <h1 class="hero-title">
+
+            Der<br>
+            Vietnamkrieg<br>
+            <span>als Story.</span>
+
+        </h1>
+
+        <p class="hero-description">
+
+            Kein Arbeitsblatt.
+            Kein stumpfes Auswendiglernen.
+
+            Du scrollst dich durch die Geschichte,
+            beantwortest Fragen und schaltest
+            das nächste Kapitel frei.
+
+        </p>
+
+        <button
+            class="start-card"
+            onclick="startStory()">
+
+            <i data-lucide="play"></i>
+            Story starten
+
+        </button>
+
+        <div class="hero-meta">
+
+            <i data-lucide="mouse"></i>
+
+            Mausrad / Touch →
+            erst denken, dann scrollen
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 1 — KERN
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-1"
+    data-segment="1">
+
+<div class="container">
+
+    <div class="kicker">
+        01 · DER KERN
+    </div>
+
+    <h2 class="title">
+        Zwei Konflikte.<br>
+        Ein Krieg.
+    </h2>
+
+    <p class="subtitle">
+        Der Vietnamkrieg war zugleich ein innerer Konflikt
+        Vietnams und ein internationaler Konflikt des Kalten
+        Krieges.
+    </p>
+
+    <div class="reel">
+
+        <div class="reel-number">
+            01 / STORY
+        </div>
+
+        <div class="reel-icon">
+            <i data-lucide="brain"></i>
+        </div>
+
+        <h3>
+            Nordvietnam & seine Verbündeten
+            gegen Südvietnam & die USA.
+        </h3>
+
+        <p class="big-text">
+
+            🇻🇳 Im Inneren:
+            Nordvietnam und der Vietcong
+            kämpften gegen Südvietnam.
+
+        </p>
+
+        <p>
+
+            🌍 International:
+            Die USA unterstützten Südvietnam,
+            während China und die Sowjetunion
+            Nordvietnam unterstützten.
+
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 2 — URSACHEN
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-2"
+    data-segment="2">
+
+<div class="container">
+
+    <div class="kicker">
+        02 · URSACHEN
+    </div>
+
+    <h2 class="title">
+        Warum<br>
+        Vietnam?
+    </h2>
+
+    <p class="subtitle">
+        Vier große Ursachen erklären, warum aus
+        einem Unabhängigkeitskampf ein internationaler
+        Krieg wurde.
+    </p>
+
+    <div class="cards">
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="flag"></i>
+            </div>
+
+            <h3>Kolonialherrschaft</h3>
+
+            <p>
+                Vietnam gehörte seit dem 19. Jahrhundert
+                zum französischen Kolonialreich in Indochina.
+                Während des Zweiten Weltkriegs wurde Vietnam
+                von Japan besetzt.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="key-round"></i>
+            </div>
+
+            <h3>Unabhängigkeit</h3>
+
+            <p>
+                Die Viet Minh unter Ho Chi Minh kämpften
+                gegen die Besatzung und forderten die
+                Unabhängigkeit Vietnams.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="split"></i>
+            </div>
+
+            <h3>Teilung 1954</h3>
+
+            <p>
+                Auf der Genfer Konferenz wurde Vietnam
+                vorläufig entlang des 17. Breitengrades geteilt.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="globe-2"></i>
+            </div>
+
+            <h3>Kalter Krieg</h3>
+
+            <p>
+                Die USA befürchteten mit der
+                <b>Domino-Theorie</b>, dass sich der
+                Kommunismus in Südostasien weiter ausbreiten könnte.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="swords"></i>
+            </div>
+
+            <h3>Bürgerkrieg</h3>
+
+            <p>
+                Der kommunistisch geführte Vietcong kämpfte
+                im Süden gegen die südvietnamesische Regierung.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="mountain"></i>
+            </div>
+
+            <h3>Dien Bien Phu</h3>
+
+            <p>
+                1954 erlitt Frankreich dort eine entscheidende
+                Niederlage. Der Erste Indochinakrieg endete.
+            </p>
+
+        </article>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 3 — FOTO ESKALATION
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-3"
+    data-segment="3">
+
+<div class="container">
+
+    <div class="kicker">
+        03 · DEINE FOLIE
+    </div>
+
+    <h2 class="title">
+        Eskalation des<br>
+        US-Engagements
+    </h2>
+
+    <p class="subtitle">
+        Genau diese Entwicklung zeigt die zweite Folie aus
+        deinem Foto: Die USA gehen Schritt für Schritt
+        von Unterstützung zu direkter Intervention über.
+    </p>
+
+
+    <!-- 1:1 CONTENT FROM PHOTO -->
+
+    <div class="slide">
+
+        <div class="slide-title">
+            Der Vietnamkrieg – Trauma einer Weltmacht
+        </div>
+
+        <div class="slide-subtitle">
+            Eskalation des US-Engagements
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1964:</b>
+            Tonkin-Zwischenfall →
+            nordvietn. Torpedoangriff auf US-Zerstörer
+            als Vorwand für offizielles US-Kriegsengagement
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1961:</b>
+            J. F. Kennedy entsendet
+            „mil. Berater“ (Soldaten!)
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>ab 1959:</b>
+            korruptes Regime im Süden (Dinh Diem)
+            gerät unter Druck durch komm. Guerillakämpfer
+            (Vietcong) → US-Hilfe (Domino-Theorie!)
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1954:</b>
+            Frankreich zieht sich zurück →
+            Unabhängigkeit Laos u. Kambodscha;
+            Teilung Vietnams: Wahlen für 1956 angesetzt
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>ab 1945:</b>
+            Frankreich reklamiert Indochina als Kolonie
+            (1887 besetzt) → Krieg
+            (finanz. Unterstützung der USA)
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>Bis 1945:</b>
+            Die USA unterstützen Ho-Chi-Minh
+            im Kampf gg. Japan
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 4 — US ESKALATION / KRIEG
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-4"
+    data-segment="4">
+
+<div class="container">
+
+    <div class="kicker">
+        04 · ESKALATION
+    </div>
+
+    <h2 class="title">
+        Jetzt wird aus<br>
+        Unterstützung Krieg.
+    </h2>
+
+    <div class="cards">
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="plane"></i>
+            </div>
+
+            <h3>1964/65 · Direkter Eingriff</h3>
+
+            <p>
+                Der Tonkin-Zwischenfall wird zum entscheidenden
+                Schritt. 1965 beginnt die systematische
+                Bombardierung Nordvietnams.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="users"></i>
+            </div>
+
+            <h3>US-Bodentruppen</h3>
+
+            <p>
+                Im März 1965 landen die ersten größeren
+                US-Bodentruppen. Die Zahl der amerikanischen
+                Soldaten steigt später auf mehr als 500.000.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="trees"></i>
+            </div>
+
+            <h3>Guerillakrieg</h3>
+
+            <p>
+                Vietcong und nordvietnamesische Truppen
+                kennen das Gelände, bewegen sich versteckt
+                und greifen überraschend an.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="route"></i>
+            </div>
+
+            <h3>Ho-Chi-Minh-Pfad</h3>
+
+            <p>
+                Ein weit verzweigtes Wegenetz durch Laos
+                und Kambodscha ermöglicht Versorgung
+                und Truppenbewegungen.
+            </p>
+
+        </article>
+
+    </div>
+
+
+    <div class="reel">
+
+        <div class="reel-icon">
+            <i data-lucide="flame"></i>
+        </div>
+
+        <h3>
+            Die USA hatten die stärkere Armee.
+            Aber sie kontrollierten den Krieg nicht.
+        </h3>
+
+        <p>
+            Die US-Streitkräfte setzten Luftangriffe,
+            Napalm, Agent Orange und Such- und
+            Zerstörungsoperationen ein.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 5 — NIEDERLAGE FOLIE
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-5"
+    data-segment="5">
+
+<div class="container">
+
+    <div class="kicker">
+        05 · DEINE FOLIE
+    </div>
+
+    <h2 class="title">
+        Niederlage der<br>
+        bis dato Unbesiegbaren
+    </h2>
+
+
+    <div class="slide">
+
+        <div class="slide-title">
+            Der Vietnamkrieg – Trauma einer Weltmacht
+        </div>
+
+        <div class="slide-subtitle">
+            Niederlage der bis dato Unbesiegbaren
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>ab 1965:</b>
+            Flächenbombardements auf Nordvietnam;
+            Bekämpfung der Guerillas durch Napalm und
+            Entlaubungsgift <i>Agent Orange</i>;
+            Nordv. erhält Material durch China + UdSSR
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1967:</b>
+            US-Truppenstärke steigt auf über 540.000 →
+            „asymmetrischer Krieg“ ist nicht zu gewinnen
+            (Guerillakampf)
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1968:</b>
+            Tet-Offensive →
+            massiver Angriff auf Südvietnam
+            (50.000 tote komm. Kämpfer;
+            Imageverlust für USA jedoch enorm)
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1968–1973:</b>
+            Friedensgespräche bei gleichzeitiger
+            verstärkter Bombardierung Nordvietnams
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1973:</b>
+            US-Soldaten verlassen den Süden,
+            „reiner“ Bürgerkrieg
+
+        </div>
+
+
+        <div class="slide-row">
+
+            <b>1975:</b>
+            Saigon wird von komm. Truppen erobert
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 6 — TET
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-6"
+    data-segment="6">
+
+<div class="container">
+
+    <div class="kicker">
+        06 · 1968
+    </div>
+
+    <h2 class="title">
+        Die Tet-Offensive.<br>
+        Der Wendepunkt.
+    </h2>
+
+    <div class="reel">
+
+        <div class="reel-number">
+            1968
+        </div>
+
+        <div class="reel-icon">
+            <i data-lucide="radio-tower"></i>
+        </div>
+
+        <h3>
+            Militärisch anders als politisch.
+        </h3>
+
+        <p class="big-text">
+
+            Die kommunistischen Truppen starteten
+            eine überraschende Großoffensive.
+
+        </p>
+
+        <p>
+            Militärisch konnten die USA und Südvietnam
+            die Angriffe letztlich zurückschlagen.
+        </p>
+
+        <p>
+            Politisch war die Offensive jedoch ein Wendepunkt:
+            Viele Menschen in den USA zweifelten jetzt daran,
+            dass der Krieg tatsächlich gewonnen werden konnte.
+        </p>
+
+        <p>
+            Fernsehbilder machten die Gewalt weltweit sichtbar.
+            Der innenpolitische Widerstand in den USA wuchs.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 7 — RÜCKZUG
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-7"
+    data-segment="7">
+
+<div class="container">
+
+    <div class="kicker">
+        07 · RÜCKZUG
+    </div>
+
+    <h2 class="title">
+        Die USA<br>
+        gehen.
+    </h2>
+
+    <div class="cards">
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="arrow-down-right"></i>
+            </div>
+
+            <h3>1969–1973 · Vietnamisierung</h3>
+
+            <p>
+                Richard Nixon versucht, die US-Truppen
+                schrittweise abzuziehen und gleichzeitig
+                die südvietnamesische Armee zu stärken.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="messages-square"></i>
+            </div>
+
+            <h3>Friedensverhandlungen</h3>
+
+            <p>
+                Parallel zum Abzug werden Friedensverhandlungen
+                geführt.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="file-check-2"></i>
+            </div>
+
+            <h3>27. Januar 1973</h3>
+
+            <p>
+                Das Pariser Abkommen wird unterzeichnet.
+                Die letzten US-Kampftruppen verlassen Vietnam.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                <i data-lucide="triangle-alert"></i>
+            </div>
+
+            <h3>Aber der Krieg ist nicht vorbei</h3>
+
+            <p>
+                Der Krieg zwischen Nord- und Südvietnam
+                geht weiter.
+            </p>
+
+        </article>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 8 — 1975
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-8"
+    data-segment="8">
+
+<div class="container">
+
+    <div class="kicker">
+        08 · 1975
+    </div>
+
+    <h2 class="title">
+        Saigon fällt.
+    </h2>
+
+    <div class="reel">
+
+        <div class="reel-icon">
+            <i data-lucide="flag-triangle-right"></i>
+        </div>
+
+        <h3>
+            30. April 1975
+        </h3>
+
+        <p class="big-text">
+            Nordvietnam startet im Frühjahr 1975
+            eine große Offensive.
+        </p>
+
+        <p>
+            Die südvietnamesische Regierung bricht zusammen.
+        </p>
+
+        <p>
+            Am 30. April 1975 wird Saigon eingenommen.
+        </p>
+
+        <p>
+            Vietnam wird anschließend unter
+            kommunistischer Führung vereinigt.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENT 9 — FLASHCARDS
+     ===================================================== -->
+
+<section
+    class="segment"
+    id="segment-9"
+    data-segment="9">
+
+<div class="container">
+
+    <div class="kicker">
+        BONUS · MEMORY
+    </div>
+
+    <h2 class="title">
+        Dein Gehirn<br>
+        muss jetzt arbeiten.
+    </h2>
+
+    <p class="subtitle">
+        Tippe eine Karte an. Versuch die Antwort zuerst
+        im Kopf zu formulieren.
+    </p>
+
+
+    <div class="flash-grid">
+
+        <div class="flash">
+            <div class="flash-inner">
+
+                <div class="flash-front">
+                    <small>BEGRIFF</small>
+                    <h3>Domino-Theorie</h3>
+                </div>
+
+                <div class="flash-back">
+                    <b>Antwort</b>
+                    <p>
+                        Die Befürchtung der USA, dass ein
+                        kommunistischer Staat weitere Staaten
+                        beeinflussen könnte.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="flash">
+            <div class="flash-inner">
+
+                <div class="flash-front">
+                    <small>BEGRIFF</small>
+                    <h3>Vietcong</h3>
+                </div>
+
+                <div class="flash-back">
+                    <b>Antwort</b>
+                    <p>
+                        Kommunistisch geführte Nationale
+                        Befreiungsfront im Süden.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="flash">
+            <div class="flash-inner">
+
+                <div class="flash-front">
+                    <small>BEGRIFF</small>
+                    <h3>Vietnamisierung</h3>
+                </div>
+
+                <div class="flash-back">
+                    <b>Antwort</b>
+                    <p>
+                        US-Truppen schrittweise abziehen und
+                        gleichzeitig Südvietnams Armee stärken.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="flash">
+            <div class="flash-inner">
+
+                <div class="flash-front">
+                    <small>DATUM</small>
+                    <h3>1968</h3>
+                </div>
+
+                <div class="flash-back">
+                    <b>Antwort</b>
+                    <p>
+                        Tet-Offensive – politischer Wendepunkt.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="flash">
+            <div class="flash-inner">
+
+                <div class="flash-front">
+                    <small>DATUM</small>
+                    <h3>1973</h3>
+                </div>
+
+                <div class="flash-back">
+                    <b>Antwort</b>
+                    <p>
+                        Pariser Abkommen und Abzug
+                        der US-Kampftruppen.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="flash">
+            <div class="flash-inner">
+
+                <div class="flash-front">
+                    <small>DATUM</small>
+                    <h3>1975</h3>
+                </div>
+
+                <div class="flash-back">
+                    <b>Antwort</b>
+                    <p>
+                        Saigon fällt. Vietnam wird kommunistisch
+                        vereinigt.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FINAL EXAM
+     ===================================================== -->
+
+<section
+    class="segment exam"
+    id="exam">
+
+<div class="container">
+
+    <div class="exam-header">
+
+        <div>
+
+            <div class="kicker">
+                FINAL EXAM
+            </div>
+
+            <h2 class="title">
+                Jetzt alles.
+            </h2>
+
+        </div>
+
+        <div class="exam-score">
+
+            <span id="examScore">
+                0 / 0
+            </span>
+
+        </div>
+
+    </div>
+
+    <p class="subtitle">
+
+        Alles, was du geskippt hast, kommt hier zurück.
+        Und ein paar Bonusfragen prüfen, ob du wirklich
+        die Zusammenhänge verstanden hast.
+
+    </p>
+
+    <div id="examContainer"></div>
+
+    <button
+        class="ui-btn primary"
+        id="finishExam"
+        style="margin-top:25px">
+
+        <i data-lucide="check-circle-2"></i>
+        Prüfung abschließen
+
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FINISH
+     ===================================================== -->
+
+<section id="finish">
+
+<div class="container">
+
+    <div class="finish-card">
+
+        <div class="finish-icon">
+            <i data-lucide="trophy" size="36"></i>
+        </div>
+
+        <div class="kicker">
+            LEVEL COMPLETE
+        </div>
+
+        <h2>
+            Vietnam<br>
+            sitzt.
+        </h2>
+
+        <p id="finishText">
+            Stark.
+        </p>
+
+
+        <div class="final-stats">
+
+            <div class="final-stat">
+                <strong id="finalXP">0</strong>
+                <span>XP</span>
+            </div>
+
+            <div class="final-stat">
+                <strong id="finalCorrect">0</strong>
+                <span>RICHTIG</span>
+            </div>
+
+            <div class="final-stat">
+                <strong id="finalSkipped">0</strong>
+                <span>GESKIPPT</span>
+            </div>
+
+        </div>
+
+
+        <button
+            class="ui-btn primary"
+            onclick="restartStory()">
+
+            <i data-lucide="rotate-ccw"></i>
+            Noch einmal lernen
+
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   VIETNAM STORY MODE
+   NEUE, STABILE STEUERLOGIK
+   ========================================================= */
+
+
+/* =========================================================
+   APP STATE
+   ========================================================= */
+
+const state = {
+
+    currentSegment: 0,
+
+    /*
+       0 = nur Hero
+       1 = Kapitel 1 freigeschaltet
+       ...
+       8 = Kapitel 8 freigeschaltet
+       9 = Flashcards freigeschaltet
+    */
+    maxUnlocked: 0,
+
+    xp: Number(
+        localStorage.getItem("viet_xp") || 0
+    ),
+
+    streak: Number(
+        localStorage.getItem("viet_streak") || 1
+    ),
+
+    skippedSegments: [],
+
+    completedGates: [],
+
+    gateQuestion: 0,
+
+    gateCorrect: 0,
+
+    gateCurrent: null,
+
+    started: false,
+
+    examAnswers: {},
+
+    examDone: false,
+
+    /*
+       Verhindert, dass Wheel-/Touch-/Keyboard-Events
+       mehrfach dasselbe Gate öffnen.
+    */
+    gateOpening: false
+
+};
+
+
+/* =========================================================
+   QUESTION DATABASE
+   ========================================================= */
+
+const gateQuestions = {
+
+1:[
+    {
+        q:"Welche zwei Ebenen hatte der Vietnamkrieg?",
+        answers:[
+            "Nur einen Bürgerkrieg",
+            "Inneren Konflikt + internationalen Konflikt des Kalten Krieges",
+            "Nur einen Krieg zwischen USA und UdSSR",
+            "Nur einen Kolonialkrieg"
+        ],
+        correct:1
+    },
+    {
+        q:"Wer unterstützte Nordvietnam?",
+        answers:[
+            "USA und Frankreich",
+            "Nur Südvietnam",
+            "China und die Sowjetunion",
+            "Großbritannien"
+        ],
+        correct:2
+    }
+],
+
+2:[
+    {
+        q:"Was war eine wichtige Ursache des Konflikts?",
+        answers:[
+            "Die deutsche Wiedervereinigung",
+            "Die französische Kolonialherrschaft",
+            "Der Zerfall der NATO",
+            "Der Koreakrieg"
+        ],
+        correct:1
+    },
+    {
+        q:"Was geschah 1954?",
+        answers:[
+            "Saigon fiel",
+            "Die USA zogen sich zurück",
+            "Vietnam wurde vorläufig geteilt",
+            "Die Tet-Offensive begann"
+        ],
+        correct:2
+    }
+],
+
+3:[
+    {
+        q:"Was war der Tonkin-Zwischenfall?",
+        answers:[
+            "Ein Friedensvertrag",
+            "Ein Vorfall mit US-Kriegsschiffen, der zur US-Eskalation beitrug",
+            "Der Fall Saigons",
+            "Die französische Niederlage"
+        ],
+        correct:1
+    },
+    {
+        q:"Was entsandte Kennedy ab 1961?",
+        answers:[
+            "Militärberater",
+            "Atomwaffen",
+            "Französische Truppen",
+            "UN-Truppen"
+        ],
+        correct:0
+    }
+],
+
+4:[
+    {
+        q:"Wann begann die systematische Bombardierung Nordvietnams?",
+        answers:[
+            "1945",
+            "1954",
+            "1965",
+            "1975"
+        ],
+        correct:2
+    },
+    {
+        q:"Warum war der Vietcong schwer zu besiegen?",
+        answers:[
+            "Er hatte Flugzeugträger",
+            "Er nutzte Guerillataktiken und kannte das Gelände",
+            "Er kontrollierte die US-Luftwaffe",
+            "Er hatte mehr Panzer als die USA"
+        ],
+        correct:1
+    }
+],
+
+5:[
+    {
+        q:"Wie hoch stieg die US-Truppenstärke ungefähr?",
+        answers:[
+            "50.000",
+            "100.000",
+            "Über 540.000",
+            "5 Millionen"
+        ],
+        correct:2
+    },
+    {
+        q:"Was war Agent Orange?",
+        answers:[
+            "Ein Friedensvertrag",
+            "Ein Entlaubungsmittel",
+            "Ein Panzer",
+            "Ein Guerillaname"
+        ],
+        correct:1
+    }
+],
+
+6:[
+    {
+        q:"Wann fand die Tet-Offensive statt?",
+        answers:[
+            "1954",
+            "1961",
+            "1968",
+            "1975"
+        ],
+        correct:2
+    },
+    {
+        q:"Warum war Tet politisch so wichtig?",
+        answers:[
+            "Die USA wurden sofort besiegt",
+            "In den USA wuchs der Zweifel an einem möglichen Sieg",
+            "Frankreich kehrte zurück",
+            "Südvietnam gewann endgültig"
+        ],
+        correct:1
+    }
+],
+
+7:[
+    {
+        q:"Was bedeutete Vietnamisierung?",
+        answers:[
+            "Mehr US-Truppen",
+            "Abzug der USA + Stärkung der südvietnamesischen Armee",
+            "Teilung Vietnams",
+            "Ein französischer Angriff"
+        ],
+        correct:1
+    },
+    {
+        q:"Was geschah 1973?",
+        answers:[
+            "Tet-Offensive",
+            "Dien Bien Phu",
+            "Pariser Abkommen und US-Abzug",
+            "Saigon fällt"
+        ],
+        correct:2
+    }
+],
+
+8:[
+    {
+        q:"Was geschah am 30. April 1975?",
+        answers:[
+            "Die USA landeten",
+            "Saigon wurde eingenommen",
+            "Frankreich verlor",
+            "Die Tet-Offensive begann"
+        ],
+        correct:1
+    },
+    {
+        q:"Was geschah anschließend mit Vietnam?",
+        answers:[
+            "Es wurde kommunistisch vereinigt",
+            "Es wurde französische Kolonie",
+            "Es wurde US-Bundesstaat",
+            "Es wurde geteilt wie Deutschland"
+        ],
+        correct:0
+    }
+]
+
+};
+
+
+/* =========================================================
+   FINAL EXAM QUESTIONS
+   ========================================================= */
+
+const examQuestions = [
+
+{
+    q:"Warum wird der Vietnamkrieg als Stellvertreterkonflikt bezeichnet?",
+    answers:[
+        "Weil die Supermächte indirekt über ihre Unterstützung der Konfliktparteien beteiligt waren.",
+        "Weil Vietnam eine US-Kolonie war.",
+        "Weil nur Vietnam selbst beteiligt war.",
+        "Weil Frankreich und Deutschland kämpften."
+    ],
+    correct:0
+},
+
+{
+    q:"Was war die Domino-Theorie?",
+    answers:[
+        "Eine Guerillataktik",
+        "Die Befürchtung einer weiteren kommunistischen Ausbreitung",
+        "Ein Friedensvertrag",
+        "Ein US-Waffenprogramm"
+    ],
+    correct:1
+},
+
+{
+    q:"Warum konnte die militärische Überlegenheit der USA den Krieg nicht einfach entscheiden?",
+    answers:[
+        "Die USA hatten keine Soldaten.",
+        "Der Guerillakrieg und die Gelände- und Versorgungsbedingungen erschwerten einen Sieg.",
+        "Die USA hatten keine Flugzeuge.",
+        "Südvietnam unterstützte Nordvietnam."
+    ],
+    correct:1
+},
+
+{
+    q:"Was war die politische Bedeutung der Tet-Offensive?",
+    answers:[
+        "Sie führte zum sofortigen Sieg Nordvietnams.",
+        "Sie verstärkte den Zweifel in den USA am Erfolg des Krieges.",
+        "Sie beendete 1954 den Krieg.",
+        "Sie brachte Frankreich zurück."
+    ],
+    correct:1
+},
+
+{
+    q:"Was geschah 1973?",
+    answers:[
+        "Die USA begannen den Krieg.",
+        "Das Pariser Abkommen wurde unterzeichnet und die US-Kampftruppen zogen ab.",
+        "Saigon fiel.",
+        "Frankreich gewann."
+    ],
+    correct:1
+},
+
+{
+    q:"Welche Reihenfolge stimmt?",
+    answers:[
+        "1975 → 1954 → 1968 → 1945",
+        "1945 → 1954 → 1964/65 → 1968 → 1973 → 1975",
+        "1954 → 1945 → 1975 → 1968",
+        "1968 → 1954 → 1973 → 1945"
+    ],
+    correct:1
+}
+
+];
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const overlay =
+    document.getElementById("lockOverlay");
+
+const gateTitle =
+    document.getElementById("gateTitle");
+
+const gateDescription =
+    document.getElementById("gateDescription");
+
+const gateQuestion =
+    document.getElementById("gateQuestion");
+
+const gateAnswers =
+    document.getElementById("gateAnswers");
+
+const gateFeedback =
+    document.getElementById("gateFeedback");
+
+const gateProgress =
+    document.getElementById("gateProgress");
+
+const gateContinue =
+    document.getElementById("gateContinue");
+
+const gateSkip =
+    document.getElementById("gateSkip");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const xpElement =
+    document.getElementById("xp");
+
+const streakElement =
+    document.getElementById("streak");
+
+const examElement =
+    document.getElementById("exam");
+
+const finishElement =
+    document.getElementById("finish");
+
+
+/* =========================================================
+   ICONS
+   ========================================================= */
+
+lucide.createIcons();
+
+
+/* =========================================================
+   SOUND
+   ========================================================= */
+
+let audioContext = null;
+
+function sound(type){
+
+    try{
+
+        if(!audioContext){
+
+            audioContext =
+                new (
+                    window.AudioContext ||
+                    window.webkitAudioContext
+                )();
+
+        }
+
+        const osc =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        let freq = 440;
+
+        if(type === "correct")
+            freq = 650;
+
+        if(type === "wrong")
+            freq = 180;
+
+        if(type === "unlock")
+            freq = 820;
+
+        if(type === "skip")
+            freq = 280;
+
+        osc.frequency.value = freq;
+
+        gain.gain.setValueAtTime(
+            .0001,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .035,
+            audioContext.currentTime + .01
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .0001,
+            audioContext.currentTime + .15
+        );
+
+        osc.start();
+
+        osc.stop(
+            audioContext.currentTime + .16
+        );
+
+    }catch(e){}
+
+}
+
+
+/* =========================================================
+   XP
+   ========================================================= */
+
+function addXP(amount){
+
+    state.xp += amount;
+
+    xpElement.textContent =
+        state.xp;
+
+    localStorage.setItem(
+        "viet_xp",
+        state.xp
+    );
+
+}
+
+
+/* =========================================================
+   SEGMENT HELPERS
+   ========================================================= */
+
+/*
+   Segment 0 = Hero
+   Segment 1-8 = Story chapters
+   Segment 9 = Flashcards
+*/
+
+function getSegment(number){
+
+    return document.getElementById(
+        `segment-${number}`
+    );
+
+}
+
+
+function showSegment(number){
+
+    const section =
+        getSegment(number);
+
+    if(!section)
+        return;
+
+    section.classList.remove("hidden");
+
+    section.style.display = "";
+
+}
+
+
+function hideSegment(number){
+
+    const section =
+        getSegment(number);
+
+    if(!section)
+        return;
+
+    section.classList.add("hidden");
+
+    section.style.display = "none";
+
+}
+
+
+/*
+   Zuerst ALLES nach dem Hero verstecken.
+   Dadurch kann man nicht mit der Scrollbar oder
+   einem extrem schnellen Swipe mehrere Kapitel
+   überspringen.
+*/
+
+function initializeLockedSegments(){
+
+    for(let i = 1; i <= 9; i++){
+
+        hideSegment(i);
+
+    }
+
+}
+
+
+/*
+   Zeigt genau die Kapitel, die freigeschaltet sind.
+*/
+
+function syncUnlockedSegments(){
+
+    for(let i = 1; i <= 9; i++){
+
+        if(i <= state.maxUnlocked){
+
+            showSegment(i);
+
+        }else{
+
+            hideSegment(i);
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+function startStory(){
+
+    if(state.started)
+        return;
+
+    state.started = true;
+
+    addXP(10);
+
+    /*
+       Hero bleibt stehen.
+       Erstes Kapitel muss freigeschaltet werden.
+    */
+
+    openGate(1);
+
+}
+
+
+/* =========================================================
+   OPEN GATE
+   ========================================================= */
+
+function openGate(segment){
+
+    /*
+       Schutz gegen mehrfaches Öffnen.
+    */
+
+    if(state.gateOpening)
+        return;
+
+    /*
+       Bereits freigeschaltet?
+       Dann kein Gate öffnen.
+    */
+
+    if(segment <= state.maxUnlocked){
+
+        const section =
+            getSegment(segment);
+
+        if(section){
+
+            section.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        }
+
+        return;
+
+    }
+
+
+    /*
+       Segment 9 ist das Flashcard-Kapitel.
+       Dafür gibt es kein eigenes Gate.
+       Es wird automatisch zusammen mit Kapitel 8
+       freigeschaltet.
+    */
+
+    if(segment === 9){
+
+        unlockFlashcards();
+
+        return;
+
+    }
+
+
+    const questions =
+        gateQuestions[segment];
+
+    if(!questions){
+
+        unlockChapter(segment);
+
+        return;
+
+    }
+
+
+    state.gateOpening = true;
+
+    state.currentSegment =
+        Math.max(
+            0,
+            segment - 1
+        );
+
+    state.gateQuestion = 0;
+
+    state.gateCorrect = 0;
+
+    state.gateCurrent = null;
+
+
+    gateTitle.textContent =
+        `Kapitel ${segment} freischalten`;
+
+    gateDescription.textContent =
+        "Beantworte beide Fragen richtig. Oder skippe – dann kommen sie später in der Abschlussprüfung.";
+
+
+    gateContinue.disabled = true;
+
+    gateContinue.innerHTML =
+        '<i data-lucide="arrow-right"></i> Weiter';
+
+
+    gateProgress.style.width =
+        "50%";
+
+
+    overlay.style.display =
+        "flex";
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    renderGateQuestion();
+
+    lucide.createIcons();
+
+}
+
+
+/* =========================================================
+   RENDER GATE QUESTION
+   ========================================================= */
+
+function renderGateQuestion(){
+
+    const questions =
+        gateQuestions[state.currentSegment + 1]
+        ||
+        gateQuestions[
+            state.gateTarget
+        ];
+
+
+    /*
+       Sicherer:
+       Das Zielsegment wird direkt aus dem
+       aktuellen Gate-Titel ermittelt.
+    */
+
+    const target =
+        Number(
+            gateTitle.textContent.match(/\d+/)?.[0] || 0
+        );
+
+
+    const targetQuestions =
+        gateQuestions[target];
+
+
+    if(!targetQuestions){
+
+        return;
+
+    }
+
+
+    const q =
+        targetQuestions[
+            state.gateQuestion
+        ];
+
+
+    state.gateCurrent =
+        q;
+
+
+    gateQuestion.textContent =
+        q.q;
+
+
+    gateAnswers.innerHTML =
+        "";
+
+
+    gateFeedback.textContent =
+        "";
+
+
+    gateContinue.disabled =
+        true;
+
+
+    gateProgress.style.width =
+        state.gateQuestion === 0
+        ? "50%"
+        : "100%";
+
+
+    q.answers.forEach(
+        (answer,index)=>{
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "gate-answer";
+
+            button.type =
+                "button";
+
+            button.textContent =
+                answer;
+
+            button.addEventListener(
+                "click",
+                ()=>{
+                    answerGate(index);
+                }
+            );
+
+            gateAnswers.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ANSWER GATE
+   ========================================================= */
+
+function answerGate(index){
+
+    const q =
+        state.gateCurrent;
+
+    if(!q)
+        return;
+
+
+    const buttons =
+        gateAnswers.querySelectorAll(
+            ".gate-answer"
+        );
+
+
+    /*
+       Bereits beantwortete Frage ignorieren.
+    */
+
+    if(
+        [...buttons].some(
+            button => button.disabled
+        )
+    ){
+
+        return;
+
+    }
+
+
+    buttons.forEach(button=>{
+        button.disabled = true;
+    });
+
+
+    if(index === q.correct){
+
+        buttons[index]
+            .classList.add("correct");
+
+
+        gateFeedback.textContent =
+            "✓ Richtig. Das sitzt.";
+
+
+        gateFeedback.style.color =
+            "var(--green)";
+
+
+        state.gateCorrect++;
+
+        addXP(20);
+
+        sound("correct");
+
+
+        gateContinue.disabled =
+            false;
+
+
+        if(state.gateQuestion === 1){
+
+            gateContinue.innerHTML =
+                '<i data-lucide="unlock"></i> Kapitel freischalten';
+
+        }
+
+
+        lucide.createIcons();
+
+
+    }else{
+
+        buttons[index]
+            .classList.add("wrong");
+
+
+        buttons[q.correct]
+            .classList.add("correct");
+
+
+        gateFeedback.textContent =
+            "✕ Nicht ganz. Schau dir die grüne Antwort an.";
+
+
+        gateFeedback.style.color =
+            "var(--red)";
+
+
+        sound("wrong");
+
+
+        /*
+           Nach einem Fehler kann die Frage
+           erneut beantwortet werden.
+        */
+
+        setTimeout(()=>{
+
+            buttons.forEach(button=>{
+                button.disabled = false;
+            });
+
+        },650);
+
+    }
+
+}
+
+
+/* =========================================================
+   GATE CONTINUE
+   ========================================================= */
+
+gateContinue.addEventListener(
+    "click",
+    ()=>{
+
+        /*
+           Noch Frage 1:
+           zu Frage 2 wechseln.
+        */
+
+        if(state.gateQuestion === 0){
+
+            state.gateQuestion = 1;
+
+            renderGateQuestion();
+
+            return;
+
+        }
+
+
+        /*
+           Beide Fragen richtig.
+        */
+
+        const target =
+            Number(
+                gateTitle.textContent.match(/\d+/)?.[0] || 0
+            );
+
+
+        unlockChapter(target);
+
+    }
+);
+
+
+/* =========================================================
+   SKIP
+   ========================================================= */
+
+gateSkip.addEventListener(
+    "click",
+    ()=>{
+
+        const target =
+            Number(
+                gateTitle.textContent.match(/\d+/)?.[0] || 0
+            );
+
+
+        if(
+            !state.skippedSegments.includes(target)
+        ){
+
+            state.skippedSegments.push(target);
+
+        }
+
+
+        addXP(2);
+
+        sound("skip");
+
+
+        gateFeedback.textContent =
+            "⏭️ Übersprungen. Diese Fragen kommen am Ende zurück.";
+
+
+        gateFeedback.style.color =
+            "var(--orange)";
+
+
+        setTimeout(()=>{
+
+            unlockChapter(target);
+
+        },400);
+
+    }
+);
+
+
+/* =========================================================
+   UNLOCK CHAPTER
+   ========================================================= */
+
+function unlockChapter(segment){
+
+    /*
+       Nur einmal freischalten.
+    */
+
+    if(segment <= state.maxUnlocked){
+
+        closeGate();
+
+        return;
+
+    }
+
+
+    state.maxUnlocked =
+        segment;
+
+
+    if(
+        !state.completedGates.includes(segment)
+    ){
+
+        state.completedGates.push(segment);
+
+    }
+
+
+    /*
+       Das gerade freigeschaltete Kapitel anzeigen.
+    */
+
+    showSegment(segment);
+
+
+    /*
+       Wenn Kapitel 8 freigeschaltet wurde,
+       werden die Flashcards direkt danach ebenfalls
+       verfügbar gemacht.
+
+       Das verändert keinen Inhalt,
+       sondern verhindert lediglich ein zusätzliches,
+       sinnloses Gate ohne Fragen.
+    */
+
+    if(segment === 8){
+
+        unlockFlashcards();
+
+    }
+
+
+    closeGate();
+
+    addXP(30);
+
+    sound("unlock");
+
+    updateProgress();
+
+
+    /*
+       EXAKT zum freigeschalteten Kapitel.
+       Kein segment + 1.
+    */
+
+    const target =
+        getSegment(segment);
+
+
+    if(target){
+
+        setTimeout(()=>{
+
+            target.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },180);
+
+    }
+
+}
+
+
+/* =========================================================
+   FLASHCARDS UNLOCK
+   ========================================================= */
+
+function unlockFlashcards(){
+
+    if(state.maxUnlocked < 9){
+
+        state.maxUnlocked = 9;
+
+    }
+
+
+    showSegment(9);
+
+    syncUnlockedSegments();
+
+    closeGate();
+
+    updateProgress();
+
+}
+
+
+/* =========================================================
+   CLOSE GATE
+   ========================================================= */
+
+function closeGate(){
+
+    overlay.style.display =
+        "none";
+
+    document.body.style.overflow =
+        "";
+
+    state.gateOpening =
+        false;
+
+}
+
+
+/* =========================================================
+   SCROLL CONTROL
+   ========================================================= */
+
+let wheelCooldown = false;
+
+
+/*
+   Wheel:
+   Wir verhindern ausschließlich das Scrollen in ein
+   noch gesperrtes Kapitel.
+
+   Sobald das Kapitel freigeschaltet ist,
+   funktioniert normales Scrollen wieder.
+*/
+
+window.addEventListener(
+    "wheel",
+    event=>{
+
+        if(!state.started)
+            return;
+
+        if(
+            overlay.style.display === "flex"
+        )
+            return;
+
+
+        /*
+           Nur nach unten kontrollieren.
+        */
+
+        if(event.deltaY <= 0)
+            return;
+
+
+        if(wheelCooldown)
+            return;
+
+
+        const next =
+            state.currentSegment + 1;
+
+
+        /*
+           Ende der Story.
+        */
+
+        if(next > 9)
+            return;
+
+
+        /*
+           Bereits freigeschaltet:
+           Browser normal scrollen lassen.
+        */
+
+        if(next <= state.maxUnlocked)
+            return;
+
+
+        /*
+           Gesperrtes Kapitel:
+           normales Scrollen verhindern.
+        */
+
+        event.preventDefault();
+
+
+        wheelCooldown = true;
+
+
+        openGate(next);
+
+
+        /*
+           Trackpad feuert oft hunderte Events.
+           Kurze Sperre verhindert Doppel-Gates.
+        */
+
+        setTimeout(()=>{
+
+            wheelCooldown = false;
+
+        },700);
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =========================================================
+   TOUCH CONTROL
+   ========================================================= */
+
+let touchStartY = null;
+let touchHandled = false;
+
+
+window.addEventListener(
+    "touchstart",
+    event=>{
+
+        if(
+            event.touches.length !== 1
+        )
+            return;
+
+
+        touchStartY =
+            event.touches[0].clientY;
+
+        touchHandled =
+            false;
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+window.addEventListener(
+    "touchmove",
+    event=>{
+
+        if(
+            !state.started ||
+            overlay.style.display === "flex" ||
+            touchStartY === null ||
+            touchHandled
+        ){
+
+            return;
+
+        }
+
+
+        const currentY =
+            event.touches[0].clientY;
+
+
+        const diff =
+            touchStartY - currentY;
+
+
+        /*
+           Kein relevanter Swipe.
+        */
+
+        if(diff < 45)
+            return;
+
+
+        const next =
+            state.currentSegment + 1;
+
+
+        if(next > 9)
+            return;
+
+
+        /*
+           Bereits freigeschaltet:
+           normales Touch-Scrolling.
+        */
+
+        if(next <= state.maxUnlocked)
+            return;
+
+
+        /*
+           Gesperrtes Kapitel.
+        */
+
+        event.preventDefault();
+
+        touchHandled =
+            true;
+
+
+        openGate(next);
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+window.addEventListener(
+    "touchend",
+    ()=>{
+
+        touchStartY =
+            null;
+
+        touchHandled =
+            false;
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD CONTROL
+   ========================================================= */
+
+window.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            ![
+                "ArrowDown",
+                "PageDown",
+                " "
+            ].includes(event.key)
+        ){
+
+            return;
+
+        }
+
+
+        if(
+            overlay.style.display === "flex"
+        ){
+
+            return;
+
+        }
+
+
+        const next =
+            state.currentSegment + 1;
+
+
+        if(next > 9)
+            return;
+
+
+        /*
+           Bereits freigeschaltet:
+           normale Navigation.
+        */
+
+        if(next <= state.maxUnlocked)
+            return;
+
+
+        /*
+           Gesperrt.
+        */
+
+        event.preventDefault();
+
+        openGate(next);
+
+    }
+);
+
+
+/* =========================================================
+   TRACK CURRENT SEGMENT
+   ========================================================= */
+
+const sections =
+    document.querySelectorAll(
+        ".segment[data-segment]"
+    );
+
+
+const segmentObserver =
+    new IntersectionObserver(
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(
+                    !entry.isIntersecting ||
+                    entry.intersectionRatio < .5
+                ){
+
+                    return;
+
+                }
+
+
+                const number =
+                    Number(
+                        entry.target.dataset.segment
+                    );
+
+
+                /*
+                   Gesperrte Kapitel dürfen niemals
+                   currentSegment werden.
+                */
+
+                if(number > state.maxUnlocked)
+                    return;
+
+
+                state.currentSegment =
+                    number;
+
+
+                updateProgress();
+
+            });
+
+        },
+        {
+            threshold:[
+                .5,
+                .7
+            ]
+        }
+    );
+
+
+sections.forEach(section=>{
+
+    segmentObserver.observe(section);
+
+});
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function updateProgress(){
+
+    /*
+       0-9 Storyfortschritt.
+    */
+
+    const total =
+        9;
+
+
+    const percent =
+        Math.min(
+            100,
+            (
+                state.maxUnlocked /
+                total
+            ) * 100
+        );
+
+
+    progressBar.style.width =
+        percent + "%";
+
+}
+
+
+/* =========================================================
+   FLASHCARDS
+   ========================================================= */
+
+document
+.querySelectorAll(".flash")
+.forEach(card=>{
+
+    card.addEventListener(
+        "click",
+        ()=>{
+
+            card.classList.toggle(
+                "flipped"
+            );
+
+
+            if(
+                card.classList.contains(
+                    "flipped"
+                )
+            ){
+
+                addXP(5);
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   EXAM STATE
+   ========================================================= */
+
+let examCorrect = 0;
+
+let examAnswered = 0;
+
+let examTotal = 0;
+
+
+/* =========================================================
+   EXAM BUILD
+   ========================================================= */
+
+function buildExam(){
+
+    const container =
+        document.getElementById(
+            "examContainer"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    examCorrect =
+        0;
+
+    examAnswered =
+        0;
+
+
+    let questions = [
+        ...examQuestions
+    ];
+
+
+    /*
+       Übersprungene Gate-Fragen hinzufügen.
+    */
+
+    state.skippedSegments
+    .forEach(segment=>{
+
+        const gate =
+            gateQuestions[segment];
+
+
+        if(!gate)
+            return;
+
+
+        gate.forEach(q=>{
+
+            questions.push({
+                ...q,
+                skipped:true
+            });
+
+        });
+
+    });
+
+
+    questions =
+        shuffle(questions);
+
+
+    examTotal =
+        questions.length;
+
+
+    questions.forEach(
+        (q,index)=>{
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "exam-question";
+
+
+            if(q.skipped){
+
+                wrapper.classList.add(
+                    "skipped"
+                );
+
+            }
+
+
+            const label =
+                q.skipped
+                ? "⚠️ SKIPPED KNOWLEDGE"
+                : `FINAL ${index + 1}`;
+
+
+            wrapper.innerHTML = `
+                <div
+                    style="
+                        color:${q.skipped
+                            ? "var(--red)"
+                            : "var(--orange)"};
+                        font-size:10px;
+                        font-weight:900;
+                        letter-spacing:.12em;
+                        margin-bottom:8px;
+                    "
+                >
+                    ${label}
+                </div>
+
+                <h3>${q.q}</h3>
+
+                <div class="exam-options"></div>
+            `;
+
+
+            const options =
+                wrapper.querySelector(
+                    ".exam-options"
+                );
+
+
+            q.answers.forEach(
+                (answer,answerIndex)=>{
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    button.type =
+                        "button";
+
+
+                    button.className =
+                        "exam-option";
+
+
+                    button.textContent =
+                        answer;
+
+
+                    button.addEventListener(
+                        "click",
+                        ()=>{
+
+                            answerExam(
+                                wrapper,
+                                q,
+                                answerIndex
+                            );
+
+                        }
+                    );
+
+
+                    options.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+
+            wrapper.dataset.index =
+                index;
+
+
+            wrapper._question =
+                q;
+
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+
+    updateExamScore();
+
+}
+
+
+/* =========================================================
+   EXAM ANSWER
+   ========================================================= */
+
+function answerExam(
+    wrapper,
+    question,
+    index
+){
+
+    /*
+       Frage bereits beantwortet?
+    */
+
+    if(wrapper.dataset.done === "true")
+        return;
+
+
+    wrapper.dataset.done =
+        "true";
+
+
+    const buttons =
+        wrapper.querySelectorAll(
+            ".exam-option"
+        );
+
+
+    buttons.forEach(button=>{
+
+        button.disabled =
+            true;
+
+    });
+
+
+    if(index === question.correct){
+
+        buttons[index]
+            .classList.add("correct");
+
+
+        examCorrect++;
+
+        addXP(20);
+
+        sound("correct");
+
+
+    }else{
+
+        buttons[index]
+            .classList.add("wrong");
+
+
+        buttons[question.correct]
+            .classList.add("correct");
+
+
+        sound("wrong");
+
+    }
+
+
+    examAnswered++;
+
+
+    updateExamScore();
+
+}
+
+
+/* =========================================================
+   EXAM SCORE
+   ========================================================= */
+
+function updateExamScore(){
+
+    document.getElementById(
+        "examScore"
+    ).textContent =
+        `${examCorrect} / ${examAnswered}`;
+
+}
+
+
+/* =========================================================
+   FINISH EXAM
+   ========================================================= */
+
+document
+.getElementById("finishExam")
+.addEventListener(
+    "click",
+    ()=>{
+
+        if(examAnswered < examTotal){
+
+            alert(
+                `Du hast noch ${examTotal - examAnswered} Fragen offen.`
+            );
+
+            return;
+
+        }
+
+
+        state.examDone =
+            true;
+
+
+        showFinish();
+
+    }
+);
+
+
+/* =========================================================
+   FINISH SCREEN
+   ========================================================= */
+
+function showFinish(){
+
+    examElement.style.display =
+        "none";
+
+
+    finishElement.style.display =
+        "flex";
+
+
+    document.getElementById(
+        "finalXP"
+    ).textContent =
+        state.xp;
+
+
+    document.getElementById(
+        "finalCorrect"
+    ).textContent =
+        examCorrect;
+
+
+    document.getElementById(
+        "finalSkipped"
+    ).textContent =
+        state.skippedSegments.length;
+
+
+    const percentage =
+        examTotal > 0
+        ? Math.round(
+            examCorrect /
+            examTotal *
+            100
+        )
+        : 0;
+
+
+    let message;
+
+
+    if(percentage >= 90){
+
+        message =
+            `🔥 ${percentage}% — stark. Du kannst den Vietnamkrieg nicht nur auswendig aufsagen, du hast die Zusammenhänge verstanden.`;
+
+    }else if(percentage >= 70){
+
+        message =
+            `💪 ${percentage}% — solide. Einmal die schwierigen Stellen wiederholen und du bist sehr gut vorbereitet.`;
+
+    }else{
+
+        message =
+            `🧠 ${percentage}% — noch einmal durch die Story. Beim zweiten Durchlauf wird es deutlich leichter.`;
+
+    }
+
+
+    document.getElementById(
+        "finishText"
+    ).textContent =
+        message;
+
+
+    addXP(
+        percentage >= 90
+        ? 100
+        : 50
+    );
+
+
+    sound("unlock");
+
+
+    finishElement.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+}
+
+
+/* =========================================================
+   SHUFFLE
+   ========================================================= */
+
+function shuffle(array){
+
+    const copy =
+        [...array];
+
+
+    for(
+        let i = copy.length - 1;
+        i > 0;
+        i--
+    ){
+
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
+
+
+        [
+            copy[i],
+            copy[j]
+        ] =
+        [
+            copy[j],
+            copy[i]
+        ];
+
+    }
+
+
+    return copy;
+
+}
+
+
+/* =========================================================
+   RESTART
+   ========================================================= */
+
+function restartStory(){
+
+    /*
+       XP bleibt erhalten.
+       Der Lernfortschritt wird zurückgesetzt.
+    */
+
+    state.currentSegment =
+        0;
+
+
+    state.maxUnlocked =
+        0;
+
+
+    state.skippedSegments =
+        [];
+
+
+    state.completedGates =
+        [];
+
+
+    state.gateQuestion =
+        0;
+
+
+    state.gateCorrect =
+        0;
+
+
+    state.gateCurrent =
+        null;
+
+
+    state.started =
+        false;
+
+
+    state.examDone =
+        false;
+
+
+    state.gateOpening =
+        false;
+
+
+    examCorrect =
+        0;
+
+
+    examAnswered =
+        0;
+
+
+    examTotal =
+        0;
+
+
+    /*
+       Overlay schließen.
+    */
+
+    closeGate();
+
+
+    /*
+       Finish verstecken.
+    */
+
+    finishElement.style.display =
+        "none";
+
+
+    /*
+       Prüfung wieder vorbereiten,
+       aber unsichtbar lassen.
+    */
+
+    examElement.style.display =
+        "none";
+
+
+    /*
+       Alle Kapitel wieder sperren.
+    */
+
+    initializeLockedSegments();
+
+
+    syncUnlockedSegments();
+
+
+    updateProgress();
+
+
+    /*
+       Zum Hero.
+    */
+
+    getSegment(0).scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+
+    /*
+       Kleine Verzögerung, damit der
+       IntersectionObserver sauber nachzieht.
+    */
+
+    setTimeout(()=>{
+
+        state.currentSegment =
+            0;
+
+    },300);
+
+}
+
+
+/* =========================================================
+   EXAM VISIBILITY
+   ========================================================= */
+
+function updateExamVisibility(){
+
+    /*
+       Prüfung erst zeigen, wenn die Flashcards
+       freigeschaltet wurden.
+    */
+
+    if(state.maxUnlocked >= 9){
+
+        examElement.style.display =
+            "";
+
+    }else{
+
+        examElement.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   PATCH: FLASHCARDS → EXAM
+   ========================================================= */
+
+/*
+   Sobald Segment 9 sichtbar wird, darf die Prüfung
+   nach den Flashcards normal erreicht werden.
+
+   Die Prüfung selbst wird nicht als normales
+   data-segment behandelt, damit die Story-Navigation
+   nicht durcheinanderkommt.
+*/
+
+const examObserver =
+    new IntersectionObserver(
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(
+                    entry.isIntersecting
+                ){
+
+                    state.currentSegment =
+                        9;
+
+                    updateProgress();
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.35
+        }
+    );
+
+
+examObserver.observe(examElement);
+
+
+/* =========================================================
+   INITIAL STATE
+   ========================================================= */
+
+xpElement.textContent =
+    state.xp;
+
+
+streakElement.textContent =
+    state.streak;
+
+
+/*
+   Prüfung zunächst verstecken.
+*/
+
+examElement.style.display =
+    "none";
+
+
+/*
+   Alle Kapitel außer Hero verstecken.
+*/
+
+initializeLockedSegments();
+
+
+syncUnlockedSegments();
+
+
+updateProgress();
+
+
+/*
+   Prüfung vorbereiten.
+*/
+
+buildExam();
+
+
+/* =========================================================
+   SWIPE INDICATOR
+   ========================================================= */
+
+setTimeout(()=>{
+
+    const hero =
+        document.getElementById(
+            "segment-0"
+        );
+
+
+    if(!hero)
+        return;
+
+
+    const hint =
+        document.createElement(
+            "div"
+        );
+
+
+    hint.style.cssText = `
+        position:absolute;
+        bottom:22px;
+        left:50%;
+        transform:translateX(-50%);
+        color:#555d67;
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:.1em;
+        display:flex;
+        gap:7px;
+        align-items:center;
+    `;
+
+
+    hint.innerHTML =
+        `
+        <i data-lucide="chevrons-down"
+           style="width:15px">
+        </i>
+        SWIPE / SCROLL
+        `;
+
+
+    hero.appendChild(hint);
+
+
+    lucide.createIcons();
+
+},1200);
+
+
+/* =========================================================
+   SAVE
+   ========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    ()=>{
+
+        localStorage.setItem(
+            "viet_xp",
+            state.xp
+        );
+
+
+        localStorage.setItem(
+            "viet_streak",
+            state.streak
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>
