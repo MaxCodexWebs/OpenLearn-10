@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenLearn - Deutsche Ausrichtung</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#060b19',
+                            900: '#0a1128',
+                            800: '#101f42',
+                            700: '#1c2d5a',
+                            600: '#273c75'
+                        },
+                        accent: {
+                            blue: '#3a86ff',
+                            cyan: '#00d2ff',
+                            glow: 'rgba(0, 210, 255, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #060b19;
+            color: #f1f5f9;
+        }
+        .glass-card {
+            background: rgba(16, 31, 66, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .glass-card:hover {
+            background: rgba(28, 45, 90, 0.7);
+            border-color: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 210, 255, 0.3);
+        }
+        .glass-nav {
+            background: rgba(10, 17, 40, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-accent-cyan selection:text-navy-950">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-accent-blue to-accent-cyan flex items-center justify-center shadow-lg shadow-accent-cyan/20">
+                        <i class="fa-solid fa-graduation-cap text-navy-950 text-xl font-bold"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-accent-cyan bg-clip-text text-transparent">
+                            OpenLearn
+                        </h1>
+                        <p class="text-xs font-medium text-accent-cyan tracking-widest uppercase">Deutsche Ausrichtung • Gymnasium 10. Klasse</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-2 text-xs font-semibold bg-navy-800/80 px-3 py-1.5 rounded-full border border-slate-700/50">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-slate-300">Sek I & Sek II</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO & SEARCH SECTION -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-grow">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 tracking-tight">
+                Lernseiten für besseres Verstehen und Merken.
+            </h2>
+            <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                Wähle ein Fach aus, um direkt zu den Lernmaterialien, Übersichten und Lehrplänen weitergeleitet zu werden.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="mt-8 relative max-w-xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" onkeyup="filterSubjects()" placeholder="Fach oder Kürzel suchen (z. B. 'Biologie', 'powi', 'ds')..." 
+                    class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-navy-800/90 border border-slate-700/60 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent-cyan focus:border-transparent transition-all shadow-inner text-sm sm:text-base">
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
+                <button onclick="filterCategory('all')" class="cat-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-accent-blue text-white shadow-md shadow-accent-blue/20">
+                    Alle Fächer
+                </button>
+                <button onclick="filterCategory('sprache')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-navy-800 text-slate-300 hover:bg-navy-700 border border-slate-700/50">
+                    Sprache & Kunst
+                </button>
+                <button onclick="filterCategory('gesellschaft')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-navy-800 text-slate-300 hover:bg-navy-700 border border-slate-700/50">
+                    Gesellschaft
+                </button>
+                <button onclick="filterCategory('mint')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-navy-800 text-slate-300 hover:bg-navy-700 border border-slate-700/50">
+                    MINT
+                </button>
+                <button onclick="filterCategory('sonstige')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-navy-800 text-slate-300 hover:bg-navy-700 border border-slate-700/50">
+                    Religion / Sport
+                </button>
+            </div>
+        </div>
+
+        <!-- SUBJECT CARDS GRID -->
+        <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+            <!-- Deutsch -->
+            <a href="de/de.html" data-category="sprache" data-keywords="deutsch de literatur sprache" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">de.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-book text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Deutsch</h3>
+                    <p class="text-xs text-slate-400 mt-1">Sprachlich-Literarisch-Künstlerisch</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Englisch -->
+            <a href="en/en.html" data-category="sprache" data-keywords="englisch en english fremdsprache" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">en.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-language text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Englisch</h3>
+                    <p class="text-xs text-slate-400 mt-1">Fremdsprache</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Französisch 
+            <a href="fr.html" data-category="sprache" data-keywords="französisch fr francais fremdsprache" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">fr.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-comments text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Französisch</h3>
+                    <p class="text-xs text-slate-400 mt-1">Fremdsprache</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>-->
+
+            <!-- Spanisch -->
+            <a href="es/es.html" data-category="sprache" data-keywords="spanisch es espanol fremdsprache" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">es.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-globe text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Spanisch</h3>
+                    <p class="text-xs text-slate-400 mt-1">Fremdsprache</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Latein 
+            <a href="lat.html" data-category="sprache" data-keywords="latein lat latinum fremdsprache" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">lat.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-landmark text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Latein</h3>
+                    <p class="text-xs text-slate-400 mt-1">Alte Sprachen</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>-->
+
+            <!-- Kunst 
+            <a href="ku.html" data-category="sprache" data-keywords="kunst ku bildende kunst zeichnen" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">ku.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-palette text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Kunst</h3>
+                    <p class="text-xs text-slate-400 mt-1">Künstlerisch-Musisch</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>-->
+
+            <!-- Musik -->
+            <a href="mu/mu.html" data-category="sprache" data-keywords="musik mu noten gesang instrumente" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">mu.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-music text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Musik</h3>
+                    <p class="text-xs text-slate-400 mt-1">Künstlerisch-Musisch</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Darstellendes Spiel 
+            <a href="ds.html" data-category="sprache" data-keywords="darstellendes spiel ds theater schauspiel" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">ds.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-masks-theater text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Darstellendes Spiel</h3>
+                    <p class="text-xs text-slate-400 mt-1">Theater & Performative Kunst</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>-->
+
+            <!-- Geschichte -->
+            <a href="ge/ge.html" data-category="gesellschaft" data-keywords="geschichte ge historisch vergangenheit" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20">ge.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-hourglass-half text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Geschichte</h3>
+                    <p class="text-xs text-slate-400 mt-1">Gesellschaftswissenschaften</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Politische Bildung (PB/PoWi) -->
+            <a href="powi/powi.html" data-category="gesellschaft" data-keywords="politische bildung powi pb politik gewi wirtschaft" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20">powi.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-scale-balanced text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Politische Bildung</h3>
+                    <p class="text-xs text-slate-400 mt-1">Politik & Wirtschaft (PB/PoWi)</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Geografie -->
+            <a href="geog/geog.html" data-category="gesellschaft" data-keywords="geografie geog erdkunde klima gewi" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20">geog.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-earth-americas text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Geografie</h3>
+                    <p class="text-xs text-slate-400 mt-1">Erdkunde & Umwelt</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Mathematik -->
+            <a href="ma/ma.html" data-category="mint" data-keywords="mathematik ma mathe algebra analysis stochastik" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ma.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-calculator text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Mathematik</h3>
+                    <p class="text-xs text-slate-400 mt-1">MINT</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Biologie -->
+            <a href="bio/bio.html" data-category="mint" data-keywords="biologie bio naturwissenschaft genetik zelle" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">bio.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-dna text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Biologie</h3>
+                    <p class="text-xs text-slate-400 mt-1">Naturwissenschaften</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Chemie -->
+            <a href="ch/ch.html" data-category="mint" data-keywords="chemie ch elemente moleküle naturwissenschaft" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ch.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-flask text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Chemie</h3>
+                    <p class="text-xs text-slate-400 mt-1">Naturwissenschaften</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Physik -->
+            <a href="ph/ph.html" data-category="mint" data-keywords="physik ph mechanik quanten naturwissenschaft" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ph.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-atom text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Physik</h3>
+                    <p class="text-xs text-slate-400 mt-1">Naturwissenschaften</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Informatik -->
+            <a href="inf/inf.html" data-category="mint" data-keywords="informatik inf programmieren edv computer" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">inf.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-code text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Informatik</h3>
+                    <p class="text-xs text-slate-400 mt-1">Technik & Software</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Religion 
+            <a href="rel.html" data-category="sonstige" data-keywords="religion rel evangelisch katholisch glauben" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">rel.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-hands-praying text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Religion</h3>
+                    <p class="text-xs text-slate-400 mt-1">Ev. / Kath. Religionslehre</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>-->
+
+            <!-- Ethik
+            <a href="eth.html" data-category="sonstige" data-keywords="ethik eth philosophie moral werte" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">eth.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-brain text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Ethik</h3>
+                    <p class="text-xs text-slate-400 mt-1">Philosophie & Werte</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>-->
+
+            <!-- Sport -->
+            <a href="sp/sp.html" data-category="sonstige" data-keywords="sport sp bewegung fitness athletic" class="subject-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">sp.html</span>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-person-running text-lg"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 group-hover:text-accent-cyan transition-colors">Sport</h3>
+                    <p class="text-xs text-slate-400 mt-1">Sportwissenschaft & Praxis</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between text-xs font-semibold text-accent-cyan pt-3 border-t border-slate-800">
+                    <span>Öffnen</span>
+                    <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800/80 bg-navy-950 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>OpenLearn - Deutsche Ausrichtung - jede Woche ca. 1 Update.</p>
+            <p class="mt-1">&copy; 2026 OpenLearn</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FOR SEARCH & FILTER -->
+    <script>
+        let currentCategory = 'all';
+
+        function filterSubjects() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.subject-card');
+
+            cards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                const category = card.getAttribute('data-category');
+                
+                const matchesSearch = keywords.includes(query);
+                const matchesCategory = (currentCategory === 'all' || category === currentCategory);
+
+                if (matchesSearch && matchesCategory) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            
+            // Toggle active styling on buttons
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-accent-blue', 'text-white', 'shadow-md', 'shadow-accent-blue/20');
+                btn.classList.add('bg-navy-800', 'text-slate-300', 'hover:bg-navy-700');
+            });
+
+            event.currentTarget.classList.remove('bg-navy-800', 'text-slate-300', 'hover:bg-navy-700');
+            event.currentTarget.classList.add('bg-accent-blue', 'text-white', 'shadow-md', 'shadow-accent-blue/20');
+
+            filterSubjects();
+        }
+    </script>
+</body>
+</html>
