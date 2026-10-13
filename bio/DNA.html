@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA Entdecker-Hub | Interaktive Genetik</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0a1118',
+                        cardBg: '#0f1a14',
+                        cardBorder: '#1b4d3e',
+                        accentGreen: '#2ec4b6',
+                        neonGreen: '#34d399',
+                        deepGreen: '#0d2818',
+                        midGreen: '#1b4d3e'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a1118;
+            color: #e2e8f0;
+        }
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a1118;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1b4d3e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2ec4b6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-darkBg text-slate-100 selection:bg-emerald-500 selection:text-black">
+
+    <header class="sticky top-0 z-50 bg-[#0f1a14]/90 backdrop-blur-md border-b border-[#1b4d3e]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1b4d3e] to-[#2ec4b6] flex items-center justify-center shadow-lg shadow-emerald-900/30">
+                    <i data-lucide="dna" class="w-6 h-6 text-emerald-300"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-white tracking-wide">Genetik<span class="text-emerald-400">Hub</span></h1>
+                    <p class="text-xs text-emerald-500/80">Interaktive DNA & Protein-Lernplattform</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="switchTab('overview')" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 bg-[#1b4d3e] text-emerald-300" data-target="overview">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>1. Grundlagen</span>
+                </button>
+                <button onclick="switchTab('replication')" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 text-slate-400 hover:text-emerald-300 hover:bg-[#1b4d3e]/40" data-target="replication">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    <span>2. Replikation</span>
+                </button>
+                <button onclick="switchTab('synthesis')" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 text-slate-400 hover:text-emerald-300 hover:bg-[#1b4d3e]/40" data-target="synthesis">
+                    <i data-lucide="cpu" class="w-4 h-4"></i>
+                    <span>3. Proteinbiosynthese</span>
+                </button>
+                <button onclick="switchTab('mutations')" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 text-slate-400 hover:text-emerald-300 hover:bg-[#1b4d3e]/40" data-target="mutations">
+                    <i data-lucide="activity" class="w-4 h-4"></i>
+                    <span>4. Mutationen</span>
+                </button>
+                <button onclick="switchTab('lab')" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 text-slate-400 hover:text-emerald-300 hover:bg-[#1b4d3e]/40" data-target="lab">
+                    <i data-lucide="flask-conical" class="w-4 h-4"></i>
+                    <span>5. Labor & Quiz</span>
+                </button>
+            </nav>
+            <div class="flex items-center space-x-2">
+                <span class="px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-mono">v2.4 Pro</span>
+            </div>
+        </div>
+        <!-- Mobile Navigation Bar -->
+        <div class="md:hidden flex overflow-x-auto space-x-2 px-4 py-2 bg-[#0a1118] border-t border-[#1b4d3e]">
+            <button onclick="switchTab('overview')" class="tab-btn-m px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap bg-[#1b4d3e] text-emerald-300" data-target="overview">Grundlagen</button>
+            <button onclick="switchTab('replication')" class="tab-btn-m px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap text-slate-400" data-target="replication">Replikation</button>
+            <button onclick="switchTab('synthesis')" class="tab-btn-m px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap text-slate-400" data-target="synthesis">Proteinsynthese</button>
+            <button onclick="switchTab('mutations')" class="tab-btn-m px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap text-slate-400" data-target="mutations">Mutationen</button>
+            <button onclick="switchTab('lab')" class="tab-btn-m px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap text-slate-400" data-target="lab">Labor & Quiz</button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: GRUNDLAGEN -->
+        <section id="tab-overview" class="tab-content space-y-8">
+            <div class="bg-gradient-to-r from-[#0f1a14] to-[#1b4d3e]/40 border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl">
+                <div class="max-w-3xl">
+                    <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/60 text-xs font-semibold uppercase tracking-wider">Modul 1</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3 mb-4">Was ist DNA? Der Bauplan des Lebens</h2>
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                        Die Desoxyribonukleinsäure (DNA) ist der fundamentale Träger unserer Erbinformation. Sie speichert alle Anweisungen, die eine Zelle benötigt, um zu wachsen, sich zu vermehren und ihre täglichen Aufgaben zu erfüllen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-xl p-6 shadow-lg hover:border-emerald-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400 mb-4">
+                        <i data-lucide="git-commit" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Die Doppelhelix</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Entdeckt 1953 von Watson und Crick (unter Einbeziehung von Rosalind Franklins Daten). Zwei Stränge winden sich spiralförmig umeinander wie eine Strickleiter, die in sich verdreht ist.
+                    </p>
+                </div>
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-xl p-6 shadow-lg hover:border-emerald-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400 mb-4">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Der Nukleotid-Baustein</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Jedes Nukleotid besteht aus drei Teilen: einer Phosphatgruppe, einem Zucker (Desoxyribose) und einer von vier organischen Stickstoffbasen.
+                    </p>
+                </div>
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-xl p-6 shadow-lg hover:border-emerald-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400 mb-4">
+                        <i data-lucide="link" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Komplementäre Basen</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Basen paaren sich immer spezifisch: Adenin (A) verbindet sich ausschließlich mit Thymin (T), und Cytosin (C) verbindet sich ausschließlich mit Guanin (G).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interactive Base Pair Explorer -->
+            <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h3 class="text-xl font-bold text-white mb-2 flex items-center space-x-2">
+                    <i data-lucide="cpu" class="w-5 h-5 text-emerald-400"></i>
+                    <span>Interaktiver Basen-Erforscher</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-6">Klicke auf eine Base, um ihre genauen Eigenschaften und Wasserstoffbrücken zu sehen.</p>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                    <button onclick="selectBase('A')" id="btn-base-A" class="base-selector p-4 rounded-xl border border-emerald-500 bg-emerald-950/40 text-left transition-all">
+                        <div class="text-2xl font-bold text-emerald-400 font-mono">A</div>
+                        <div class="text-sm font-semibold text-white mt-1">Adenin</div>
+                        <div class="text-xs text-slate-400 mt-2">Purin-Base</div>
+                    </button>
+                    <button onclick="selectBase('T')" id="btn-base-T" class="base-selector p-4 rounded-xl border border-[#1b4d3e] bg-[#0a1118] text-left transition-all hover:border-emerald-600">
+                        <div class="text-2xl font-bold text-teal-400 font-mono">T</div>
+                        <div class="text-sm font-semibold text-white mt-1">Thymin</div>
+                        <div class="text-xs text-slate-400 mt-2">Pyrimidin-Base</div>
+                    </button>
+                    <button onclick="selectBase('C')" id="btn-base-C" class="base-selector p-4 rounded-xl border border-[#1b4d3e] bg-[#0a1118] text-left transition-all hover:border-emerald-600">
+                        <div class="text-2xl font-bold text-green-400 font-mono">C</div>
+                        <div class="text-sm font-semibold text-white mt-1">Cytosin</div>
+                        <div class="text-xs text-slate-400 mt-2">Pyrimidin-Base</div>
+                    </button>
+                    <button onclick="selectBase('G')" id="btn-base-G" class="base-selector p-4 rounded-xl border border-[#1b4d3e] bg-[#0a1118] text-left transition-all hover:border-emerald-600">
+                        <div class="text-2xl font-bold text-emerald-300 font-mono">G</div>
+                        <div class="text-sm font-semibold text-white mt-1">Guanin</div>
+                        <div class="text-xs text-slate-400 mt-2">Purin-Base</div>
+                    </button>
+                </div>
+
+                <div id="base-info-box" class="bg-[#0a1118] border border-[#1b4d3e] rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <h4 id="base-title" class="text-lg font-bold text-emerald-400">Adenin (A)</h4>
+                        <p id="base-desc" class="text-slate-300 text-sm mt-1">Adenin ist eine Purinbase mit einer Doppelringstruktur. Sie paart sich in der DNA ausschließlich mit Thymin über zwei Wasserstoffbrückenbindungen.</p>
+                    </div>
+                    <div class="bg-emerald-950/60 border border-emerald-800 px-4 py-3 rounded-lg text-center min-w-[160px]">
+                        <span class="text-xs text-emerald-400 uppercase tracking-wider block">Passendes Gegenstück</span>
+                        <span id="base-pair" class="text-2xl font-mono font-bold text-white">Thymin (T)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: REPLIKATION -->
+        <section id="tab-replication" class="tab-content hidden space-y-8">
+            <div class="bg-gradient-to-r from-[#0f1a14] to-[#1b4d3e]/40 border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl">
+                <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/60 text-xs font-semibold uppercase tracking-wider">Modul 2</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3 mb-4">DNA-Replikation: Wie sich das Leben kopiert</h2>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Vor jeder Zellteilung muss das gesamte Genom exakt verdoppelt werden. Dieser semikonservative Prozess läuft hochpräzise in mehreren Schritten ab.
+                </p>
+            </div>
+
+            <!-- Step-by-step Interactive Replicator -->
+            <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-emerald-400"></i>
+                            <span>Schritt-für-Schritt Replikations-Simulator</span>
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-1">Verfolge den Ablauf enzymatischer Prozesse live am Bildschirm.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="resetReplication()" class="px-4 py-2 rounded-lg border border-[#1b4d3e] bg-[#0a1118] text-slate-300 hover:text-white hover:border-emerald-500 text-sm font-medium transition-colors flex items-center space-x-2">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                            <span>Zurücksetzen</span>
+                        </button>
+                        <button onclick="nextReplicationStep()" id="repl-next-btn" class="px-5 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-sm font-semibold hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-900/40 flex items-center space-x-2">
+                            <span>Nächster Schritt</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress indicators -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div id="r-step-1" class="step-card p-3 rounded-xl border border-emerald-500 bg-emerald-950/40 transition-all">
+                        <span class="text-xs font-mono text-emerald-400 font-bold">SCHRITT 1</span>
+                        <h4 class="text-sm font-bold text-white mt-1">Entwindung (Helikase)</h4>
+                    </div>
+                    <div id="r-step-2" class="step-card p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] transition-all">
+                        <span class="text-xs font-mono text-slate-500 font-bold">SCHRITT 2</span>
+                        <h4 class="text-sm font-bold text-slate-400 mt-1">Primer-Bindung (Primase)</h4>
+                    </div>
+                    <div id="r-step-3" class="step-card p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] transition-all">
+                        <span class="text-xs font-mono text-slate-500 font-bold">SCHRITT 3</span>
+                        <h4 class="text-sm font-bold text-slate-400 mt-1">Elongation (Polymerase)</h4>
+                    </div>
+                    <div id="r-step-4" class="step-card p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] transition-all">
+                        <span class="text-xs font-mono text-slate-500 font-bold">SCHRITT 4</span>
+                        <h4 class="text-sm font-bold text-slate-400 mt-1">Verschmelzung (Ligase)</h4>
+                    </div>
+                </div>
+
+                <!-- Visual Simulation Canvas/Box -->
+                <div class="bg-[#0a1118] border border-[#1b4d3e] rounded-xl p-6 min-h-[220px] flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div id="replication-visual-content" class="space-y-4 max-w-xl w-full">
+                        <div class="inline-block p-3 rounded-full bg-emerald-950 text-emerald-400 mb-2 border border-emerald-800">
+                            <i data-lucide="scissors" class="w-8 h-8"></i>
+                        </div>
+                        <h4 id="repl-title" class="text-xl font-bold text-white">1. Die DNA-Helikase bricht die Wasserstoffbrücken</h4>
+                        <p id="repl-desc" class="text-slate-300 text-sm">Das Enzym Helikase entwindet die DNA-Doppelhelix und trennt die beiden Einzelstränge auf, wodurch eine Replikationsgabel entsteht.</p>
+                        <div class="font-mono text-xs text-emerald-400 bg-emerald-950/60 py-2 px-4 rounded-lg inline-block border border-emerald-800/60 mt-2">
+                            5' - A T G C C G T A A - 3' (Getrennt in Einzelstränge)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: TRANSKRIPTION & TRANSLATION -->
+        <section id="tab-synthesis" class="tab-content hidden space-y-8">
+            <div class="bg-gradient-to-r from-[#0f1a14] to-[#1b4d3e]/40 border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl">
+                <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/60 text-xs font-semibold uppercase tracking-wider">Modul 3</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3 mb-4">Proteinbiosynthese: Von DNA zu Proteinen</h2>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Wie wird aus einer Gen-Sequenz ein funktionierendes Protein? Dieser zentrale Prozess läuft in zwei Hauptphasen ab: Transkription im Zellkern und Translation am Ribosom.
+                </p>
+            </div>
+
+            <!-- Two Column Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Schritt 1: Transkription</h3>
+                            <p class="text-xs text-emerald-400">Ort: Zellkern (Nucleus)</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Die RNA-Polymerase liest den codierenden DNA-Strang ab und erstellt eine Abschrift in Form von mRNA (Messenger-RNA). Dabei wird Thymin (T) durch Uracil (U) ersetzt.
+                    </p>
+                    <div class="bg-[#0a1118] p-3 rounded-xl border border-[#1b4d3e] font-mono text-xs text-slate-300 space-y-1">
+                        <div>DNA: 3'- TAC GGC ATT - 5'</div>
+                        <div class="text-emerald-400">mRNA: 5'- AUG CCG UAA - 3'</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+                            <i data-lucide="Layers" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Schritt 2: Translation</h3>
+                            <p class="text-xs text-emerald-400">Ort: Zytoplasma / Ribosom</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Ribosomen lesen die mRNA in Dreiergruppen (Tripletts / Codons). tRNA-Moleküle bringen die passenden Aminosäuren heran, die zu einer langen Peptidkette (Protein) verknüpft werden.
+                    </p>
+                    <div class="bg-[#0a1118] p-3 rounded-xl border border-[#1b4d3e] font-mono text-xs text-slate-300 space-y-1">
+                        <div>Codon: AUG → Aminosäure: Methionin (Start)</div>
+                        <div class="text-emerald-400">Codon: CCG → Aminosäure: Prolin</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Codon Translator Widget -->
+            <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+                        <i data-lucide="terminal" class="w-5 h-5 text-emerald-400"></i>
+                        <span>Interaktiver Codon-Übersetzer</span>
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-1">Gib ein mRNA-Triplett ein (z.B. AUG, UUU, GGG) oder wähle aus, um die Aminosäure zu ermitteln.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">mRNA Sequenz eingeben</label>
+                        <input type="text" id="codon-input" value="AUG" maxlength="3" oninput="translateCodon()" class="w-full bg-[#0a1118] border border-[#1b4d3e] rounded-xl px-4 py-3 text-white font-mono uppercase tracking-widest focus:outline-none focus:border-emerald-500 text-center text-lg">
+                    </div>
+                    <div class="sm:col-span-2 bg-[#0a1118] border border-[#1b4d3e] rounded-xl p-4 flex flex-col justify-center">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400 uppercase tracking-wider">Ergebnis der Aminosäure:</span>
+                            <span id="amino-badge" class="px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-mono">Start-Codon</span>
+                        </div>
+                        <div id="amino-result" class="text-xl font-bold text-white mt-1">Methionin (Met)</div>
+                    </div>
+                </div>
+
+                <!-- Quick presets -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <button onclick="setCodon('AUG')" class="px-3 py-1.5 rounded-lg bg-[#0a1118] border border-[#1b4d3e] hover:border-emerald-500 text-xs font-mono text-emerald-400">AUG (Met)</button>
+                    <button onclick="setCodon('UUU')" class="px-3 py-1.5 rounded-lg bg-[#0a1118] border border-[#1b4d3e] hover:border-emerald-500 text-xs font-mono text-emerald-400">UUU (Phe)</button>
+                    <button onclick="setCodon('GGG')" class="px-3 py-1.5 rounded-lg bg-[#0a1118] border border-[#1b4d3e] hover:border-emerald-500 text-xs font-mono text-emerald-400">GGG (Gly)</button>
+                    <button onclick="setCodon('UAA')" class="px-3 py-1.5 rounded-lg bg-[#0a1118] border border-[#1b4d3e] hover:border-emerald-500 text-xs font-mono text-emerald-400">UAA (Stopp)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: MUTATIONEN -->
+        <section id="tab-mutations" class="tab-content hidden space-y-8">
+            <div class="bg-gradient-to-r from-[#0f1a14] to-[#1b4d3e]/40 border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl">
+                <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/60 text-xs font-semibold uppercase tracking-wider">Modul 4</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3 mb-4">Mutationen: Fehler im Code und ihre Folgen</h2>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Veränderungen in der Nukleotidsequenz werden als Mutationen bezeichnet. Sie können spontan bei der Replikation auftreten oder durch äußere Einflüsse (Mutagene wie UV-Strahlung) ausgelöst werden.
+                </p>
+            </div>
+
+            <!-- Mutation Types Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400 mb-4">
+                        <i data-lucide="edit-3" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Punktmutation (Substitution)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Eine einzelne Base wird durch eine andere ersetzt. Dies kann stumm sein (gleiche Aminosäure) oder zu einer veränderten Aminosäure führen (Missens/Nonsens).
+                    </p>
+                    <div class="bg-[#0a1118] p-3 rounded-lg border border-[#1b4d3e] font-mono text-xs text-slate-300 space-y-1">
+                        <div>Original: A T G C G A</div>
+                        <div class="text-rose-400">Mutiert: A T <span class="underline">A</span> C G A</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400 mb-4">
+                        <i data-lucide="plus-circle" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Insertion</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Ein oder mehrere Basenpaare werden in die DNA-Sequenz eingefügt. Dies führt oft zu einer Rasterverschiebung (Frameshift), wodurch das gesamte nachfolgende Protein unbrauchbar wird.
+                    </p>
+                    <div class="bg-[#0a1118] p-3 rounded-lg border border-[#1b4d3e] font-mono text-xs text-slate-300 space-y-1">
+                        <div>Original: A T G C G A</div>
+                        <div class="text-emerald-400">Mutiert: A T G <span class="underline">C C</span> G A</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400 mb-4">
+                        <i data-lucide="minus-circle" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Deletion</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Basenpaare gehen verloren. Auch hier entsteht bei nicht durch 3 teilbaren Längen ein gravierender Rasterverschiebungseffekt (Frameshift).
+                    </p>
+                    <div class="bg-[#0a1118] p-3 rounded-lg border border-[#1b4d3e] font-mono text-xs text-slate-300 space-y-1">
+                        <div>Original: A T G C G A</div>
+                        <div class="text-amber-400">Mutiert: A T <span class="line-through">G</span> C G A</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: LABOR & QUIZ -->
+        <section id="tab-lab" class="tab-content hidden space-y-8">
+            <div class="bg-gradient-to-r from-[#0f1a14] to-[#1b4d3e]/40 border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl">
+                <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/60 text-xs font-semibold uppercase tracking-wider">Modul 5</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3 mb-4">Interaktives Labor & Wissenstest</h2>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Baue deinen eigenen DNA-Strang und teste dein erworbenes Wissen im Genetik-Quiz.
+                </p>
+            </div>
+
+            <!-- Two Sub-tools: DNA Builder & Quiz -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- DNA Builder Simulator -->
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+                            <i data-lucide="sliders" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">DNA-Strang Designer</h3>
+                            <p class="text-xs text-emerald-400">Simuliere die Basenpaarung in Echtzeit</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Füge eine Base hinzu:</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="addBaseBuilder('A')" class="py-2.5 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-400 font-mono font-bold hover:bg-emerald-900 transition-colors">A</button>
+                            <button onclick="addBaseBuilder('T')" class="py-2.5 rounded-xl bg-teal-950 border border-teal-800 text-teal-400 font-mono font-bold hover:bg-teal-900 transition-colors">T</button>
+                            <button onclick="addBaseBuilder('C')" class="py-2.5 rounded-xl bg-green-950 border border-green-800 text-green-400 font-mono font-bold hover:bg-green-900 transition-colors">C</button>
+                            <button onclick="addBaseBuilder('G')" class="py-2.5 rounded-xl bg-emerald-900 border border-emerald-700 text-emerald-200 font-mono font-bold hover:bg-emerald-800 transition-colors">G</button>
+                        </div>
+                        <button onclick="clearBuilder()" class="w-full py-2 rounded-xl border border-[#1b4d3e] bg-[#0a1118] text-slate-400 hover:text-white text-xs font-medium">Zurücksetzen</button>
+                    </div>
+
+                    <!-- Result strands -->
+                    <div class="bg-[#0a1118] border border-[#1b4d3e] rounded-xl p-4 space-y-3 font-mono text-sm">
+                        <div>
+                            <span class="text-xs text-slate-500 block mb-1">Strang 1 (Coding):</span>
+                            <div id="builder-strand-1" class="text-emerald-400 tracking-widest break-all">A-T-G</div>
+                        </div>
+                        <div class="border-t border-[#1b4d3e] pt-3">
+                            <span class="text-xs text-slate-500 block mb-1">Komplementärstrang (Template):</span>
+                            <div id="builder-strand-2" class="text-teal-400 tracking-widest break-all">T-A-C</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Widget -->
+                <div class="bg-[#0f1a14] border border-[#1b4d3e] rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+                                    <i data-lucide="help-circle" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Genetik-Schnelltest</h3>
+                            </div>
+                            <span id="quiz-progress" class="text-xs font-mono text-emerald-400 bg-emerald-950 px-2.5 py-1 rounded-full border border-emerald-800">Frage 1 von 3</span>
+                        </div>
+                        
+                        <div id="quiz-container" class="space-y-4 my-4">
+                            <h4 id="quiz-question" class="text-base font-semibold text-slate-200">Welche Base paart sich in der DNA immer mit Adenin (A)?</h4>
+                            <div id="quiz-options" class="space-y-2">
+                                <button onclick="answerQuiz(0)" class="quiz-opt w-full text-left p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] hover:border-emerald-500 text-slate-300 text-sm transition-all">Thymin (T)</button>
+                                <button onclick="answerQuiz(1)" class="quiz-opt w-full text-left p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] hover:border-emerald-500 text-slate-300 text-sm transition-all">Guanin (G)</button>
+                                <button onclick="answerQuiz(2)" class="quiz-opt w-full text-left p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] hover:border-emerald-500 text-slate-300 text-sm transition-all">Cytosin (C)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="quiz-feedback" class="text-sm font-medium text-emerald-400 h-6"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#0f1a14] border-t border-[#1b4d3e] py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
+            GenetikHub &bull; Interaktive Lernplattform für Biologie &copy; 2026. Alle Rechte vorbehalten.
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.dataset.target === tabId) {
+                    btn.classList.add('bg-[#1b4d3e]', 'text-emerald-300');
+                    btn.classList.remove('text-slate-400');
+                } else {
+                    btn.classList.remove('bg-[#1b4d3e]', 'text-emerald-300');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            document.querySelectorAll('.tab-btn-m').forEach(btn => {
+                if(btn.dataset.target === tabId) {
+                    btn.classList.add('bg-[#1b4d3e]', 'text-emerald-300');
+                    btn.classList.remove('text-slate-400');
+                } else {
+                    btn.classList.remove('bg-[#1b4d3e]', 'text-emerald-300');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Base Explorer Logic
+        const baseData = {
+            'A': { title: 'Adenin (A)', desc: 'Adenin ist eine Purinbase mit einer Doppelringstruktur. Sie paart sich in der DNA ausschließlich mit Thymin über zwei Wasserstoffbrückenbindungen.', pair: 'Thymin (T)' },
+            'T': { title: 'Thymin (T)', desc: 'Thymin ist eine Pyrimidinbase. Sie kommt ausschließlich in der DNA vor und bildet zwei Wasserstoffbrücken mit Adenin.', pair: 'Adenin (A)' },
+            'C': { title: 'Cytosin (C)', desc: 'Cytosin ist eine Pyrimidinbase mit einer Einfachringstruktur. Sie paart sich mit Guanin über drei starke Wasserstoffbrücken.', pair: 'Guanin (G)' },
+            'G': { title: 'Guanin (G)', desc: 'Guanin ist eine Purinbase. Sie verbindet sich über drei Wasserstoffbrücken mit Cytosin, was GC-reiche Regionen besonders stabil macht.', pair: 'Cytosin (C)' }
+        };
+
+        function selectBase(base) {
+            document.querySelectorAll('.base-selector').forEach(el => {
+                el.classList.remove('border-emerald-500', 'bg-emerald-950/40');
+                el.classList.add('border-[#1b4d3e]', 'bg-[#0a1118]');
+            });
+            const btn = document.getElementById(`btn-base-${base}`);
+            btn.classList.remove('border-[#1b4d3e]', 'bg-[#0a1118]');
+            btn.classList.add('border-emerald-500', 'bg-emerald-950/40');
+
+            const info = baseData[base];
+            document.getElementById('base-title').innerText = info.title;
+            document.getElementById('base-desc').innerText = info.desc;
+            document.getElementById('base-pair').innerText = info.pair;
+        }
+
+        // Replication Simulator Steps
+        let currentReplStep = 1;
+        const replicationSteps = [
+            {
+                title: "1. Die DNA-Helikase bricht die Wasserstoffbrücken",
+                desc: "Das Enzym Helikase entwindet die DNA-Doppelhelix und trennt die beiden Einzelstränge auf, wodurch eine Replikationsgabel entsteht.",
+                code: "5' - A T G C C G T A A - 3' (Getrennte Template-Stränge)"
+            },
+            {
+                title: "2. Primer-Bindung durch Primase",
+                desc: "Kurze RNA-Stücke (Primer) lagern sich als Startpunkt an die Einzelstränge an, damit die DNA-Polymerase arbeiten kann.",
+                code: "Primer ➔ 5' - RNA - [ A T G C C G T A A ] - 3'"
+            },
+            {
+                title: "3. Elongation durch DNA-Polymerase",
+                desc: "Die DNA-Polymerase synthetisiert kontinuierlich (leitstrang) und diskontinuierlich (folgestrang in Okazaki-Fragmenten) neue komplementäre Stränge.",
+                code: "Neuer Strang: 3' - T A C G G C A T T - 5'"
+            },
+            {
+                title: "4. Verschluss durch DNA-Ligase",
+                desc: "Die Ligase verknüpft die neu entstandenen Fragmente zu einem lückenlosen, vollständigen Tochterstrang.",
+                code: "Replikation abgeschlossen! 2 identische DNA-Doppelhelices erzeugt."
+            }
+        ];
+
+        function nextReplicationStep() {
+            currentReplStep = (currentReplStep % 4) + 1;
+            updateReplicationUI();
+        }
+
+        function resetReplication() {
+            currentReplStep = 1;
+            updateReplicationUI();
+        }
+
+        function updateReplicationUI() {
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`r-step-${i}`);
+                if (i === currentReplStep) {
+                    card.className = "step-card p-3 rounded-xl border border-emerald-500 bg-emerald-950/40 transition-all";
+                    card.querySelector('span').className = "text-xs font-mono text-emerald-400 font-bold";
+                    card.querySelector('h4').className = "text-sm font-bold text-white mt-1";
+                } else {
+                    card.className = "step-card p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] transition-all";
+                    card.querySelector('span').className = "text-xs font-mono text-slate-500 font-bold";
+                    card.querySelector('h4').className = "text-sm font-bold text-slate-400 mt-1";
+                }
+            }
+
+            const data = replicationSteps[currentReplStep - 1];
+            document.getElementById('repl-title').innerText = data.title;
+            document.getElementById('repl-desc').innerText = data.desc;
+        }
+
+        // Codon Dictionary
+        const codonTable = {
+            'AUG': { name: 'Methionin (Met) - Start', type: 'Start-Codon' },
+            'UUU': { name: 'Phenylalanin (Phe)', type: 'Aminosäure' },
+            'UUC': { name: 'Phenylalanin (Phe)', type: 'Aminosäure' },
+            'GGG': { name: 'Glycin (Gly)', type: 'Aminosäure' },
+            'UAA': { name: 'Ochre (Stopp)', type: 'Stopp-Codon' },
+            'UAG': { name: 'Amber (Stopp)', type: 'Stopp-Codon' },
+            'UGA': { name: 'Opal (Stopp)', type: 'Stopp-Codon' },
+            'CCG': { name: 'Prolin (Pro)', type: 'Aminosäure' },
+            'GCC': { name: 'Alanin (Ala)', type: 'Aminosäure' }
+        };
+
+        function translateCodon() {
+            const val = document.getElementById('codon-input').value.toUpperCase().trim();
+            const resultEl = document.getElementById('amino-result');
+            const badgeEl = document.getElementById('amino-badge');
+
+            if (codonTable[val]) {
+                resultEl.innerText = codonTable[val].name;
+                badgeEl.innerText = codonTable[val].type;
+            } else {
+                resultEl.innerText = val.length === 3 ? "Unbekanntes Triplett" : "Bitte 3 Basen eingeben...";
+                badgeEl.innerText = "Eingabe läuft";
+            }
+        }
+
+        function setCodon(codon) {
+            document.getElementById('codon-input').value = codon;
+            translateCodon();
+        }
+
+        // DNA Builder
+        let builderStrand = ['A', 'T', 'G'];
+        function addBaseBuilder(base) {
+            if (builderStrand.length >= 12) builderStrand.shift();
+            builderStrand.push(base);
+            updateBuilderDisplay();
+        }
+
+        function clearBuilder() {
+            builderStrand = ['A'];
+            updateBuilderDisplay();
+        }
+
+        function updateBuilderDisplay() {
+            const complementMap = { 'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C' };
+            const s1 = builderStrand.join('-');
+            const s2 = builderStrand.map(b => complementMap[b]).join('-');
+            document.getElementById('builder-strand-1').innerText = s1;
+            document.getElementById('builder-strand-2').innerText = s2;
+        }
+
+        // Quiz Logic
+        const quizQuestions = [
+            {
+                q: "Welche Base paart sich in der DNA immer mit Adenin (A)?",
+                options: ["Thymin (T)", "Guanin (G)", "Cytosin (C)"],
+                correct: 0
+            },
+            {
+                q: "Welches Enzym ist für das Entwinden der DNA-Doppelhelix verantwortlich?",
+                options: ["DNA-Polymerase", "Helikase", "RNA-Ligase"],
+                correct: 1
+            },
+            {
+                q: "Welche Stickstoffbase ersetzt in der mRNA das Thymin (T)?",
+                options: ["Uracil (U)", "Adenin (A)", "Guanin (G)"],
+                correct: 0
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        function answerQuiz(selectedIndex) {
+            const q = quizQuestions[currentQuizIndex];
+            const feedback = document.getElementById('quiz-feedback');
+            if (selectedIndex === q.correct) {
+                feedback.innerText = "Richtig! Gut gemacht.";
+                feedback.className = "text-sm font-medium text-emerald-400 h-6";
+                setTimeout(() => {
+                    currentQuizIndex = (currentQuizIndex + 1) % quizQuestions.length;
+                    loadQuizQuestion();
+                }, 1200);
+            } else {
+                feedback.innerText = "Leider falsch. Versuche es noch einmal!";
+                feedback.className = "text-sm font-medium text-rose-400 h-6";
+            }
+        }
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `Frage ${currentQuizIndex + 1} von ${quizQuestions.length}`;
+            document.getElementById('quiz-question').innerText = q.q;
+            document.getElementById('quiz-feedback').innerText = "";
+            const optsContainer = document.getElementById('quiz-options');
+            optsContainer.innerHTML = "";
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-opt w-full text-left p-3 rounded-xl border border-[#1b4d3e] bg-[#0a1118] hover:border-emerald-500 text-slate-300 text-sm transition-all";
+                btn.innerText = opt;
+                btn.onclick = () => answerQuiz(idx);
+                optsContainer.appendChild(btn);
+            });
+        }
+    </script>
+</body>
+</html>
