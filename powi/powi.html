@@ -1,24 +1,122 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
-    <style>
-        body{
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
+    <title>Politische Bildung 10. Klasse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090d16',
+                        cardBg: '#121929',
+                        cardHover: '#18233c',
+                        accentBlue: '#3b82f6',
+                        deepIndigo: '#1e3a8a',
+                        slateGray: '#94a3b8',
+                        borderGray: '#1e293b'
+                    }
+                }
+            }
         }
-        a{
-            text-decoration: none;
-            color: rgb(209, 35, 35);
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #090d16;
+            color: #f8fafc;
+        }
+        .glow-effect {
+            box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.15);
         }
     </style>
 </head>
-<body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+<body class="min-h-screen bg-darkBg text-slate-100 flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+    <header class="w-full max-w-4xl mx-auto px-6 pt-16 pb-8">
+        <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-900 flex items-center justify-center shadow-lg shadow-blue-900/30 border border-blue-500/20">
+                <i data-lucide="landmark" class="w-5 h-5 text-blue-200"></i>
+            </div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-slateGray bg-slate-900/80 px-3 py-1 rounded-full border border-slate-800">Sekundarstufe I</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-3">Politik</h1>
+        <h4 class="text-lg text-slateGray font-normal">suchen sie sich ein Thema aus das sie lernen möchten/müssen.</h4>
+    </header>
+
+    <main class="w-full max-w-4xl mx-auto px-6 flex-grow pb-20">
+        
+        <!-- Semester 1 Section -->
+        <section class="mb-12">
+            <div class="flex items-center space-x-2 mb-6">
+                <i data-lucide="calendar" class="w-5 h-5 text-accentBlue"></i>
+                <h2 class="text-xl font-semibold text-slate-200 tracking-wide">Inhalte 1. Halbjahr:</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="EU.html" class="group relative flex items-center justify-between p-6 rounded-2xl bg-cardBg border border-borderGray hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-950/40 hover:-translate-y-1">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-center space-x-4 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-blue-950/60 border border-blue-800/40 flex items-center justify-center text-accentBlue group-hover:scale-110 transition-transform">
+                            <i data-lucide="globe" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-wider text-slateGray font-medium block mb-1">Europäische Union</span>
+                            <span class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">EU</span>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slateGray group-hover:text-white group-hover:bg-blue-600 group-hover:border-blue-500 transition-all relative z-10">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Semester 2 Section -->
+        <section>
+            <div class="flex items-center space-x-2 mb-6">
+                <i data-lucide="calendar-days" class="w-5 h-5 text-slateGray"></i>
+                <h2 class="text-xl font-semibold text-slate-200 tracking-wide">Inhalte 2. Halbjahr:</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="#" class="group relative flex items-center justify-between p-6 rounded-2xl bg-cardBg border border-borderGray hover:border-slate-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-800/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex items-center space-x-4 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-slate-900/60 border border-slate-800/60 flex items-center justify-center text-slateGray group-hover:scale-110 transition-transform">
+                            <i data-lucide="folder-kanban" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-wider text-slateGray font-medium block mb-1">Demnächst verfügbar</span>
+                            <span class="text-xl font-bold text-slate-300 group-hover:text-white transition-colors">Leer</span>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slateGray group-hover:text-white group-hover:bg-slate-800 transition-all relative z-10">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full max-w-4xl mx-auto px-6 py-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-sm text-slateGray">
+        <p>© 10. Klasse Politische Bildung</p>
+        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+            <span class="flex items-center space-x-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs">System Online</span>
+            </span>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
