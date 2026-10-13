@@ -1,29 +1,85 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deutsch Klasse 10</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body{
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:lightblue;
-            text-decoration: none;
+        :root {
+            font-size: 100%;
         }
-        a{
-            text-decoration: none;
-            color: whitesmoke;
-            background-color: rgb(66, 66, 66);
-            border-radius: 12px;
-            font-weight: 500;
-            display: inline-block;
-            padding: 10px 20px;
+        body {
+            background-color: #0d0611;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e2d9f3;
+        }
+        .cute-card-glow {
+            box-shadow: 0 0 1.5rem rgba(139, 0, 0, 0.25), 0 0 2.5rem rgba(75, 0, 130, 0.2);
+            transition: all 0.3s ease;
+        }
+        .cute-card-glow:hover {
+            box-shadow: 0 0 2rem rgba(178, 34, 34, 0.4), 0 0 3.5rem rgba(128, 0, 128, 0.35);
+            transform: translateY(-0.25rem);
         }
     </style>
 </head>
-<body>
-    <h1>Inhalte:</h1>
-    <a href="gedichtinterpretation.html">Gedichtinterpretationen schreiben -></a>
+<body class="h-full m-0 p-0 flex flex-col justify-between selection:bg-purple-900 selection:text-white">
+
+    <div class="fixed inset-0 pointer-events-none overflow-hidden opacity-20">
+        <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-purple-900 blur-[7rem]"></div>
+        <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full bg-red-950 blur-[7rem]"></div>
+    </div>
+
+    <main class="relative z-10 w-full max-w-[50rem] mx-auto px-[5%] py-[8vh] my-auto flex flex-col gap-[2rem]">
+        
+        <!-- Header / Badge -->
+        <div class="flex items-center gap-[0.75rem] bg-[#1a0c24]/80 border border-purple-900/40 px-[1.25rem] py-[0.75rem] rounded-[1.5rem] w-fit shadow-lg backdrop-blur-md">
+            <i data-lucide="book-open-text" class="w-[1.5rem] h-[1.5rem] text-rose-400"></i>
+            <span class="text-[0.95rem] font-semibold tracking-wide text-purple-200">Fach Deutsch • 10. Klasse</span>
+        </div>
+
+        <!-- Section 1 -->
+        <section class="flex flex-col gap-[1rem] bg-[#13081b]/60 border border-purple-950/60 p-[clamp(1.25rem,3vw,2.5rem)] rounded-[2rem] backdrop-blur-md cute-card-glow">
+            <h1 class="text-[clamp(1.25rem,2.5vw,1.75rem)] font-bold text-rose-200/90 tracking-tight flex items-center gap-[0.5rem]">
+                <i data-lucide="sparkles" class="w-[1.25rem] h-[1.25rem] text-red-500"></i>
+                Inhalte 1. Halbjahr:
+            </h1>
+            <div>
+                <a href="gedichtinterpretation.html" class="no-underline text-whitesmoke bg-gradient-to-r from-[#4a1525] to-[#2c123d] hover:from-[#631c32] hover:to-[#3d1954] border border-rose-900/40 rounded-[1rem] font-medium inline-flex items-center gap-[0.75rem] py-[0.75rem] px-[1.5rem] shadow-md transition-all duration-300">
+                    <i data-lucide="feather" class="w-[1.2rem] h-[1.2rem] text-rose-300"></i>
+                    ~ Gedichtinterpretationen schreiben ~
+                </a>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="flex flex-col gap-[1rem] bg-[#13081b]/60 border border-purple-950/60 p-[clamp(1.25rem,3vw,2.5rem)] rounded-[2rem] backdrop-blur-md cute-card-glow">
+            <h1 class="text-[clamp(1.25rem,2.5vw,1.75rem)] font-bold text-rose-200/90 tracking-tight flex items-center gap-[0.5rem]">
+                <i data-lucide="moon" class="w-[1.25rem] h-[1.25rem] text-purple-400"></i>
+                Inhalte 2. Halbjahr:
+            </h1>
+            <div>
+                <a href="#" class="no-underline text-whitesmoke bg-gradient-to-r from-[#4a1525] to-[#2c123d] hover:from-[#631c32] hover:to-[#3d1954] border border-rose-900/40 rounded-[1rem] font-medium inline-flex items-center gap-[0.75rem] py-[0.75rem] px-[1.5rem] shadow-md transition-all duration-300">
+                    <i data-lucide="clock" class="w-[1.2rem] h-[1.2rem] text-purple-300"></i>
+                    Leer
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-10 w-full text-center py-[2vh] text-[0.85rem] text-purple-400/50">
+        Gemacht für die 10. Klasse
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>
