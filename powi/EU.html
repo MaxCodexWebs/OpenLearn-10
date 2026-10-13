@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU - Alle Fakten</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-heading: #f0f6fc;
+            --accent-blue: #1f6feb;
+            --accent-blue-hover: #388bfd;
+            --accent-gray: #8b949e;
+            --highlight-bg: #1f242c;
+            --spickzettel-bg: #1f1a1a;
+            --spickzettel-border: #f85149;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--text-heading);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--accent-gray);
+            font-size: 1.1rem;
+        }
+
+        h2 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin: 40px 0 20px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            color: var(--text-heading);
+            font-size: 1.3rem;
+            margin: 25px 0 10px 0;
+        }
+
+        p, li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--highlight-bg);
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background-color: var(--accent-blue);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-blue-hover);
+            border: 2px solid var(--bg-color);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--accent-blue-hover);
+            margin-bottom: 3px;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .box-pro {
+            background-color: var(--card-bg);
+            border-left: 4px solid #238636;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .box-con {
+            background-color: var(--card-bg);
+            border-left: 4px solid #da3633;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Spickzettel Styling */
+        .spickzettel {
+            background-color: var(--spickzettel-bg);
+            border: 2px dashed var(--spickzettel-border);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .spickzettel h2 {
+            color: #ff7b72;
+            border-bottom-color: #582222;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--highlight-bg);
+            color: var(--accent-gray);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>EU - Alle Fakten</h1>
+        <p>Der ultimative Lernzettel für das Fach Politikwissenschaft (PB)</p>
+    </header>
+
+    <!-- SECTION 1: GESCHICHTE -->
+    <section>
+        <h2>1. Geschichte & Evolution der Europäischen Union</h2>
+        <div class="card">
+            <p>Die europäische Integration begann nach dem verheerenden Zweiten Weltkrieg mit dem Ziel, dauerhaften Frieden, wirtschaftliche Stabilität und Versöhnung (insbesondere zwischen Frankreich und Deutschland) zu sichern.</p>
+            
+            <h3>Wichtige Vordenker und Initiatoren:</h3>
+            <ul>
+                <li><strong>Winston Churchill:</strong> Forderte 1946 in seiner Rede in Zürich die "Vereinigten Staaten von Europa", um den Kontinent nach dem Krieg zu befrieden.</li>
+                <li><strong>Robert Schuman:</strong> Französischer Außenminister, der den "Schuman-Plan" (1950) vorstellte, um die Kohle- und Stahlproduktion unter eine gemeinsame, supranationale Behörde zu stellen.</li>
+                <li><strong>George C. Marshall:</strong> US-Außenminister, der das <span class="tag">Marshall-Plan</span>-Wiederaufbauprogramm (ERP) initiierte, welches die europäische Wirtschaft ankurbelte und die Zusammenarbeit der europäischen Staaten zur Bedingung machte.</li>
+            </ul>
+
+            <h3>Chronologische Meilensteine:</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">1951 / 1952 (EGKS)</div>
+                    <p>Gründung der <strong>Europäischen Gemeinschaft für Kohle und Stahl (EGKS)</strong> – auch bekannt als "Montanunion" – durch den Vertrag von Paris. Mitglieder: BRD, Frankreich, Italien, Belgien, die Niederlande und Luxemburg (die "Sechs-Gründerstaaten").</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">1957 / 1958 (Römische Verträge -> EG)</div>
+                    <p>Unterzeichnung der <strong>Römischen Verträge</strong> (Inkrafttreten 1958). Gründung der <strong>Europäischen Wirtschaftsgemeinschaft (EWG)</strong> und der Europäischen Atomgemeinschaft (Euratom). Aus diesen geht die <strong>Europäische Gemeinschaft (EG)</strong> hervor.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">1973 (Erste Erweiterung)</div>
+                    <p>Erste EG-Erweiterung: Großbritannien, Irland und Dänemark treten bei (die "Nord-Erweiterung").</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">1979 (Erste Direktwahl)</div>
+                    <p>Das <strong>Europäische Parlament wird zum ersten Mal direkt von den Bürgerinnen und Bürgern gewählt</strong> (vorher wurden Abgeordnete dorthin entsandt).</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">1985 / 1995 (Schengener Abkommen)</div>
+                    <p>Unterzeichnung des Schengener Abkommens (1985, Umsetzung ab 1995), das schrittweise die Grenzkontrollen innerhalb des Raumes abschaffte.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">1993 (Schaffung des Binnenmarktes & Vertrag von Maastricht)</div>
+                    <p>Vollendung des <strong>gemeinsamen Binnenmarktes</strong> (Freier Verkehr von Waren, Dienstleistungen, Kapital und Personen). Zudem tritt der <strong>Vertrag von Maastricht</strong> in Kraft: Aus der EG wird offiziell die <strong>Europäische Union (EU)</strong>, der Grundstein für den Euro wird gelegt.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2002 (Einführung des Euro)</div>
+                    <p>Der Euro wird als Bargeld in zunächst 12 Mitgliedstaaten ("Eurozone") eingeführt.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2004 & 2007 (Ost- und Süd-Erweiterung)</div>
+                    <p>Große Osterweiterung (2004 mit 10 neuen Staaten, u.a. Polen, Tschechien, Ungarn) und Beitritt von Bulgarien und Rumänien (2007), um das geeinte Europa nach dem Kalten Krieg zu festigen.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2009 - 2015 (Eurokrise)</div>
+                    <p>Staatsschuldenkrise in mehreren Euro-Ländern (v.a. Griechenland) stellt die EU vor massive Belastungsproben und führt zu Rettungsschirmen (ESM) und schärferer Haushaltskontrolle.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2013 (Kroatien wird Mitglied)</div>
+                    <p>Kroatien tritt als bislang letztes Land (Stand heute) als 28. Mitglied der EU bei.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2016 - 2020 (Brexit)</div>
+                    <p>Briten stimmen in einem Referendum <strong>2016 für den Austritt aus der EU</strong> (Brexit). Am 31. Januar 2020 vollzieht das Vereinigte Königreich den endgültigen Austritt (EU schrumpft auf 27 Mitgliedstaaten).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ORGANE -->
+    <section>
+        <h2>2. Die wichtigsten Organe der EU & ihre Wahlen</h2>
+        <div class="card">
+            <p>Die EU funktioniert über ein institutionelles Geflecht (oft als institutionelles Dreieck bezeichnet, ergänzt durch Kontrollinstanzen).</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Organ</th>
+                        <th>Zusammensetzung & Wahlmodus</th>
+                        <th>Hauptaufgabe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Europäisches Parlament (EP)</strong></td>
+                        <td>Ca. 705-720 Abgeordnete; <strong>alle 5 Jahre direkt von den EU-Bürgern</strong> nach nationalem Wahlrecht gewählt (Sitze sind nach Bevölkerungsgröße gestaffelt). Sitz: Straßburg/Brüssel.</td>
+                        <td>Gesetzgebung (gleichberechtigt mit dem Rat), Bewilligung des EU-Haushalts, Kontrolle der EU-Kommission (kann diese stürzen).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Europäische Kommission</strong></td>
+                        <td>Ein Kommissar pro Mitgliedstaat (inkl. Kommissionspräsident/in, derzeit Ursula von der Leyen). Vom Europäischen Rat vorgeschlagen und vom Parlament gewählt.</td>
+                        <td><strong>Hütet die Verträge</strong>, hat das Monopol für Gesetzesinitiativen, führt den EU-Haushalt aus, EU-Kartell- und Wettbewerbshüter.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rat der Europäischen Union (Ministerrat)</strong></td>
+                        <td>Die jeweiligen Fachminister der 27 Mitgliedstaaten (z.B. alle Umweltminister). Die Präsidentschaft wechselt alle 6 Monate rotierend.</td>
+                        <td>Verabschiedet gemeinsam mit dem Parlament Gesetze und den EU-Haushalt, koordiniert die EU-Politik der Mitgliedstaaten.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Europäischer Rat</strong></td>
+                        <td>Die Staats- und Regierungschefs der 27 Mitgliedstaaten sowie der Kommissionspräsident. (Ständiger Präsident: aktuell António Costa).</td>
+                        <td>Gibt die <strong>allgemeinen politischen Leitlinien und Prioritäten</strong> der EU vor ("Motor" der EU).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Europäischer Gerichtshof (EuGH)</strong></td>
+                        <td>Je ein Richter pro Mitgliedstaat, unterstützt von Generalanwälten. Sitz: Luxemburg.</td>
+                        <td>Sichert die einheitliche Auslegung und Anwendung des EU-Rechts in allen Mitgliedstaaten, urteilt bei Streitigkeiten.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 3: DEMOKRATIEFRAGE -->
+    <section>
+        <h2>3. Ist die EU eine Demokratie? (Kritik & Positives)</h2>
+        <div class="card">
+            <p>Die Frage nach dem demokratischen Charakter der EU ist zentral im PB-Unterricht. Man spricht oft von einem <strong>Demokratie-Dilemma</strong> oder einem "Demokratiedefizit", da die EU kein klassischer Nationalstaat ist, sondern ein supranationales Gebilde (Mehrebenensystem).</p>
+            
+            <div class="pros-cons" style="margin-top: 20px;">
+                <div class="box-pro">
+                    <h3 style="color: #3fb950; margin-top:0;">Wo die EU demokratisch ist (+)</h3>
+                    <ul>
+                        <li><strong>Direkt gewählte Vertretung:</strong> Das Europäische Parlament wird alle 5 Jahre direkt von den Bürgern gewählt.</li>
+                        <li><strong>Gewaltenteilung & Kontrolle:</strong> Das Parlament kontrolliert die Europäische Kommission und kann ihr das Misstrauen aussprechen.</li>
+                        <li><strong>Doppelte Legitimation:</strong> Die EU wird sowohl durch die Bürger (über das Parlament) als auch durch die demokratisch gewählten Regierungen der Mitgliedstaaten (im Ministerrat und Europäischen Rat) legitimiert.</li>
+                        <li><strong>Transparenz & Grundrechte:</strong> Die Grundrechtecharta gilt fest; Gesetzgebungsverfahren sind öffentlich und Dokumente oft einsehbar. Bürgerinitiativen ermöglichen Mitsprache.</li>
+                    </ul>
+                </div>
+                
+                <div class="box-con">
+                    <h3 style="color: #f85149; margin-top:0;">Wo die EU als undemokratisch kritisiert wird (-)</h3>
+                    <ul>
+                        <li><strong>Fehlendes Initiativrecht des Parlaments:</strong> Das Parlament kann selbst keine Gesetze vorschlagen – dieses Monopol hat die nicht direkt gewählte EU-Kommission.</li>
+                        <li><strong>Das "Demokratiedefizit":</strong> Die Kommission und der Europäische Rat agieren oft intransparent und bürokratisch ("Brüsseler Bürokratie"). Entscheidungen wirken für Bürger oft fernab der Realität.</li>
+                        <li><strong>Schwache europäische Öffentlichkeit:</strong> Es gibt keine echten europaweiten Parteien oder Medienlandschaften; Europawahlen werden oft als nationale "Testwahlen" gegen die Regierung missbraucht.</li>
+                        <li><strong>"No-Demos"-Problem:</strong> Es fehlt ein einheitliches europäisches Volk ("Demos") mit einer gemeinsamen Sprache und Identität, was kollektive demokratische Bindungskraft erschwert.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: SPICKZETTEL -->
+    <section>
+        <div class="spickzettel">
+            <h2>#Spickzettel</h2>
+            <p><em>Kompakte Formeln und Buzzwords für Testfragen (Schlüsselwörter auswendig lernen!):</em></p>
+            <br>
+            <ul>
+                <li><strong>Vordenker & Start:</strong> Churchill (Vereinigte Staaten von Europa), Schuman (Montanunion / Schuman-Plan 1950), Marshall (Wiederaufbauprogramm).</li>
+                <li><strong>Evolution:</strong> 1951 EGKS &rarr; 1957 Römische Verträge (EWG/EG) &rarr; 1993 Vertrag von Maastricht (Wird zur **EU**, Binnenmarkt vollendet).</li>
+                <li><strong>Wichtige Jahreszahlen:</strong> 1979 (Erste Direktwahl des Parlaments), 1995 (Schengen-Raum ohne Grenzkontrollen), 2002 (Euro-Bargeld), 2016/2020 (Brexit-Votum & Austritt GB).</li>
+                <li><strong>Das magische EU-Dreieck (Gesetzgebung):</strong> 
+                    <br>1. *Kommission* schlägt vor (Initiativrecht). 
+                    <br>2. *Parlament* (Direktwahl) & *Ministerrat* (Nationale Minister) stimmen gemeinsam ab.
+                </li>
+                <li><strong>Kritik-Buzzwords für Demokratie:</strong> Initiativrecht fehlt dem Parlament, intransparente Bürokratie, "No-Demos-Problem", zu große Bürgerferne.</li>
+                <li><strong>Pluspunkte der EU:</strong> Frieden seit Jahrzehnten, Freizügigkeit (Schengen/Arbeiten wo man will), stabiler Binnenmarkt, Euro als gemeinsame Währung.</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
