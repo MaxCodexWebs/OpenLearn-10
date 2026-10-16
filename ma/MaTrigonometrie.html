@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigonometrie – Klassenarbeitstrainer</title>
+<style>
+:root {
+  --bg: #070b16;
+  --panel: rgba(15, 23, 42, 0.85);
+  --panel-2: rgba(30, 41, 59, 0.75);
+  --blue: #38bdf8;
+  --blue-soft: rgba(56, 189, 248, 0.14);
+  --green: #34d399;
+  --yellow: #fbbf24;
+  --red: #f87171;
+  --violet: #a78bfa;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, 0.16);
+  --border-hover: rgba(56, 189, 248, 0.35);
+  --shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background: 
+    radial-gradient(1200px 600px at 15% -10%, rgba(56, 189, 248, 0.15), transparent),
+    radial-gradient(1000px 600px at 90% 5%, rgba(167, 139, 250, 0.12), transparent),
+    linear-gradient(160deg, #020617, #0f172a 45%, #020617);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.4);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(2, 6, 23, 0.8);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--blue);
+  font-size: 1.05rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: #fff;
+  background: var(--blue-soft);
+  border-color: var(--border-hover);
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 32px 24px 80px;
+}
+
+.hero {
+  text-align: center;
+  padding: 56px 20px 40px;
+}
+
+.hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #7dd3fc, #a78bfa, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: var(--muted);
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+.badges {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.badge {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+section {
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  margin: 32px 0;
+  box-shadow: var(--shadow);
+  transition: border-color 0.3s ease;
+}
+
+section:hover {
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.section-number {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: var(--blue-soft);
+  color: var(--blue);
+  border: 1px solid var(--border-hover);
+  flex-shrink: 0;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  color: #7dd3fc;
+  margin: 28px 0 12px;
+  font-size: 1.15rem;
+}
+
+p {
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  transition: var(--transition);
+}
+
+.card:hover {
+  border-color: rgba(56, 189, 248, 0.25);
+  transform: translateY(-2px);
+}
+
+.formula {
+  font-family: 'Cambria Math', 'STIX Two Math', Georgia, serif;
+  background: rgba(2, 6, 23, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-left: 4px solid var(--blue);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 16px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 1.05rem;
+}
+
+.step {
+  background: rgba(2, 6, 23, 0.6);
+  border-left: 3px solid var(--green);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 0.92rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+.step b {
+  color: var(--green);
+}
+
+.result {
+  border-left-color: var(--yellow);
+}
+
+.result b {
+  color: var(--yellow);
+}
+
+.note {
+  border-left-color: var(--violet);
+}
+
+.note b {
+  color: var(--violet);
+}
+
+.video-list {
+  display: grid;
+  gap: 12px;
+}
+
+.video-list a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  border-left: 4px solid var(--blue);
+  padding: 14px 18px;
+  border-radius: 14px;
+  transition: var(--transition);
+}
+
+.video-list a:hover {
+  transform: translateX(6px);
+  background: rgba(56, 189, 248, 0.12);
+  border-color: var(--border-hover);
+}
+
+canvas {
+  width: 100%;
+  height: 400px;
+  display: block;
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-top: 16px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.control {
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.control label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+input[type=range] {
+  width: 100%;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+select, input[type=text] {
+  width: 100%;
+  background: #0b1120;
+  color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+select:focus, input[type=text]:focus {
+  border-color: var(--blue);
+}
+
+.task {
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.task-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.task-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--blue);
+  background: var(--blue-soft);
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  font-weight: 600;
+}
+
+details {
+  margin-top: 12px;
+}
+
+summary {
+  cursor: pointer;
+  color: #7dd3fc;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.08);
+  display: inline-block;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  transition: var(--transition);
+}
+
+summary:hover {
+  background: rgba(56, 189, 248, 0.15);
+}
+
+.solution {
+  margin-top: 12px;
+  color: var(--text);
+  padding: 4px 0;
+}
+
+.quiz-question {
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.option {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-top: 8px;
+  transition: var(--transition);
+}
+
+.option:hover {
+  background: rgba(56, 189, 248, 0.06);
+  border-color: rgba(56, 189, 248, 0.15);
+}
+
+.option input {
+  margin-top: 3px;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+.quiz-feedback {
+  margin-top: 12px;
+  font-weight: 700;
+  min-height: 24px;
+}
+
+.btn {
+  border: 0;
+  cursor: pointer;
+  color: #04121d;
+  font-weight: 800;
+  background: linear-gradient(90deg, #38bdf8, #34d399);
+  padding: 12px 22px;
+  border-radius: 999px;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(56, 189, 248, 0.35);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--blue);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  box-shadow: none;
+}
+
+.btn.secondary:hover {
+  background: var(--blue-soft);
+}
+
+.score-box {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  font-weight: 700;
+}
+
+.test-paper {
+  background: #10092e;
+  color: #c7d2fe;
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.test-paper h3 {
+  color: #7dd3fc;
+}
+
+.test-paper .formula, 
+.test-paper .step {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(167, 139, 250, 0.3);
+  color: #e2e8f0;
+}
+
+.test-paper .step b {
+  color: var(--violet);
+}
+
+.points {
+  float: right;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+@media(max-width: 640px) {
+  section {
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .hero {
+    padding: 36px 12px 24px;
+  }
+  .nav {
+    padding: 12px 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">📐 Trigonometrie-Trainer</div>
+    <nav class="nav-links">
+      <a href="#videos">Videos</a>
+      <a href="#graph">Graph</a>
+      <a href="#nullstellen">Nullstellen</a>
+      <a href="#aufgaben">Aufgaben</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#test">Übungstest</a>
+      <a href="#ka">Klassenarbeit</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Trigonometrie sicher verstehen</h1>
+    <p>Sinus- und Kosinusfunktionen, Parameter, Nullstellen, Quiz, Übungstest und eine mögliche Klassenarbeit – alles an einem Ort.</p>
+    <div class="badges">
+      <span class="badge">Sinus &amp; Kosinus</span>
+      <span class="badge">Parameter a, b, c, d</span>
+      <span class="badge">Nullstellen</span>
+      <span class="badge">Interaktives Quiz</span>
+    </div>
+  </div>
+
+  <section id="videos">
+    <div class="section-head">
+      <div class="section-number">1</div>
+      <h2>Videosammlung</h2>
+    </div>
+    <div class="video-list">
+      <a href="https://www.youtube.com/watch?v=E6GINfM-21U" target="_blank" rel="noopener">&rArr; Allgemeine Sinusfunktion – Funktionsgleichung ablesen</a>
+      <a href="https://youtu.be/7M2WfInrrH0?si=OX_MMkTUBep1PKa5" target="_blank" rel="noopener">&rArr; Nullstellen von sin(x) und trigonometrischen Funktionen</a>
+      <a href="https://youtu.be/6CfQLlgA3zE?si=noBM43SVHtbY8t-I" target="_blank" rel="noopener">&rArr; sin(x) und cos(x): Ableitung &amp; Nullstellen</a>
+      <a href="https://youtu.be/fYDhjLxM5sM?si=UPGmyl03T0US2Txw" target="_blank" rel="noopener">&rArr; Nullstellen erweitert</a>
+      <a href="https://youtu.be/gcaZ7CGE2lg?si=H9XRPyPuLfFsbZO-" target="_blank" rel="noopener">&rArr; Eigenschaften der Sinusfunktion</a>
+    </div>
+  </section>
+
+  <section id="graph">
+    <div class="section-head">
+      <div class="section-number">2</div>
+      <h2>Sinus und Kosinus interaktiv</h2>
+    </div>
+    <p class="muted">Verändere Amplitude, Frequenz, Verschiebung in x-Richtung und Verschiebung in y-Richtung. So siehst du sofort, wie sich der Graph verändert.</p>
+
+    <div class="formula">
+      f(x) = a · sin(b · (x + c)) + d &nbsp;&nbsp;|&nbsp;&nbsp; f(x) = a · cos(b · (x + c)) + d
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card"><b>a</b> = Amplitude<br><span class="muted">Streckung in y-Richtung</span></div>
+      <div class="card"><b>b</b> = Frequenz<br><span class="muted">Periode: p = 2 &pi; / b </span></div>
+      <div class="card"><b>c</b> = Verschiebung<br><span class="muted">nach links, wenn c &gt; 0</span></div>
+      <div class="card"><b>d</b> = Verschiebung<br><span class="muted">Mittellinie bei y = d</span></div>
+    </div>
+
+    <div class="controls">
+      <div class="control">
+        <label for="funcType">Funktion</label>
+        <select id="funcType">
+          <option value="sin">f(x) = a · sin(b(x + c)) + d</option>
+          <option value="cos">f(x) = a · cos(b(x + c)) + d</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="amplitude">Amplitude a: <span id="ampValue">1</span></label>
+        <input type="range" id="amplitude" min="0.5" max="3" step="0.5" value="1">
+      </div>
+      <div class="control">
+        <label for="freq">Frequenz b: <span id="freqValue">1</span></label>
+        <input type="range" id="freq" min="0.5" max="3" step="0.5" value="1">
+      </div>
+      <div class="control">
+        <label for="phase">Verschiebung c: <span id="phaseValue">0</span></label>
+        <input type="range" id="phase" min="-3" max="3" step="0.5" value="0">
+      </div>
+      <div class="control">
+        <label for="shift">Verschiebung d: <span id="shiftValue">0</span></label>
+        <input type="range" id="shift" min="-2" max="2" step="0.5" value="0">
+      </div>
+    </div>
+
+    <canvas id="trigCanvas"></canvas>
+  </section>
+
+  <section id="nullstellen">
+    <div class="section-head">
+      <div class="section-number">3</div>
+      <h2>Nullstellen richtig berechnen</h2>
+    </div>
+
+    <p>Eine Nullstelle liegt vor, wenn f(x)=0 gilt. Bei Sinusfunktionen nutzt man insbesondere: sin(u)=0 &rarr; u=k\pi, wobei k eine ganze Zahl ist. [1,2,3,4,5...]</p>
+
+    <div class="formula">
+      f(x) = a · sin(b(x + c)) + d = 0
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Rechenweg</h3>
+        <div class="step"><b>1.</b> f(x) = 0 setzen</div>
+        <div class="step"><b>2.</b> d subtrahieren: a · sin(b(x + c)) = -d</div>
+        <div class="step"><b>3.</b> Durch a teilen: sin(b(x + c)) = -d/a</div>
+        <div class="step"><b>4.</b> Sinus umkehren: b(x + c) = sin⁻¹(-d/a)</div>
+        <div class="step"><b>5.</b> Nach x auflösen und Periode [ p=2 &pi; / b ] berücksichtigen</div>
+      </div>
+      <div class="card">
+        <h3>Wichtig</h3>
+        <p>Die Verschiebung <b>d</b> entscheidet, ob es überhaupt Nullstellen gibt:</p>
+        <div class="step note">Wenn |d| &gt; |a|: <b>keine Nullstellen</b></div>
+        <div class="step note">Wenn |d| = |a|: <b>genau eine Nullstelle pro Periode</b></div>
+        <div class="step note">Wenn |d| &lt; |a|: <b>zwei Nullstellen pro Periode</b></div>
+      </div>
+    </div>
+
+    <h3>Beispiel 1: b und d verändert</h3>
+    <div class="task">
+      <div class="task-head">
+        <b>f(x) = 2 · sin(2x) - 1</b>
+        <span class="task-tag">a = 2, b = 2, d = -1</span>
+      </div>
+      <div class="step"><b>Nullstelle:</b> 2 · sin(2x) - 1 = 0</div>
+      <div class="step"><b>+1:</b> 2 · sin(2x) = 1</div>
+      <div class="step"><b>:2:</b> sin(2x) = 0,5</div>
+      <div class="step"><b>Umkehrfunktion:</b> 2x = 0,5236 oder 2x = π - 0,5236</div>
+      <div class="step"><b>:2:</b> x = 0,2618 oder x = 1,3090</div>
+      <div class="step result"><b>Periode P = 2π/2 = π. Also:</b> x ≈ 0,26 + kπ oder x ≈ 1,31 + kπ, k ∈ ℤ</div>
+    </div>
+
+    <h3>Beispiel 2: c und d verändert</h3>
+    <div class="task">
+      <div class="task-head">
+        <b>f(x) = sin(x + π/2) + 0,5</b>
+        <span class="task-tag">a = 1, b = 1, c = π/2, d = 0,5</span>
+      </div>
+      <div class="step"><b>Nullstelle:</b> sin(x + π/2) + 0,5 = 0</div>
+      <div class="step"><b>-0,5:</b> sin(x + π/2) = -0,5</div>
+      <div class="step"><b>Umkehrfunktion:</b> x + π/2 = -π/6 oder x + π/2 = π + π/6</div>
+      <div class="step"><b>-π/2:</b> x = -π/6 - π/2 = -2π/3</div>
+      <div class="step"><b>zweite Lösung:</b> x = 7π/6 - π/2 = 2π/3</div>
+      <div class="step result"><b>Periode P = 2π:</b> x = -2π/3 + k·2π oder x = 2π/3 + k·2π, k ∈ ℤ</div>
+    </div>
+
+    <h3>Beispiel 3: b, c und d verändert</h3>
+    <div class="task">
+      <div class="task-head">
+        <b>f(x) = 3 · sin(2(x - π/4)) - 1,5</b>
+        <span class="task-tag">a = 3, b = 2, c = -π/4, d = -1,5</span>
+      </div>
+      <div class="step"><b>Nullstelle:</b> 3 · sin(2(x - π/4)) - 1,5 = 0</div>
+      <div class="step"><b>+1,5:</b> 3 · sin(2(x - π/4)) = 1,5</div>
+      <div class="step"><b>:3:</b> sin(2(x - π/4)) = 0,5</div>
+      <div class="step"><b>Umkehrfunktion:</b> 2(x - π/4) = π/6 oder 2(x - π/4) = 5π/6</div>
+      <div class="step"><b>:2:</b> x - π/4 = π/12 oder x - π/4 = 5π/12</div>
+      <div class="step"><b>+π/4:</b> x = π/3 oder x = 2π/3</div>
+      <div class="step result"><b>Periode P = π:</b> x = π/3 + kπ oder x = 2π/3 + kπ, k ∈ ℤ</div>
+    </div>
+
+    <h3>Beispiel 4: Kosinus mit Verschiebung</h3>
+    <div class="task">
+      <div class="task-head">
+        <b>f(x) = 2 · cos(x - π/3) - 1</b>
+        <span class="task-tag">a = 2, b = 1, c = -π/3, d = -1</span>
+      </div>
+      <div class="step"><b>Nullstelle:</b> 2 · cos(x - π/3) - 1 = 0</div>
+      <div class="step"><b>+1:</b> 2 · cos(x - π/3) = 1</div>
+      <div class="step"><b>:2:</b> cos(x - π/3) = 0,5</div>
+      <div class="step"><b>Kosinus gleich 0,5:</b> Winkel = ±π/3</div>
+      <div class="step"><b>1. Fall:</b> x - π/3 = π/3 → x = 2π/3</div>
+      <div class="step"><b>2. Fall:</b> x - π/3 = -π/3 → x = 0</div>
+      <div class="step result"><b>Periode P = 2π:</b> x = 0 + k·2π oder x = 2π/3 + k·2π, k ∈ ℤ</div>
+    </div>
+
+    <h3>Beispiel 5: keine Nullstellen</h3>
+    <div class="task">
+      <div class="task-head">
+        <b>f(x) = sin(x) + 2</b>
+        <span class="task-tag">a = 1, d = 2</span>
+      </div>
+      <div class="step"><b>Ansatz:</b> sin(x) + 2 = 0</div>
+      <div class="step"><b>-2:</b> sin(x) = -2</div>
+      <div class="step note">Der Sinus hat nur Werte zwischen -1 und 1. Daher kann sin(x) nie -2 sein.</div>
+      <div class="step result"><b>Ergebnis:</b> f hat keine Nullstellen.</div>
+    </div>
+  </section>
+
+  <section id="aufgaben">
+    <div class="section-head">
+      <div class="section-number">4</div>
+      <h2>Weitere Übungsaufgaben</h2>
+    </div>
+    <p class="muted">Rechne zuerst selbst. Klicke dann auf „Lösung anzeigen“.</p>
+
+    <div class="task">
+      <div class="task-head"><b>1. Bestimme alle Nullstellen.</b><span class="task-tag">Grundform</span></div>
+      <div class="formula">f(x) = 4 · sin(3x)</div>
+      <details><summary>Lösung anzeigen</summary>
+        <div class="solution">
+          <div class="step">4 · sin(3x) = 0</div>
+          <div class="step">sin(3x) = 0</div>
+          <div class="step">3x = kπ</div>
+          <div class="step result">x = kπ/3, k ∈ ℤ</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><b>2. Bestimme alle Nullstellen.</b><span class="task-tag">d ≠ 0</span></div>
+      <div class="formula">f(x) = 2 · sin(x) - √2</div>
+      <details><summary>Lösung anzeigen</summary>
+        <div class="solution">
+          <div class="step">2 · sin(x) = √2</div>
+          <div class="step">sin(x) = √2/2</div>
+          <div class="step">x = π/4 oder x = 3π/4</div>
+          <div class="step result">x = π/4 + k·2π oder x = 3π/4 + k·2π, k ∈ ℤ</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><b>3. Bestimme alle Nullstellen.</b><span class="task-tag">b und c</span></div>
+      <div class="formula">f(x) = cos(2x + π)</div>
+      <details><summary>Lösung anzeigen</summary>
+        <div class="solution">
+          <div class="step">cos(2x + π) = 0</div>
+          <div class="step">2x + π = π/2 + kπ</div>
+          <div class="step">2x = -π/2 + kπ</div>
+          <div class="step result">x = -π/4 + kπ/2, k ∈ ℤ</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><b>4. Bestimme alle Nullstellen im Intervall [0; 2π].</b><span class="task-tag">c und d</span></div>
+      <div class="formula">f(x) = sin(x - π/3) + 0,5</div>
+      <details><summary>Lösung anzeigen</summary>
+        <div class="solution">
+          <div class="step">sin(x - π/3) = -0,5</div>
+          <div class="step">x - π/3 = -π/6 oder x - π/3 = 7π/6</div>
+          <div class="step">x = π/6 oder x = 3π/2</div>
+          <div class="step result">Beide Lösungen liegen in [0; 2π]: x = π/6 und x = 3π/2</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><b>5. Bestimme alle Nullstellen.</b><span class="task-tag">a, b, c, d</span></div>
+      <div class="formula">f(x) = 3 · cos(2(x + π/6)) - 1,5</div>
+      <details><summary>Lösung anzeigen</summary>
+        <div class="solution">
+          <div class="step">3 · cos(2(x + π/6)) = 1,5</div>
+          <div class="step">cos(2(x + π/6)) = 0,5</div>
+          <div class="step">2(x + π/6) = ±π/3 + k·2π</div>
+          <div class="step">x + π/6 = ±π/6 + kπ</div>
+          <div class="step result">x = 0 + kπ oder x = -π/3 + kπ, k ∈ ℤ</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><b>6. Lies Amplitude, Periode, Verschiebung und Wertebereich ab.</b><span class="task-tag">Parameter</span></div>
+      <div class="formula">f(x) = 2 · sin(0,5(x - π)) + 1</div>
+      <details><summary>Lösung anzeigen</summary>
+        <div class="solution">
+          <div class="step">a = 2, b = 0,5, c = -π, d = 1</div>
+          <div class="step">Periode: P = 2π / 0,5 = 4π</div>
+          <div class="step">Mittellinie: y = 1</div>
+          <div class="step result">Wertebereich: [1 - 2; 1 + 2] = [-1; 3]</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="section-head">
+      <div class="section-number">5</div>
+      <h2>Quiz</h2>
+    </div>
+    <p class="muted">Wähle je Frage eine Antwort und klicke anschließend auf „Auswerten“.</p>
+
+    <div id="quizContainer"></div>
+    <button class="btn" id="quizSubmit">Auswerten</button>
+    <button class="btn secondary" id="quizReset">Zurücksetzen</button>
+    <div class="score-box" id="quizScore">Noch keine Antwort ausgewertet.</div>
+  </section>
+
+  <section id="test">
+    <div class="section-head">
+      <div class="section-number">6</div>
+      <h2>Möglicher Übungstest</h2>
+    </div>
+    <p class="muted">Bearbeite die Aufgaben schriftlich. Die Lösungen stehen unter jeder Aufgabe.</p>
+
+    <div class="test-paper">
+      <h3>Übungstest: Sinus- und Kosinusfunktionen <span class="points">30 Punkte</span></h3>
+
+      <div class="task">
+        <b>1.</b> Gib für [ f(x)=5 ⋅ sin(2x)-3 ] Amplitude, Periode, Mittellinie und Wertebereich an. <span class="points">6 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">a = 5, b = 2, d = -3</div>
+            <div class="step">Periode: P = 2π/2 = π</div>
+            <div class="step">Mittellinie: y = -3</div>
+            <div class="step result">Wertebereich: [-8; 2]</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>2.</b> Bestimme alle Nullstellen von [ f(x)=sin(3x-&pi;/2) ]. <span class="points">6 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">sin(3x - π/2) = 0</div>
+            <div class="step">3x - π/2 = kπ</div>
+            <div class="step">3x = π/2 + kπ</div>
+            <div class="step result">x = π/6 + kπ/3, k ∈ ℤ</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>3.</b> Bestimme alle Nullstellen von [ f(x)=2 ⋅ cos(x+&pi;/4)+1 ]. <span class="points">8 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">2 · cos(x + π/4) = -1</div>
+            <div class="step">cos(x + π/4) = -0,5</div>
+            <div class="step">x + π/4 = 2π/3 + k·2π oder x + π/4 = 4π/3 + k·2π</div>
+            <div class="step result">x = 5π/12 + k·2π oder x = 13π/12 + k·2π, k ∈ ℤ</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>4.</b> Entscheide begründet, ob [ f(x)=cos(x)+4 ] Nullstellen besitzt. <span class="points">4 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">cos(x) = -4</div>
+            <div class="step note">Der Kosinus hat höchstens den Wert -1.</div>
+            <div class="step result">Es gibt keine Nullstellen.</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>5.</b> Eine Schwingung wird durch [ f(x)=1,5 ⋅ sin(2(x-&pi;/8))+0,5 ] beschrieben. Bestimme alle Nullstellen im Intervall [0; 2π]. <span class="points">6 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">1,5 · sin(2(x - π/8)) = -0,5</div>
+            <div class="step">sin(2(x - π/8)) = -1/3</div>
+            <div class="step">2(x - π/8) = arcsin(-1/3) oder 2(x - π/8) = π - arcsin(-1/3)</div>
+            <div class="step">x ≈ -0,060 + kπ oder x ≈ 1,631 + kπ</div>
+            <div class="step result">Im Intervall [0; 2π]: x ≈ 1,631; x ≈ 3,202; x ≈ 4,773</div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="ka">
+    <div class="section-head">
+      <div class="section-number">7</div>
+      <h2>Mögliche Klassenarbeit</h2>
+    </div>
+    <p class="muted">Bearbeitungszeit: 60 Minuten | Hilfsmittel: Taschenrechner</p>
+
+    <div class="test-paper">
+      <h3>Klassenarbeit: Trigonometrische Funktionen <span class="points">45 Punkte</span></h3>
+
+      <div class="task">
+        <b>Aufgabe 1:</b> Zeichne [ f(x)=2 ⋅ sin(x) ] und [ g(x)=cos(x)+1 ] im Intervall [0; 2π]. Markiere jeweils die Nullstellen. <span class="points">8 P</span>
+        <details><summary>Erwartung</summary>
+          <div class="solution">
+            <div class="step">f: Nullstellen bei x = 0, π, 2π</div>
+            <div class="step">g: Nullstelle bei x = π</div>
+            <div class="step result">f hat Amplitude 2; g ist um 1 nach oben verschoben.</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>Aufgabe 2:</b> Für [ f(x)=3 ⋅ sin(2(x+ &pi;/4))-1 ], bestimme Amplitude, Periode, Verschiebung in x- und y-Richtung sowie den Wertebereich. <span class="points">8 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">a = 3, b = 2, c = π/4, d = -1</div>
+            <div class="step">Periode: P = π</div>
+            <div class="step">Verschiebung: π/4 nach links, 1 nach unten</div>
+            <div class="step result">Wertebereich: [-4; 2]</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>Aufgabe 3:</b> Berechne alle Nullstellen von [ f(x)=2 ⋅ sin(3x)+ &radic;3 ]. <span class="points">9 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">2 · sin(3x) = -√3</div>
+            <div class="step">sin(3x) = -√3/2</div>
+            <div class="step">3x = -π/3 + k·2π oder 3x = 4π/3 + k·2π</div>
+            <div class="step result">x = -π/9 + k·2π/3 oder x = 4π/9 + k·2π/3, k ∈ ℤ</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>Aufgabe 4:</b> Eine Feder schwingt gemäß [ f(x)=4 ⋅ sin(0,5(x + &pi;/2))+2 ]. Bestimme alle Nullstellen im Intervall [0; 4π]. <span class="points">10 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">4 · sin(0,5(x - π/2)) = -2</div>
+            <div class="step">sin(0,5(x - π/2)) = -0,5</div>
+            <div class="step">0,5(x - π/2) = -π/6 + k·2π oder 0,5(x - π/2) = 7π/6 + k·2π</div>
+            <div class="step">x = π/3 + k·4π oder x = 17π/6 + k·4π</div>
+            <div class="step result">Im Intervall [0; 4π]: x = π/3 und x = 17π/6</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>Aufgabe 5:</b> Erkläre in eigenen Worten, warum [ f(x)=sin(x)+1,5 ] keine Nullstellen besitzt. <span class="points">4 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">sin(x) = -1,5</div>
+            <div class="step note">Der Sinus erreicht nur Werte zwischen -1 und 1.</div>
+            <div class="step result">Daher gibt es keine reellen Nullstellen.</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="task">
+        <b>Aufgabe 6:</b> Bestimme eine mögliche Funktionsgleichung mit Amplitude 2, Periode π, Verschiebung π/2 nach rechts und Mittellinie y = -1. <span class="points">6 P</span>
+        <details><summary>Lösung</summary>
+          <div class="solution">
+            <div class="step">a = 2, b = 2, c = -π/2, d = -1</div>
+            <div class="step result">f(x) = 2 · sin(2(x - π/2)) - 1</div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Erstellt als interaktiver Lerntrainer für Sinus- und Kosinusfunktionen. KI generierter content - KI's können fehler machen. Bei unvertrauen schauen sie sich die Videos oben an.
+</footer>
+
+<script>
+const canvas = document.getElementById("trigCanvas");
+const ctx = canvas.getContext("2d");
+const funcType = document.getElementById("funcType");
+const amplitude = document.getElementById("amplitude");
+const freq = document.getElementById("freq");
+const phase = document.getElementById("phase");
+const shift = document.getElementById("shift");
+
+const ampValue = document.getElementById("ampValue");
+const freqValue = document.getElementById("freqValue");
+const phaseValue = document.getElementById("phaseValue");
+const shiftValue = document.getElementById("shiftValue");
+
+function drawGraph(){
+  const parentWidth = canvas.parentElement.clientWidth - 52;
+  canvas.width = Math.max(parentWidth, 300);
+  canvas.height = 380;
+
+  const w = canvas.width;
+  const h = canvas.height;
+  const a = parseFloat(amplitude.value);
+  const b = parseFloat(freq.value);
+  const c = parseFloat(phase.value);
+  const d = parseFloat(shift.value);
+  const isCos = funcType.value === "cos";
+
+  ampValue.textContent = a;
+  freqValue.textContent = b;
+  phaseValue.textContent = c;
+  shiftValue.textContent = d;
+
+  ctx.clearRect(0,0,w,h);
+
+  const xMin = -0.5;
+  const xMax = 4 * Math.PI + 0.5;
+  const yMin = -4;
+  const yMax = 4;
+  const toX = x => (x - xMin) / (xMax - xMin) * w;
+  const toY = y => h - (y - yMin) / (yMax - yMin) * h;
+
+  ctx.strokeStyle = "rgba(148,163,184,.18)";
+  ctx.lineWidth = 1;
+  for(let gx = Math.ceil(xMin); gx <= xMax; gx++){
+    ctx.beginPath();
+    ctx.moveTo(toX(gx),0);
+    ctx.lineTo(toX(gx),h);
+    ctx.stroke();
+  }
+  for(let gy = Math.ceil(yMin); gy <= yMax; gy++){
+    ctx.beginPath();
+    ctx.moveTo(0,toY(gy));
+    ctx.lineTo(w,toY(gy));
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = "#475569";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(0,toY(0));
+  ctx.lineTo(w,toY(0));
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(toX(0),0);
+  ctx.lineTo(toX(0),h);
+  ctx.stroke();
+
+  ctx.strokeStyle = "rgba(52,211,153,.75)";
+  ctx.setLineDash([6,6]);
+  ctx.beginPath();
+  ctx.moveTo(0,toY(d));
+  ctx.lineTo(w,toY(d));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "12px Segoe UI";
+  for(let i = 0; i <= 8; i++){
+    const val = i * Math.PI / 2;
+    const px = toX(val);
+    if(px > 20 && px < w - 20){
+      ctx.beginPath();
+      ctx.moveTo(px,toY(0)-5);
+      ctx.lineTo(px,toY(0)+5);
+      ctx.stroke();
+      const labels = ["0","π/2","π","3π/2","2π","5π/2","3π","7π/2","4π"];
+      ctx.fillText(labels[i],px-12,toY(0)+20);
+    }
+  }
+
+  for(let y = -3; y <= 3; y++){
+    if(y !== 0){
+      ctx.fillText(y,toX(0)+8,toY(y)+4);
+    }
+  }
+
+  ctx.strokeStyle = "#38bdf8";
+  ctx.lineWidth = 3;
+  ctx.shadowColor = "rgba(56,189,248,.6)";
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+
+  for(let px = 0; px <= w; px++){
+    const x = xMin + px / w * (xMax - xMin);
+    const angle = b * (x + c);
+    const y = a * (isCos ? Math.cos(angle) : Math.sin(angle)) + d;
+    const py = toY(y);
+    if(px === 0) ctx.moveTo(px,py);
+    else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+}
+
+[funcType,amplitude,freq,phase,shift].forEach(el=>{
+  el.addEventListener("input",drawGraph);
+  el.addEventListener("change",drawGraph);
+});
+window.addEventListener("resize",drawGraph);
+drawGraph();
+
+const quiz = [
+  {
+    q:"Wie lautet die Periode von f(x) = sin(3x)?",
+    options:["2π","π","2π/3","3π"],
+    correct:2,
+    explain:"Die Periode beträgt P = 2π/|b| = 2π/3."
+  },
+  {
+    q:"Wo liegen die Nullstellen von f(x) = cos(x)?",
+    options:["x = kπ","x = π/2 + kπ","x = 2kπ","x = π + 2kπ"],
+    correct:1,
+    explain:"Der Kosinus ist null bei π/2 + kπ."
+  },
+  {
+    q:"Was bewirkt der Parameter d in f(x) = a·sin(b(x+c)) + d?",
+    options:["Streckung in x-Richtung","Verschiebung in y-Richtung","Verschiebung in x-Richtung","Veränderung der Amplitude"],
+    correct:1,
+    explain:"d verschiebt den Graphen nach oben oder unten und legt die Mittellinie fest."
+  },
+  {
+    q:"Wie viele Nullstellen kann f(x) = sin(x) + 3 höchstens haben?",
+    options:["Unendlich viele","Zwei pro Periode","Eine pro Periode","Keine"],
+    correct:3,
+    explain:"Es müsste sin(x) = -3 gelten. Das ist unmöglich, weil sin(x) nur zwischen -1 und 1 liegt."
+  },
+  {
+    q:"Welche Gleichung führt zu den Nullstellen von f(x) = 2·sin(x - π/3)?",
+    options:["sin(x - π/3) = 2","sin(x - π/3) = 0","cos(x - π/3) = 0","x - π/3 = 2π"],
+    correct:1,
+    explain:"Für Nullstellen setzt man f(x) = 0. Da 2 ≠ 0 gilt, muss sin(x - π/3) = 0 sein."
+  },
+  {
+    q:"Wie lautet die Periode von f(x) = 4·cos(0,5x)?",
+    options:["π","2π","4π","8π"],
+    correct:2,
+    explain:"P = 2π/0,5 = 4π."
+  }
+];
+
+const quizContainer = document.getElementById("quizContainer");
+const quizScore = document.getElementById("quizScore");
+
+function buildQuiz(){
+  quizContainer.innerHTML = "";
+  quiz.forEach((item,index)=>{
+    const box = document.createElement("div");
+    box.className = "quiz-question";
+    box.innerHTML = `<b>${index+1}. ${item.q}</b>`;
+    item.options.forEach((opt,optIndex)=>{
+      const label = document.createElement("label");
+      label.className = "option";
+      label.innerHTML = `<input type="radio" name="q${index}" value="${optIndex}"> <span>${opt}</span>`;
+      box.appendChild(label);
+    });
+    const feedback = document.createElement("div");
+    feedback.className = "quiz-feedback";
+    box.appendChild(feedback);
+    quizContainer.appendChild(box);
+  });
+}
+
+buildQuiz();
+
+document.getElementById("quizSubmit").addEventListener("click",()=>{
+  let score = 0;
+  let answered = 0;
+
+  quiz.forEach((item,index)=>{
+    const chosen = document.querySelector(`input[name="q${index}"]:checked`);
+    const feedback = quizContainer.children[index].querySelector(".quiz-feedback");
+
+    if(!chosen){
+      feedback.textContent = "⚠️ Bitte eine Antwort wählen.";
+      feedback.style.color = "#fbbf24";
+      return;
+    }
+
+    answered++;
+    if(parseInt(chosen.value) === item.correct){
+      score++;
+      feedback.textContent = "✅ Richtig! " + item.explain;
+      feedback.style.color = "#34d399";
+    } else {
+      feedback.textContent = "❌ Leider falsch. " + item.explain;
+      feedback.style.color = "#f87171";
+    }
+  });
+
+  quizScore.textContent = answered === 0
+    ? "Bitte beantworte mindestens eine Frage."
+    : `Ergebnis: ${score} von ${quiz.length} richtig (${Math.round(score/quiz.length*100)} %).`;
+});
+
+document.getElementById("quizReset").addEventListener("click",()=>{
+  buildQuiz();
+  quizScore.textContent = "Noch keine Antwort ausgewertet.";
+});
+</script>
+</body>
+</html>
