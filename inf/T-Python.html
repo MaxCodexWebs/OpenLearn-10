@@ -12,11 +12,11 @@
             theme: {
                 extend: {
                     colors: {
-                        twitterDark: '#000000',
-                        twitterCard: '#16181c',
-                        twitterBorder: '#2f3336',
-                        twitterBlue: '#1d9bf0',
-                        twitterHover: '#031018'
+                        dark: '#000000',
+                        card: '#16181c',
+                        border: '#2f3336',
+                        blue: '#1d9bf0',
+                        hover: '#031018'
                     }
                 }
             }
@@ -25,15 +25,15 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-twitterDark text-gray-100 font-sans min-h-screen flex justify-center">
+<body class="bg-dark text-gray-100 font-sans min-h-screen flex justify-center">
 
     <div class="flex w-full max-w-7xl">
         
         <!-- Linke Sidebar (Navigation) -->
-        <header class="w-20 xl:w-64 flex flex-col justify-between border-r border-twitterBorder h-screen sticky top-0 px-2 xl:px-4 py-4">
+        <header class="w-20 xl:w-64 flex flex-col justify-between border-r border-border h-screen sticky top-0 px-2 xl:px-4 py-4">
             <div class="space-y-4">
                 <!-- Logo -->
-                <div class="flex items-center space-x-3 px-3 py-2 text-twitterBlue font-bold text-xl cursor-pointer">
+                <div class="flex items-center space-x-3 px-3 py-2 text-blue font-bold text-xl cursor-pointer">
                     <i data-lucide="terminal" class="w-8 h-8"></i>
                     <span class="hidden xl:inline">DevFeed</span>
                 </div>
@@ -62,7 +62,7 @@
             <!-- Profil unten -->
             <div class="flex items-center justify-between p-2 rounded-full hover:bg-gray-800 cursor-pointer transition">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-full bg-twitterBlue flex items-center justify-center font-bold text-white">PY</div>
+                    <div class="w-10 h-10 rounded-full bg-blue flex items-center justify-center font-bold text-white">PY</div>
                     <div class="hidden xl:block text-sm">
                         <p class="font-bold text-white">Pythonista</p>
                         <p class="text-gray-500">@python_learn</p>
@@ -73,17 +73,17 @@
         </header>
 
         <!-- Hauptbereich (Feed) -->
-        <main class="flex-1 max-w-2xl border-r border-twitterBorder min-h-screen">
+        <main class="flex-1 max-w-2xl border-r border-border min-h-screen">
             <!-- Header -->
-            <div class="sticky top-0 bg-twitterDark/80 backdrop-blur-md border-b border-twitterBorder px-4 py-3 flex justify-between items-center z-10">
+            <div class="sticky top-0 bg-dark/80 backdrop-blur-md border-b border-border px-4 py-3 flex justify-between items-center z-10">
                 <h1 class="text-xl font-bold">Python Masterclass Feed</h1>
-                <i data-lucide="sparkles" class="w-5 h-5 text-twitterBlue cursor-pointer"></i>
+                <i data-lucide="sparkles" class="w-5 h-5 text-blue cursor-pointer"></i>
             </div>
 
             <!-- Fixierter Info-Beitrag / Start -->
-            <div class="border-b border-twitterBorder p-4 bg-twitterCard/40">
+            <div class="border-b border-border p-4 bg-card/40">
                 <div class="flex space-x-3">
-                    <div class="w-10 h-10 rounded-full bg-twitterBlue flex items-center justify-center font-bold">AI</div>
+                    <div class="w-10 h-10 rounded-full bg-blue flex items-center justify-center font-bold">AI</div>
                     <div class="flex-1">
                         <p class="text-sm text-gray-400">Willkommen im interaktiven Python-Lernfeed! Scrolle nach unten, um von den Grundlagen bis zu fortgeschrittenen Konzepten alles zu lernen.</p>
                     </div>
@@ -91,7 +91,7 @@
             </div>
 
             <!-- POST 1: Grundlagen & Variablen -->
-            <article class="border-b border-twitterBorder p-4 hover:bg-twitterHover transition cursor-pointer">
+            <article class="border-b border-border p-4 hover:bg-hover transition cursor-pointer">
                 <div class="flex space-x-3">
                     <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold">01</div>
                     <div class="flex-1">
@@ -102,7 +102,7 @@
                         <p class="mt-1 text-sm">Lektion 1: Variablen & Datentypen 🐍 In Python musst du den Datentyp nicht explizit angeben. Python erkennt ihn automatisch!</p>
                         
                         <!-- Code-Box -->
-                        <div class="mt-3 bg-black/60 border border-twitterBorder rounded-xl p-3 font-mono text-xs text-green-400">
+                        <div class="mt-3 bg-black/60 border border-border rounded-xl p-3 font-mono text-xs text-green-400">
                             <span class="text-blue-400">name</span> = <span class="text-yellow-300">"Alex"</span><br>
                             <span class="text-blue-400">alter</span> = <span class="text-purple-400">17</span><br>
                             <span class="text-blue-400">ist_online</span> = <span class="text-purple-400">True</span><br>
@@ -111,17 +111,17 @@
 
                         <!-- Interaktionen -->
                         <div class="flex justify-between mt-4 text-gray-500 max-w-md">
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">12</span></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">12</span></button>
                             <button class="flex items-center space-x-2 hover:text-green-500"><i data-lucide="repeat-2" class="w-4 h-4"></i><span class="text-xs">48</span></button>
                             <button class="flex items-center space-x-2 hover:text-red-500"><i data-lucide="heart" class="w-4 h-4"></i><span class="text-xs">342</span></button>
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>
             </article>
 
             <!-- POST 2: Kontrollstrukturen -->
-            <article class="border-b border-twitterBorder p-4 hover:bg-twitterHover transition cursor-pointer">
+            <article class="border-b border-border p-4 hover:bg-hover transition cursor-pointer">
                 <div class="flex space-x-3">
                     <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center font-bold">02</div>
                     <div class="flex-1">
@@ -131,7 +131,7 @@
                         </div>
                         <p class="mt-1 text-sm">Lektion 2: Bedingungen (`if`, `elif`, `else`) und Schleifen (`for`, `while`). Code wird basierend auf Logik ausgeführt!</p>
                         
-                        <div class="mt-3 bg-black/60 border border-twitterBorder rounded-xl p-3 font-mono text-xs text-green-400">
+                        <div class="mt-3 bg-black/60 border border-border rounded-xl p-3 font-mono text-xs text-green-400">
                             <span class="text-purple-400">score</span> = <span class="text-purple-400">85</span><br><br>
                             <span class="text-blue-400">if</span> score >= <span class="text-purple-400">90</span>:<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-red-400">print</span>(<span class="text-yellow-300">"Exzellent! 🏆"</span>)<br>
@@ -142,17 +142,17 @@
                         </div>
 
                         <div class="flex justify-between mt-4 text-gray-500 max-w-md">
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">8</span></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">8</span></button>
                             <button class="flex items-center space-x-2 hover:text-green-500"><i data-lucide="repeat-2" class="w-4 h-4"></i><span class="text-xs">31</span></button>
                             <button class="flex items-center space-x-2 hover:text-red-500"><i data-lucide="heart" class="w-4 h-4"></i><span class="text-xs">215</span></button>
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>
             </article>
 
             <!-- POST 3: Funktionen -->
-            <article class="border-b border-twitterBorder p-4 hover:bg-twitterHover transition cursor-pointer">
+            <article class="border-b border-border p-4 hover:bg-hover transition cursor-pointer">
                 <div class="flex space-x-3">
                     <div class="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center font-bold">03</div>
                     <div class="flex-1">
@@ -162,7 +162,7 @@
                         </div>
                         <p class="mt-1 text-sm">Lektion 3: Funktionen helfen dir, deinen Code wiederverwendbar zu machen. Mit dem Schlüsselwort `def` erstellt man sie.</p>
                         
-                        <div class="mt-3 bg-black/60 border border-twitterBorder rounded-xl p-3 font-mono text-xs text-green-400">
+                        <div class="mt-3 bg-black/60 border border-border rounded-xl p-3 font-mono text-xs text-green-400">
                             <span class="text-blue-400">def</span> <span class="text-yellow-300">berechne_flaeche</span>(laenge, breite):<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">return</span> laenge * breite<br><br>
                             ergebnis = berechne_flaeche(<span class="text-purple-400">5</span>, <span class="text-purple-400">10</span>)<br>
@@ -170,17 +170,17 @@
                         </div>
 
                         <div class="flex justify-between mt-4 text-gray-500 max-w-md">
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">19</span></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">19</span></button>
                             <button class="flex items-center space-x-2 hover:text-green-500"><i data-lucide="repeat-2" class="w-4 h-4"></i><span class="text-xs">64</span></button>
                             <button class="flex items-center space-x-2 hover:text-red-500"><i data-lucide="heart" class="w-4 h-4"></i><span class="text-xs">512</span></button>
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>
             </article>
 
             <!-- POST 4: Datenstrukturen (Lists & Dicts) -->
-            <article class="border-b border-twitterBorder p-4 hover:bg-twitterHover transition cursor-pointer">
+            <article class="border-b border-border p-4 hover:bg-hover transition cursor-pointer">
                 <div class="flex space-x-3">
                     <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center font-bold">04</div>
                     <div class="flex-1">
@@ -190,7 +190,7 @@
                         </div>
                         <p class="mt-1 text-sm">Lektion 4: Listen `[]` speichern mehrere Elemente, Dictionaries `{}` speichern Schlüssel-Wert-Paare (wie JSON).</p>
                         
-                        <div class="mt-3 bg-black/60 border border-twitterBorder rounded-xl p-3 font-mono text-xs text-green-400">
+                        <div class="mt-3 bg-black/60 border border-border rounded-xl p-3 font-mono text-xs text-green-400">
                             <span class="text-gray-500"># Dictionary Beispiel</span><br>
                             user = {<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-yellow-300">"name"</span>: <span class="text-yellow-300">"Sarah"</span>,<br>
@@ -201,10 +201,10 @@
                         </div>
 
                         <div class="flex justify-between mt-4 text-gray-500 max-w-md">
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">15</span></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="message-circle" class="w-4 h-4"></i><span class="text-xs">15</span></button>
                             <button class="flex items-center space-x-2 hover:text-green-500"><i data-lucide="repeat-2" class="w-4 h-4"></i><span class="text-xs">40</span></button>
                             <button class="flex items-center space-x-2 hover:text-red-500"><i data-lucide="heart" class="w-4 h-4"></i><span class="text-xs">389</span></button>
-                            <button class="flex items-center space-x-2 hover:text-twitterBlue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                            <button class="flex items-center space-x-2 hover:text-blue"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>
@@ -219,11 +219,11 @@
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
                     <i data-lucide="search" class="w-4 h-4"></i>
                 </span>
-                <input type="text" placeholder="Suche in Python Snippets..." class="w-full bg-twitterCard text-gray-200 pl-10 pr-4 py-2 rounded-full border border-transparent focus:border-twitterBlue focus:outline-none text-sm">
+                <input type="text" placeholder="Suche in Python Snippets..." class="w-full bg-card text-gray-200 pl-10 pr-4 py-2 rounded-full border border-transparent focus:border-blue focus:outline-none text-sm">
             </div>
 
             <!-- Trend Themen -->
-            <div class="bg-twitterCard rounded-2xl p-4 border border-twitterBorder">
+            <div class="bg-card rounded-2xl p-4 border border-border">
                 <h2 class="font-bold text-lg mb-3">Trending in Python</h2>
                 <div class="space-y-3">
                     <div class="cursor-pointer hover:bg-gray-800 p-1 rounded transition">
@@ -245,10 +245,10 @@
             </div>
 
             <!-- Ressourcen -->
-            <div class="bg-twitterCard rounded-2xl p-4 border border-twitterBorder text-xs text-gray-400 space-y-2">
+            <div class="bg-card rounded-2xl p-4 border border-border text-xs text-gray-400 space-y-2">
                 <p class="font-bold text-sm text-gray-200">Über dieses Projekt</p>
                 <p>Erstellt für GitHub Pages. Keine externe Plattform erwähnt, rein auf sauberen Code & Lucide Icons ausgelegt.</p>
-                <p class="text-twitterBlue hover:underline cursor-pointer">Python Dokumentation aufrufen →</p>
+                <p class="text-blue hover:underline cursor-pointer">Python Dokumentation aufrufen →</p>
             </div>
         </aside>
 
