@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium der Organischen Chemie</title>
+    <style>
+        :root {
+            --bg-main: #0d0614;
+            --bg-card: #180d26;
+            --bg-card-hover: #221235;
+            --purple-primary: #9d4edd;
+            --purple-light: #c77dff;
+            --purple-glow: rgba(157, 78, 221, 0.25);
+            --text-main: #e0aaff;
+            --text-muted: #9b72cf;
+            --text-white: #ffffff;
+            --border-color: #381d59;
+            --code-bg: #12071f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 10px;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 15px;
+            background: linear-gradient(135deg, #1f0b38, #0d0614);
+            border-bottom: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px var(--purple-glow);
+        }
+
+        header h1 {
+            color: var(--text-white);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--purple-primary);
+        }
+
+        @media (min-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav.toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        nav.toc h2 {
+            color: var(--purple-light);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        nav.toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 600px) {
+            nav.toc ul {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
+        nav.toc a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: block;
+            padding: 5px 0;
+        }
+
+        nav.toc a:hover {
+            color: var(--purple-light);
+            padding-left: 5px;
+        }
+
+        section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            section {
+                padding: 30px;
+                margin-bottom: 30px;
+            }
+        }
+
+        h2.section-title {
+            color: var(--purple-light);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            h2.section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        h3 {
+            color: var(--text-white);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* NEU: Responsiver Container für Tabellen mit horizontalem Scrollen */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--code-bg);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px; /* Verhindert zu starkes Stauchen auf kleinen Bildschirmen */
+            background: transparent;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #24113b;
+            color: var(--purple-light);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        code {
+            background: var(--code-bg);
+            color: var(--purple-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .formula-box {
+            background: var(--code-bg);
+            border-left: 4px solid var(--purple-primary);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        footer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Organisches Chemie Kompendium</h1>
+            <p>Grundlagen, Funktionelle Gruppen, Isomerie, Reaktionsmechanismen und Biochemie</p>
+        </header>
+
+        <nav class="toc">
+            <h2>Inhaltsverzeichnis</h2>
+            <ul>
+                <li><a href="#grundlagen">1. Grundlagen & Kohlenstoff</a></li>
+                <li><a href="#funktionelle-gruppen">2. Funktionelle Gruppen</a></li>
+                <li><a href="#isomerie">3. Isomerie</a></li>
+                <li><a href="#reaktionen">4. Grundlegende Reaktionen</a></li>
+                <li><a href="#biochemie">5. Ausblick Biochemie</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- 1. Grundlagen -->
+            <section id="grundlagen">
+                <h2 class="section-title">1. Grundlagen & Kohlenstoff</h2>
+                <p>Die organische Chemie ist die Chemie der Kohlenstoffverbindungen. Kohlenstoff (C) besitzt die Ordnungszahl 6 und verfügt über 4 Valenzelektronen, was zu einer maximalen Bindigkeit von 4 führt (Tetravalenz).</p>
+                
+                <h3>Hybridisierung</h3>
+                <ul>
+                    <li><strong>sp³-Hybridisierung:</strong> Vier Einfachbindungen, tetraedrische Geometrie, Bindungswinkel ca. 109,5° (z. B. Alcane).</li>
+                    <li><strong>sp²-Hybridisierung:</strong> Eine Doppelbindung und zwei Einfachbindungen, trigonale planar, Bindungswinkel ca. 120° (z. B. Alkene).</li>
+                    <li><strong>sp-Hybridisierung:</strong> Eine Dreifachbindung oder zwei Doppelbindungen, lineare Geometrie, Bindungswinkel 180° (z. B. Alkine).</li>
+                </ul>
+            </section>
+
+            <!-- 2. Funktionelle Gruppen -->
+            <section id="funktionelle-gruppen">
+                <h2 class="section-title">2. Funktionelle Gruppen</h2>
+                <p>Funktionelle Gruppen bestimmen maßgeblich die chemischen und physikalischen Eigenschaften organischer Moleküle.</p>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stoffklasse</th>
+                                <th>Funktionelle Gruppe</th>
+                                <th>Strukturformel / Suffix</th>
+                                <th>Beispiel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alcane</td>
+                                <td>C-C Einfachbindung</td>
+                                <td><code>-ane</code></td>
+                                <td>Ethan (<code>CH<sub>3</sub>-CH<sub>3</sub></code>)</td>
+                            </tr>
+                            <tr>
+                                <td>Alkene</td>
+                                <td>C=C Doppelbindung</td>
+                                <td><code>-en</code></td>
+                                <td>Ethen (<code>CH<sub>2</sub>=CH<sub>2</sub></code>)</td>
+                            </tr>
+                            <tr>
+                                <td>Alkine</td>
+                                <td>C≡C Dreifachbindung</td>
+                                <td><code>-in</code></td>
+                                <td>Ethin (<code>CH≡CH</code>)</td>
+                            </tr>
+                            <tr>
+                                <td>Alkohole</td>
+                                <td>Hydroxygruppe</td>
+                                <td><code>-OH</code> / <code>-ol</code></td>
+                                <td>Ethanol (<code>CH<sub>3</sub>-CH<sub>2</sub>-OH</code>)</td>
+                            </tr>
+                            <tr>
+                                <td>Ether</td>
+                                <td>Ethergruppe</td>
+                                <td><code>-O-</code></td>
+                                <td>Diethylether</td>
+                            </tr>
+                            <tr>
+                                <td>Aldehyde</td>
+                                <td>Aldehydgruppe (Formylgruppe)</td>
+                                <td><code>-CHO</code> / <code>-al</code></td>
+                                <td>Ethanal (Acetaldehyd)</td>
+                            </tr>
+                            <tr>
+                                <td>Ketone</td>
+                                <td>Ketogruppe (Carbonylgruppe)</td>
+                                <td><code>&gt;C=O</code> / <code>-on</code></td>
+                                <td>Propanon (Aceton)</td>
+                            </tr>
+                            <tr>
+                                <td>Carbonsäuren</td>
+                                <td>Carboxygruppe</td>
+                                <td><code>-COOH</code> / <code>-säure</code></td>
+                                <td>Essigsäure (Ethansäure)</td>
+                            </tr>
+                            <tr>
+                                <td>Ester</td>
+                                <td>Estergruppe</td>
+                                <td><code>-COO-</code> / <code>-ester</code></td>
+                                <td>Essigsäureethylester</td>
+                            </tr>
+                            <tr>
+                                <td>Amine</td>
+                                <td>Aminogruppe</td>
+                                <td><code>-NH<sub>2</sub></code> / <code>-amin</code></td>
+                                <td>Methylamin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 3. Isomerie -->
+            <section id="isomerie">
+                <h2 class="section-title">3. Isomerie</h2>
+                <p>Isomere sind Verbindungen mit derselben Summenformel, aber unterschiedlicher Struktur oder räumlicher Anordnung.</p>
+                
+                <h3>Konstitutionsisomerie</h3>
+                <p>Die Atome sind unterschiedlich verknüpft (z.B. Kettenisomerie, Stellungsisomerie, Funktionisomerie).</p>
+                
+                <h3>Stereoisomerie</h3>
+                <p>Gleiche Verknüpfung, aber unterschiedliche räumliche Anordnung (Konfiguration):</p>
+                <ul>
+                    <li><strong>Cis-Trans-Isomerie (Geometrische Isomerie):</strong> Treten bei Doppelbindungen oder Ringsystemen auf (eingeschränkte Drehbarkeit). Cis = gleiche Seiten, Trans = gegenüberliegende Seiten.</li>
+                    <li><strong>Enantiomerie (Chiralität):</strong> Moleküle verhalten sich wie Bild und Spiegelbild. Sie besitzen ein stereogenes Zentrum (asymmetrisches C-Atom mit 4 verschiedenen Substituenten) und drehen polarisiertes Licht.</li>
+                </ul>
+            </section>
+
+            <!-- 4. Reaktionen -->
+            <section id="reaktionen">
+                <h2 class="section-title">4. Grundlegende Reaktionsarten</h2>
+                <div class="formula-box">
+                    Reaktionsgrundtypen: Substitution (S), Addition (A), Elimination (E), Kondensation (K)
+                </div>
+                <ul>
+                    <li><strong>Substitution:</strong> Ein Atom oder eine Atomgruppe wird durch ein(e) andere(s) ersetzt (z.B. radikalische Halogenierung von Alcanen).</li>
+                    <li><strong>Addition:</strong> Anlagerung von Molekülen an Mehrfachbindungen (z.B. elektrophile Addition von Halogenen oder Halogenwasserstoffen an Alkene).</li>
+                    <li><strong>Elimination:</strong> Abspaltung von Atomen oder Atomgruppen unter Ausbildung einer Mehrfachbindung (Umkehrung der Addition).</li>
+                    <li><strong>Kondensation:</strong> Verknüpfung zweier Moleküle unter Austritt eines kleinen Moleküls (meist Wasser, z.B. Veresterung oder Peptidbindung).</li>
+                </ul>
+            </section>
+
+            <!-- 5. Biochemie -->
+            <section id="biochemie">
+                <h2 class="section-title">5. Ausblick Biochemie</h2>
+                <p>Die organische Chemie bildet das Fundament der Biochemie. Zu den wichtigsten Biomolekülen gehören:</p>
+                <ul>
+                    <li><strong>Kohlenhydrate (Saccharide):</strong> Monosaccharide (Glucose, Fructose), Disaccharide (Saccharose), Polysaccharide (Stärke, Cellulose).</li>
+                    <li><strong>Aminosäuren & Proteine:</strong> Verknüpfung von Aminosäuren über Peptidbindungen (Amidbindungen) zu langen Ketten.</li>
+                    <li><strong>Lipide:</strong> Fette als Ester aus Glycerin und Fettsäuren, sowie Membranlipide.</li>
+                    <li><strong>Nucleinsäuren:</strong> DNA und RNA als Träger der genetischen Information, aufgebaut aus Nucleotiden (Zucker, Phosphat, Base).</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Organisches Chemie Kompendium. Alle Inhalte dienen der allgemeinen Bildung.</p>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
