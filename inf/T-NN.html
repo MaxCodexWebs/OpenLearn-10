@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatik-Doku: Von-Neumann-Architektur & Netzwerke</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --surface-color: #16181c;
+            --border-color: #2f3336;
+            --text-main: #e7e9ea;
+            --text-muted: #71767b;
+            --accent-blue: #1d9bf0;
+            --accent-hover: #1a8cd8;
+            --code-bg: #202327;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding-bottom: 70px; /* Platz für die mobile untere Navigation */
+        }
+
+        .layout {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Desktop Sidebar Navigation (Standard auf großen Bildschirmen) */
+        sidebar {
+            display: none;
+            width: 275px;
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 9999px;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(231, 233, 234, 0.1);
+        }
+
+        /* Mobile Bottom Navigation (Ersetzt die Sidebar auf Smartphones) */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .mobile-bottom-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .mobile-bottom-nav a:hover, .mobile-bottom-nav a.active {
+            color: var(--accent-blue);
+        }
+
+        /* Main Content Feed */
+        main {
+            width: 100%;
+            max-width: 100%;
+            border-right: none;
+            min-height: 100vh;
+        }
+
+        .feed-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.25rem;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+        }
+
+        .post {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .author-handle, .post-time {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .post-content {
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            margin: 15px 0 8px 0;
+            color: var(--accent-blue);
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code-block {
+            background: var(--code-bg);
+            padding: 12px;
+            border-radius: 8px;
+            display: block;
+            font-family: monospace;
+            font-size: 0.85rem;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            white-space: pre;
+            -webkit-overflow-scrolling: touch; /* Flüssiges Scrollen auf iOS */
+        }
+
+        /* Widgets / Info-Bereich (wird mobil unter den Feed gepackt) */
+        aside.widgets {
+            width: 100%;
+            padding: 16px;
+            display: block;
+        }
+
+        .widget-box {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .widget-title {
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+        }
+
+        .trend-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .trend-val {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        /* Media Queries für große Bildschirme (Desktop ab 1024px) */
+        @media (min-width: 1024px) {
+            body {
+                padding-bottom: 0;
+            }
+            sidebar {
+                display: flex;
+            }
+            .mobile-bottom-nav {
+                display: none;
+            }
+            main {
+                max-width: 650px;
+                border-right: 1px solid var(--border-color);
+            }
+            aside.widgets {
+                width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout">
+        <!-- Desktop Navigation -->
+        <sidebar>
+            <div>
+                <div class="logo">
+                    ⚡ <span>InfoCore</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#neumann"># Von-Neumann</a></li>
+                    <li><a href="#netzwerke"># Netzwerke</a></li>
+                    <li><a href="#schichten"># OSI & TCP/IP</a></li>
+                </ul>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                Design: Dunkel
+            </div>
+        </sidebar>
+
+        <!-- Main Feed -->
+        <main>
+            <div class="feed-header">
+                Wissens-Stream 🚀
+            </div>
+
+            <!-- Post 1 -->
+            <div class="post" id="neumann">
+                <div class="post-header">
+                    <div class="avatar">VN</div>
+                    <div>
+                        <div class="author-name">System Architektur</div>
+                        <div class="author-handle">@von_neumann</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h2>1. Die Von-Neumann-Architektur</h2>
+                    <p>John von Neumann stellte 1945 das Konzept vor, bei dem <b>Daten und Programmbefehle im selben Hauptspeicher</b> abgelegt werden. Das Modell besteht aus 5 Hauptkomponenten:</p>
+
+                    <ul>
+                        <li><b>Rechenwerk (ALU):</b> Führt mathematische & logische Operationen durch.</li>
+                        <li><b>Steuerwerk (Control Unit):</b> Die Schaltzentrale für den Befehlsablauf.</li>
+                        <li><b>Speicherwerk:</b> Hält Programme und Daten (RAM).</li>
+                        <li><b>Eingabewerk:</b> Nimmt Daten entgegen (Tastatur, Sensoren).</li>
+                        <li><b>Ausgabewerk:</b> Gibt Ergebnisse aus (Monitor, Aktoren).</li>
+                    </ul>
+
+                    <h2>Der Flaschenhals (Bottleneck)</h2>
+                    <p>Da Daten und Befehle denselben Bus nutzen, können Rechenwerk und Speicher nicht gleichzeitig ungehindert zugreifen, was die Geschwindigkeit limitiert.</p>
+                </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="post" id="netzwerke">
+                <div class="post-header">
+                    <div class="avatar">NW</div>
+                    <div>
+                        <div class="author-name">Netzwerktechnik</div>
+                        <div class="author-handle">@protocols</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h2>2. Rechnernetze & Topologien</h2>
+                    <p>Ein Rechnernetz verbindet autonome Computersysteme zur gemeinsamen Nutzung von Ressourcen.</p>
+
+                    <h2>Wichtige Topologien:</h2>
+                    <ul>
+                        <li><b>Stern-Topologie:</b> Alle Geräte an einem zentralen Switch (Standard heute).</li>
+                        <li><b>Bus-Topologie:</b> Alle an einem Kabelstrang (veraltet).</li>
+                        <li><b>Mesh-Topologie:</b> Mehrfach verbunden, extrem ausfallsicher (Internet).</li>
+                    </ul>
+
+                    <h2>Hardware:</h2>
+                    <ol>
+                        <li><b>Switch:</b> Verteilt Daten im LAN (Schicht 2, MAC-Adressen).</li>
+                        <li><b>Router:</b> Verbindet Netzwerke miteinander (Schicht 3, IP-Adressen).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Post 3 -->
+            <div class="post" id="schichten">
+                <div class="post-header">
+                    <div class="avatar">OSI</div>
+                    <div>
+                        <div class="author-name">Protokoll-Stack</div>
+                        <div class="author-handle">@tcpip</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h2>3. Das OSI-Schichtenmodell</h2>
+                    <p>Kommunikation wird in 7 Ebenen unterteilt:</p>
+
+                    <code-block>7. Anwendung -> HTTP, DNS, FTP
+6. Darstellung -> SSL/TLS, JPEG
+5. Sitzung -> NetBIOS, RPC
+4. Transport -> TCP, UDP
+3. Vermittlung -> IP, ICMP
+2. Sicherung -> Ethernet, MAC
+1. Bitübertragung -> Kabel, Funk</code-block>
+
+                    <p>Das kompaktere <strong>TCP/IP-Modell</strong> fasst dies für das praktische Internet meist in 4 Ebenen zusammen.</p>
+                </div>
+            </div>
+
+            <!-- Mobile Widgets (Auf dem Handy direkt unter dem Feed platziert) -->
+            <aside class="widgets">
+                <div class="widget-box">
+                    <div class="widget-title">Themen-Fokus</div>
+                    <div class="trend-item">Computerarchitektur</div>
+                    <div class="trend-val">Von-Neumann-Zyklus</div>
+                    
+                    <div class="trend-item">Netzwerkgrundlagen</div>
+                    <div class="trend-val">IPv4 / IPv6 & Subnetting</div>
+                    
+                    <div class="trend-item">Protokolle</div>
+                    <div class="trend-val">TCP vs. UDP</div>
+                </div>
+
+                <div class="widget-box">
+                    <div class="widget-title">Quick Facts</div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">
+                        Moderne Mehrkern-Prozessoren nutzen oft hybride Speicherarchitekturen (Harvard-Cache für L1, Von-Neumann für RAM).
+                    </p>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+        <a href="#neumann">⚡ <span>Neumann</span></a>
+        <a href="#netzwerke">🌐 <span>Netzwerke</span></a>
+        <a href="#schichten">📦 <span>OSI-Modell</span></a>
+    </nav>
+
+</body>
+</html>

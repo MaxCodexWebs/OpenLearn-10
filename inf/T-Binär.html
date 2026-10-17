@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Das Binärsystem & Zahlensysteme – Masterclass</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --surface-color: #16181c;
+            --surface-hover: #202327;
+            --border-color: #2f3336;
+            --text-main: #e7e9ea;
+            --text-muted: #71767b;
+            --accent-blue: #1d9bf0;
+            --accent-green: #00ba7c;
+            --code-bg: #202327;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent-blue);
+        }
+
+        p {
+            margin-bottom: 10px;
+            color: #d0d3d4;
+            font-size: 0.95rem;
+        }
+
+        code {
+            background-color: var(--code-bg);
+            color: var(--accent-green);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .example-box {
+            background-color: #0b0e11;
+            border-left: 3px solid var(--accent-blue);
+            padding: 12px 14px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        /* Responsive Tabellen-Wrapper für Handys */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin: 12px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 450px;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--surface-hover);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        td {
+            color: #d0d3d4;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .calc-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        .input-group {
+            margin-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        input {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .result-box {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(29, 155, 240, 0.1);
+            color: var(--accent-blue);
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="badge">Informatik Grundlagen</span>
+            <h1>Das Binärsystem & Zahlensysteme</h1>
+            <p class="subtitle">Umrechnungen, Rechnungen und Hexadezimalsystem verständlich erklärt.</p>
+        </header>
+
+        <!-- Sektion 1: Einführung -->
+        <div class="card">
+            <h2>1. Was ist das Binärsystem?</h2>
+            <p>Das Binärsystem (auch Dualsystem genannt) ist ein Positionssystem zur Darstellung von Zahlen. Im Gegensatz zum alltäglichen Dezimalsystem (Basis 10), das zehn Ziffern (0 bis 9) nutzt, verwendet das Binärsystem nur zwei Zustände: <strong>0</strong> und <strong>1</strong>.</p>
+            <p>Jede Stelle in einer Binärzahl entspricht einer Zweierpotenz ($2^0, 2^1, 2^2$ etc.), da Computer intern auf Basis von elektrischen Spannungen (Strom an = 1, Strom aus = 0) arbeiten.</p>
+        </div>
+
+        <!-- Sektion 2: Wertigkeit & Tabelle -->
+        <div class="card">
+            <h2>2. Stellenwerte & Vergleichstabelle</h2>
+            <p>Die Stellenwerte steigen von rechts nach links jeweils um den Faktor 2:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Basis 16 (Hex)</th>
+                            <th>Basis 10 (Dezimal)</th>
+                            <th>Basis 2 (Binär)</th>
+                            <th>Berechnung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0</td><td>0</td><td>0000</td><td>0</td></tr>
+                        <tr><td>1</td><td>1</td><td>0001</td><td>1 × 1</td></tr>
+                        <tr><td>2</td><td>2</td><td>0010</td><td>1 × 2</td></tr>
+                        <tr><td>3</td><td>3</td><td>0011</td><td>2 + 1</td></tr>
+                        <tr><td>4</td><td>4</td><td>0100</td><td>1 × 4</td></tr>
+                        <tr><td>7</td><td>7</td><td>0111</td><td>4 + 2 + 1</td></tr>
+                        <tr><td>8</td><td>8</td><td>1000</td><td>1 × 8</td></tr>
+                        <tr><td>9</td><td>9</td><td>1001</td><td>8 + 1</td></tr>
+                        <tr><td>A</td><td>10</td><td>1010</td><td>8 + 2</td></tr>
+                        <tr><td>F</td><td>15</td><td>1111</td><td>8 + 4 + 2 + 1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sektion 3: Binär zu Dezimal -->
+        <div class="card">
+            <h2>3. Umrechnung: Binär zu Dezimal</h2>
+            <p>Um eine Binärzahl in eine Dezimalzahl umzuwandeln, multipliziert man jede Ziffer mit der entsprechenden Zweierpotenz der Stelle (von rechts nach links beginnend bei 2 hoch 0) und addiert die Ergebnisse.</p>
+            
+            <div class="example-box">
+                Beispiel: Binärzahl 1011 (zur Basis 2)<br>
+                = (1 × 2³) + (0 × 2²) + (1 × 2¹) + (1 × 2⁰)<br>
+                = (1 × 8) + (0 × 4) + (1 × 2) + (1 × 1)<br>
+                = 8 + 0 + 2 + 1 = 11 (Dezimal)
+            </div>
+        </div>
+
+        <!-- Sektion 4: Dezimal zu Binär -->
+        <div class="card">
+            <h2>4. Umrechnung: Dezimal zu Binär</h2>
+            <p>Hierfür nutzt man die Methode der Restwertdivision (Division durch 2 mit Rest): Man teilt die Dezimalzahl durch 2, merkt sich den Rest (0 oder 1) und wiederholt das Ganze mit dem Quotient, bis dieser 0 ist.</p>
+            
+            <div class="example-box">
+                Beispiel: Dezimalzahl 13 in Binär<br>
+                13 / 2 = 6, Rest 1 (unterste Stelle)<br>
+                6 / 2 = 3, Rest 0<br>
+                3 / 2 = 1, Rest 1<br>
+                1 / 2 = 0, Rest 1 (oberste Stelle)<br>
+                Ergebnis von unten nach oben gelesen: 1101
+            </div>
+        </div>
+
+        <!-- Sektion 5: Das Hexadezimalsystem -->
+        <div class="card">
+            <h2>5. Das Hexadezimalsystem (Basis 16)</h2>
+            <p>Das Hexadezimalsystem wird in der Informatik häufig verwendet, um lange Binärzahlen kompakt darzustellen (z. B. bei Speicheradressen oder Farb-Codes wie <code>#FF5733</code>). Es hat 16 Ziffern: <strong>0 bis 9</strong> und die Buchstaben <strong>A bis F</strong>.</p>
+            <p>Da 16 genau 2 hoch 4 ist, entspricht exakt eine Hexadezimalziffer einem 4er-Block (Nibble) im Binärsystem.</p>
+            <div class="example-box">
+                Beispiel: Hexadezimal <code>2F</code> in Dezimal<br>
+                = (2 × 16¹) + (15 × 16⁰)<br>
+                = (2 × 16) + (15 × 1) = 32 + 15 = 47
+            </div>
+        </div>
+
+        <!-- Sektion 6: Interaktiver Rechner -->
+        <div class="card">
+            <h2>6. Interaktiver Umrechner</h2>
+            <p>Gib eine Dezimalzahl ein, um die entsprechenden Werte direkt zu berechnen:</p>
+            <div class="calc-grid">
+                <div class="input-group">
+                    <label for="decimalInput">Dezimalzahl (Basis 10):</label>
+                    <input type="number" id="decimalInput" placeholder="z. B. 42" oninput="convertValues()">
+                </div>
+                <div class="input-group">
+                    <label>Ergebnisse:</label>
+                    <div id="conversionResult" class="result-box">
+                        Binär: -<br>
+                        Hexadezimal: -
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function convertValues() {
+            const inputVal = document.getElementById('decimalInput').value;
+            const resultBox = document.getElementById('conversionResult');
+
+            if (inputVal === '' || isNaN(inputVal)) {
+                resultBox.innerHTML = "Binär: -<br>Hexadezimal: -";
+                return;
+            }
+
+            const num = parseInt(inputVal, 10);
+            const binary = num.toString(2);
+            const hex = num.toString(16).toUpperCase();
+
+            resultBox.innerHTML = `Binär: <code>${binary}</code><br>Hexadezimal: <code>${hex}</code>`;
+        }
+    </script>
+
+</body>
+</html>
