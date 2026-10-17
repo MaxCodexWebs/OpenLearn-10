@@ -3,22 +3,458 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
+    <title>Chemie Lernportal</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body{
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
+        :root {
+            --bg-deep: #09030e;
+            --purple-dark: #170b24;
+            --purple-card: rgba(30, 14, 48, 0.6);
+            --purple-card-hover: rgba(45, 20, 74, 0.8);
+            --purple-border: rgba(168, 85, 247, 0.15);
+            --purple-border-hover: rgba(192, 132, 252, 0.5);
+            --accent-light: #c084fc;
+            --accent-glow: rgba(192, 132, 252, 0.25);
+            --text-main: #f3e8ff;
+            --text-muted: #d8b4fe;
+            --text-sub: #a78bfa;
         }
-        a{
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Canvas Background Animation */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Ambient Glow Blobs */
+        .glow-blob {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(9, 3, 14, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(60px);
+            animation: floatBlob 15s infinite alternate ease-in-out;
+        }
+        .glow-blob-1 { top: -100px; left: -100px; }
+        .glow-blob-2 { bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* Header / Hero Section */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 20px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid var(--purple-border);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-light);
+            font-weight: 500;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: transparent;
+            margin-bottom: 16px;
+            color: var(--accent-light)
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Semesters Grid */
+        .semesters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .semester-card {
+            background: var(--purple-card);
+            border: 1px solid var(--purple-border);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .semester-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .semester-card:hover {
+            border-color: var(--purple-border-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .semester-card:hover::before {
+            opacity: 1;
+        }
+
+        .semester-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .semester-header i {
+            color: var(--accent-light);
+            background: rgba(192, 132, 252, 0.1);
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .semester-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+
+        /* Links List Styling */
+        .links-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(23, 11, 36, 0.5);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            padding: 16px 20px;
+            border-radius: 16px;
             text-decoration: none;
-            color: rgb(209, 35, 35);
+            color: var(--text-main);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .link-item:hover {
+            background: var(--purple-card-hover);
+            border-color: var(--accent-light);
+            transform: translateX(6px);
+            box-shadow: 0 0 20px var(--accent-glow);
+            color: #ffffff;
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .link-icon-wrapper {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-light);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover .link-icon-wrapper {
+            background: var(--accent-light);
+            color: var(--bg-deep);
+            transform: scale(1.05);
+        }
+
+        .link-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .link-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .link-desc {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+
+        .link-arrow {
+            color: var(--text-sub);
+            transition: transform 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .link-item:hover .link-arrow {
+            transform: translateX(4px);
+            color: var(--accent-light);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            background: rgba(9, 3, 14, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive Layout Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            .semesters-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+
+    <!-- Ambient Background Blobs -->
+    <div class="glow-blob glow-blob-1"></div>
+    <div class="glow-blob glow-blob-2"></div>
+
+    <!-- Molecule / Particle Background Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="hero-badge">
+                <i data-lucide="atom" style="width: 16px; height: 16px;"></i>
+                Chemie Portal 2026
+            </div>
+            <h1>Chemie Lernportal</h1>
+            <p class="subtitle">Entdecke spannende Themen, Reaktionen und Strukturformeln. Übersichtlich gegliedert nach Halbjahren.</p>
+        </header>
+
+        <!-- Main Semesters Content Grid -->
+        <main class="semesters-grid">
+            
+            <!-- 1. Halbjahr -->
+            <section class="semester-card">
+                <div class="semester-header">
+                    <i data-lucide="flask-conical" style="width: 24px; height: 24px;"></i>
+                    <h2>1. Halbjahr</h2>
+                </div>
+                <!-- Links-Liste (hier können ganz einfach weitere <a> Elemente hinzugefügt werden) -->
+                <div class="links-list">
+                    <a href="OrganicheChemie1.html" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon-wrapper">
+                                <i data-lucide="orbit" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">Organische Chemie</span>
+                                <span class="link-desc">Einstiegsinhalt</span>
+                            </div>
+                        </div>
+                        <div class="link-arrow">
+                            <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 2. Halbjahr -->
+            <section class="semester-card">
+                <div class="semester-header">
+                    <i data-lucide="test-tubes" style="width: 24px; height: 24px;"></i>
+                    <h2>2. Halbjahr</h2>
+                </div>
+                <!-- Links-Liste (hier können ganz einfach weitere <a> Elemente hinzugefügt werden) -->
+                <div class="links-list">
+                    <a href="#" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon-wrapper">
+                                <i data-lucide="zap" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">Leer</span>
+                                <span class="link-desc">--</span>
+                            </div>
+                        </div>
+                        <div class="link-arrow">
+                            <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Chemie Lernportal &bull; Modernes Design in Dark Purple &amp; Light Purple</p>
+    </footer>
+
+    <!-- Script to Initialize Lucide Icons & Molecule/Particle Canvas Animation -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Canvas Particle / Molecule Network Animation
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class MoleculeParticle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+                this.radius = Math.random() * 2 + 1.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(192, 132, 252, 0.6)';
+                ctx.fill();
+            }
+        }
+
+        // Create particle set proportional to screen size
+        const particleCount = Math.min(window.innerWidth > 768 ? 60 : 30, 80);
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new MoleculeParticle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Update and draw particles & connecting chemical bonds (lines)
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        // Alpha based on distance for smooth fading
+                        const alpha = (1 - dist / 130) * 0.18;
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
 </body>
 </html>
