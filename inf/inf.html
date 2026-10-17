@@ -3,22 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
+    <title>Informatik 10 — Kursübersicht</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body{
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
+        :root {
+            --bg-color: #000000;
+            --surface-color: #0a0a0a;
+            --border-color: #222222;
+            --border-hover: #444444;
+            --text-primary: #ededed;
+            --text-secondary: #888888;
+            --accent-color: #ffffff;
+            --accent-hover: #3b82f6;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
-        a{
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 4rem 2rem 2rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            background: var(--surface-color);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+        }
+
+        main {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             text-decoration: none;
-            color: rgb(209, 35, 35);
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
+            background-color: #0f0f0f;
+        }
+
+        .card-content h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        .card-content p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .card-action {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.15s ease;
+        }
+
+        .card:hover .card-action {
+            color: var(--text-primary);
+        }
+
+        footer {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 600px) {
+            header, main, footer {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .card-action {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+
+    <header>
+        <div class="badge">Informatik 10</div>
+        <h1>Kursübersicht</h1>
+    </header>
+
+    <main>
+        <div class="grid">
+            <!-- Karte 1 -->
+            <a href="T-Binär.html" class="card">
+                <div class="card-content">
+                    <h2>Binäres Zahlensystem</h2>
+                    <p>Bits, Bytes, Umrechnungen & Grundlagen</p>
+                </div>
+                <div class="card-action">
+                    <span>Modul öffnen</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Karte 2 -->
+            <a href="T-NN.html" class="card">
+                <div class="card-content">
+                    <h2>Neumann Technologie / Netzwerke</h2>
+                    <p>Von-Neumann-Architektur & IP-Netzwerke</p>
+                </div>
+                <div class="card-action">
+                    <span>Modul öffnen</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Karte 3 -->
+            <a href="T-Python.html" class="card">
+                <div class="card-content">
+                    <h2>Python</h2>
+                    <p>Syntax, Logik, Schleifen & Skripte</p>
+                </div>
+                <div class="card-action">
+                    <span>Modul öffnen</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <span>KI Generiert</span>
+        <span>Stand: 2026</span>
+    </footer>
+
 </body>
 </html>
