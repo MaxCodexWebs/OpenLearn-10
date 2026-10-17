@@ -3,22 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
+    <title>Musik 10</title>
     <style>
-        body{
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
+        :root {
+            --bg-color: #0f0e0e;
+            --card-bg: #181717;
+            --text-main: #e6dfd5;
+            --accent-gold: #c5a880;
+            --accent-hover: #e2c9a0;
+            --border-color: #332f2b;
         }
-        a{
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Georgia', Times, serif;
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        /* Vintage ornament / line effect at the top */
+        .container::before {
+            content: "𝄞 𝄢";
+            display: block;
+            text-align: center;
+            font-size: 24px;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            letter-spacing: 10px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: var(--accent-gold);
+            margin-bottom: 35px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        section {
+            margin-bottom: 35px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            font-weight: normal;
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 10px;
+        }
+
+        .links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        a {
+            color: var(--text-main);
             text-decoration: none;
-            color: rgb(209, 35, 35);
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            font-family: 'Courier New', Courier, monospace; /* Etwas Schreibmaschinen-Vibe */
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a:hover {
+            background-color: rgba(197, 168, 128, 0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-hover);
+            padding-left: 20px; 
+        }
+
+        .placeholder-box {
+            font-style: italic;
+            color: #777;
+            padding: 10px 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #555;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+
+    <div class="container">
+        <h1>Musik Klasse 10</h1>
+        
+        <div class="Notenkunde">
+            <h3>Notenkunde</h3>
+            <div class="links-wrapper">
+                <a href="https://www.lehrklaenge.de/Grafiken/Grundlagen/Notenlesen/Notenlesen07.png" target="_blank">
+                    <span>Violinschlüssel Noten</span> &rarr;
+                </a>
+                <a href="https://www.lehrklaenge.de/Grafiken/Grundlagen/Notenlesen/Notenlesen09.png" target="_blank">
+                    <span>Bassschlüssel Noten</span> &rarr;
+                </a>
+            </div>
+        </div>
+
+        <div class="Singen" style="margin-top: 30px;">
+            <h3>Singen & Stimme</h3>
+            <a href="https://youtu.be/1nnndhSc4iw?si=w0aenqhTlljnfcBP" target="_blank">
+                    <span>Singen Lernen für Männer (Englisch)</span> &rarr;
+            </a>
+            <a href="https://youtu.be/ObwshS9yziQ?si=c3awUaClLp_FSNK9" target="_blank">
+                    <span>Singen Lernen für Frauen (Englisch)</span> &rarr;
+            </a>
+            <a href="https://youtu.be/EoIGF1zmVHs?si=JBdJwPUqBCmC4G-d" target="_blank">
+                    <span>Singen Lernen für Frauen (Deutsch)</span> &rarr;
+            </a>
+            <a href="https://youtu.be/zgEcSOOAjDo?si=Su1mxundkR4EJFKs" target="_blank">
+                    <span>Singen Lernen für Männer (Deutsch)</span> &rarr;
+            </a>
+            <a href="https://youtu.be/HrJCxNvgAvo?si=_iilMkDgtvoBReuF" target="_blank">
+                    <span>Töne treffen (Unisex)</span> &rarr;
+            </a>
+        </div>
+        <div class="Klaviatur" style="margin-top: 30px;">
+            <h3>Klavier/Keyboard spielen Lernen</h3>
+            <a href="https://youtu.be/gMQC5sJaVN8?si=rpNYdNwtC_IYE6Nz" target="_blank">
+                    <span>Lernen Phase 1 Einsteiger | Deutsch</span> &rarr;
+            </a>
+            <a href="https://youtu.be/J_n_v_mIdeE?si=4RH9objGtWFlUFxB" target="_blank">
+                    <span>Lernen Phase 1 Einsteiger | Englisch</span> &rarr;
+            </a>
+        </div>
+
+        <footer>
+            Stoffsammlung Musik &bull; Klasse 10
+        </footer>
+    </div>
+
 </body>
 </html>
