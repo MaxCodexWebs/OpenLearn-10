@@ -1,24 +1,132 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
+    <title>English 10</title>
     <style>
-        body{
-            background-color: black;
+        body {
+            background-color: #1a1714;
+            color: #f3efe6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
         }
-        a{
-            text-decoration: none;
-            color: rgb(209, 35, 35);
+
+        header h2 {
+            color: #f3c623;
+            border-bottom: 2px solid #332d25;
+            padding-bottom: 10px;
+        }
+
+        section {
+            background-color: #26211c;
+            border: 1px solid #3d352b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        section h3 {
+            color: #e0a91a;
+            margin-top: 0;
+        }
+
+        form {
+            margin-bottom: 12px;
+        }
+
+        form:last-child {
+            margin-bottom: 0;
+        }
+
+        button {
+            width: 100%;
+            background-color: #383025;
+            color: #f3efe6;
+            border: 1px solid #574a38;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #f3c623;
+            color: #1a1714;
+            border-color: #f3c623;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+    <header>
+        <h2>Topics:</h2>
+    </header>
+    
+    <section>
+        <h3>First semester:</h3>
+        <form action="https://www.kidnuz.org/" target="_blank">
+            <button type="submit">
+                Kidnuz - listening comprehension &rarr;
+            </button>
+        </form>
+        <form action="analyses.html">
+            <button type="submit">
+                Image analysis &rarr;
+            </button>
+        </form>
+    </section>
+    
+    <section>
+        <h3>Second semester:</h3>
+        <form action="">
+            <button type="submit">
+                Coming soon... &rarr;
+            </button>
+        </form>
+    </section>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
