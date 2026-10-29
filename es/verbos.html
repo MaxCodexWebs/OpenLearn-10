@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanisch 10. Klasse - Vergangenheiten</title>
+    <style>
+        :root {
+            --bg-dark: #120a07;
+            --card-bg: #1e110c;
+            --orange-primary: #ff7b00;
+            --orange-light: #ffa64d;
+            --red-accent: #ff2a2a;
+            --text-main: #f5f5f5;
+            --text-muted: #d1c7c1;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 2px solid var(--red-accent);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--orange-primary);
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 0 0 10px rgba(255, 123, 0, 0.3);
+        }
+
+        /* Sprachauswahl Schalter */
+        .lang-switch {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .lang-btn {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid var(--orange-primary);
+            padding: 10px 25px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active, .lang-btn:hover {
+            background-color: var(--orange-primary);
+            color: var(--bg-dark);
+            border-color: var(--red-accent);
+            box-shadow: 0 0 12px var(--red-accent);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--red-accent);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: var(--orange-light);
+            border-bottom: 1px solid rgba(255, 42, 42, 0.3);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--orange-primary);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background-color: #170c08;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #331a10;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2b140a;
+            color: var(--orange-primary);
+        }
+
+        tr:nth-child(even) {
+            background-color: #1f1008;
+        }
+        /* CSS für Mobilgeräte */
+@media screen and (max-width: 600px) {
+  table, thead, tbody, th, td, tr { display: block; }
+  thead { display: none; } /* Kopfzeile verstecken */
+  tr { margin-bottom: 15px; border: 1px solid #000000; padding: 10px; border-radius: 8px; }
+  td { text-align: right; position: relative; padding-left: 50%; }
+  td::before {
+    content: attr(data-label); /* Holt den Spaltennamen */
+    position: absolute; left: 10px; font-weight: bold; text-align: left;
+  }
+}
+
+
+        .highlight {
+            color: var(--red-accent);
+            font-weight: bold;
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.visible {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Spanisch 10. Klasse: Las Vergangenheiten</h1>
+        <p>Pretérito Indefinido vs. Pretérito Imperfecto</p>
+    </header>
+
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="switchLang('de')">Deutsch / Erklärung</button>
+        <button class="lang-btn" onclick="switchLang('es')">Solo en Español</button>
+    </div>
+
+    <div class="container">
+
+        <!-- ================= DEUTSCHER BEREICH ================= -->
+        <div id="content-de" class="lang-content visible">
+            
+            <section>
+                <h2>1. Pretérito Indefinido (Erzählzeit / Abschluss)</h2>
+                <p>Das Indefinido drückt Handlungen aus, die in der Vergangenheit <span class="highlight">einmalig, plötzlich, nacheinander oder abgeschlossen</span> passiert sind. Es bringt die Handlung voran (Erzählstrang).</p>
+                
+                <h3>Signalwörter:</h3>
+                <ul>
+                    <li>ayer (gestern)</li>
+                    <li>anoche (gestern Abend)</li>
+                    <li>el otro día (neulich)</li>
+                    <li>de repente (plötzlich)</li>
+                    <li>en 2015 / el año pasado (im Jahr 2015 / letztes Jahr)</li>
+                </ul>
+
+                <h3>Konjugation (Regelmäßige Verben):</h3>
+                <table>
+                    <tr>
+                        <th>Person</th>
+                        <th>-ar (z.B. hablar)</th>
+                        <th>-er / -ir (z.B. comer / vivir)</th>
+                    </tr>
+                    <tr><td>yo</td><td>habl<span class="highlight">é</span></td><td>com<span class="highlight">í</span> / viv<span class="highlight">í</span></td></tr>
+                    <tr><td>tú</td><td>habl<span class="highlight">aste</span></td><td>com<span class="highlight">iste</span> / viv<span class="highlight">iste</span></td></tr>
+                    <tr><td>él/ella/usted</td><td>habl<span class="highlight">ó</span></td><td>com<span class="highlight">ió</span> / viv<span class="highlight">ió</span></td></tr>
+                    <tr><td>nosotros/as</td><td>habl<span class="highlight">amos</span></td><td>com<span class="highlight">imos</span> / viv<span class="highlight">imos</span></td></tr>
+                    <tr><td>vosotros/as</td><td>habl<span class="highlight">asteis</span></td><td>com<span class="highlight">isteis</span> / viv<span class="highlight">isteis</span></td></tr>
+                    <tr><td>ellos/ellas/ustedes</td><td>habl<span class="highlight">aron</span></td><td>com<span class="highlight">ieron</span> / viv<span class="highlight">ieron</span></td></tr>
+                </table>
+
+                <h3>Wichtige unregelmäßige Verben:</h3>
+                <ul>
+                    <li><strong>ser / ir:</strong> fui, fuiste, fue, fuimos, fuisteis, fueron</li>
+                    <li><strong>tener:</strong> tuve, tuviste, tuvo, tuvimos, tuvisteis, tuvieron</li>
+                    <li><strong>estar:</strong> estuve, estuviste, estuvo, estuvimos, estuvisteis, estuvieron</li>
+                    <li><strong>hacer:</strong> hice, hiciste, hizo, hicimos, hicisteis, hicieron (Achtung in der 3. Person Singular: <em>hizo</em>!)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>2. Pretérito Imperfecto (Verlaufsform / Hintergrund)</h2>
+                <p>Das Imperfecto beschreibt Zustände, Gewohnheiten, Hintergründe, Beschreibungen oder Handlungen, die <span class="highlight">gleichzeitig oder über einen längeren Zeitraum</span> liefen (ohne konkreten Endpunkt).</p>
+                
+                <h3>Signalwörter:</h3>
+                <ul>
+                    <li>siempre (immer)</li>
+                    <li>normalmente / generalmente (normalerweise)</li>
+                    <li>todos los días (jeden Tag)</li>
+                    <li>a menudo (oft)</li>
+                    <li>mientras (während)</li>
+                </ul>
+
+                <h3>Konjugation (Regelmäßige Verben):</h3>
+                <table>
+                    <tr>
+                        <th>Person</th>
+                        <th>-ar (z.B. hablar)</th>
+                        <th>-er (z.B. comer)</th>
+                        <th>-ir (z.B. vivir)</th>
+                    </tr>
+                    <tr><td>yo</td><td>habl<span class="highlight">aba</span></td><td>com<span class="highlight">ía</span></td><td>viv<span class="highlight">ía</span></td></tr>
+                    <tr><td>tú</td><td>habl<span class="highlight">abas</span></td><td>com<span class="highlight">ías</span></td><td>viv<span class="highlight">ías</span></td></tr>
+                    <tr><td>él/ella/usted</td><td>habl<span class="highlight">aba</span></td><td>com<span class="highlight">ía</span></td><td>viv<span class="highlight">ía</span></td></tr>
+                    <tr><td>nosotros/as</td><td>habl<span class="highlight">ábamos</span></td><td>com<span class="highlight">íamos</span></td><td>viv<span class="highlight">íamos</span></td></tr>
+                    <tr><td>vosotros/as</td><td>habl<span class="highlight">abais</span></td><td>com<span class="highlight">íais</span></td><td>viv<span class="highlight">íais</span></td></tr>
+                    <tr><td>ellos/ellas/ustedes</td><td>habl<span class="highlight">aban</span></td><td>com<span class="highlight">ían</span></td><td>viv<span class="highlight">ían</span></td></tr>
+                </table>
+
+                <h3>Unregelmäßige Verben (nur 3 Stück!):</h3>
+                <ul>
+                    <li><strong>ser:</strong> era, eras, era, éramos, erais, eran</li>
+                    <li><strong>ir:</strong> iba, ibas, iba, íbamos, ibais, iban</li>
+                    <li><strong>ver:</strong> veía, veías, veía, veíamos, veíais, veían</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>3. Der ultimative Trick: Wann nutzt man was zusammen?</h2>
+                <p>Oft stehen beide Zeiten in einem Satz (oft verbunden mit <em>cuando</em> oder <em>mientras</em>):</p>
+                <ul>
+                    <li><strong>Hintergrund (Imperfecto):</strong> Es regnete und ich schlief... <span class="highlight">(Längere Handlung / Zustand)</span></li>
+                    <li><strong>Plötzliches Ereignis (Indefinido):</strong> ...als plötzlich das Telefon klingelte. <span class="highlight">(Unterbrechung)</span></li>
+                </ul>
+            </section>
+
+        </div>
+
+
+        <!-- ================= SPANISCHER BEREICH ================= -->
+        <div id="content-es" class="lang-content">
+            
+            <section>
+                <h2>1. Pretérito Indefinido (Acciones terminadas)</h2>
+                <p>El pretérito indefinido se usa para acciones que ocurrieron en el pasado, que están <span class="highlight">completamente terminadas</span>, que ocurrieron una sola vez o que interrumpen otra acción.</p>
+                
+                <h3>Marcadores temporales (Signalwörter):</h3>
+                <ul>
+                    <li>ayer, anoche</li>
+                    <li>el año pasado, en 2020</li>
+                    <li>de repente, entonces</li>
+                </ul>
+
+                <h3>Conjugación regular:</h3>
+                <table>
+                    <tr>
+                        <th>Pronombre</th>
+                        <th>-ar (ej. hablar)</th>
+                        <th>-er / -ir (ej. comer / vivir)</th>
+                    </tr>
+                    <tr><td>yo</td><td>habl<span class="highlight">é</span></td><td>com<span class="highlight">í</span> / viv<span class="highlight">í</span></td></tr>
+                    <tr><td>tú</td><td>habl<span class="highlight">aste</span></td><td>com<span class="highlight">iste</span> / viv<span class="highlight">iste</span></td></tr>
+                    <tr><td>él/ella/usted</td><td>habl<span class="highlight">ó</span></td><td>com<span class="highlight">ió</span> / viv<span class="highlight">ió</span></td></tr>
+                    <tr><td>nosotros/as</td><td>habl<span class="highlight">amos</span></td><td>com<span class="highlight">imos</span> / viv<span class="highlight">imos</span></td></tr>
+                    <tr><td>vosotros/as</td><td>habl<span class="highlight">asteis</span></td><td>com<span class="highlight">isteis</span> / viv<span class="highlight">isteis</span></td></tr>
+                    <tr><td>ellos/ellas/ustedes</td><td>habl<span class="highlight">aron</span></td><td>com<span class="highlight">ieron</span> / viv<span class="highlight">ieron</span></td></tr>
+                </table>
+
+                <h3>Verbos irregulares importantes:</h3>
+                <ul>
+                    <li><strong>ser / ir:</strong> fui, fuiste, fue, fuimos, fuisteis, fueron</li>
+                    <li><strong>tener:</strong> tuve, tuviste, tuvo, tuvimos, tuvisteis, tuvieron</li>
+                    <li><strong>estar:</strong> estuve, estuviste, estuvo, estuvimos, estuvisteis, estuvieron</li>
+                    <li><strong>hacer:</strong> hice, hiciste, hizo, hicimos, hicisteis, hicieron</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>2. Pretérito Imperfecto (Descripciones y hábitos)</h2>
+                <p>El pretérito imperfecto se utiliza para describir <span class="highlight">costumbres, hábitos en el pasado, descripciones de personas, lugares o situaciones</span>, y acciones que duraban sin un límite claro.</p>
+                
+                <h3>Marcadores temporales:</h3>
+                <ul>
+                    <li>siempre, nunca</li>
+                    <li>normalmente, a menudo</li>
+                    <li>todos los días, mientras</li>
+                </ul>
+
+                <h3>Conjugación regular:</h3>
+                <table>
+                    <tr>
+                        <th>Pronombre</th>
+                        <th>-ar (ej. hablar)</th>
+                        <th>-er (ej. comer)</th>
+                        <th>-ir (ej. vivir)</th>
+                    </tr>
+                    <tr><td>yo</td><td>habl<span class="highlight">aba</span></td><td>com<span class="highlight">ía</span></td><td>viv<span class="highlight">ía</span></td></tr>
+                    <tr><td>tú</td><td>habl<span class="highlight">abas</span></td><td>com<span class="highlight">ías</span></td><td>viv<span class="highlight">ías</span></td></tr>
+                    <tr><td>él/ella/usted</td><td>habl<span class="highlight">aba</span></td><td>com<span class="highlight">ía</span></td><td>viv<span class="highlight">ía</span></td></tr>
+                    <tr><td>nosotros/as</td><td>habl<span class="highlight">ábamos</span></td><td>com<span class="highlight">íamos</span></td><td>viv<span class="highlight">íamos</span></td></tr>
+                    <tr><td>vosotros/as</td><td>habl<span class="highlight">abais</span></td><td>com<span class="highlight">íais</span></td><td>viv<span class="highlight">íais</span></td></tr>
+                    <tr><td>ellos/ellas/ustedes</td><td>habl<span class="highlight">aban</span></td><td>com<span class="highlight">ían</span></td><td>viv<span class="highlight">ían</span></td></tr>
+                </table>
+
+                <h3>¡Solo tres verbos irregulares!</h3>
+                <ul>
+                    <li><strong>ser:</strong> era, eras, era, éramos, erais, eran</li>
+                    <li><strong>ir:</strong> iba, ibas, iba, íbamos, ibais, iban</li>
+                    <li><strong>ver:</strong> veía, veías, veía, veíamos, veíais, veían</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>3. Combinación de los tiempos</h2>
+                <p>Normalmente usamos el Imperfecto para el trasfondo (fondo de la historia) y el Indefinido para la acción puntual que interrumpe.</p>
+                <p><em>Ejemplo:</em> Yo <span class="highlight">durmía</span> (imperfecto) cuando <span class="highlight">sonó</span> (indefinido) el teléfono.</p>
+            </section>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>¡Mucho éxito en la clase 10! 🚀</p>
+    </footer>
+
+    <script>
+        function switchLang(lang) {
+            const contentDe = document.getElementById('content-de');
+            const contentEs = document.getElementById('content-es');
+            const buttons = document.querySelectorAll('.lang-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (lang === 'de') {
+                contentDe.classList.add('visible');
+                contentEs.classList.remove('visible');
+                event.target.classList.add('active');
+            } else {
+                contentEs.classList.add('visible');
+                contentDe.classList.remove('visible');
+                event.target.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
