@@ -1,24 +1,131 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
+    <title>Español - Décimo grado</title>
     <style>
-        body{
-            background-color: black;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
+        :root {
+            --bg-dark: #120c08;
+            --card-bg: #1a100a;
+            --orange-dark: #b84311;
+            --orange-deep: #8c2e0b;
+            --red-accent: #d92525;
+            --text-main: #f3e6dc;
+            --text-muted: #bfa799;
         }
-        a{
-            text-decoration: none;
-            color: rgb(209, 35, 35);
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--bg-dark);
+            /* Patrón geométrico sutil estilo alfombra / teppich español */
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(184, 67, 17, 0.08) 0%, transparent 60%),
+                repeating-linear-gradient(45deg, rgba(217, 37, 37, 0.03) 0, rgba(217, 37, 37, 0.03) 2px, transparent 0, transparent 20px),
+                repeating-linear-gradient(-45deg, rgba(140, 46, 11, 0.03) 0, rgba(140, 46, 11, 0.03) 2px, transparent 0, transparent 20px);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            max-width: 700px;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--red-accent);
+            padding-bottom: 1.5rem;
+        }
+
+        header h2 {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(184, 67, 17, 0.3);
+            border-left: 4px solid var(--red-accent);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        section:hover {
+            border-color: var(--orange-dark);
+            transform: translateY(-2px);
+        }
+
+        section h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Ambos botones con idéntico diseño simétrico y estilizado */
+        button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: linear-gradient(135deg, var(--orange-dark), var(--orange-deep));
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(140, 46, 11, 0.3);
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #cc4a13, var(--orange-dark));
+            border-color: var(--red-accent);
+            box-shadow: 0 6px 16px rgba(217, 37, 37, 0.25);
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+    <header>
+        <h2>Temas: Distinguir, comprender y utilizar los tiempos del pasado.</h2>
+    </header>
+    <section>
+        <h3>Primer semestre:</h3>
+        <form action="verbos.html">
+        <button>Tiempos verbales en español. (Repetición) &rarr;</button>
+        </form>
+    </section>
+    <section>
+        <h3>Segundo semestre:</h3>
+        <form>
+        <button href="#">Temas avanzados del pasado &rarr;</button>
+        </form>
+    </section>
 </body>
 </html>
