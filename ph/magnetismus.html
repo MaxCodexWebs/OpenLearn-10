@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnetismus – Interaktives Lernportal (Klasse 10 VSG)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#030712',
+                        cardBg: 'rgba(17, 24, 39, 0.7)',
+                        cyanAccent: '#06b6d4',
+                        emeraldAccent: '#10b981',
+                        neonBlue: '#38bdf8',
+                        neonGreen: '#34d399'
+                    },
+                    boxShadow: {
+                        'glow-cyan': '0 0 25px rgba(6, 182, 212, 0.35)',
+                        'glow-emerald': '0 0 25px rgba(16, 185, 129, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+        }
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+        }
+        .glass-nav {
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-darkBg bg-grid min-h-screen text-slate-100 relative selection:bg-cyan-500 selection:text-black">
+
+    <header class="glass-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-glow-cyan">
+                    <i class="fa-solid fa-magnet text-black text-lg"></i>
+                </div>
+                <span>MagnetX <span>Klasse 10 VSG</span></span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#wirkung" class="text-slate-300 hover:text-cyan-400 transition-colors">Wirkung</a>
+                <a href="#stoffe" class="text-slate-300 hover:text-cyan-400 transition-colors">Stoffe</a>
+                <a href="#magnetisierung" class="text-slate-300 hover:text-cyan-400 transition-colors">Magnetisierung</a>
+                <a href="#feldlinien" class="text-slate-300 hover:text-cyan-400 transition-colors">Feldlinien</a>
+                <a href="#vergleich" class="text-slate-300 hover:text-cyan-400 transition-colors">Dauer vs. Elektro</a>
+                <a href="#quiz" class="text-slate-300 hover:text-emerald-400 transition-colors font-semibold">Quiz</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <a href="#quiz" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-black font-semibold text-sm shadow-glow-cyan hover:opacity-90 transition-all transform hover:scale-105">
+                    Quiz starten <i class="fa-solid fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-40 right-10 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="text-center relative z-10 max-w-4xl mx-auto">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-6 animate-float">
+                <i class="fa-solid fa-atom"></i>
+                <span>Physik Lernmodul • Magnetismus & Elektromagnetismus</span>
+            </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6">
+                Die unsichtbare Kraft:<br><span>Magnetismus</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Erforsche die Geheimnisse von Magnetfeldern, Elementarmagneten und ferromagnetischen Stoffen. Perfekt aufbereitet für das Niveau der 10. Klasse.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#wirkung" class="px-8 py-4 rounded-xl bg-cyan-500 text-black font-bold shadow-glow-cyan hover:bg-cyan-400 transition-all">
+                    Jetzt lernen <i class="fa-solid fa-compass ml-2"></i>
+                </a>
+                <a href="#vergleich" class="px-8 py-4 rounded-xl glass-card text-cyan-400 font-semibold hover:border-cyan-400/50 transition-all">
+                    Dauer- vs. Elektromagnete
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="wirkung" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-cyan-500/5 rounded-full blur-2xl"></div>
+            
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <i class="fa-solid fa-bolt text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Kapitel 01</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Magnetische Wirkung & Pole</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="space-y-4 text-slate-300 leading-relaxed">
+                    <p>
+                        Magnetismus ist eine physikalische Kraftwirkung, die zwischen Magneten, magnetisierbaren Körpern sowie bewegten elektrischen Ladungen auftritt. Jeder normale Magnet besitzt zwei unterschiedliche Pole:
+                    </p>
+                    <ul class="space-y-2 pl-4 border-l-2 border-cyan-500/40 text-sm">
+                        <li><strong class="text-cyan-400">Nordpol (N, rot):</strong> Zeigt bei frei beweglichen Magneten nach Norden.</li>
+                        <li><strong class="text-cyan-400">Südpol (S, blau/grün):</strong> Zeigt nach Süden.</li>
+                    </ul>
+                    <div class="p-4 rounded-xl bg-slate-900/60 border border-emerald-500/20 text-sm text-emerald-300 mt-4">
+                        <i class="fa-solid fa-lightbulb text-emerald-400 mr-2"></i>
+                        <strong>Grundgesetz des Magnetismus:</strong> Gleichnamige Pole stoßen sich ab (<span class="text-cyan-400">N-N</span> oder <span class="text-cyan-400">S-S</span>), ungleichnamige Pole ziehen sich an (<span class="text-cyan-400">N-S</span>).
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center border border-cyan-500/20">
+                        <div class="w-16 h-16 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl mb-3 shadow-glow-cyan">
+                            <i class="fa-solid fa-arrows-split-up-and-left"></i>
+                        </div>
+                        <h3 class="font-bold text-white mb-1">Abstoßung</h3>
+                        <p class="text-xs text-slate-400">Nordpol trifft auf Nordpol</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center border border-emerald-500/20">
+                        <div class="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mb-3 shadow-glow-emerald">
+                            <i class="fa-solid fa-arrows-down-to-line"></i>
+                        </div>
+                        <h3 class="font-bold text-white mb-1">Anziehung</h3>
+                        <p class="text-xs text-slate-400">Nordpol trifft auf Südpol</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stoffe" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 md:p-12">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <i class="fa-solid fa-cubes text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">Kapitel 02</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Magnetische Stoffe & Elementarmagnete</h2>
+                </div>
+            </div>
+
+            <p class="text-slate-300 mb-8 max-w-3xl leading-relaxed">
+                Nicht jedes Material reagiert auf Magnete. Stoffe, die stark von Magneten angezogen werden, nennt man <strong class="text-emerald-400">ferromagnetisch</strong> (nach dem lateinischen Wort <em>ferrum</em> = Eisen).
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="glass-card p-6 rounded-2xl border-t-2 border-t-cyan-400">
+                    <div class="text-cyan-400 text-3xl font-black mb-2">Fe</div>
+                    <h3 class="text-lg font-bold text-white">Eisen</h3>
+                    <p class="text-xs text-slate-400 mt-2">Der klassische ferromagnetische Werkstoff mit extrem starker Wirkung.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border-t-2 border-t-emerald-400">
+                    <div class="text-emerald-400 text-3xl font-black mb-2">Ni</div>
+                    <h3 class="text-lg font-bold text-white">Nickel</h3>
+                    <p class="text-xs text-slate-400 mt-2">Wird ebenfalls stark angezogen und dient oft als Legierungsbestandteil.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border-t-2 border-t-cyan-400">
+                    <div class="text-cyan-400 text-3xl font-black mb-2">Co</div>
+                    <h3 class="text-lg font-bold text-white">Kobalt</h3>
+                    <p class="text-xs text-slate-400 mt-2">Ferromagnetisch und wichtig für hochfeste Dauermagnete.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border-t-2 border-t-emerald-400">
+                    <div class="text-emerald-400 text-3xl font-black mb-2">Gd</div>
+                    <h3 class="text-lg font-bold text-white">Gadolinium</h3>
+                    <p class="text-xs text-slate-400 mt-2">Seltener Erdstoff, der unterhalb von Raumtemperatur ferromagnetisch ist.</p>
+                </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-900/80 border border-cyan-500/20">
+                <h4 class="text-lg font-bold text-cyan-400 mb-2"><i class="fa-solid fa-microchip mr-2"></i>Das Modell der Elementarmagnete (Weißsche Bezirke)</h4>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Im Inneren ferromagnetischer Stoffe befinden sich kleinste magnetische Bereiche – die sogenannten Elementarmagnete oder Weißschen Bezirke. In einem unmagnetisierten Stück Eisen sind diese Bereiche völlig ungeordnet ausgerichtet, weshalb sich ihre magnetischen Wirkungen nach außen hin aufheben.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="magnetisierung" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 md:p-12">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Kapitel 03</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Magnetisierung von Körpern</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4 text-slate-300 leading-relaxed">
+                    <p>
+                        Wie wird aus einem einfachen Eisennagel ein Magnet? Durch den Prozess der <strong class="text-cyan-400">Magnetisierung</strong>!
+                    </p>
+                    <p>
+                        Nähert man einen starken Magneten an einen unmagnetisierten Eisenstab an oder streicht mehrmals in dieselbe Richtung darüber, zwingt das äußere Magnetfeld die Elementarmagnete dazu, sich gleichmäßig auszurichten.
+                    </p>
+                    <div class="p-4 rounded-xl bg-slate-900/70 border border-cyan-500/20 text-sm text-slate-300">
+                        <i class="fa-solid fa-triangle-exclamation text-yellow-400 mr-2"></i>
+                        <strong>Hinweis:</strong> Durch Erhitzen (Glühen) oder heftiges Erschüttern (Schlagen) geraten die Elementarmagnete wieder in thermische Unordnung – der Magnet verliert seine Magnetisierung (Entmagnetisierung).
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-cyan-500/30 flex flex-col items-center">
+                    <h3 class="text-md font-bold text-white mb-4">Interaktive Visualisierung: Ausrichtung</h3>
+                    <div class="w-full bg-slate-950 p-6 rounded-xl flex flex-col items-center space-y-6">
+                        <div id="magnetStateText" class="text-sm font-semibold text-cyan-400">Zustand: Unmagnetisiert (Ungeordnet)</div>
+                        <div id="elementContainer" class="grid grid-cols-5 gap-3 w-full max-w-xs transition-all">
+                            <!-- JS will generate element magnets -->
+                        </div>
+                        <button onclick="toggleMagnetization()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-black font-bold text-sm shadow-glow-cyan hover:opacity-90 transition-all">
+                            Magnetisierung umschalten
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="feldlinien" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 md:p-12">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <i class="fa-solid fa-compass text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">Kapitel 04</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Magnetfeld & magnetische Feldlinien</h2>
+                </div>
+            </div>
+
+            <p class="text-slate-300 mb-8 max-w-3xl leading-relaxed">
+                Um einen Magneten herum befindet sich das <strong class="text-emerald-400">Magnetfeld</strong>. Dies ist der Wirkungsbereich, in dem magnetische Kräfte spürbar sind. Mit Hilfe von Eisenspänen oder einer Kompassnadel lassen sich diese Felder als <strong class="text-emerald-400">magnetische Feldlinien</strong> sichtbar machen.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <!-- Stabmagnet Bild -->
+                <div class="glass-card rounded-2xl p-4 border border-cyan-500/20 flex flex-col">
+                    <div class="overflow-hidden rounded-xl mb-4 bg-slate-950 flex items-center justify-center h-64">
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-1">Stabmagnet</h3>
+                    <p class="text-xs text-slate-400">Die Feldlinien verlaufen außen vom Nordpol zum Südpol und innen zurück. Die Dichte der Linien zeigt an, wo das Magnetfeld am stärksten ist (an den Polen).</p>
+                </div>
+
+                <!-- Hufeisenmagnet Bild -->
+                <div class="glass-card rounded-2xl p-4 border border-emerald-500/20 flex flex-col">
+                    <div class="overflow-hidden rounded-xl mb-4 bg-slate-950 flex items-center justify-center h-64">
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-1">Hufeisenmagnet</h3>
+                    <p class="text-xs text-slate-400">Durch die U-Form liegen Nord- und Südpol nah beieinander. Dadurch entsteht zwischen den Polen ein sehr starkes, homogenes Magnetfeld.</p>
+                </div>
+            </div>
+
+            <!-- Regeln für Feldlinien -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl border border-cyan-500/20">
+                    <div class="text-cyan-400 font-bold mb-2"><i class="fa-solid fa-arrow-right mr-2"></i>1. Richtung</div>
+                    <p class="text-xs text-slate-300">Außerhalb des Magneten verlaufen die Feldlinien immer vom Nordpol zum Südpol.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-emerald-500/20">
+                    <div class="text-emerald-400 font-bold mb-2"><i class="fa-solid fa-circle-nodes mr-2"></i>2. Geschlossenheit</div>
+                    <p class="text-xs text-slate-300">Feldlinien bilden geschlossene Kurven; sie enden oder beginnen nicht im Nichts.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-cyan-500/20">
+                    <div class="text-cyan-400 font-bold mb-2"><i class="fa-solid fa-gauge-high mr-2"></i>3. Feldliniendichte</div>
+                    <p class="text-xs text-slate-300">Je dichter die Linien beieinander liegen, desto stärker ist das Magnetfeld an dieser Stelle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vergleich" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 md:p-12">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <i class="fa-solid fa-scale-balanced text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Kapitel 05</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Vergleich: Dauermagnet vs. Elektromagnet</h2>
+                </div>
+            </div>
+
+            <p class="text-slate-300 mb-8 max-w-3xl leading-relaxed">
+                In der Technik unterscheiden wir zwischen Magneten, die dauerhaft magnetisch sind, und solchen, die durch elektrischen Strom gesteuert werden können.
+            </p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400 text-sm">
+                            <th class="p-4">Merkmal</th>
+                            <th class="p-4 text-cyan-400 font-bold">Dauermagnet</th>
+                            <th class="p-4 text-emerald-400 font-bold">Elektromagnet</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-slate-800">
+                        <tr>
+                            <td class="p-4 font-semibold text-slate-300">Aufbau</td>
+                            <td class="p-4 text-slate-300">Hartmagnetisches Material (z.B. Alnico, Neodym)</td>
+                            <td class="p-4 text-slate-300">Spule mit elektrischem Stromfluss und meist Weicheisenkern</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-semibold text-slate-300">Steuerbarkeit</td>
+                            <td class="p-4 text-slate-300">Nicht steuerbar; Magnetismus ist immer vorhanden.</td>
+                            <td class="p-4 text-slate-300">Voll steuerbar: Ein- und Ausschalten sowie Stärke regulierbar per Strom.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-semibold text-slate-300">Magnetfeldstärke</td>
+                            <td class="p-4 text-slate-300">Konstant, lässt bei extremen Temperaturen oder Stößen nach.</td>
+                            <td class="p-4 text-slate-300">Sehr stark einstellbar (abhängig von Stromstärke und Windungszahl).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-semibold text-slate-300">Anwendungsbeispiele</td>
+                            <td class="p-4 text-slate-300">Kühlschrankmagnete, Kompassnadeln, Lautsprecher</td>
+                            <td class="p-4 text-slate-300">Schrottplatz-Kräne, Relais, Elektromotoren, MRT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="quiz" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 md:p-12 border border-emerald-500/30 shadow-glow-emerald">
+            <div class="text-center mb-8">
+                <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">Wissenstest</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Teste dein Wissen (Klasse 10)</h2>
+                <p class="text-slate-400 text-sm mt-2">Überprüfe deinen Lernfortschritt mit 4 gezielten Fragen zum Magnetismus.</p>
+            </div>
+
+            <div id="quizContainer" class="space-y-6">
+                <!-- Question 1 -->
+                <div class="quiz-question glass-card p-6 rounded-2xl" data-question="0">
+                    <h3 class="font-bold text-white mb-4 text-base">1. Welche Stoffe gehören zu den ferromagnetischen Materialien?</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q0" value="0" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Holz, Glas, Plastik</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q0" value="1" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Eisen, Nickel, Kobalt</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q0" value="2" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Kupfer, Gold, Silber</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-question glass-card p-6 rounded-2xl" data-question="1">
+                    <h3 class="font-bold text-white mb-4 text-base">2. Wie verlaufen magnetische Feldlinien außerhalb eines Stabmagneten?</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q1" value="0" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Vom Südpol zum Nordpol</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q1" value="1" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Vom Nordpol zum Südpol</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q1" value="2" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Sie verlaufen spiralförmig ins Weltall</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-question glass-card p-6 rounded-2xl" data-question="2">
+                    <h3 class="font-bold text-white mb-4 text-base">3. Was passiert mit den Elementarmagneten beim Magnetisieren eines Eisenstabs?</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q2" value="0" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Sie richten sich gleichmäßig in eine Richtung aus.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q2" value="1" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Sie lösen sich komplett auf.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q2" value="2" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Sie verteilen sich zufällig im Material.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="quiz-question glass-card p-6 rounded-2xl" data-question="3">
+                    <h3 class="font-bold text-white mb-4 text-base">4. Was ist ein entscheidender Vorteil eines Elektromagneten gegenüber einem Dauermagneten?</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q3" value="0" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Er benötigt niemals Strom.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q3" value="1" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Er kann per Stromfluss ein- und ausgeschaltet werden.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 cursor-pointer transition-all border border-transparent hover:border-cyan-500/30">
+                            <input type="radio" name="q3" value="2" class="text-cyan-500 focus:ring-cyan-500">
+                            <span class="text-sm text-slate-300">Er rostet niemals.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="checkQuiz()" class="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-black font-extrabold shadow-glow-cyan hover:opacity-90 transition-all">
+                    Ergebnis auswerten <i class="fa-solid fa-square-check ml-2"></i>
+                </button>
+            </div>
+
+            <div id="quizResult" class="mt-6 hidden p-6 rounded-2xl bg-slate-900/90 border border-emerald-500/40 text-center">
+                <h3 id="quizScoreText" class="text-xl font-bold text-white mb-2"></h3>
+                <p id="quizFeedbackText" class="text-sm text-slate-300"></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="glass-nav py-8 text-center text-xs text-slate-500">
+        <p>© 2026 MagnetX Lernportal • Erstellt für Klasse 10 VSG • Physikunterricht im modernen Dark Design</p>
+    </footer>
+
+    <script>
+        // Interactive Magnetization Simulation State
+        let isMagnetized = false;
+        const totalElements = 10;
+
+        function renderElements() {
+            const container = document.getElementById('elementContainer');
+            const stateText = document.getElementById('magnetStateText');
+            container.innerHTML = '';
+
+            if (isMagnetized) {
+                stateText.innerHTML = "Zustand: Magnetisiert (Geordneter Nord-Süd-Verlauf)";
+                stateText.className = "text-sm font-semibold text-emerald-400";
+            } else {
+                stateText.innerHTML = "Zustand: Unmagnetisiert (Ungeordnete Elementarmagnete)";
+                stateText.className = "text-sm font-semibold text-cyan-400";
+            }
+
+            for (let i = 0; i < totalElements; i++) {
+                const el = document.createElement('div');
+                el.className = "h-10 rounded-lg flex items-center justify-center font-bold text-xs transition-all duration-500 shadow-sm";
+                if (isMagnetized) {
+                    el.style.background = "linear-gradient(90deg, #06b6d4 50%, #10b981 50%)";
+                    el.style.color = "#030712";
+                    el.innerHTML = "N→S";
+                    el.style.transform = "rotate(0deg)";
+                } else {
+                    // Random rotations for chaotic state
+                    const rotations = ["rotate(15deg)", "rotate(-45deg)", "rotate(90deg)", "rotate(180deg)", "rotate(-120deg)"];
+                    el.style.background = "rgba(51, 65, 85, 0.8)";
+                    el.style.color = "#94a3b8";
+                    el.innerHTML = "•";
+                    el.style.transform = rotations[i % rotations.length];
+                }
+                container.appendChild(el);
+            }
+        }
+
+        function toggleMagnetization() {
+            isMagnetized = !isMagnetized;
+            renderElements();
+        }
+
+        // Initialize simulation on load
+        window.onload = function () {
+            renderElements();
+        }
+
+        // Quiz Evaluation Logic
+        function checkQuiz() {
+            const answers = [1, 1, 0, 1]; // Correct answers indices
+            let score = 0;
+            let allAnswered = true;
+
+            for (let i = 0; i < answers.length; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                    break;
+                }
+                if (parseInt(selected.value) === answers[i]) {
+                    score++;
+                }
+            }
+
+            const resultBox = document.getElementById('quizResult');
+            const scoreText = document.getElementById('quizScoreText');
+            const feedbackText = document.getElementById('quizFeedbackText');
+
+            resultBox.classList.remove('hidden');
+
+            if (!allAnswered) {
+                scoreText.innerHTML = "Bitte beantworte alle Fragen!";
+                feedbackText.innerHTML = "Es wurden noch nicht alle Fragen ausgewählt.";
+                resultBox.className = "mt-6 p-6 rounded-2xl bg-slate-900/90 border border-yellow-500/40 text-center";
+                return;
+            }
+
+            scoreText.innerHTML = `Du hast ${score} von 4 Punkten erreicht! (${score * 25}%)`;
+            
+            if (score === 4) {
+                feedbackText.innerHTML = "Hervorragend! Du hast den Stoff perfekt verstanden und bist bestens für die Klassenarbeit vorbereitet!";
+                resultBox.className = "mt-6 p-6 rounded-2xl bg-emerald-950/60 border border-emerald-500/50 text-center";
+            } else if (score >= 2) {
+                feedbackText.innerHTML = "Gute Leistung! Schau dir die Abschnitte mit den Fehlern noch einmal kurz an.";
+                resultBox.className = "mt-6 p-6 rounded-2xl bg-cyan-950/60 border border-cyan-500/50 text-center";
+            } else {
+                feedbackText.innerHTML = "Da geht noch mehr! Lies dir die Kapitel oben in Ruhe durch und versuche es noch einmal.";
+                resultBox.className = "mt-6 p-6 rounded-2xl bg-slate-900/90 border border-red-500/40 text-center";
+            }
+        }
+    </script>
+</body>
+</html>
