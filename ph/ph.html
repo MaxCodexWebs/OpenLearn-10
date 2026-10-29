@@ -3,22 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inhalte kommen später.</title>
+    <title>Physik Dashboard</title>
     <style>
-        body{
-            background-color: black;
+        /* Grundlegendes Styling & Dunkles Design */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color:white;
-            text-decoration: none;
         }
-        a{
-            text-decoration: none;
-            color: rgb(209, 35, 35);
+
+        body {
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Hintergrundeffekt: Atome / Partikel */
+        .atom-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(56, 189, 248, 0.15);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            animation: float 12s infinite linear;
+        }
+
+        /* Atom-Ring Animation (Dekoration) */
+        .atom-orbit {
+            position: absolute;
+            border: 1px dashed rgba(56, 189, 248, 0.2);
+            border-radius: 50%;
+            animation: spin 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Dashboard Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #38bdf8;
+            font-size: 2.5rem;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        /* Dashboard Karten */
+        .card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .card h3 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* Buttons im <form action="..."> Stil */
+        .card form {
+            width: 100%;
+        }
+
+        .dashboard-btn {
+            width: 100%;
+            background-color: transparent;
+            color: #38bdf8;
+            border: 2px solid #38bdf8;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(56, 189, 248, 0.5);
+        }
+
+        .dashboard-btn:hover {
+            background-color: #38bdf8;
+            color: #0b0f19;
+            box-shadow: 0 0 15px #38bdf8;
+        }
+        form{
+            margin: 8px;
         }
     </style>
 </head>
 <body>
-    <h1>Inhalte kommen Später</h1>
-    <a href="#">Nicht funktionell -></a>
+
+    <!-- Hintergrund mit schwebenden Atomen / Partikeln -->
+    <div class="atom-background">
+        <div class="particle" style="width: 8px; height: 8px; left: 10%; animation-duration: 10s; animation-delay: 0s;"></div>
+        <div class="particle" style="width: 12px; height: 12px; left: 30%; animation-duration: 15s; animation-delay: 2s;"></div>
+        <div class="particle" style="width: 6px; height: 6px; left: 55%; animation-duration: 8s; animation-delay: 4s;"></div>
+        <div class="particle" style="width: 10px; height: 10px; left: 75%; animation-duration: 12s; animation-delay: 1s;"></div>
+        <div class="particle" style="width: 15px; height: 15px; left: 90%; animation-duration: 18s; animation-delay: 3s;"></div>
+        
+        <!-- Atom-Orbital-Grafik im Hintergrund -->
+        <div class="atom-orbit" style="width: 300px; height: 300px; top: 20%; left: 10%;"></div>
+        <div class="atom-orbit" style="width: 500px; height: 500px; top: 40%; right: 5%; animation-direction: reverse;"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1> Physik Dashboard</h1>
+        <p>Wähle ein Themengebiet aus</p>
+    </header>
+
+    <!-- Dashboard Inhalt / Karten -->
+    <div class="dashboard-grid">
+        
+        <!-- Karte 1 -->
+        <div class="card">
+            <div>
+                <h3>Magnetismus</h3>
+                <p>Der Magnetismus ist eine physikalische Erscheinung, die sich unter anderem als Kraftwirkung zwischen Magneten, magnetisierten bzw. magnetisierbaren Gegenständen und bewegten elektrischen Ladungen äußert.</p>
+            </div>
+            <form action="https://de.wikipedia.org/wiki/Magnetismus" method="GET">
+                <button type="submit" class="dashboard-btn">Wikipedia &rarr;</button>
+            </form>
+            <form action="magnetismus.html" method="GET">
+                <button type="submit" class="dashboard-btn">Lernseite &rarr;</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
