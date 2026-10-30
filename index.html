@@ -472,6 +472,23 @@
             border-radius: 1rem;
             border: 1px solid var(--card-border);
         }
+        a {
+            text-decoration: none;
+            color: var(--text-muted);
+
+        }
+        a:hover{
+            color: var(--text-main);
+        }
+        .ghost-link {
+            color: transparent; 
+            text-decoration: none; 
+        }
+
+        .ghost-link:hover {
+            color: #fdfdfd; 
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -500,12 +517,6 @@
 
     <!-- Main Container -->
     <div class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h2>Digitale Lernplattform für Deutschland</h2>
-            <p>Wähle dein Fachgebiet, entdecke interaktive Materialien im exakten Ordnerformat und vertiefe dein Wissen flexibel und modern.</p>
-        </section>
-
         <!-- Search & Filter Controls -->
         <div class="controls-wrapper">
             <div class="search-box">
@@ -789,7 +800,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 OpenLearn – Deutsche Ausrichtung. Alle Rechte vorbehalten.</p>
+        <p>&copy; Open Learn 2026. Die Themen sind abgestimmt für die Jahrgangsstufe 10 | <a href="other/impressum.html">Impressum</a><a href="https://github.com/MaxCodexWebs/OpenLearn-10"> | Zu meinem Github | </a><a href="other/999.html" class="ghost-link">Was ist das?</a></p>
     </footer>
 
     <!-- JavaScript for Themes, Search, and Filtering -->
