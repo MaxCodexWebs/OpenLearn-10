@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<title>Alien Planet — Infinite Survival</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  html, body { margin:0; padding:0; overflow:hidden; background:#000; font-family: 'Segoe UI', sans-serif; color:#fff; }
+  canvas { display:block; }
+  #hud {
+    position:fixed; inset:0; pointer-events:none; z-index:10;
+    text-shadow: 0 0 8px #0ff, 0 0 2px #000;
+  }
+  #crosshair {
+    position:absolute; top:50%; left:50%; width:20px; height:20px;
+    transform:translate(-50%,-50%);
+    border:2px solid #0ff; border-radius:50%;
+    box-shadow: 0 0 10px #0ff, inset 0 0 6px #0ff;
+  }
+  #crosshair::before, #crosshair::after{
+    content:""; position:absolute; background:#0ff; box-shadow:0 0 6px #0ff;
+  }
+  #crosshair::before{ top:50%; left:-8px; right:-8px; height:2px; transform:translateY(-50%); }
+  #crosshair::after{ left:50%; top:-8px; bottom:-8px; width:2px; transform:translateX(-50%); }
+  #stats {
+    position:absolute; top:12px; left:12px; font-size:14px; line-height:1.5;
+    background: rgba(0,20,30,0.4); padding:8px 14px; border-radius:8px;
+    border:1px solid #0ff4;
+  }
+  #stats b { color:#0ff; }
+  #hpbar, #ammo {
+    position:absolute; bottom:20px; left:20px;
+    font-size:18px; font-weight:bold;
+  }
+  #hpbar { color:#0f8; }
+  #ammo { right:20px; left:auto; color:#ff0; }
+  #msg {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-size:22px; text-align:center; background:rgba(0,0,0,.6);
+    padding:20px 30px; border:1px solid #0ff; border-radius:12px;
+    pointer-events:auto; cursor:pointer;
+  }
+  #msg small { display:block; margin-top:6px; opacity:.7; font-size:13px; }
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+<div id="hud">
+  <div id="crosshair"></div>
+  <div id="stats">
+    FPS: <b id="fps">0</b><br>
+    Chunks: <b id="chunks">0</b><br>
+    Pos: <b id="pos">0, 0</b>
+  </div>
+  <div id="hpbar">♥ HP: <span id="hp">100</span></div>
+  <div id="ammo">⬢ AMMO: <span id="ammoN">∞</span></div>
+  <div id="msg">
+    🪐 <b>ALIEN PLANET</b><br>
+    Unendlicher fremder Planet - entdecke!
+    <small>WASD = Bewegen · Maus = Umsehen · Linksklick = Schießen · Shift = Sprint · ESC = Pause</small>
+    <small><i>Klicke zum Starten (man kann nicht sterben)</i></small>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+// =========================================================
+//  SIMPLEX NOISE (kompakt, 2D)
+// =========================================================
+const Simplex = (() => {
+  const F2 = 0.5*(Math.sqrt(3)-1), G2 = (3-Math.sqrt(3))/6;
+  const grad = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
+  const perm = new Uint8Array(512);
+  const p = new Uint8Array(256);
+  for (let i=0;i<256;i++) p[i]=i;
+  for (let i=255;i>0;i--){ const j=(Math.random()*(i+1))|0; [p[i],p[j]]=[p[j],p[i]]; }
+  for (let i=0;i<512;i++) perm[i]=p[i&255];
+  function noise2D(x,y){
+    const s=(x+y)*F2, i=Math.floor(x+s), j=Math.floor(y+s);
+    const t=(i+j)*G2, x0=x-(i-t), y0=y-(j-t);
+    const i1=x0>y0?1:0, j1=x0>y0?0:1;
+    const x1=x0-i1+G2, y1=y0-j1+G2;
+    const x2=x0-1+2*G2, y2=y0-1+2*G2;
+    const ii=i&255, jj=j&255;
+    const g0=grad[perm[ii+perm[jj]]%8];
+    const g1=grad[perm[ii+i1+perm[jj+j1]]%8];
+    const g2=grad[perm[ii+1+perm[jj+1]]%8];
+    let n0=0,n1=0,n2=0;
+    let t0=0.5-x0*x0-y0*y0; if(t0>0){t0*=t0;n0=t0*t0*(g0[0]*x0+g0[1]*y0);}
+    let t1=0.5-x1*x1-y1*y1; if(t1>0){t1*=t1;n1=t1*t1*(g1[0]*x1+g1[1]*y1);}
+    let t2=0.5-x2*x2-y2*y2; if(t2>0){t2*=t2;n2=t2*t2*(g2[0]*x2+g2[1]*y2);}
+    return 70*(n0+n1+n2);
+  }
+  function fbm(x,y,oct=4){
+    let v=0,a=1,f=1,sum=0;
+    for(let i=0;i<oct;i++){ v+=a*noise2D(x*f,y*f); sum+=a; a*=0.5; f*=2; }
+    return v/sum;
+  }
+  return { noise2D, fbm };
+})();
+
+// =========================================================
+//  RENDERER / SZENE
+// =========================================================
+const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0420);
+scene.fog = new THREE.FogExp2(0x1a0840, 0.012);
+
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 500);
+camera.position.set(0, 20, 0);
+
+// =========================================================
+//  HIMMEL (Shader) — fremder Planet mit 2 Sonnen
+// =========================================================
+const skyGeo = new THREE.SphereGeometry(400, 32, 16);
+const skyMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  uniforms: { uTime: { value: 0 } },
+  vertexShader: `varying vec3 vPos; void main(){ vPos=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `
+    varying vec3 vPos;
+    uniform float uTime;
+    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+    void main(){
+      vec3 d = normalize(vPos);
+      float y = d.y*0.5+0.5;
+      vec3 col = mix(vec3(0.25,0.05,0.35), vec3(0.02,0.0,0.1), y);
+      col += vec3(0.1,0.4,0.5) * pow(max(y,0.0), 3.0) * 0.6;
+      // Sterne
+      vec2 uv = vec2(atan(d.z,d.x), asin(d.y));
+      float s = hash(floor(uv*200.0));
+      col += step(0.995, s) * vec3(1.0);
+      // 2 Sonnen
+      vec3 sun1 = normalize(vec3(0.6,0.3,0.4));
+      vec3 sun2 = normalize(vec3(-0.5,0.2,-0.6));
+      float s1 = pow(max(dot(d,sun1),0.0), 120.0);
+      float s2 = pow(max(dot(d,sun2),0.0), 80.0);
+      col += vec3(1.0,0.5,0.3) * s1 * 2.0 + vec3(0.4,0.9,1.0) * s2 * 1.5;
+      gl_FragColor = vec4(col,1.0);
+    }`
+});
+scene.add(new THREE.Mesh(skyGeo, skyMat));
+
+// =========================================================
+//  LICHT
+// =========================================================
+scene.add(new THREE.AmbientLight(0x443366, 0.6));
+const sunLight = new THREE.DirectionalLight(0xffaa66, 1.2);
+sunLight.position.set(60, 80, 40);
+scene.add(sunLight);
+const moonLight = new THREE.DirectionalLight(0x66ccff, 0.4);
+moonLight.position.set(-50, 60, -60);
+scene.add(moonLight);
+
+// =========================================================
+//  CHUNK SYSTEM — unendliche Welt
+// =========================================================
+const CHUNK_SIZE = 32;
+const CHUNK_RES = 32;
+const RENDER_DIST = 5;
+const chunks = new Map();
+
+function chunkKey(cx,cz){ return cx+','+cz; }
+
+function getHeight(wx,wz){
+  const n1 = Simplex.fbm(wx*0.01, wz*0.01, 5);
+  const n2 = Simplex.fbm(wx*0.05+100, wz*0.05+100, 3);
+  return n1*18 + n2*4;
+}
+
+function createChunk(cx,cz){
+  const geo = new THREE.PlaneGeometry(CHUNK_SIZE, CHUNK_SIZE, CHUNK_RES, CHUNK_RES);
+  geo.rotateX(-Math.PI/2);
+  const pos = geo.attributes.position;
+  const colors = new Float32Array(pos.count*3);
+  for (let i=0;i<pos.count;i++){
+    const x = pos.getX(i) + cx*CHUNK_SIZE;
+    const z = pos.getZ(i) + cz*CHUNK_SIZE;
+    const h = getHeight(x,z);
+    pos.setY(i, h);
+    // Alien-Farbpalette: lila/teal/grün je nach Höhe
+    const t = (h+20)/40;
+    let r,g,b;
+    if (t<0.3){ r=0.1; g=0.2+t; b=0.4; }
+    else if (t<0.6){ r=0.3+t*0.4; g=0.1; b=0.5-t*0.3; }
+    else { r=0.6+t*0.3; g=0.4; b=0.2; }
+    colors[i*3]=r; colors[i*3+1]=g; colors[i*3+2]=b;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors,3));
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshStandardMaterial({
+    vertexColors:true, roughness:0.85, metalness:0.1, flatShading:false
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(cx*CHUNK_SIZE, 0, cz*CHUNK_SIZE);
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+
+  // Alien-Flora (InstancedMesh)
+  const floraCount = 12;
+  const floraGeo = new THREE.ConeGeometry(0.4, 2.5, 6);
+  const floraMat = new THREE.MeshStandardMaterial({
+    color:0x00ffcc, emissive:0x00aa88, emissiveIntensity:0.8, roughness:0.4
+  });
+  const flora = new THREE.InstancedMesh(floraGeo, floraMat, floraCount);
+  const dummy = new THREE.Object3D();
+  const rng = mulberry32(cx*73856093 ^ cz*19349663);
+  for (let i=0;i<floraCount;i++){
+    const lx = (rng()-0.5)*CHUNK_SIZE;
+    const lz = (rng()-0.5)*CHUNK_SIZE;
+    const wx = lx + cx*CHUNK_SIZE, wz = lz + cz*CHUNK_SIZE;
+    const h = getHeight(wx,wz);
+    dummy.position.set(cx*CHUNK_SIZE+lx, h+1.2, cz*CHUNK_SIZE+lz);
+    const s = 0.6+rng()*0.8;
+    dummy.scale.set(s,s*1.5,s);
+    dummy.rotation.y = rng()*Math.PI*2;
+    dummy.updateMatrix();
+    flora.setMatrixAt(i, dummy.matrix);
+  }
+  scene.add(flora);
+
+  return { mesh, flora, cx, cz };
+}
+
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+
+function updateChunks(){
+  const pcx = Math.floor(camera.position.x/CHUNK_SIZE);
+  const pcz = Math.floor(camera.position.z/CHUNK_SIZE);
+  const needed = new Set();
+  for (let dz=-RENDER_DIST; dz<=RENDER_DIST; dz++){
+    for (let dx=-RENDER_DIST; dx<=RENDER_DIST; dx++){
+      if (dx*dx+dz*dz > RENDER_DIST*RENDER_DIST) continue;
+      const k = chunkKey(pcx+dx, pcz+dz);
+      needed.add(k);
+      if (!chunks.has(k)){
+        chunks.set(k, createChunk(pcx+dx, pcz+dz));
+      }
+    }
+  }
+  for (const k of chunks.keys()){
+    if (!needed.has(k)){
+      const c = chunks.get(k);
+      scene.remove(c.mesh); scene.remove(c.flora);
+      c.mesh.geometry.dispose(); c.mesh.material.dispose();
+      c.flora.geometry.dispose(); c.flora.material.dispose();
+      chunks.delete(k);
+    }
+  }
+  document.getElementById('chunks').textContent = chunks.size;
+}
+
+// =========================================================
+//  GEGNER (InstancedMesh Pool)
+// =========================================================
+const ENEMY_COUNT = 40;
+const enemyGeo = new THREE.SphereGeometry(0.8, 12, 8);
+const enemyMat = new THREE.MeshStandardMaterial({
+  color:0xff2266, emissive:0xff0044, emissiveIntensity:0.6, roughness:0.3, metalness:0.5
+});
+const enemies = new THREE.InstancedMesh(enemyGeo, enemyMat, ENEMY_COUNT);
+scene.add(enemies);
+
+// Augen (leuchtend)
+const eyeGeo = new THREE.SphereGeometry(0.18, 8, 6);
+const eyeMat = new THREE.MeshBasicMaterial({ color:0xffff00 });
+const eyes = new THREE.InstancedMesh(eyeGeo, eyeMat, ENEMY_COUNT*2);
+scene.add(eyes);
+
+const enemyState = [];
+const dummy = new THREE.Object3D();
+for (let i=0;i<ENEMY_COUNT;i++){
+  enemyState.push({
+    pos: new THREE.Vector3(),
+    hp: 3,
+    alive: false,
+    speed: 2+Math.random()*2,
+    hitFlash: 0
+  });
+}
+
+function spawnEnemy(e){
+  const ang = Math.random()*Math.PI*2;
+  const dist = 40+Math.random()*60;
+  e.pos.set(
+    camera.position.x + Math.cos(ang)*dist,
+    0,
+    camera.position.z + Math.sin(ang)*dist
+  );
+  e.pos.y = getHeight(e.pos.x, e.pos.z) + 0.8;
+  e.hp = 3; e.alive = true; e.hitFlash = 0;
+}
+
+function updateEnemies(dt){
+  const colors = new Float32Array(ENEMY_COUNT*3);
+  for (let i=0;i<ENEMY_COUNT;i++){
+    const e = enemyState[i];
+    if (!e.alive){
+      dummy.position.set(0,-1000,0); dummy.scale.set(0,0,0);
+      dummy.updateMatrix();
+      enemies.setMatrixAt(i, dummy.matrix);
+      eyes.setMatrixAt(i*2, dummy.matrix);
+      eyes.setMatrixAt(i*2+1, dummy.matrix);
+      continue;
+    }
+    // Richtung Spieler
+    const dx = camera.position.x - e.pos.x;
+    const dz = camera.position.z - e.pos.z;
+    const d = Math.hypot(dx,dz);
+    if (d > 0.1){
+      e.pos.x += (dx/d)*e.speed*dt;
+      e.pos.z += (dz/d)*e.speed*dt;
+    }
+    e.pos.y = getHeight(e.pos.x, e.pos.z) + 0.8;
+
+    // Schaden an Spieler
+    if (d < 1.5){
+      player.hp -= 15*dt;
+      if (player.hp < 0) player.hp = 0;
+    }
+
+    // Respawn wenn zu weit
+    if (d > 120) spawnEnemy(e);
+
+    const pulse = 1 + Math.sin(performance.now()*0.005+i)*0.05;
+    dummy.position.copy(e.pos);
+    dummy.scale.set(pulse,pulse,pulse);
+    dummy.updateMatrix();
+    enemies.setMatrixAt(i, dummy.matrix);
+
+    // Farbe bei Treffer
+    const flash = Math.max(0, e.hitFlash);
+    colors[i*3]   = 1;
+    colors[i*3+1] = 0.1 + flash*0.9;
+    colors[i*3+2] = 0.3 + flash*0.7;
+    e.hitFlash -= dt*3;
+
+    // Augen
+    const eyeOffset = 0.5;
+    const fwd = new THREE.Vector3(dx,0,dz).normalize();
+    const right = new THREE.Vector3(-fwd.z,0,fwd.x);
+    const eyeL = e.pos.clone().add(fwd.clone().multiplyScalar(0.5)).add(right.clone().multiplyScalar(0.3));
+    const eyeR = e.pos.clone().add(fwd.clone().multiplyScalar(0.5)).add(right.clone().multiplyScalar(-0.3));
+    eyeL.y += 0.2; eyeR.y += 0.2;
+    dummy.position.copy(eyeL); dummy.scale.set(1,1,1); dummy.updateMatrix();
+    eyes.setMatrixAt(i*2, dummy.matrix);
+    dummy.position.copy(eyeR); dummy.updateMatrix();
+    eyes.setMatrixAt(i*2+1, dummy.matrix);
+  }
+  enemies.instanceMatrix.needsUpdate = true;
+  eyes.instanceMatrix.needsUpdate = true;
+  enemies.instanceColor = new THREE.InstancedBufferAttribute(colors, 3);
+}
+
+// Initiale Gegner spawnen
+for (let i=0;i<ENEMY_COUNT;i++) spawnEnemy(enemyState[i]);
+
+// =========================================================
+//  SPIELER / CONTROLS
+// =========================================================
+const player = {
+  hp: 100,
+  vel: new THREE.Vector3(),
+  yaw: 0, pitch: 0,
+  onGround: true
+};
+
+const keys = {};
+addEventListener('keydown', e => keys[e.code]=true);
+addEventListener('keyup', e => keys[e.code]=false);
+
+const canvas = renderer.domElement;
+canvas.addEventListener('click', () => {
+  if (document.pointerLockElement !== canvas) canvas.requestPointerLock();
+});
+document.getElementById('msg').addEventListener('click', () => {
+  document.getElementById('msg').classList.add('hidden');
+  canvas.requestPointerLock();
+});
+
+addEventListener('mousemove', e => {
+  if (document.pointerLockElement !== canvas) return;
+  player.yaw   -= e.movementX * 0.002;
+  player.pitch -= e.movementY * 0.002;
+  player.pitch = Math.max(-Math.PI/2+0.01, Math.min(Math.PI/2-0.01, player.pitch));
+});
+
+// Schießen
+const raycaster = new THREE.Raycaster();
+const muzzleFlash = new THREE.PointLight(0xffaa00, 0, 10);
+camera.add(muzzleFlash);
+muzzleFlash.position.set(0.3,-0.2,-1);
+scene.add(camera);
+
+addEventListener('mousedown', e => {
+  if (document.pointerLockElement !== canvas) return;
+  if (e.button !== 0) return;
+  shoot();
+});
+
+function shoot(){
+  muzzleFlash.intensity = 3;
+  setTimeout(()=>muzzleFlash.intensity=0, 60);
+  raycaster.setFromCamera(new THREE.Vector2(0,0), camera);
+  // Treffer gegen Gegner-Bounding-Spheres
+  let closest = null, closestT = Infinity;
+  for (let i=0;i<ENEMY_COUNT;i++){
+    const e = enemyState[i];
+    if (!e.alive) continue;
+    const sphere = new THREE.Sphere(e.pos, 0.9);
+    const t = raycaster.ray.intersectSphere(sphere, new THREE.Vector3());
+    if (t){
+      const d = t.distanceTo(camera.position);
+      if (d < closestT){ closestT = d; closest = i; }
+    }
+  }
+  if (closest !== null){
+    const e = enemyState[closest];
+    e.hp -= 1;
+    e.hitFlash = 1;
+    if (e.hp <= 0){
+      e.alive = false;
+      setTimeout(()=>spawnEnemy(e), 3000);
+    }
+  }
+}
+
+// =========================================================
+//  HAUPTLOOP
+// =========================================================
+let last = performance.now();
+let fpsAcc = 0, fpsFrames = 0, fpsTimer = 0;
+
+function animate(){
+  requestAnimationFrame(animate);
+  const now = performance.now();
+  let dt = (now-last)/1000;
+  if (dt>0.1) dt = 0.1;
+  last = now;
+
+  // Bewegung
+  const speed = (keys['ShiftLeft']?10:5);
+  const fwd = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
+  const right = new THREE.Vector3(Math.cos(player.yaw), 0, -Math.sin(player.yaw));
+  const move = new THREE.Vector3();
+  if (keys['KeyW']) move.add(fwd);
+  if (keys['KeyS']) move.sub(fwd);
+  if (keys['KeyD']) move.add(right);
+  if (keys['KeyA']) move.sub(right);
+  if (move.lengthSq()>0) move.normalize().multiplyScalar(speed*dt);
+
+  camera.position.x += move.x;
+  camera.position.z += move.z;
+
+  // Höhe folgen (Terrain)
+  const groundY = getHeight(camera.position.x, camera.position.z) + 2;
+  camera.position.y += (groundY - camera.position.y) * Math.min(1, dt*8);
+
+  // Rotation
+  camera.rotation.order = 'YXZ';
+  camera.rotation.y = player.yaw;
+  camera.rotation.x = player.pitch;
+
+  // Chunks
+  updateChunks();
+  updateEnemies(dt);
+
+  // HUD
+  fpsFrames++; fpsTimer += dt;
+  if (fpsTimer >= 0.5){
+    document.getElementById('fps').textContent = Math.round(fpsFrames/fpsTimer);
+    fpsFrames = 0; fpsTimer = 0;
+  }
+  document.getElementById('pos').textContent =
+    `${camera.position.x.toFixed(0)}, ${camera.position.z.toFixed(0)}`;
+  document.getElementById('hp').textContent = Math.max(0, Math.floor(player.hp));
+
+  skyMat.uniforms.uTime.value = now*0.001;
+
+  renderer.render(scene, camera);
+}
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+// Initialer Chunk-Load
+updateChunks();
+animate();
+</script>
+</body>
+</html>
