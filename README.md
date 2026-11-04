@@ -1,30 +1,28 @@
-# OpenLearn-10
+# 🎓 OpenLearn - Premium Learning Platform
 
-OpenLearn-10 ist eine moderne Lernplattform, die auf das effiziente Aufbereiten und Vermitteln von Wissen ausgelegt ist. Die Plattform befindet sich derzeit in der aktiven Entwicklung und steht aktuell ausschließlich in deutscher Sprache zur Verfügung. Die Lerninhalte werden von KI erstellt mit Nutzung von echten Materialien. 
+Eine moderne, responsive und leistungsstarke Lernplattform-Oberfläche, speziell ausgerichtet auf die Jahrgangsstufe 10. 
 
----
+## ✨ Features
+- 🌍 **Intelligente Jahreszeiten-Erkennung:** Passt Farben und Partikel-Animationen (Schnee, Blätter, Blüten) automatisch an das aktuelle Datum in Deutschland an.
+- 📱 **Mobile-First & Responsive:** Optimiert für alle Geräte, von Smartphones bis zu 4K-Displays.
+- ⚡ **High Performance:** GPU-beschleunigte Animationen, debounced Search und CSS Containment für maximale Framerates.
+- 🎨 **Modernes UI/UX:** Glassmorphism, sanfte Gradienten und Premium-Typografie (Plus Jakarta Sans & Inter).
+- 🔍 **Echtzeit-Suche & Filterung:** Sofortiges Filtern von Fächern nach Kategorien und Stichwörtern.
 
-## Status
+## 🛠️ Technologien
+- HTML5 (Semantisch)
+- CSS3 (Custom Properties, Grid, Flexbox, Keyframe Animations)
+- Vanilla JavaScript (ES6+, Performance-optimiert)
+- FontAwesome & Google Fonts
 
-* **Aktuelle Sprache:** Deutsch (DE)
-* **Status:** In Entwicklung
-* **Zugang:** Öffentliche Vorschau / Beta
-
----
-
-## Kernfunktionen
-
-### 1. Interaktive Lernmodule
-Strukturierte Inhaltsblöcke mit klaren Kapitel- und Lektionseinteilungen für nahtlose Progression.
-
-### 2. Dynamische Anpassung
-Inhalte passen sich flexibel an das individuelle Lerntempo und Vorkenntnisse an.
-
-### 3. Fortschritts-Verfolgung
-Detaillierte Übersicht über abgeschlossene Module, Lernzeiten und Erreichtes.
-
----
-
-## Roadmap
-Alle Fächer mit einer eigenen Homepage fertigstellen.
-Alle Fächer mit einer Lernseite zum aktuellen Thema füllen.
+## 📂 Projektstruktur
+```text
+├── index.html          # Hauptdatei
+├── de/                 # Beispiel-Ordner für Fächer
+│   └── de.html
+├── other/              # Impressum & Extras
+└── README.md
+```
+## Versprechen
+- OpenLearn-10 wird ungefähr jede Woche 1x Aktualisiert
+- bei Ferien kommen weniger Updates dafür größere!
