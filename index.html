@@ -1,127 +1,191 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenLearn - Deutsche Ausrichtung</title>
-    <!-- FontAwesome for Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#09090b">
+    <title>OpenLearn - Premium Learning</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables & Theme Configuration */
+        /* =========================================
+           1. CORE VARIABLES & SEASONAL THEMES
+           ========================================= */
         :root {
-            --bg-color: #0b0f19;
-            --bg-overlay: rgba(11, 15, 25, 0.85);
-            --bg-image: none;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
-            --header-bg: rgba(15, 23, 42, 0.8);
-            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-base: #09090b;
+            --bg-surface: rgba(255, 255, 255, 0.03);
+            --bg-surface-hover: rgba(255, 255, 255, 0.06);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --accent: #818cf8;
+            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --particle-color: rgba(129, 140, 248, 0.3);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         :root[data-theme="spring"] {
-            --bg-image: url('spring.jpg');
-            --bg-overlay: rgba(20, 45, 30, 0.75);
-            --card-bg: rgba(25, 60, 40, 0.65);
-            --card-border: rgba(74, 222, 128, 0.25);
-            --text-main: #f0fdf4;
-            --text-muted: #bbf7d0;
-            --accent: #4ade80;
-            --accent-gradient: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-            --header-bg: rgba(15, 40, 25, 0.85);
+            --accent: #34d399;
+            --accent-gradient: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            --particle-color: rgba(52, 211, 153, 0.3);
+            --border-color: rgba(52, 211, 153, 0.15);
         }
 
         :root[data-theme="summer"] {
-            --bg-image: url('summer.jpg');
-            --bg-overlay: rgba(50, 35, 10, 0.75);
-            --card-bg: rgba(60, 45, 15, 0.65);
-            --card-border: rgba(250, 204, 21, 0.25);
-            --text-main: #fefce8;
-            --text-muted: #fef08a;
-            --accent: #facc15;
-            --accent-gradient: linear-gradient(135deg, #facc15 0%, #eab308 100%);
-            --header-bg: rgba(40, 25, 5, 0.85);
+            --accent: #fbbf24;
+            --accent-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            --particle-color: rgba(251, 191, 36, 0.3);
+            --border-color: rgba(251, 191, 36, 0.15);
         }
 
         :root[data-theme="autumn"] {
-            --bg-image: url('autumm.jpg');
-            --bg-overlay: rgba(45, 20, 10, 0.8);
-            --card-bg: rgba(55, 25, 15, 0.7);
-            --card-border: rgba(251, 146, 60, 0.25);
-            --text-main: #fff7ed;
-            --text-muted: #fed7aa;
-            --accent: #fb923c;
-            --accent-gradient: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
-            --header-bg: rgba(35, 15, 8, 0.85);
+            --accent: #f97316;
+            --accent-gradient: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            --particle-color: rgba(249, 115, 22, 0.3);
+            --border-color: rgba(249, 115, 22, 0.15);
         }
 
         :root[data-theme="winter"] {
-            --bg-image: url('winter.jpg');
-            --bg-overlay: rgba(15, 30, 50, 0.8);
-            --card-bg: rgba(20, 40, 65, 0.65);
-            --card-border: rgba(147, 197, 253, 0.25);
-            --text-main: #f0f9ff;
-            --text-muted: #bae6fd;
-            --accent: #60a5fa;
-            --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            --header-bg: rgba(10, 22, 38, 0.85);
+            --accent: #38bdf8;
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+            --particle-color: rgba(56, 189, 248, 0.3);
+            --border-color: rgba(56, 189, 248, 0.15);
         }
 
-        /* Global Reset & Styling */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
+        /* =========================================
+           2. GLOBAL RESET & BASE
+           ========================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
         body {
-            background-color: var(--bg-color);
-            background-image: var(--bg-image);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-main);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
             position: relative;
-            transition: background 0.5s ease;
+            padding-top: var(--safe-top);
+            padding-bottom: var(--safe-bottom);
         }
 
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Subtle Aurora Background */
         body::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-overlay);
-            z-index: -1;
-            transition: background 0.5s ease;
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, var(--accent-gradient) 0%, transparent 50%);
+            opacity: 0.05;
+            z-index: -2;
+            animation: aurora 25s ease-in-out infinite alternate;
+            pointer-events: none;
+            will-change: transform;
         }
 
-        /* Header Layout */
+        @keyframes aurora {
+            0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            100% { transform: translate3d(-2%, 2%, 0) rotate(3deg); }
+        }
+
+        /* =========================================
+           3. SEASONAL PARTICLE SYSTEM (GPU OPTIMIZED)
+           ========================================= */
+        #seasonal-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+            contain: strict;
+        }
+
+        .particle {
+            position: absolute;
+            top: -10%;
+            background: var(--particle-color);
+            pointer-events: none;
+            will-change: transform, opacity;
+            contain: layout style paint;
+        }
+
+        [data-theme="autumn"] .particle {
+            width: 12px; height: 12px;
+            border-radius: 2px 10px 2px 10px;
+            animation: fall-leaf linear infinite;
+        }
+        @keyframes fall-leaf {
+            0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translate3d(40px, 110vh, 0) rotate(360deg); opacity: 0; }
+        }
+
+        [data-theme="winter"] .particle {
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: fall-snow linear infinite;
+        }
+        @keyframes fall-snow {
+            0% { transform: translate3d(0, -10vh, 0); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translate3d(20px, 110vh, 0); opacity: 0.2; }
+        }
+
+        [data-theme="spring"] .particle {
+            width: 8px; height: 8px;
+            border-radius: 50% 0 50% 50%;
+            animation: float-petal linear infinite;
+        }
+        @keyframes float-petal {
+            0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.7; }
+            100% { transform: translate3d(-30px, 110vh, 0) rotate(180deg); opacity: 0; }
+        }
+
+        [data-theme="summer"] .particle {
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--particle-color);
+            animation: float-firefly ease-in-out infinite;
+        }
+        @keyframes float-firefly {
+            0%, 100% { transform: translate3d(0, 100vh, 0); opacity: 0; }
+            50% { transform: translate3d(20px, 50vh, 0); opacity: 1; }
+        }
+
+        /* =========================================
+           4. LAYOUT & COMPONENTS
+           ========================================= */
         header {
-            background: var(--header-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--card-border);
             position: sticky;
             top: 0;
-            z-index: 1000;
-            padding: 1rem 2rem;
+            z-index: 100;
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
             gap: 1rem;
+            flex-wrap: wrap;
+            contain: layout style;
         }
 
         .logo-area {
@@ -129,698 +193,646 @@
             align-items: center;
             gap: 0.75rem;
             text-decoration: none;
+            flex-shrink: 0;
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
+            width: 38px; height: 38px;
             background: var(--accent-gradient);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 1.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.1rem;
+            box-shadow: 0 4px 15px -3px rgba(0,0,0,0.4);
         }
 
         .logo-text h1 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text-main);
+            font-family: var(--font-heading);
+            font-size: 1.2rem; font-weight: 800;
+            color: var(--text-primary);
             letter-spacing: -0.5px;
+            line-height: 1.1;
         }
-
         .logo-text span {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.65rem; font-weight: 600;
+            color: var(--accent); text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* Theme Selector Buttons */
         .theme-switcher {
-            display: flex;
-            gap: 0.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.35rem;
-            border-radius: 9999px;
-            border: 1px solid var(--card-border);
+            display: flex; gap: 0.4rem;
+            background: var(--bg-surface);
+            padding: 0.25rem; border-radius: 100px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            max-width: 100%;
         }
+        .theme-switcher::-webkit-scrollbar { display: none; }
 
         .theme-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.4rem 0.8rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        @media (max-width: 480px) {
-       .theme-switcher {
-        gap: 0.2rem;
-        padding: 0.2rem;
-        max-width: 100%;
-        box-sizing: border-box;
-        }
-
-       .theme-btn {
-        font-size: 0.7rem;
-        padding: 0.35rem 0.5rem;
-        white-space: nowrap;
-        }
-    }
-
-        .theme-btn:hover {
-            color: var(--text-main);
-        }
-
-        .theme-btn.active {
-            background: var(--accent-gradient);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem;
-            width: 100%;
-            flex: 1;
-        }
-
-        /* Hero Banner */
-        .hero {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding: 2.5rem 1rem;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        .hero h2 {
-            font-size: clamp(1.75rem, 3vw, 2.5rem);
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.5px;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            max-width: 600px;
-            margin: 0 auto 1.5rem auto;
-            line-height: 1.5;
-        }
-
-        /* Search and Filters */
-        .controls-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            margin-bottom: 2.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .controls-wrapper {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            max-width: 450px;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        .search-box input {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 0.85rem 1rem 0.85rem 2.75rem;
-            border-radius: 1rem;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            outline: none;
-            backdrop-filter: blur(8px);
-            transition: var(--transition);
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-        }
-
-        .category-tabs {
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5k;
-            scrollbar-width: none;
-        }
-
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            padding: 0.6rem 1.1rem;
-            border-radius: 0.85rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
+            background: transparent; border: none;
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem; border-radius: 100px;
+            font-family: var(--font-heading); font-weight: 600; font-size: 0.75rem;
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 0.3rem;
             white-space: nowrap;
-            backdrop-filter: blur(8px);
-            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .theme-btn:hover { color: var(--text-primary); }
+        .theme-btn.active {
+            background: var(--bg-surface-hover);
+            color: var(--accent);
+            border: 1px solid var(--border-color);
         }
 
-        .tab-btn:hover {
-            color: var(--text-main);
-            border-color: var(--accent);
+        .container {
+            max-width: 1280px; margin: 0 auto; padding: 2rem 1.25rem; width: 100%; flex: 1;
+            contain: layout style;
         }
 
-        .tab-btn.active {
-            background: var(--accent-gradient);
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Subject Cards Grid (Pure Custom CSS Grid matching user requirements) */
-        #subjectGrid {
-            display: grid;
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 640px) {
-            #subjectGrid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (min-width: 1024px) {
-            #subjectGrid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-
-        @media (min-width: 1280px) {
-            #subjectGrid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
-        }
-
-        /* Subject Card Style */
-        .subject-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 1rem;
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        /* Enhanced Hero Section with Live Info */
+        .hero {
+            text-align: center; margin-bottom: 3rem; padding: 2rem 1rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
         }
 
-        .subject-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow);
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: var(--accent-gradient);
+            opacity: 0.5;
         }
 
-        .card-top {
+        .hero-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .info-badge {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
         }
 
-        .file-badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.25rem 0.65rem;
-            border-radius: 0.5rem;
-            background: rgba(56, 189, 248, 0.1);
+        .info-badge i {
             color: var(--accent);
-            border: 1px solid var(--card-border);
+            font-size: 1rem;
+        }
+
+        .hero h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800; letter-spacing: -1px;
+            margin-bottom: 0.75rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            color: var(--text-secondary); font-size: 1rem;
+            max-width: 550px; margin: 0 auto; line-height: 1.6;
+        }
+        /* Controls */
+        .controls-wrapper {
+            display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2.5rem;
+        }
+        @media (min-width: 768px) {
+            .controls-wrapper { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
+
+        .search-box {
+            position: relative; flex: 1; max-width: 400px; width: 100%;
+        }
+        .search-box i {
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: var(--text-secondary); transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+        .search-box input {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            border-radius: 14px;
+            color: var(--text-primary); font-size: 0.95rem;
+            outline: none; transition: all 0.3s ease;
+            font-family: var(--font-body);
+        }
+        .search-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
+        }
+        .search-box input:focus + i { color: var(--accent); }
+
+        .category-tabs {
+            display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .category-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background: transparent; border: 1px solid var(--border-color);
+            color: var(--text-secondary); padding: 0.6rem 1rem;
+            border-radius: 10px; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .tab-btn:hover { color: var(--text-primary); border-color: var(--accent); }
+        .tab-btn.active {
+            background: var(--accent-gradient); color: white; border-color: transparent;
+            box-shadow: 0 4px 12px -2px rgba(0,0,0,0.3);
+        }
+
+        /* Grid & Cards */
+        #subjectGrid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+        @media (min-width: 640px) { #subjectGrid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { #subjectGrid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1280px) { #subjectGrid { grid-template-columns: repeat(4, 1fr); } }
+
+        .subject-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative; overflow: hidden;
+            contain: layout style paint;
+        }
+
+        .subject-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: var(--accent-gradient);
+            opacity: 0; transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+        .subject-card > * { position: relative; z-index: 1; }
+
+        .subject-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-soft);
+            border-color: var(--accent);
+        }
+        .subject-card:hover::before { opacity: 0.04; }
+
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+        
+        .file-badge {
+            font-size: 0.65rem; font-weight: 700; color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.6rem; border-radius: 6px;
+            font-family: var(--font-heading); letter-spacing: 0.5px;
+            border: 1px solid var(--border-color);
         }
 
         .card-icon {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 0.75rem;
-            background: rgba(56, 189, 248, 0.15);
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: transform 0.3s ease;
+            width: 3rem; height: 3rem;
+            background: var(--bg-surface-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: var(--accent);
+            transition: all 0.3s ease;
         }
-
         .subject-card:hover .card-icon {
-            transform: scale(1.1);
+            background: var(--accent-gradient);
+            color: white; border-color: transparent;
+            transform: scale(1.1) rotate(-5deg);
         }
 
         .card-body h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 0.25rem;
-            transition: color 0.3s ease;
+            font-family: var(--font-heading);
+            font-size: 1.15rem; font-weight: 700; color: var(--text-primary);
+            margin-bottom: 0.4rem;
         }
-
-        .subject-card:hover .card-body h3 {
-            color: var(--accent);
-        }
+        .subject-card:hover .card-body h3 { color: var(--accent); }
 
         .card-body p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;
         }
 
         .card-footer {
-            margin-top: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent);
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--card-border);
+            margin-top: 1.5rem; padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; font-weight: 700; color: var(--accent);
+            font-family: var(--font-heading);
         }
+        .card-footer i { transition: transform 0.3s ease; }
+        .subject-card:hover .card-footer i { transform: translateX(5px); }
 
-        .card-footer i {
-            transition: transform 0.3s ease;
-        }
-
-        .subject-card:hover .card-footer i {
-            transform: translateX(4px);
-        }
-
-        /* Footer Styling */
+        /* Footer */
         footer {
-            background: var(--header-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid var(--card-border);
-            padding: 1.5rem 2rem;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            background: var(--bg-base);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1.5rem; text-align: center;
+            font-size: 0.8rem; color: var(--text-secondary);
             margin-top: auto;
         }
+        footer a { color: var(--accent); text-decoration: none; font-weight: 600; transition: opacity 0.3s; }
+        footer a:hover { opacity: 0.8; text-decoration: underline; }
+        .ghost-link { color: transparent !important; transition: color 0.3s !important; }
+        .ghost-link:hover { color: var(--text-secondary) !important; text-decoration: none !important; }
 
-        /* Empty state notice */
         .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-            font-size: 1rem;
-            background: var(--card-bg);
-            border-radius: 1rem;
-            border: 1px solid var(--card-border);
-        }
-        a {
-            text-decoration: none;
-            color: var(--text-muted);
-
-        }
-        a:hover{
-            color: var(--text-main);
-        }
-        .ghost-link {
-            color: transparent; 
-            text-decoration: none; 
+            grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem;
+            color: var(--text-secondary); font-family: var(--font-heading);
+            background: var(--bg-surface); border-radius: 16px; border: 1px dashed var(--border-color);
         }
 
-        .ghost-link:hover {
-            color: #fdfdfd; 
-            text-decoration: underline;
+        /* Mobile Optimizations */
+        @media (max-width: 640px) {
+            .hero-info { gap: 1rem; }
+            .info-badge { font-size: 0.75rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header & Theme Navigation -->
+    <div id="seasonal-container"></div>
+
     <header>
         <a href="#" class="logo-area">
-            <div class="logo-icon">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
+            <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
             <div class="logo-text">
                 <h1>OpenLearn</h1>
-                <span>Deutsche Ausrichtung</span>
+                <span>Jahrgangsstufe 10</span>
             </div>
         </a>
 
-        <!-- Theme Switcher Controls -->
         <div class="theme-switcher">
-            <button class="theme-btn active" data-theme-val="dark">Standard</button>
-            <button class="theme-btn" data-theme-val="spring">Frühling</button>
-            <button class="theme-btn" data-theme-val="summer">Sommer</button>
-            <button class="theme-btn" data-theme-val="autumn">Herbst</button>
-            <button class="theme-btn" data-theme-val="winter">Winter</button>
+            <button class="theme-btn active" data-theme-val="auto" title="Automatisch"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto</button>
+            <button class="theme-btn" data-theme-val="spring"><i class="fa-solid fa-leaf"></i> Frühling</button>
+            <button class="theme-btn" data-theme-val="summer"><i class="fa-solid fa-sun"></i> Sommer</button>
+            <button class="theme-btn" data-theme-val="autumn"><i class="fa-solid fa-tree"></i> Herbst</button>
+            <button class="theme-btn" data-theme-val="winter"><i class="fa-solid fa-snowflake"></i> Winter</button>
         </div>
     </header>
 
-    <!-- Main Container -->
     <div class="container">
-        <!-- Search & Filter Controls -->
+        <!-- Enhanced Hero with Live Info -->
+        <div class="hero">
+            <div class="hero-info">
+                <div class="info-badge">
+                    <i class="fa-solid fa-calendar"></i>
+                    <span id="currentDate">--</span>
+                </div>
+                <div class="info-badge">
+                    <i class="fa-solid fa-clock"></i>
+                    <span id="currentTime">--:--</span>
+                </div>
+                <div class="info-badge">
+                    <i class="fa-solid fa-temperature-half"></i>
+                    <span id="currentSeason">--</span>
+                </div>
+            </div>
+            <h2>Wissen, das inspiriert.</h2>
+            <p>Deine zentrale, premium kuratierte Plattform. Wähle dein Fach und starte deine Lernreise.</p>
+        </div>
         <div class="controls-wrapper">
             <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Fächer suchen (z.B. Mathe, Bio)..." onkeyup="filterSubjects()">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Fächer oder Stichwörter suchen (z.B. Mathe, Bio)..." onkeyup="filterSubjects()">
             </div>
             <div class="category-tabs">
-                <button class="tab-btn active" onclick="filterCategory('alle', this)">Alle Fächer</button>
-                <button class="tab-btn" onclick="filterCategory('sprache', this)">Sprachen & Künste</button>
+                <button class="tab-btn active" onclick="filterCategory('alle', this)">Alle</button>
+                <button class="tab-btn" onclick="filterCategory('sprache', this)">Sprachen</button>
                 <button class="tab-btn" onclick="filterCategory('gesellschaft', this)">Gesellschaft</button>
                 <button class="tab-btn" onclick="filterCategory('mint', this)">MINT</button>
                 <button class="tab-btn" onclick="filterCategory('sonstige', this)">Sonstige</button>
             </div>
         </div>
 
-        <!-- SUBJECT CARDS GRID -->
         <div id="subjectGrid">
-
             <!-- Deutsch -->
             <a href="de/de.html" data-category="sprache" data-keywords="deutsch de literatur sprache" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">de/de.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-book"></i>
-                        </div>
+                        <span class="file-badge">DE</span>
+                        <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Deutsch</h3>
                         <p>Sprachlich-Literarisch-Künstlerisch</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Englisch -->
             <a href="en/en.html" data-category="sprache" data-keywords="englisch en english fremdsprache" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">en/en.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-language"></i>
-                        </div>
+                        <span class="file-badge">EN</span>
+                        <div class="card-icon"><i class="fa-solid fa-language"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Englisch</h3>
-                        <p>Fremdsprache</p>
+                        <p>Fremdsprache & Kommunikation</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Spanisch -->
             <a href="es/es.html" data-category="sprache" data-keywords="spanisch es espanol fremdsprache" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">es/es.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
+                        <span class="file-badge">ES</span>
+                        <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Spanisch</h3>
-                        <p>Fremdsprache</p>
+                        <p>Fremdsprache & Kultur</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Musik -->
             <a href="mu/mu.html" data-category="sprache" data-keywords="musik mu noten gesang instrumente" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">mu/mu.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-music"></i>
-                        </div>
+                        <span class="file-badge">MU</span>
+                        <div class="card-icon"><i class="fa-solid fa-music"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Musik</h3>
                         <p>Künstlerisch-Musisch</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Geschichte -->
             <a href="ge/ge.html" data-category="gesellschaft" data-keywords="geschichte ge historisch vergangenheit" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">ge/ge.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-hourglass-half"></i>
-                        </div>
+                        <span class="file-badge">GE</span>
+                        <div class="card-icon"><i class="fa-solid fa-hourglass-half"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Geschichte</h3>
                         <p>Gesellschaftswissenschaften</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Politische Bildung -->
             <a href="powi/powi.html" data-category="gesellschaft" data-keywords="politische bildung powi pb politik gewi wirtschaft" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">powi/powi.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-scale-balanced"></i>
-                        </div>
+                        <span class="file-badge">POWI</span>
+                        <div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Politische Bildung</h3>
                         <p>Politik & Wirtschaft (PB/PoWi)</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Geografie -->
             <a href="geog/geog.html" data-category="gesellschaft" data-keywords="geografie geog erdkunde klima gewi" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">geog/geog.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-earth-americas"></i>
-                        </div>
+                        <span class="file-badge">GEOG</span>
+                        <div class="card-icon"><i class="fa-solid fa-earth-americas"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Geografie</h3>
                         <p>Erdkunde & Umwelt</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Mathematik -->
             <a href="ma/ma.html" data-category="mint" data-keywords="mathematik ma mathe algebra analysis stochastik" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">ma/ma.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-calculator"></i>
-                        </div>
+                        <span class="file-badge">MA</span>
+                        <div class="card-icon"><i class="fa-solid fa-calculator"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Mathematik</h3>
-                        <p>MINT</p>
+                        <p>MINT & Logik</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Biologie -->
             <a href="bio/bio.html" data-category="mint" data-keywords="biologie bio naturwissenschaft genetik zelle" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">bio/bio.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-dna"></i>
-                        </div>
+                        <span class="file-badge">BIO</span>
+                        <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Biologie</h3>
                         <p>Naturwissenschaften</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Chemie -->
             <a href="ch/ch.html" data-category="mint" data-keywords="chemie ch elemente moleküle naturwissenschaft" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">ch/ch.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-flask"></i>
-                        </div>
+                        <span class="file-badge">CH</span>
+                        <div class="card-icon"><i class="fa-solid fa-flask"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Chemie</h3>
                         <p>Naturwissenschaften</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Physik -->
             <a href="ph/ph.html" data-category="mint" data-keywords="physik ph mechanik quanten naturwissenschaft" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">ph/ph.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-atom"></i>
-                        </div>
+                        <span class="file-badge">PH</span>
+                        <div class="card-icon"><i class="fa-solid fa-atom"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Physik</h3>
                         <p>Naturwissenschaften</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Informatik -->
             <a href="inf/inf.html" data-category="mint" data-keywords="informatik inf programmieren edv computer" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">inf/inf.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
+                        <span class="file-badge">INF</span>
+                        <div class="card-icon"><i class="fa-solid fa-code"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Informatik</h3>
                         <p>Technik & Software</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
 
             <!-- Sport -->
             <a href="sp/sp.html" data-category="sonstige" data-keywords="sport sp bewegung fitness athletic" class="subject-card">
                 <div>
                     <div class="card-top">
-                        <span class="file-badge">sp/sp.html</span>
-                        <div class="card-icon">
-                            <i class="fa-solid fa-person-running"></i>
-                        </div>
+                        <span class="file-badge">SP</span>
+                        <div class="card-icon"><i class="fa-solid fa-person-running"></i></div>
                     </div>
                     <div class="card-body">
                         <h3>Sport</h3>
                         <p>Sportwissenschaft & Praxis</p>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span>Öffnen</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
+                <div class="card-footer"><span>Öffnen</span><i class="fa-solid fa-arrow-right"></i></div>
             </a>
-
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; Open Learn 2026. Die Themen sind abgestimmt für die Jahrgangsstufe 10 | <a href="other/impressum.html">Impressum</a><a href="https://github.com/MaxCodexWebs/OpenLearn-10"> | Zu meinem Github | </a><a href="other/999.html" class="ghost-link">Was ist das?</a></p>
+        <p>&copy; Open Learn 2026. Abgestimmt auf die Jahrgangsstufe 10 | <a href="other/impressum.html">Impressum</a> | <a href="https://github.com/MaxCodexWebs/OpenLearn-10">GitHub</a> | <a href="other/999.html" class="ghost-link">Was ist das?</a></p>
     </footer>
 
-    <!-- JavaScript for Themes, Search, and Filtering -->
     <script>
-        // Theme Switcher Logic
-        const themeButtons = document.querySelectorAll('.theme-btn');
-        themeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                themeButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const themeVal = button.getAttribute('data-theme-val');
-                if (themeVal === 'dark') {
-                    document.documentElement.removeAttribute('data-theme');
-                } else {
-                    document.documentElement.setAttribute('data-theme', themeVal);
-                }
-            });
-        });
+        // =========================================
+        // PERFORMANCE OPTIMIZATIONS
+        // =========================================
+        
+        // Debounce function for search
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
 
-        // Current Category Filter State
+        // =========================================
+        // 1. JAHRESZEIT-ERKENNUNG (Deutschland)
+        // =========================================
+        function getGermanSeason() {
+            const now = new Date();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            
+            if ((month === 3 && day >= 20) || (month > 3 && month < 6) || (month === 6 && day <= 20)) return 'spring';
+            if ((month === 6 && day >= 21) || (month > 6 && month < 9) || (month === 9 && day <= 22)) return 'summer';
+            if ((month === 9 && day >= 23) || (month > 9 && month < 12) || (month === 12 && day <= 20)) return 'autumn';
+            return 'winter';
+        }
+
+        function getSeasonName(season) {
+            const names = {
+                'spring': 'Frühling',
+                'summer': 'Sommer',
+                'autumn': 'Herbst',
+                'winter': 'Winter'
+            };
+            return names[season] || 'Unbekannt';
+        }
+
+        // =========================================
+        // 2. LIVE DATE & TIME UPDATE
+        // =========================================
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit' };
+            
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('de-DE', dateOptions);
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE', timeOptions);
+        }
+
+        // =========================================
+        // 3. THEME & PARTICLE SYSTEM (GPU OPTIMIZED)
+        // =========================================
+        function applyTheme(themeName) {
+            const root = document.documentElement;
+            const finalTheme = themeName === 'auto' ? getGermanSeason() : themeName;
+            root.setAttribute('data-theme', finalTheme);
+            
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-theme-val') === themeName);
+            });
+
+            document.getElementById('currentSeason').textContent = getSeasonName(finalTheme);
+            generateParticles(finalTheme);
+        }
+
+        function generateParticles(season) {
+            const container = document.getElementById('seasonal-container');
+            container.innerHTML = '';
+            
+            // Adaptive particle count based on device
+            const isMobile = window.innerWidth < 768;
+            const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+            let particleCount = isMobile ? 12 : (isLowEnd ? 20 : 30);
+            
+            // Use requestAnimationFrame for smooth rendering
+            requestAnimationFrame(() => {
+                const fragment = document.createDocumentFragment();
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const p = document.createElement('div');
+                    p.classList.add('particle');
+                    
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.animationDuration = (Math.random() * 6 + 6) + 's';
+                    p.style.animationDelay = (Math.random() * 5) + 's';
+                    
+                    if(season === 'winter') {
+                        p.style.width = (Math.random() * 3 + 2) + 'px';
+                        p.style.height = p.style.width;
+                    } else if (season === 'autumn') {
+                        p.style.width = (Math.random() * 8 + 8) + 'px';
+                        p.style.height = (Math.random() * 8 + 8) + 'px';
+                    }
+                    
+                    fragment.appendChild(p);
+                }
+                
+                container.appendChild(fragment);
+            });
+        }
+
+        // =========================================
+        // 4. FILTER LOGIK (OPTIMIZED)
+        // =========================================
         let activeCategory = 'alle';
 
         function filterCategory(category, element) {
@@ -830,9 +842,9 @@
             applyFilters();
         }
 
-        function filterSubjects() {
+        const filterSubjects = debounce(function() {
             applyFilters();
-        }
+        }, 150);
 
         function applyFilters() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -840,10 +852,12 @@
             const grid = document.getElementById('subjectGrid');
             let visibleCount = 0;
 
-            // Remove previous no-results message if exists
             const existingNotice = document.getElementById('noResultsMsg');
             if (existingNotice) existingNotice.remove();
 
+            // Batch DOM updates
+            const updates = [];
+            
             cards.forEach(card => {
                 const category = card.getAttribute('data-category');
                 const keywords = card.getAttribute('data-keywords');
@@ -853,21 +867,54 @@
                 const matchesQuery = (keywords.includes(query) || title.includes(query));
 
                 if (matchesCategory && matchesQuery) {
-                    card.style.display = 'flex';
+                    updates.push({ card, display: 'flex' });
                     visibleCount++;
                 } else {
-                    card.style.display = 'none';
+                    updates.push({ card, display: 'none' });
                 }
+            });
+
+            // Apply all updates at once
+            requestAnimationFrame(() => {
+                updates.forEach(update => {
+                    update.card.style.display = update.display;
+                });
             });
 
             if (visibleCount === 0) {
                 const notice = document.createElement('div');
                 notice.id = 'noResultsMsg';
                 notice.className = 'no-results';
-                notice.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block; color: var(--accent);"></i>Keine passenden Fächer gefunden.';
+                notice.innerHTML = '<i class="fa-solid fa-wind" style="font-size: 1.5rem; margin-bottom: 0.75rem; display: block; color: var(--accent);"></i>Keine passenden Fächer gefunden.';
                 grid.appendChild(notice);
             }
         }
+
+        // =========================================
+        // 5. INITIALIZATION
+        // =========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update time every second
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // Apply auto theme
+            applyTheme('auto');
+            
+            // Passive event listeners for better scroll performance
+            window.addEventListener('scroll', () => {}, { passive: true });
+            window.addEventListener('touchmove', () => {}, { passive: true });
+        });
+
+        // Handle window resize for responsive particles
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                generateParticles(currentTheme);
+            }, 250);
+        }, { passive: true });
     </script>
 </body>
 </html>
