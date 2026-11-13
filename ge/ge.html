@@ -2,341 +2,920 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeitreise - Historisches Archiv</title>
-    
-    <!-- Google Fonts: Playfair Display für historische Serifenschrift & IM Fell English für echtes Buch-Flair -->
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0c0b09">
+    <meta name="description" content="Zentrales Register – Archiv der Epochen. Vorgänge zur Einsicht: Prager Frühling, Vietnamkrieg, Kubakrise.">
+    <title>ZEITREISE · Zentrales Register — VS-VERTRAULICH</title>
+
+    <!--
+        ASSETS / LIZENZEN (alle frei weiterverwendbar):
+        · Lucide Icons: ISC-Lizenz
+        · Schriften "Special Elite" & "Courier Prime": SIL Open Font License
+        · Alle Texturen, Stempel, Lochungen, Strichcodes: reines Inline-CSS/SVG, keine externen Bilder
+    -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
 
     <style>
+        /* ============ REGISTRATUR-VARIABLEN ============ */
         :root {
-            --bg-color: #120e0a;
-            --paper-bg: #1c1510;
-            --paper-border: #4a3728;
-            --paper-border-hover: #c5a880;
-            --text-main: #e6dbc9;
-            --text-muted: #a3937d;
-            --accent-gold: #d4af37;
-            --accent-gold-glow: rgba(212, 175, 55, 0.2);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            color-scheme: dark;
+            --bg:            #0c0b09;
+            --mappe:         #1d1a14;
+            --mappe-hell:    #242019;
+            --mappe-rand:    #38321f;
+            --mappe-rand-hover: #6b5f45;
+            --papier:        #ddd6c3;
+            --papier-dumpf:  #948d7a;
+            --papier-schwach:#5f594c;
+            --stempelrot:    #c14b3f;
+            --stempelblau:   #7d95b5;
+            --freigabe:      #8a9a6b;
+            --schwaerzung:   #060605;
+            --schreib:       'Special Elite', 'Courier New', monospace;
+            --maschine:      'Courier Prime', 'Courier New', monospace;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Playfair Display', serif;
+            background: var(--bg);
+            color: var(--papier);
+            font-family: var(--maschine);
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(26, 18, 12, 0.4) 0%, rgba(10, 7, 5, 0.9) 100%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
         }
 
-        /* Navigation im Buch-Einband-Stil */
-        nav {
-            background: linear-gradient(to bottom, #1a120c, #0f0a07);
-            border-bottom: 2px solid var(--accent-gold);
-            padding: 1rem 2rem;
+        /* Papierkorn über allem */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        /* Vignette + Wasserzeichen */
+        body::after {
+            content: 'VERTRAULICH';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-16deg);
+            font-family: var(--schreib);
+            font-size: clamp(5rem, 19vw, 15rem);
+            letter-spacing: .15em;
+            white-space: nowrap;
+            color: #fff;
+            opacity: .018;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        ::selection { background: var(--stempelrot); color: #fff; }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #35301f; border: 2px solid var(--bg); border-radius: 6px; }
+
+        a:focus-visible,
+        .akte:focus-visible {
+            outline: 2px dashed var(--stempelrot);
+            outline-offset: 4px;
+        }
+
+        /* Abgenutzte Stempelfarbe (Grunge-Maske, Fallback: solide) */
+        .stempel-vs, .stempel-geheim, .stempel-leer, .rundstempel {
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.7 0.7 0.7 0 0.1'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.7 0.7 0.7 0 0.1'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
+            -webkit-mask-size: 140px;
+            mask-size: 140px;
+        }
+
+        /* ============ VS-BAND OBEN ============ */
+        .vs-band {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: .45rem 1rem;
+            background: #140d0a;
+            border-bottom: 1px solid #3a201b;
+            position: relative;
+            z-index: 2;
+        }
+        .vs-band::before, .vs-band::after {
+            content: '';
+            flex: 1;
+            height: 8px;
+            background: repeating-linear-gradient(-45deg, #4a221c 0 10px, transparent 10px 20px);
+            opacity: .55;
+        }
+        .vs-band span {
+            font-family: var(--schreib);
+            font-size: .62rem;
+            letter-spacing: .28em;
+            color: #cf6b5f;
+            white-space: nowrap;
+        }
+        .vs-band .kurz { display: none; }
+
+        /* ============ DECKBLATT / KOPF ============ */
+        .deckblatt {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.2rem 1.5rem 1.6rem;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
+            align-items: flex-start;
+            gap: 2rem;
+            border-bottom: 3px double var(--mappe-rand);
         }
 
-        .nav-brand {
+        .marke { display: flex; align-items: center; gap: 1rem; }
+        .marke-siegel {
+            flex: none;
+            width: 54px; height: 54px;
+            display: grid; place-items: center;
+            border: 1.5px solid var(--mappe-rand);
+            outline: 1px solid var(--mappe-rand);
+            outline-offset: 3px;
+            border-radius: 3px;
+            background: var(--mappe);
+            color: var(--stempelrot);
+        }
+        .marke-siegel svg { width: 28px; height: 28px; }
+        .marke h1 {
+            font-family: var(--schreib);
+            font-weight: 400;
+            font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+            letter-spacing: .12em;
+            line-height: 1;
+        }
+        .marke .zeile {
+            margin-top: .45rem;
+            font-size: .68rem;
+            letter-spacing: .22em;
+            color: var(--papier-dumpf);
+            text-transform: uppercase;
+        }
+
+        .kopf-rechts { text-align: right; flex: none; }
+        .stempel-geheim {
+            display: inline-block;
+            font-family: var(--schreib);
+            font-size: clamp(.9rem, 2.4vw, 1.15rem);
+            letter-spacing: .22em;
+            color: var(--stempelrot);
+            border: 2px solid var(--stempelrot);
+            outline: 1px solid var(--stempelrot);
+            outline-offset: 3px;
+            border-radius: 3px;
+            padding: .45rem .85rem;
+            transform: rotate(-5deg);
+            animation: stempeln .55s .3s cubic-bezier(.2, 1.4, .4, 1) both;
+        }
+        @keyframes stempeln {
+            0%   { opacity: 0; transform: rotate(-5deg) scale(2.1); }
+            60%  { opacity: 1; transform: rotate(-5deg) scale(.93); }
+            100% { opacity: 1; transform: rotate(-5deg) scale(1); }
+        }
+        .kopf-aktenzeichen {
+            margin-top: 1rem;
+            font-size: .66rem;
+            letter-spacing: .12em;
+            color: var(--papier-schwach);
+            line-height: 1.8;
+        }
+
+        /* ============ VERFÜGUNG (INTRO) ============ */
+        main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3.5rem;
+            padding-left: max(1.5rem, env(safe-area-inset-left));
+            padding-right: max(1.5rem, env(safe-area-inset-right));
+        }
+
+        .verfuegung {
+            position: relative;
+            background: linear-gradient(165deg, var(--mappe-hell), var(--mappe) 70%);
+            border: 1px solid var(--mappe-rand);
+            border-radius: 4px;
+            padding: 1.6rem 1.8rem;
+            margin-bottom: 2.6rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            color: var(--accent-gold);
-            font-size: 1.25rem;
-            letter-spacing: 1px;
-            text-decoration: none;
+            gap: 2rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,.55);
+        }
+        .verfuegung .buero-heftung {
+            position: absolute;
+            top: -13px; left: 22px;
+            color: var(--papier-dumpf);
+            transform: rotate(-40deg);
+        }
+        .verfuegung .buero-heftung svg { width: 26px; height: 26px; }
+        .verfuegung-text { flex: 1; min-width: 0; }
+        .verfuegung-text .betreff {
+            font-family: var(--schreib);
+            font-size: .72rem;
+            letter-spacing: .25em;
+            color: var(--stempelrot);
+            margin-bottom: .7rem;
+        }
+        .verfuegung-text p {
+            font-size: .88rem;
+            line-height: 1.75;
+            color: var(--papier-dumpf);
+        }
+        .verfuegung-text p strong { color: var(--papier); font-weight: 700; }
+        .verfuegung-text .fussnote {
+            margin-top: .8rem;
+            font-size: .68rem;
+            letter-spacing: .1em;
+            color: var(--papier-schwach);
+        }
+        .schwaerzung-inline {
+            display: inline-block;
+            width: 88px; height: .85em;
+            vertical-align: -2px;
+            background: var(--schwaerzung);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+            border-radius: 1px;
         }
 
-        .nav-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-style: italic;
+        .rundstempel {
+            flex: none;
+            width: 104px; height: 104px;
+            border: 2px solid var(--stempelrot);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .2rem;
+            color: var(--stempelrot);
+            transform: rotate(-11deg);
+            position: relative;
+            opacity: .9;
+        }
+        .rundstempel::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 1px solid var(--stempelrot);
+            border-radius: 50%;
+        }
+        .rundstempel small {
+            font-family: var(--schreib);
+            font-size: .5rem;
+            letter-spacing: .3em;
+        }
+        .rundstempel b {
+            font-family: var(--maschine);
+            font-size: .74rem;
+            letter-spacing: .06em;
         }
 
-        /* Hauptlayout als Buch-Atmosphäre */
-        main {
-            flex: 1;
-            max-width: 1100px;
-            width: 100%;
-            margin: 7rem auto 3rem auto;
-            padding: 0 1.5rem;
+        /* ============ REGISTRATUR-STAND ============ */
+        .register-kopf {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .9rem;
+            padding-bottom: .8rem;
+            margin-bottom: 2.4rem;
+            border-bottom: 3px double var(--mappe-rand);
+        }
+        .register-kopf h2 {
+            font-family: var(--schreib);
+            font-weight: 400;
+            font-size: .95rem;
+            letter-spacing: .25em;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            color: var(--papier);
+        }
+        .register-kopf h2 svg { width: 17px; height: 17px; color: var(--stempelrot); }
+        .registratur {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            font-size: .64rem;
+            letter-spacing: .18em;
+            color: var(--papier-dumpf);
+        }
+        .fach-anzeige { display: flex; gap: 4px; }
+        .fach-anzeige i {
+            width: 16px; height: 9px;
+            border: 1px solid var(--mappe-rand);
+            background: transparent;
+        }
+        .fach-anzeige i.besetzt {
+            background: var(--stempelrot);
+            border-color: var(--stempelrot);
+        }
+
+        /* ============ AKTEN-REGISTER (9 FÄCHER) ============ */
+        .register {
+            list-style: none;
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-            align-items: start;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+            gap: 2.6rem 1.6rem;
+        }
+        .register > li { display: contents; }
+
+        .akte {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+            background: linear-gradient(160deg, #221e17, var(--mappe) 55%, #171410);
+            border: 1px solid var(--mappe-rand);
+            border-radius: 4px;
+            padding: 1.5rem 1.4rem 1.3rem 2.6rem;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 6px 18px rgba(0,0,0,.5);
+            transition: transform .35s cubic-bezier(.16,1,.3,1),
+                        border-color .3s ease, box-shadow .35s ease, background .3s ease;
         }
 
-        @media (max-width: 850px) {
-            main {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+        /* Lochung + roter Heftstreifen */
+        .akte::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background:
+                radial-gradient(circle 5px at 13px 30%, #050403 0 4px, rgba(255,255,255,.07) 4.5px 5.5px, transparent 6px),
+                radial-gradient(circle 5px at 13px 70%, #050403 0 4px, rgba(255,255,255,.07) 4.5px 5.5px, transparent 6px),
+                linear-gradient(90deg, transparent 27px, rgba(193,75,63,.22) 27px 28px, transparent 28px);
+        }
+
+        /* Karteireiter */
+        .reiter {
+            position: absolute;
+            top: -15px; left: 18px;
+            font-family: var(--schreib);
+            font-size: .62rem;
+            letter-spacing: .18em;
+            color: var(--papier-dumpf);
+            background: #282318;
+            border: 1px solid var(--mappe-rand);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            padding: 4px 12px 5px;
+            transition: background .3s ease, color .3s ease;
+        }
+
+        .akte-kopf {
+            display: flex;
+            align-items: flex-start;
+            gap: .85rem;
+        }
+        .akte-siegel {
+            flex: none;
+            width: 40px; height: 40px;
+            display: grid; place-items: center;
+            border: 1px solid var(--mappe-rand);
+            border-radius: 3px;
+            background: rgba(0,0,0,.25);
+            color: var(--papier-dumpf);
+            transition: color .3s ease, border-color .3s ease;
+        }
+        .akte-siegel svg { width: 20px; height: 20px; }
+        .akte-meta {
+            flex: 1;
+            min-width: 0;
+            font-size: .64rem;
+            letter-spacing: .07em;
+            line-height: 1.85;
+            color: var(--papier-dumpf);
+            text-transform: uppercase;
+            overflow-wrap: anywhere;
+        }
+        .akte-meta .frei { color: var(--freigabe); }
+
+        /* VS-Stempel auf der Mappe */
+        .stempel-vs {
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            gap: 2px;
+            color: var(--stempelrot);
+            border: 1.5px solid var(--stempelrot);
+            outline: 1px solid var(--stempelrot);
+            outline-offset: 2px;
+            border-radius: 2px;
+            padding: 5px 7px;
+            transform: rotate(5deg);
+            transition: transform .3s ease;
+            margin-top: 2px;
+        }
+        .stempel-vs b { font-family: var(--schreib); font-weight: 400; font-size: .9rem; }
+        .stempel-vs i { font-style: normal; font-family: var(--schreib); font-size: .44rem; letter-spacing: .16em; }
+
+        .akte-titel {
+            font-family: var(--schreib);
+            font-weight: 400;
+            font-size: clamp(1.05rem, 2vw, 1.22rem);
+            line-height: 1.35;
+            letter-spacing: .03em;
+            color: var(--papier);
+            transition: color .3s ease;
+        }
+        .akte-text {
+            flex: 1;
+            font-size: .82rem;
+            line-height: 1.65;
+            color: var(--papier-dumpf);
+        }
+
+        .akte-fuss {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: .4rem;
+            padding-top: .9rem;
+            border-top: 1px dashed var(--mappe-rand);
+        }
+        .aufschlagen {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: var(--schreib);
+            font-size: .68rem;
+            letter-spacing: .2em;
+            color: var(--stempelrot);
+            min-height: 44px; /* Touch-Ziel */
+        }
+        .aufschlagen svg { width: 15px; height: 15px; transition: transform .3s ease; }
+
+        .strichcode { flex: none; width: 78px; opacity: .5; }
+        .strichcode::before {
+            content: '';
+            display: block;
+            height: 16px;
+            background:
+                repeating-linear-gradient(90deg, var(--papier) 0 2px, transparent 2px 5px),
+                repeating-linear-gradient(90deg, var(--papier) 0 1px, transparent 1px 7px);
+        }
+        .strichcode::after {
+            content: attr(data-nr);
+            display: block;
+            margin-top: 3px;
+            font-size: .5rem;
+            letter-spacing: .22em;
+            text-align: center;
+            color: var(--papier-dumpf);
+        }
+
+        /* Hover nur für Geräte mit Maus */
+        @media (hover: hover) {
+            a.akte:hover {
+                transform: translateY(-5px) rotate(-.25deg);
+                border-color: var(--mappe-rand-hover);
+                background: linear-gradient(160deg, #282318, #201c15 55%, #1a1712);
+                box-shadow: 0 16px 34px rgba(0,0,0,.65), 0 0 0 1px rgba(193,75,63,.12);
+            }
+            a.akte:hover .reiter { background: #332c1d; color: var(--papier); }
+            a.akte:hover .akte-siegel { color: var(--stempelrot); border-color: var(--mappe-rand-hover); }
+            a.akte:hover .stempel-vs { transform: rotate(2deg) scale(1.05); }
+            a.akte:hover .aufschlagen svg { transform: translateX(5px); }
+        }
+        a.akte:active { transform: scale(.985); border-color: var(--mappe-rand-hover); }
+
+        /* ============ LEERE FÄCHER (RESERVE) ============ */
+        .akte-leer {
+            background: #16130e;
+            border-style: dashed;
+            box-shadow: none;
+            cursor: default;
+        }
+        .akte-leer .reiter { background: #1c1812; border-style: dashed; border-bottom: none; color: var(--papier-schwach); }
+        .akte-leer .akte-siegel { color: var(--papier-schwach); }
+        .akte-leer .akte-titel { color: var(--papier-schwach); }
+        .akte-leer .akte-fuss { border-top-color: #2a251a; }
+        .akte-leer .strichcode { opacity: .18; }
+
+        .stempel-leer {
+            flex: none;
+            font-family: var(--schreib);
+            font-size: .52rem;
+            letter-spacing: .14em;
+            color: var(--stempelblau);
+            border: 1.5px solid var(--stempelblau);
+            outline: 1px solid var(--stempelblau);
+            outline-offset: 2px;
+            border-radius: 2px;
+            padding: 6px 7px;
+            transform: rotate(-4deg);
+            margin-top: 2px;
+            opacity: .85;
+        }
+
+        .geschwaerzt { display: flex; flex-direction: column; gap: .55rem; flex: 1; padding: .2rem 0; }
+        .geschwaerzt i {
+            display: block;
+            height: 11px;
+            background: var(--schwaerzung);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.045);
+            border-radius: 1px;
+        }
+        .wartet {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: var(--schreib);
+            font-size: .62rem;
+            letter-spacing: .18em;
+            color: var(--papier-schwach);
+            min-height: 44px;
+        }
+        .wartet svg { width: 14px; height: 14px; }
+
+        /* ============ FUSSZEILE ============ */
+        footer {
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+            border-top: 3px double var(--mappe-rand);
+            background: #0a0906;
+            padding: 1.8rem 1.5rem 2rem;
+            padding-bottom: max(2rem, env(safe-area-inset-bottom));
+            text-align: center;
+        }
+        footer p {
+            font-size: .72rem;
+            letter-spacing: .14em;
+            color: var(--papier-dumpf);
+            line-height: 2;
+        }
+        footer .lucide-heart { width: 12px; height: 12px; vertical-align: -1px; color: var(--stempelrot); fill: currentColor; }
+        footer .lizenz {
+            margin-top: .4rem;
+            font-size: .58rem;
+            color: var(--papier-schwach);
+            letter-spacing: .1em;
+        }
+
+        /* ============ AUFDECKEN BEIM SCROLLEN ============ */
+        .js .akte { opacity: 0; }
+        .js .akte.da {
+            animation: aufdecken .55s cubic-bezier(.16,1,.3,1) both;
+            animation-delay: calc(var(--i, 0) * 80ms);
+        }
+        @keyframes aufdecken {
+            from { opacity: 0; translate: 0 18px; }
+            to   { opacity: 1; translate: 0 0; }
+        }
+
+        /* ============ HANDY-OPTIMIERUNG ============ */
+        @media (max-width: 720px) {
+            .vs-band .lang { display: none; }
+            .vs-band .kurz { display: inline; }
+
+            .deckblatt {
+                flex-direction: column;
+                gap: 1.4rem;
+                padding: 1.6rem 1.1rem 1.4rem;
+            }
+            .kopf-rechts {
+                text-align: left;
+                display: flex;
+                align-items: center;
+                gap: 1.2rem;
+                flex-wrap: wrap;
+            }
+            .kopf-aktenzeichen { margin-top: 0; line-height: 1.7; }
+
+            main { padding: 1.6rem 1.1rem 3rem; }
+            .verfuegung { flex-direction: column; align-items: flex-start; gap: 1.3rem; padding: 1.4rem 1.2rem; }
+            .rundstempel { width: 92px; height: 92px; align-self: flex-end; margin-top: -3.2rem; }
+
+            .register { gap: 2.4rem 1rem; }
+            .akte { padding: 1.4rem 1.1rem 1.1rem 2.4rem; }
+            .akte::before {
+                background:
+                    radial-gradient(circle 5px at 11px 30%, #050403 0 4px, rgba(255,255,255,.07) 4.5px 5.5px, transparent 6px),
+                    radial-gradient(circle 5px at 11px 70%, #050403 0 4px, rgba(255,255,255,.07) 4.5px 5.5px, transparent 6px),
+                    linear-gradient(90deg, transparent 23px, rgba(193,75,63,.22) 23px 24px, transparent 24px);
             }
         }
 
-        /* Linke Seite: Buch-Einleitung / "Wähle dein Thema" */
-        .book-intro {
-            background: var(--paper-bg);
-            border: 1px solid var(--paper-border);
-            border-left: 4px solid var(--accent-gold);
-            padding: 2.5rem 2rem;
-            box-shadow: var(--shadow);
-            position: relative;
-            border-radius: 4px;
+        @media (max-width: 380px) {
+            .akte-siegel { display: none; }
+            .akte-meta { font-size: .6rem; }
+            .marke-siegel { width: 46px; height: 46px; }
         }
 
-        .book-intro::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid rgba(212, 175, 55, 0.05);
-            pointer-events: none;
-        }
-
-        .book-intro h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--accent-gold);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .ornament-line {
-            width: 60px;
-            height: 2px;
-            background-color: var(--accent-gold);
-            margin: 1rem 0;
-            opacity: 0.6;
-        }
-
-        .book-intro p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Rechte Seite: Themen-Regal / Kapitel */
-        .chapters-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .chapter-card {
-            background: var(--paper-bg);
-            border: 1px solid var(--paper-border);
-            padding: 1.75rem;
-            border-radius: 4px;
-            text-decoration: none;
-            color: inherit;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .chapter-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 0;
-            background-color: var(--accent-gold);
-            transition: height 0.3s ease;
-        }
-
-        .chapter-card:hover {
-            border-color: var(--paper-border-hover);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px var(--accent-gold-glow);
-            background: #241c15;
-        }
-
-        .chapter-card:hover::after {
-            height: 100%;
-        }
-
-        .chapter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chapter-tag {
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 0.25rem 0.6rem;
-            border-radius: 2px;
-            background: rgba(212, 175, 55, 0.03);
-        }
-
-        .chapter-icon {
-            color: var(--text-muted);
-            transition: color 0.3s ease;
-        }
-
-        .chapter-card:hover .chapter-icon {
-            color: var(--accent-gold);
-        }
-
-        .chapter-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-main);
-            transition: color 0.3s ease;
-        }
-
-        .chapter-card:hover .chapter-title {
-            color: var(--accent-gold);
-        }
-
-        .chapter-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        .chapter-footer {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            margin-top: 0.5rem;
-            font-family: 'Cinzel', serif;
-        }
-
-        .chapter-footer i {
-            transition: transform 0.3s ease;
-        }
-
-        .chapter-card:hover .chapter-footer i {
-            transform: translateX(5px);
-        }
-
-        /* Footer im antiken Stil */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--paper-border);
-            margin-top: auto;
-            background: #0d0906;
-            font-style: italic;
-        }
-
-        footer i {
-            color: #b33939;
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .js .akte { opacity: 1; }
         }
     </style>
+    <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav>
-        <a href="#" class="nav-brand">
-            <i data-lucide="hourglass" style="width: 22px; height: 22px;"></i>
-            <span>GESCHICHTSREISE</span>
-        </a>
-        <div class="nav-subtitle">
-            <i data-lucide="compass" style="width: 14px; height: 14px; display: inline; vertical-align: middle;"></i> 
-            Archiv der Epochen
-        </div>
-    </nav>
+    <!-- VS-Band -->
+    <div class="vs-band" role="note">
+        <span class="lang">VS-VERTRAULICH &middot; ARCHIV DER EPOCHEN &middot; EINSICHT NUR ZU BILDUNGSZWECKEN</span>
+        <span class="kurz">VS-VERTRAULICH &middot; NUR ZUR EINSICHT</span>
+    </div>
 
-    <!-- Hauptinhalt (Buch-Layout) -->
+    <!-- Deckblatt -->
+    <header class="deckblatt">
+        <div class="marke">
+            <span class="marke-siegel" aria-hidden="true"><i data-lucide="fingerprint"></i></span>
+            <div>
+                <h1>ZEITREISE</h1>
+                <p class="zeile">Zentrales Register &middot; Ablage Kalter Krieg</p>
+            </div>
+        </div>
+        <div class="kopf-rechts">
+            <span class="stempel-geheim">STRENG GEHEIM</span>
+            <p class="kopf-aktenzeichen">
+                AZ 07/1962&ndash;1991 &middot; BLATT 1 VON 9<br>
+                EINSICHT AM: <span class="datum-heute">--.--.----</span>
+            </p>
+        </div>
+    </header>
+
     <main>
-        <!-- Linke Seite: Einleitung -->
-        <section class="book-intro">
-            <span class="chapter-tag" style="margin-bottom: 1rem; display: inline-block;">Themenübersicht</span>
-            <h1>Wohin reisen wir heute?</h1>
-            <div class="ornament-line"></div>
-            <p>
-                Blättere durch die Folianten der Vergangenheit. Wähle ein Kapitel aus, um tief in kritische Analysen, Konflikte und epochale Ereignisse der Weltgeschichte einzutauchen.
-            </p>
-            <p style="font-size: 0.85rem; color: #736452;">
-                Jedes Dokument wurde sorgfältig für den Wissensdurst aufbereitet.
-            </p>
+        <!-- Verfügung / Einleitung -->
+        <section class="verfuegung" aria-label="Verfügung der Registratur">
+            <span class="buero-heftung" aria-hidden="true"><i data-lucide="paperclip"></i></span>
+            <div class="verfuegung-text">
+                <p class="betreff">VERFÜGUNG AN DIE EINSICHTNEHMENDEN</p>
+                <p>
+                    Nachstehende Vorgänge der Ablage &raquo;Kalter Krieg&laquo; sind zur Einsicht freigegeben.
+                    <strong>Vorgang wählen, Akte aufschlagen, Sachverhalt prüfen.</strong>
+                    Die Aufarbeitung erfolgt aktenkundig &mdash; Blatt für Blatt.
+                </p>
+                <p class="fussnote">
+                    ZWECK: <span class="schwaerzung-inline" aria-hidden="true"></span> &middot;
+                    BEARBEITUNG: LAUFEND &middot; WIEDERVORLAGE: OFFEN &mdash; DIE REGISTRATUR
+                </p>
+            </div>
+            <div class="rundstempel" aria-hidden="true">
+                <small>ARCHIV</small>
+                <b class="datum-heute">--.--.----</b>
+                <small>EINSICHT</small>
+            </div>
         </section>
 
-        <!-- Rechte Seite: Themen / Kapitel -->
-        <div class="chapters-container">
-            <a href="Ge15-10-StoryModusOnly.html" class="chapter-card">
-                <div class="chapter-header">
-                    <span class="chapter-tag">Vietnamkrieg</span>
-                    <i data-lucide="scroll" class="chapter-icon" style="width: 20px; height: 20px;"></i>
-                </div>
-                <h2 class="chapter-title">Der Vietnamkrieg – Kurz und prägnant erklärt</h2>
-                <p class="chapter-desc">
-                    Hintergründe, Eskalation und weltpolitische Folgen eines der prägendsten Konflikte des Kalten Krieges.
-                </p>
-                <div class="chapter-footer">
-                    <span>Kapitel aufschlagen</span>
-                    <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </div>
-            </a>
-            <a href="Ge7-10.html" class="chapter-card">
-                <div class="chapter-header">
-                    <span class="chapter-tag">Kubakrise</span>
-                    <i data-lucide="compass" class="chapter-icon" style="width: 20px; height: 20px;"></i>
-                </div>
-                <h2 class="chapter-title">Die Kubakrise: 13 Tage am Abgrund</h2>
-                <p class="chapter-desc">
-                    Ursachen, dramatischer Verlauf und wie die Welt knapp an einem nuklearen Konflikt vorbeischrammte.
-                </p>
-                <div class="chapter-footer">
-                    <span>Kapitel aufschlagen</span>
-                    <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </div>
-            </a>
-
+        <!-- Registratur-Stand -->
+        <div class="register-kopf">
+            <h2 id="register-titel"><i data-lucide="stamp" aria-hidden="true"></i> VORGANGSÜBERSICHT</h2>
+            <div class="registratur" aria-label="3 von 9 Vorgängen erfasst">
+                <span class="fach-anzeige" aria-hidden="true">
+                    <i class="besetzt"></i><i class="besetzt"></i><i class="besetzt"></i>
+                    <i></i><i></i><i></i><i></i><i></i><i></i>
+                </span>
+                <span>3/9 ERFASST</span>
+            </div>
         </div>
+
+        <!-- Akten: 9 Fächer -->
+        <ul class="register" role="list" aria-labelledby="register-titel">
+
+            <!-- VORGANG 001 -->
+            <li>
+                <a href="Prag68.html" class="akte">
+                    <span class="reiter">VORGANG 001/68</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="radio-tower"></i></span>
+                        <div class="akte-meta">
+                            Zeitraum: 01.&ndash;08.1968<br>
+                            Ort: Prag, ČSSR<br>
+                            <span class="frei">Status: Einsicht freigegeben</span>
+                        </div>
+                        <span class="stempel-vs" aria-hidden="true"><b>VS</b><i>VERTRAULICH</i></span>
+                    </div>
+                    <h3 class="akte-titel">Prager Aufstände</h3>
+                    <p class="akte-text">Ursachen, Verlauf, Folgen und mehr!</p>
+                    <div class="akte-fuss">
+                        <span class="aufschlagen">AKTE AUFSCHLAGEN <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+                        <span class="strichcode" data-nr="REG 001/68" aria-hidden="true"></span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- VORGANG 002 -->
+            <li>
+                <a href="Ge15-10-StoryModusOnly.html" class="akte">
+                    <span class="reiter">VORGANG 002/65</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="flame"></i></span>
+                        <div class="akte-meta">
+                            Zeitraum: 1955&ndash;1975<br>
+                            Ort: Vietnam / Indochina<br>
+                            <span class="frei">Status: Einsicht freigegeben</span>
+                        </div>
+                        <span class="stempel-vs" aria-hidden="true"><b>VS</b><i>VERTRAULICH</i></span>
+                    </div>
+                    <h3 class="akte-titel">Der Vietnamkrieg &ndash; kurz und prägnant erklärt</h3>
+                    <p class="akte-text">Hintergründe, Eskalation und weltpolitische Folgen eines der prägendsten Konflikte des Kalten Krieges.</p>
+                    <div class="akte-fuss">
+                        <span class="aufschlagen">AKTE AUFSCHLAGEN <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+                        <span class="strichcode" data-nr="REG 002/65" aria-hidden="true"></span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- VORGANG 003 -->
+            <li>
+                <a href="Ge7-10.html" class="akte">
+                    <span class="reiter">VORGANG 003/62</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="radiation"></i></span>
+                        <div class="akte-meta">
+                            Zeitraum: 14.&ndash;28.10.1962<br>
+                            Ort: Kuba / Karibik<br>
+                            <span class="frei">Status: Einsicht freigegeben</span>
+                        </div>
+                        <span class="stempel-vs" aria-hidden="true"><b>VS</b><i>VERTRAULICH</i></span>
+                    </div>
+                    <h3 class="akte-titel">Die Kubakrise: 13 Tage am Abgrund</h3>
+                    <p class="akte-text">Ursachen, dramatischer Verlauf und wie die Welt knapp an einem nuklearen Konflikt vorbeischrammte.</p>
+                    <div class="akte-fuss">
+                        <span class="aufschlagen">AKTE AUFSCHLAGEN <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+                        <span class="strichcode" data-nr="REG 003/62" aria-hidden="true"></span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- VORGANG 004 – RESERVE -->
+            <li>
+                <div class="akte akte-leer" aria-label="Vorgang 004 – reserviert, noch nicht erfasst">
+                    <span class="reiter">VORGANG 004</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="lock"></i></span>
+                        <div class="akte-meta">Zeitraum: &mdash;&mdash;&mdash;<br>Ort: &mdash;&mdash;&mdash;<br>Status: nicht erfasst</div>
+                        <span class="stempel-leer" aria-hidden="true">RESERVIERT</span>
+                    </div>
+                    <h3 class="akte-titel">Fach frei</h3>
+                    <div class="geschwaerzt" aria-hidden="true"><i style="width:92%"></i><i style="width:68%"></i><i style="width:41%"></i></div>
+                    <div class="akte-fuss">
+                        <span class="wartet"><i data-lucide="clock" aria-hidden="true"></i> MATERIAL UNGESICHTET</span>
+                        <span class="strichcode" data-nr="REG 004" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </li>
+
+            <!-- VORGANG 005 – RESERVE -->
+            <li>
+                <div class="akte akte-leer" aria-label="Vorgang 005 – reserviert, noch nicht erfasst">
+                    <span class="reiter">VORGANG 005</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="lock"></i></span>
+                        <div class="akte-meta">Zeitraum: &mdash;&mdash;&mdash;<br>Ort: &mdash;&mdash;&mdash;<br>Status: nicht erfasst</div>
+                        <span class="stempel-leer" aria-hidden="true">IN PRÜFUNG</span>
+                    </div>
+                    <h3 class="akte-titel">Fach frei</h3>
+                    <div class="geschwaerzt" aria-hidden="true"><i style="width:78%"></i><i style="width:88%"></i><i style="width:52%"></i></div>
+                    <div class="akte-fuss">
+                        <span class="wartet"><i data-lucide="clock" aria-hidden="true"></i> ERMITTLUNGEN LAUFEN</span>
+                        <span class="strichcode" data-nr="REG 005" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </li>
+
+            <!-- VORGANG 006 – RESERVE -->
+            <li>
+                <div class="akte akte-leer" aria-label="Vorgang 006 – reserviert, noch nicht erfasst">
+                    <span class="reiter">VORGANG 006</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="lock"></i></span>
+                        <div class="akte-meta">Zeitraum: &mdash;&mdash;&mdash;<br>Ort: &mdash;&mdash;&mdash;<br>Status: nicht erfasst</div>
+                        <span class="stempel-leer" aria-hidden="true">RESERVIERT</span>
+                    </div>
+                    <h3 class="akte-titel">Fach frei</h3>
+                    <div class="geschwaerzt" aria-hidden="true"><i style="width:85%"></i><i style="width:57%"></i><i style="width:73%"></i></div>
+                    <div class="akte-fuss">
+                        <span class="wartet"><i data-lucide="clock" aria-hidden="true"></i> WARTET AUF FREIGABE</span>
+                        <span class="strichcode" data-nr="REG 006" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </li>
+
+            <!-- VORGANG 007 – RESERVE -->
+            <li>
+                <div class="akte akte-leer" aria-label="Vorgang 007 – reserviert, noch nicht erfasst">
+                    <span class="reiter">VORGANG 007</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="lock"></i></span>
+                        <div class="akte-meta">Zeitraum: &mdash;&mdash;&mdash;<br>Ort: &mdash;&mdash;&mdash;<br>Status: nicht erfasst</div>
+                        <span class="stempel-leer" aria-hidden="true">RESERVIERT</span>
+                    </div>
+                    <h3 class="akte-titel">Fach frei</h3>
+                    <div class="geschwaerzt" aria-hidden="true"><i style="width:64%"></i><i style="width:90%"></i><i style="width:38%"></i></div>
+                    <div class="akte-fuss">
+                        <span class="wartet"><i data-lucide="clock" aria-hidden="true"></i> AKTENLAGE UNVOLLSTÄNDIG</span>
+                        <span class="strichcode" data-nr="REG 007" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </li>
+
+            <!-- VORGANG 008 – RESERVE -->
+            <li>
+                <div class="akte akte-leer" aria-label="Vorgang 008 – reserviert, noch nicht erfasst">
+                    <span class="reiter">VORGANG 008</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="lock"></i></span>
+                        <div class="akte-meta">Zeitraum: &mdash;&mdash;&mdash;<br>Ort: &mdash;&mdash;&mdash;<br>Status: nicht erfasst</div>
+                        <span class="stempel-leer" aria-hidden="true">IN PRÜFUNG</span>
+                    </div>
+                    <h3 class="akte-titel">Fach frei</h3>
+                    <div class="geschwaerzt" aria-hidden="true"><i style="width:81%"></i><i style="width:49%"></i><i style="width:66%"></i></div>
+                    <div class="akte-fuss">
+                        <span class="wartet"><i data-lucide="clock" aria-hidden="true"></i> IN BEARBEITUNG</span>
+                        <span class="strichcode" data-nr="REG 008" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </li>
+
+            <!-- VORGANG 009 – RESERVE -->
+            <li>
+                <div class="akte akte-leer" aria-label="Vorgang 009 – reserviert, noch nicht erfasst">
+                    <span class="reiter">VORGANG 009</span>
+                    <div class="akte-kopf">
+                        <span class="akte-siegel" aria-hidden="true"><i data-lucide="lock"></i></span>
+                        <div class="akte-meta">Zeitraum: &mdash;&mdash;&mdash;<br>Ort: &mdash;&mdash;&mdash;<br>Status: nicht erfasst</div>
+                        <span class="stempel-leer" aria-hidden="true">RESERVIERT</span>
+                    </div>
+                    <h3 class="akte-titel">Fach frei</h3>
+                    <div class="geschwaerzt" aria-hidden="true"><i style="width:74%"></i><i style="width:83%"></i><i style="width:45%"></i></div>
+                    <div class="akte-fuss">
+                        <span class="wartet"><i data-lucide="clock" aria-hidden="true"></i> RESERVIERT</span>
+                        <span class="strichcode" data-nr="REG 009" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
     </main>
 
-    <!-- Footer -->
+    <!-- Fußzeile -->
     <footer>
-        <p>Mit <i data-lucide="heart" style="width: 12px; height: 12px; display: inline; vertical-align: middle;"></i> verfasst für historische Entdeckungen</p>
+        <p>
+            MIT <i data-lucide="heart" aria-hidden="true"></i> ARCHIVIERT &middot; EINSICHT ZU BILDUNGSZWECKEN &middot; ALLE ANGABEN OHNE GEWÄHR
+        </p>
+        <p class="lizenz">LUCIDE (ISC) &middot; SCHRIFTEN: SPECIAL ELITE &amp; COURIER PRIME (SIL OFL) &middot; TEXTUREN: INLINE-CSS &mdash; FREI VERWENDBAR</p>
     </footer>
 
-    <!-- Lucide Icons initialisieren -->
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', function () {
+            // Icons (nur wenn Bibliothek geladen ist)
+            if (window.lucide) lucide.createIcons();
+
+            // Heutiges Datum in die Stempel schreiben
+            var datum = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            document.querySelectorAll('.datum-heute').forEach(function (el) { el.textContent = datum; });
+
+            // Akten beim Scrollen gestaffelt aufdecken (mit Reduced-Motion-Check)
+            var akten = document.querySelectorAll('.akte');
+            var reduzierteBewegung = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!reduzierteBewegung && 'IntersectionObserver' in window) {
+                var beobachter = new IntersectionObserver(function (eintraege) {
+                    eintraege.forEach(function (e) {
+                        if (e.isIntersecting) { e.target.classList.add('da'); beobachter.unobserve(e.target); }
+                    });
+                }, { threshold: 0.1 });
+                akten.forEach(function (a, i) { a.style.setProperty('--i', i % 3); beobachter.observe(a); });
+            } else {
+                akten.forEach(function (a) { a.classList.add('da'); });
+            }
+        });
     </script>
 </body>
 </html>
