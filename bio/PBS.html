@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proteinbiosynthese — Das Geheimnis des Lebens</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-700-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-400-normal.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-0: #020a06;
+    --bg-1: #051a0f;
+    --bg-2: #0a2818;
+    --bg-3: #0d3320;
+    --glass: rgba(18, 52, 35, 0.35);
+    --glass-strong: rgba(22, 68, 45, 0.55);
+    --border: rgba(74, 222, 128, 0.22);
+    --border-strong: rgba(74, 222, 128, 0.5);
+    --accent: #4ade80;
+    --accent-2: #86efac;
+    --accent-3: #22c55e;
+    --accent-glow: rgba(74, 222, 128, 0.4);
+    --text: #e8fff0;
+    --text-dim: #a7f3d0;
+    --text-mute: #6ee7a8;
+    --danger: #f87171;
+    --warn: #fbbf24;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg-0);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+  }
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(34, 197, 94, 0.15), transparent 50%),
+      radial-gradient(ellipse at 80% 40%, rgba(74, 222, 128, 0.12), transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(16, 185, 129, 0.18), transparent 50%),
+      linear-gradient(135deg, #020a06 0%, #051a0f 50%, #0a2818 100%);
+    z-index: -2;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(74, 222, 128, 0.08) 1px, transparent 0);
+    background-size: 40px 40px;
+    z-index: -1;
+    pointer-events: none;
+  }
+  /* Floating orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: -1;
+    pointer-events: none;
+    animation: float 20s ease-in-out infinite;
+  }
+  .orb-1 { width: 400px; height: 400px; background: #22c55e; top: -100px; left: -100px; }
+  .orb-2 { width: 500px; height: 500px; background: #10b981; bottom: -150px; right: -150px; animation-delay: -7s; }
+  .orb-3 { width: 300px; height: 300px; background: #4ade80; top: 50%; left: 50%; animation-delay: -14s; }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, -30px) scale(1.1); }
+    66% { transform: translate(-30px, 40px) scale(0.95); }
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 10px 20px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  nav a:hover {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--accent);
+  }
+  nav .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 12px;
+    border-right: 1px solid var(--border);
+    margin-right: 4px;
+  }
+  nav .logo-icon {
+    width: 24px; height: 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent-glow);
+    position: relative;
+  }
+  nav .logo-icon::before, nav .logo-icon::after {
+    content: '';
+    position: absolute;
+    width: 4px; height: 4px;
+    background: var(--bg-0);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  nav .logo-icon::before { margin-left: -4px; }
+  nav .logo-icon::after { margin-left: 4px; }
+
+  /* Container */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 24px 60px;
+    position: relative;
+  }
+  .hero-content {
+    text-align: center;
+    max-width: 900px;
+    position: relative;
+    z-index: 2;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--accent-2);
+    margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .badge-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+  }
+  h1 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+  }
+  h1 .gradient {
+    background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent) 50%, #10b981 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    filter: drop-shadow(0 0 30px rgba(74, 222, 128, 0.3));
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-3), var(--accent));
+    color: var(--bg-0);
+    box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(74, 222, 128, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  .btn-ghost {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover {
+    background: var(--glass-strong);
+    border-color: var(--border-strong);
+  }
+
+  /* DNA Helix in hero */
+  .dna-scene {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+  }
+
+  /* Sections */
+  section {
+    padding: 100px 0;
+    position: relative;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .section-sub {
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+  }
+
+  /* Glass Card */
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .glass-strong {
+    background: var(--glass-strong);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid var(--border-strong);
+  }
+
+  /* Overview grid */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .overview-card {
+    padding: 32px;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .overview-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .overview-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-strong);
+  }
+  .overview-card:hover::before { opacity: 1; }
+  .card-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.1));
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+  }
+  .card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .card-desc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  /* Process Timeline */
+  .process-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    padding: 8px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .tab-btn {
+    padding: 12px 24px;
+    border-radius: 100px;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tab-btn .num {
+    width: 24px; height: 24px;
+    background: rgba(74, 222, 128, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--accent-3), var(--accent));
+    color: var(--bg-0);
+    box-shadow: 0 4px 16px rgba(74, 222, 128, 0.3);
+  }
+  .tab-btn.active .num {
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--bg-0);
+  }
+  .tab-btn:hover:not(.active) {
+    background: rgba(74, 222, 128, 0.08);
+    color: var(--text);
+  }
+
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .process-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .process-layout { grid-template-columns: 1fr; }
+  }
+
+  .process-info {
+    padding: 40px;
+  }
+  .process-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+    color: var(--accent-2);
+  }
+  .process-info .location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 20px;
+  }
+  .process-info p {
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .process-steps {
+    list-style: none;
+    margin-top: 24px;
+  }
+  .process-steps li {
+    padding: 16px 0 16px 36px;
+    border-left: 2px solid var(--border);
+    margin-left: 12px;
+    position: relative;
+  }
+  .process-steps li::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 20px;
+    width: 12px; height: 12px;
+    background: var(--bg-0);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .process-steps li strong {
+    color: var(--accent-2);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .process-steps li span {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  /* Animation canvas */
+  .anim-container {
+    padding: 24px;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .anim-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(74, 222, 128, 0.1), transparent 70%);
+    pointer-events: none;
+  }
+  .anim-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .anim-stage {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 320px;
+    z-index: 2;
+  }
+
+  /* DNA animation */
+  .dna-strand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+  }
+  .base-pair {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    animation: rotateIn 0.6s ease backwards;
+  }
+  .base {
+    width: 18px; height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bg-0);
+    transition: all 0.3s;
+  }
+  .base-A { background: #4ade80; }
+  .base-T { background: #22c55e; }
+  .base-U { background: #10b981; }
+  .base-G { background: #fbbf24; }
+  .base-C { background: #f87171; }
+  .base-link {
+    width: 6px; height: 2px;
+    background: var(--text-mute);
+    opacity: 0.5;
+  }
+  @keyframes rotateIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Transcription animation */
+  .transcription-anim {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  .strand-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .strand-row {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    min-height: 44px;
+    align-items: center;
+  }
+  .base-single {
+    width: 22px; height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bg-0);
+    animation: slideIn 0.4s ease backwards;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .polymerase {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    border-radius: 50%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--bg-0);
+    font-size: 10px;
+    box-shadow: 0 0 30px var(--accent-glow);
+    animation: movePol 4s ease-in-out infinite;
+    z-index: 3;
+  }
+  @keyframes movePol {
+    0%, 100% { left: 10%; }
+    50% { left: 70%; }
+  }
+
+  /* Translation animation */
+  .ribosome {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .ribo-top, .ribo-bot {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.3), rgba(34, 197, 94, 0.2));
+    border: 2px solid var(--border-strong);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--accent-2);
+  }
+  .ribo-top {
+    width: 90px; height: 90px;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+  }
+  .ribo-bot {
+    width: 140px; height: 100px;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    font-size: 13px;
+  }
+  .mrna-strip {
+    display: flex;
+    gap: 2px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    margin-top: 20px;
+    overflow-x: auto;
+    animation: scrollMRNA 8s linear infinite;
+  }
+  @keyframes scrollMRNA {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .codon {
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+    background: rgba(74, 222, 128, 0.1);
+    border-radius: 4px;
+  }
+  .codon .base-single {
+    width: 16px; height: 22px;
+    font-size: 10px;
+  }
+
+  /* Genetic code table */
+  .code-table-wrap {
+    overflow-x: auto;
+    padding: 24px;
+  }
+  .code-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .code-table th {
+    padding: 8px 4px;
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--accent-2);
+    font-weight: 700;
+    border-radius: 4px;
+  }
+  .code-table td {
+    padding: 6px 4px;
+    text-align: center;
+    background: rgba(18, 52, 35, 0.4);
+    border-radius: 4px;
+    color: var(--text);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .code-table td:hover {
+    background: rgba(74, 222, 128, 0.25);
+    transform: scale(1.1);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .code-table .aa {
+    font-weight: 700;
+    color: var(--accent-2);
+    font-size: 13px;
+  }
+  .code-table .stop {
+    background: rgba(248, 113, 113, 0.2);
+    color: var(--danger);
+  }
+  .code-table .start {
+    background: rgba(74, 222, 128, 0.3);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Interactive builder */
+  .builder {
+    padding: 40px;
+  }
+  .builder-input {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+  }
+  .builder-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+  }
+  .builder-output {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 100px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px dashed var(--border);
+  }
+  .aa-chip {
+    padding: 8px 14px;
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.1));
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-2);
+    animation: popIn 0.3s ease backwards;
+  }
+  .aa-chip.stop {
+    background: rgba(248, 113, 113, 0.2);
+    border-color: rgba(248, 113, 113, 0.5);
+    color: var(--danger);
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Quiz */
+  .quiz-card {
+    padding: 40px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .quiz-question {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+  .quiz-progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .quiz-dot {
+    flex: 1;
+    height: 4px;
+    background: rgba(74, 222, 128, 0.15);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .quiz-dot.done { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+  .quiz-dot.current { background: var(--accent-2); }
+  .quiz-options {
+    display: grid;
+    gap: 12px;
+  }
+  .quiz-option {
+    padding: 16px 20px;
+    background: rgba(18, 52, 35, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+    font-size: 15px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .quiz-option:hover:not(:disabled) {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: var(--border-strong);
+    transform: translateX(4px);
+  }
+  .quiz-option.correct {
+    background: rgba(74, 222, 128, 0.2);
+    border-color: var(--accent);
+    color: var(--accent-2);
+  }
+  .quiz-option.wrong {
+    background: rgba(248, 113, 113, 0.2);
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+  .quiz-option:disabled { cursor: default; }
+  .quiz-letter {
+    width: 28px; height: 28px;
+    background: rgba(74, 222, 128, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .quiz-feedback {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 3px solid var(--accent);
+    color: var(--text-dim);
+    font-size: 14px;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    align-items: center;
+  }
+  .quiz-score {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .quiz-score-num {
+    font-size: 4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-2), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    text-align: center;
+    color: var(--text-mute);
+    font-size: 14px;
+  }
+  footer .footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    color: var(--text);
+    font-size: 16px;
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-0); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--accent-3), var(--accent));
+    border-radius: 10px;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 8px 12px; gap: 4px; }
+    nav a { padding: 6px 10px; font-size: 12px; }
+    nav .logo { padding-right: 8px; }
+    .process-tabs { border-radius: 20px; }
+    .tab-btn { padding: 10px 14px; font-size: 12px; }
+    .process-info, .builder, .quiz-card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<nav>
+  <div class="logo">
+    <div class="logo-icon"></div>
+    <span style="font-weight:700;">BioSynth</span>
+  </div>
+  <a href="#overview">Überblick</a>
+  <a href="#process">Prozess</a>
+  <a href="#code">Code</a>
+  <a href="#builder">Builder</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="dnaCanvas" class="dna-scene"></canvas>
+  <div class="hero-content">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      MOLEKULARBIOLOGIE · ZENTRALES DOGMA
+    </div>
+    <h1>Die <span class="gradient">Proteinbiosynthese</span><br>entschlüsselt.</h1>
+    <p class="hero-sub">
+      Von der DNA zum funktionsfähigen Protein — eine Reise durch Transkription,
+      Prozessierung und Translation. Erlebe, wie Zellen das Bauplan des Lebens lesen.
+    </p>
+    <div class="hero-cta">
+      <a href="#process" class="btn btn-primary">
+        ▶ Starte die Reise
+      </a>
+      <a href="#overview" class="btn btn-ghost">
+        Mehr erfahren
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// 01 · Überblick</span>
+      <h2>Das <span class="gradient">zentrale Dogma</span></h2>
+      <p class="section-sub">
+        Die Proteinbiosynthese ist der Prozess, bei dem die in der DNA gespeicherte Information
+        in ein funktionsfähiges Protein übersetzt wird — das Fundament allen Lebens.
+      </p>
+    </div>
+
+    <div class="overview-grid">
+      <div class="glass overview-card reveal">
+        <div class="card-icon">🧬</div>
+        <h3 class="card-title">DNA — Der Bauplan</h3>
+        <p class="card-desc">
+          Die Doppelhelix speichert genetische Information in Form von Basensequenzen (A, T, G, C).
+          Gene sind Abschnitte der DNA, die für Proteine kodieren.
+        </p>
+      </div>
+      <div class="glass overview-card reveal">
+        <div class="card-icon">📝</div>
+        <h3 class="card-title">Transkription</h3>
+        <p class="card-desc">
+          Im Zellkern wird die DNA-Info in mRNA umgeschrieben. Die RNA-Polymerase liest den
+          Matrizenstrang und synthetisiert einen komplementären RNA-Strang.
+        </p>
+      </div>
+      <div class="glass overview-card reveal">
+        <div class="card-icon">✂️</div>
+        <h3 class="card-title">Prozessierung</h3>
+        <p class="card-desc">
+          Prä-mRNA wird gespleißt (Intron-Entfernung), mit 5'-Cap und Poly-A-Schwanz
+          versehen — erst dann ist die mRNA transportfähig.
+        </p>
+      </div>
+      <div class="glass overview-card reveal">
+        <div class="card-icon">🔬</div>
+        <h3 class="card-title">Translation</h3>
+        <p class="card-desc">
+          Am Ribosom wird mRNA in eine Aminosäurekette übersetzt. tRNA-Moleküle bringen
+          die passenden Aminosäuren — Codon für Codon.
+        </p>
+      </div>
+      <div class="glass overview-card reveal">
+        <div class="card-icon">🧪</div>
+        <h3 class="card-title">Faltung & Modifikation</h3>
+        <p class="card-desc">
+          Die Polypeptidkette faltet sich in ihre 3D-Struktur. Posttranslationale
+          Modifikationen wie Phosphorylierung machen das Protein funktionsfähig.
+        </p>
+      </div>
+      <div class="glass overview-card reveal">
+        <div class="card-icon">⚡</div>
+        <h3 class="card-title">Funktionelles Protein</h3>
+        <p class="card-desc">
+          Das fertige Protein übernimmt seine Aufgabe: als Enzym, Strukturprotein,
+          Hormon, Antikörper oder Transporter — das Arbeitspferd der Zelle.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// 02 · Der Prozess</span>
+      <h2>Schritt für <span class="gradient">Schritt</span></h2>
+      <p class="section-sub">
+        Wähle einen Schritt und beobachte, wie die Information durch die Zelle fließt.
+      </p>
+    </div>
+
+    <div class="process-tabs reveal">
+      <button class="tab-btn active" data-tab="transkription">
+        <span class="num">1</span> Transkription
+      </button>
+      <button class="tab-btn" data-tab="prozessierung">
+        <span class="num">2</span> Prozessierung
+      </button>
+      <button class="tab-btn" data-tab="translation">
+        <span class="num">3</span> Translation
+      </button>
+      <button class="tab-btn" data-tab="faltung">
+        <span class="num">4</span> Faltung
+      </button>
+    </div>
+
+    <!-- Transkription -->
+    <div class="tab-content active" id="tab-transkription">
+      <div class="process-layout">
+        <div class="glass process-info reveal">
+          <span class="location">📍 ZELLKERN · NUCLEUS</span>
+          <h3>Transkription</h3>
+          <p>
+            Die RNA-Polymerase II bindet an den Promotor eines Gens und öffnet die DNA-Doppelhelix.
+            Entlang des Matrizenstrangs (3'→5') wird ein komplementärer mRNA-Strang in 5'→3'-Richtung synthetisiert.
+          </p>
+          <ul class="process-steps">
+            <li>
+              <strong>Initiation</strong>
+              <span>Transkriptionsfaktoren erkennen den Promotor (TATA-Box). RNA-Polymerase bildet den Transkriptionskomplex.</span>
+            </li>
+            <li>
+              <strong>Elongation</strong>
+              <span>Die Polymerase liest den Template-Strang und fügt komplementäre Ribonukleotide an (A→U, T→A, C→G, G→C).</span>
+            </li>
+            <li>
+              <strong>Termination</strong>
+              <span>Am Terminator-Signal löst sich die Polymerase. Die Prä-mRNA ist fertig — noch unreif.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="glass anim-container reveal">
+          <div class="anim-title">▶ Live · Transkription</div>
+          <div class="anim-stage" id="transAnim">
+            <div class="transcription-anim">
+              <div>
+                <div class="strand-label">DNA · Template-Strang (3'→5')</div>
+                <div class="strand-row" id="dnaTemplate"></div>
+              </div>
+              <div style="position:relative;">
+                <div class="strand-label">mRNA · neu synthetisiert (5'→3')</div>
+                <div class="strand-row" id="mrnaNew"></div>
+                <div class="polymerase">POL II</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prozessierung -->
+    <div class="tab-content" id="tab-prozessierung">
+      <div class="process-layout">
+        <div class="glass process-info reveal">
+          <span class="location">📍 ZELLKERN · NUCLEUS</span>
+          <h3>RNA-Prozessierung</h3>
+          <p>
+            Eukaryotische Gene enthalten Introns (nicht-kodierend) und Exons (kodierend).
+            Vor dem Export ins Cytoplasma muss die Prä-mRNA reif gemacht werden.
+          </p>
+          <ul class="process-steps">
+            <li>
+              <strong>5'-Capping</strong>
+              <span>7-Methylguanosin-Kappe schützt vor Abbau und ermöglicht Ribosomen-Bindung.</span>
+            </li>
+            <li>
+              <strong>3'-Polyadenylierung</strong>
+              <span>Ein Poly-A-Schwanz (~200 Adenine) wird angehängt — erhöht Stabilität und Lebensdauer.</span>
+            </li>
+            <li>
+              <strong>Splicing</strong>
+              <span>Das Spliceosom entfernt Introns und fügt Exons zusammen. Alternatives Splicing erzeugt verschiedene Proteine aus einem Gen.</span>
+            </li>
+            <li>
+              <strong>Export</strong>
+              <span>Die reife mRNA verlässt den Kern durch Kernporen ins Cytoplasma.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="glass anim-container reveal">
+          <div class="anim-title">▶ Live · Splicing</div>
+          <div class="anim-stage" id="spliceAnim">
+            <div class="transcription-anim">
+              <div>
+                <div class="strand-label">Prä-mRNA · vor Splicing</div>
+                <div class="strand-row" id="preMRNA"></div>
+              </div>
+              <div>
+                <div class="strand-label" style="color:var(--accent);">reife mRNA · nach Splicing</div>
+                <div class="strand-row" id="matureMRNA"></div>
+              </div>
+              <div style="display:flex; gap:12px; margin-top:16px; font-size:12px; font-family:'JetBrains Mono',monospace;">
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:14px;background:#4ade80;border-radius:3px;"></span> Exon</div>
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:14px;background:#64748b;border-radius:3px;"></span> Intron</div>
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:14px;background:#fbbf24;border-radius:3px;"></span> 5'-Cap</div>
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:14px;background:#f87171;border-radius:3px;"></span> Poly-A</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Translation -->
+    <div class="tab-content" id="tab-translation">
+      <div class="process-layout">
+        <div class="glass process-info reveal">
+          <span class="location">📍 CYTOPLASMA · RIBOSOM</span>
+          <h3>Translation</h3>
+          <p>
+            Am Ribosom wird die mRNA in eine Aminosäurekette übersetzt. Jedes Codon (3 Basen)
+            kodiert für eine Aminosäure. tRNA-Moleküle vermitteln als Adapter.
+          </p>
+          <ul class="process-steps">
+            <li>
+              <strong>Initiation</strong>
+              <span>Das kleine Ribosom Untereinheit bindet an das Startcodon AUG. Initiator-tRNA (Met) setzt sich. Große Untereinheit schließt sich an.</span>
+            </li>
+            <li>
+              <strong>Elongation</strong>
+              <span>Das Ribosom wandert Codon für Codon. Neue tRNA tritt in die A-Stelle ein, Peptidbindung wird geknüpft, tRNA verlässt die E-Stelle.</span>
+            </li>
+            <li>
+              <strong>Termination</strong>
+              <span>Erreicht das Ribosom ein Stopp-Codon (UAA, UAG, UGA), bindet ein Release-Faktor. Das Protein wird freigesetzt.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="glass anim-container reveal">
+          <div class="anim-title">▶ Live · Ribosom</div>
+          <div class="anim-stage">
+            <div class="ribosome">
+              <div class="ribo-top">30S</div>
+              <div class="ribo-bot">50S</div>
+            </div>
+            <div class="mrna-strip" id="mrnaStrip"></div>
+            <div style="margin-top:16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-mute);">
+              <span>🟢 A-Stelle: Aminoacyl</span>
+              <span>🔵 P-Stelle: Peptidyl</span>
+              <span>⚪ E-Stelle: Exit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Faltung -->
+    <div class="tab-content" id="tab-faltung">
+      <div class="process-layout">
+        <div class="glass process-info reveal">
+          <span class="location">📍 CYTOPLASMA · ER / GOLGI</span>
+          <h3>Faltung & Modifikation</h3>
+          <p>
+            Die lineare Aminosäurekette faltet sich in ihre dreidimensionale Struktur.
+            Chaperone helfen, posttranslationale Modifikationen verfeinern die Funktion.
+          </p>
+          <ul class="process-steps">
+            <li>
+              <strong>Primärstruktur</strong>
+              <span>Die lineare Abfolge der Aminosäuren — bestimmt durch die mRNA-Sequenz.</span>
+            </li>
+            <li>
+              <strong>Sekundärstruktur</strong>
+              <span>α-Helices und β-Faltblätter durch Wasserstoffbrückenbindungen im Peptid-Rückgrat.</span>
+            </li>
+            <li>
+              <strong>Tertiärstruktur</strong>
+              <span>Die 3D-Faltung durch Wechselwirkungen zwischen Seitenketten (hydrophob, ionisch, Disulfidbrücken).</span>
+            </li>
+            <li>
+              <strong>Quartärstruktur</strong>
+              <span>Mehrere Untereinheiten verbinden sich zu einem funktionellen Proteinkomplex.</span>
+            </li>
+            <li>
+              <strong>Posttranslationale Modifikationen</strong>
+              <span>Phosphorylierung, Glykosylierung, Acetylierung — Feinabstimmung der Funktion.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="glass anim-container reveal">
+          <div class="anim-title">▶ Live · Proteinfaltung</div>
+          <div class="anim-stage" style="display:flex; align-items:center; justify-content:center;">
+            <svg viewBox="0 0 300 300" width="300" height="300" id="foldSvg">
+              <defs>
+                <linearGradient id="protGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4ade80"/>
+                  <stop offset="50%" stop-color="#22c55e"/>
+                  <stop offset="100%" stop-color="#10b981"/>
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <path id="proteinPath" fill="none" stroke="url(#protGrad)" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GENETIC CODE -->
+<section id="code">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// 03 · Der genetische Code</span>
+      <h2>Die <span class="gradient">Sprache des Lebens</span></h2>
+      <p class="section-sub">
+        64 Codons kodieren für 20 Aminosäuren + 3 Stopp-Signale. Der Code ist universell,
+        redundanter und fast fehlerfrei — ein Meisterwerk der Evolution.
+      </p>
+    </div>
+
+    <div class="glass code-table-wrap reveal">
+      <table class="code-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>UU</th><th>UC</th><th>UA</th><th>UG</th>
+            <th>CU</th><th>CC</th><th>CA</th><th>CG</th>
+            <th>AU</th><th>AC</th><th>AA</th><th>AG</th>
+            <th>GU</th><th>GC</th><th>GA</th><th>GG</th>
+          </tr>
+        </thead>
+        <tbody id="codeTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDER -->
+<section id="builder">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// 04 · Interaktiv</span>
+      <h2>mRNA → <span class="gradient">Protein Builder</span></h2>
+      <p class="section-sub">
+        Gib eine mRNA-Sequenz ein und beobachte, welches Protein entsteht.
+        Nur A, U, G, C — die Länge sollte durch 3 teilbar sein.
+      </p>
+    </div>
+
+    <div class="glass builder reveal">
+      <input type="text" class="builder-input" id="mrnaInput"
+             placeholder="z.B. AUG GCA UUU UAA" maxlength="120"
+             value="AUG GCC UUU GAA UAA">
+      <div class="strand-label" style="margin-bottom:12px;">🧬 Übersetzte Aminosäuren</div>
+      <div class="builder-output" id="builderOutput"></div>
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-ghost" onclick="loadExample('AUG GCC UUU GAA UAA')">Beispiel 1</button>
+        <button class="btn btn-ghost" onclick="loadExample('AUG UUC GCA UGG UAA')">Beispiel 2</button>
+        <button class="btn btn-ghost" onclick="loadExample('AUG AAU CCG GAC UGA')">Beispiel 3</button>
+        <button class="btn btn-ghost" onclick="randomize()">🎲 Zufall</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// 05 · Teste dein Wissen</span>
+      <h2>Das <span class="gradient">Quiz</span></h2>
+      <p class="section-sub">
+        Fünf Fragen zur Proteinbiosynthese. Wie viel hast du behalten?
+      </p>
+    </div>
+
+    <div class="glass quiz-card reveal" id="quizCard">
+      <div class="quiz-progress" id="quizProgress"></div>
+      <div id="quizContent"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">
+      <div class="logo-icon" style="width:20px;height:20px;"></div>
+      BioSynth · Proteinbiosynthese
+    </div>
+    <p>Ein interaktives Lernmodul · Molekularbiologie · 2026</p>
+  </div>
+</footer>
+
+<script>
+// ============ DNA Canvas Background ============
+const canvas = document.getElementById('dnaCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resizeCanvas() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const bases = ['A', 'T', 'G', 'C'];
+const particles = [];
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 2 + 1,
+    o: Math.random() * 0.5 + 0.2
+  });
+}
+
+let t = 0;
+function drawDNA() {
+  ctx.clearRect(0, 0, W, H);
+
+  // particles
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+    ctx.fillStyle = `rgba(74, 222, 128, ${p.o})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // helix on left side
+  const cx = W * 0.1;
+  const amplitude = 40;
+  const step = 20;
+  const points = Math.ceil(H / step) + 2;
+  for (let i = 0; i < points; i++) {
+    const y = i * step - (t % step);
+    const phase = (y / step) * 0.5 + t * 0.02;
+    const x1 = cx + Math.sin(phase) * amplitude;
+    const x2 = cx - Math.sin(phase) * amplitude;
+    const depth1 = Math.cos(phase);
+    const depth2 = -Math.cos(phase);
+
+    // connecting bar
+    ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 + Math.abs(depth1) * 0.2})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x2, y);
+    ctx.stroke();
+
+    // bases
+    const size1 = 3 + depth1 * 1.5;
+    const size2 = 3 + depth2 * 1.5;
+    ctx.fillStyle = `rgba(134, 239, 172, ${0.4 + depth1 * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x1, y, Math.max(1, size1), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = `rgba(74, 222, 128, ${0.4 + depth2 * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x2, y, Math.max(1, size2), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // helix on right side
+  const cx2 = W * 0.9;
+  for (let i = 0; i < points; i++) {
+    const y = i * step - (t % step);
+    const phase = (y / step) * 0.5 + t * 0.02 + Math.PI;
+    const x1 = cx2 + Math.sin(phase) * amplitude;
+    const x2 = cx2 - Math.sin(phase) * amplitude;
+    const depth1 = Math.cos(phase);
+    const depth2 = -Math.cos(phase);
+
+    ctx.strokeStyle = `rgba(74, 222, 128, ${0.15 + Math.abs(depth1) * 0.2})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x2, y);
+    ctx.stroke();
+
+    ctx.fillStyle = `rgba(134, 239, 172, ${0.4 + depth1 * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x1, y, Math.max(1, 3 + depth1 * 1.5), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = `rgba(74, 222, 128, ${0.4 + depth2 * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x2, y, Math.max(1, 3 + depth2 * 1.5), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  t++;
+  requestAnimationFrame(drawDNA);
+}
+drawDNA();
+
+// ============ Transcription Animation ============
+const dnaSeq = ['T','A','C','G','G','C','T','A','A','T','G','C','C','G','A','T','T','A','C','G'];
+const complement = b => ({'A':'U','T':'A','C':'G','G':'C'})[b];
+const dnaTemplate = document.getElementById('dnaTemplate');
+const mrnaNew = document.getElementById('mrnaNew');
+
+function renderTranscription() {
+  dnaTemplate.innerHTML = '';
+  mrnaNew.innerHTML = '';
+  dnaSeq.forEach((b, i) => {
+    const d = document.createElement('div');
+    d.className = `base base-${b}`;
+    d.textContent = b;
+    d.style.animationDelay = (i * 0.05) + 's';
+    dnaTemplate.appendChild(d);
+  });
+  dnaSeq.forEach((b, i) => {
+    const m = complement(b);
+    const d = document.createElement('div');
+    d.className = `base-single base-${m}`;
+    d.textContent = m;
+    d.style.animationDelay = (i * 0.08) + 's';
+    mrnaNew.appendChild(d);
+  });
+}
+renderTranscription();
+
+// ============ Splicing Animation ============
+const preMRNA = document.getElementById('preMRNA');
+const matureMRNA = document.getElementById('matureMRNA');
+// Exons (green) and Introns (gray)
+const preSeq = [
+  {s:'AUG', type:'exon'}, {s:'GCC', type:'intron'}, {s:'UUU', type:'exon'},
+  {s:'GGG', type:'intron'}, {s:'CAA', type:'exon'}, {s:'CCC', type:'intron'}, {s:'UAA', type:'exon'}
+];
+function renderSplicing() {
+  preMRNA.innerHTML = '';
+  matureMRNA.innerHTML = '';
+  // Cap
+  const cap = document.createElement('div');
+  cap.className = 'base-single';
+  cap.style.background = '#fbbf24';
+  cap.style.color = 'var(--bg-0)';
+  cap.textContent = '5\'';
+  preMRNA.appendChild(cap);
+  const cap2 = cap.cloneNode(true);
+  matureMRNA.appendChild(cap2);
+
+  preSeq.forEach((seg, i) => {
+    seg.s.split('').forEach((b, j) => {
+      const d = document.createElement('div');
+      d.className = 'base-single';
+      d.textContent = b;
+      d.style.background = seg.type === 'exon' ? '#4ade80' : '#64748b';
+      d.style.color = 'var(--bg-0)';
+      d.style.animationDelay = (i * 0.1 + j * 0.03) + 's';
+      preMRNA.appendChild(d);
+    });
+  });
+
+  // Poly-A
+  const poly = document.createElement('div');
+  poly.className = 'base-single';
+  poly.style.background = '#f87171';
+  poly.style.color = 'var(--bg-0)';
+  poly.textContent = 'AAA';
+  preMRNA.appendChild(poly);
+  const poly2 = poly.cloneNode(true);
+  matureMRNA.appendChild(poly2);
+
+  // mature: only exons
+  preSeq.filter(s => s.type === 'exon').forEach((seg, i) => {
+    seg.s.split('').forEach((b, j) => {
+      const d = document.createElement('div');
+      d.className = 'base-single';
+      d.textContent = b;
+      d.style.background = '#4ade80';
+      d.style.color = 'var(--bg-0)';
+      d.style.animationDelay = (i * 0.15 + j * 0.05) + 's';
+      matureMRNA.appendChild(d);
+    });
+  });
+}
+renderSplicing();
+
+// ============ Translation: mRNA strip ============
+const mrnaStrip = document.getElementById('mrnaStrip');
+const codons = ['AUG','GCC','UUU','GAA','CCG','AAG','UUC','GCA','UGG','UAA','AUG','GCC','UUU','GAA','CCG','AAG'];
+function renderMRNAStrip() {
+  mrnaStrip.innerHTML = '';
+  // duplicate for seamless scroll
+  [...codons, ...codons].forEach(c => {
+    const codon = document.createElement('div');
+    codon.className = 'codon';
+    c.split('').forEach(b => {
+      const base = document.createElement('div');
+      base.className = `base-single base-${b}`;
+      base.textContent = b;
+      codon.appendChild(base);
+    });
+    mrnaStrip.appendChild(codon);
+  });
+}
+renderMRNAStrip();
+
+// ============ Protein folding SVG ============
+const proteinPath = document.getElementById('proteinPath');
+let foldT = 0;
+function drawFold() {
+  let d = '';
+  const cx = 150, cy = 150;
+  const points = 40;
+  for (let i = 0; i < points; i++) {
+    const angle = (i / points) * Math.PI * 4 + foldT * 0.02;
+    const r = 40 + Math.sin(i * 0.5 + foldT * 0.03) * 30 + Math.cos(i * 0.3) * 20;
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    d += (i === 0 ? 'M' : 'L') + x + ',' + y + ' ';
+  }
+  proteinPath.setAttribute('d', d);
+  foldT++;
+  requestAnimationFrame(drawFold);
+}
+drawFold();
+
+// ============ Tabs ============
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ============ Genetic Code Table ============
+const codeData = {
+  'UUU':'Phe','UUC':'Phe','UUA':'Leu','UUG':'Leu',
+  'UCU':'Ser','UCC':'Ser','UCA':'Ser','UCG':'Ser',
+  'UAU':'Tyr','UAC':'Tyr','UAA':'STOP','UAG':'STOP',
+  'UGU':'Cys','UGC':'Cys','UGA':'STOP','UGG':'Trp',
+  'CUU':'Leu','CUC':'Leu','CUA':'Leu','CUG':'Leu',
+  'CCU':'Pro','CCC':'Pro','CCA':'Pro','CCG':'Pro',
+  'CAU':'His','CAC':'His','CAA':'Gln','CAG':'Gln',
+  'CGU':'Arg','CGC':'Arg','CGA':'Arg','CGG':'Arg',
+  'AUU':'Ile','AUC':'Ile','AUA':'Ile','AUG':'Met ★',
+  'ACU':'Thr','ACC':'Thr','ACA':'Thr','ACG':'Thr',
+  'AAU':'Asn','AAC':'Asn','AAA':'Lys','AAG':'Lys',
+  'AGU':'Ser','AGC':'Ser','AGA':'Arg','AGG':'Arg',
+  'GUU':'Val','GUC':'Val','GUA':'Val','GUG':'Val',
+  'GCU':'Ala','GCC':'Ala','GCA':'Ala','GCG':'Ala',
+  'GAU':'Asp','GAC':'Asp','GAA':'Glu','GAG':'Glu',
+  'GGU':'Gly','GGC':'Gly','GGA':'Gly','GGG':'Gly'
+};
+const firstBase = ['U','C','A','G'];
+const secondBase = ['U','C','A','G'];
+const thirdBase = ['U','C','A','G'];
+const tbody = document.getElementById('codeTableBody');
+firstBase.forEach(f => {
+  secondBase.forEach(s => {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.textContent = f + s;
+    th.style.background = 'rgba(74, 222, 128, 0.15)';
+    th.style.color = 'var(--accent-2)';
+    th.style.fontWeight = '700';
+    th.style.borderRadius = '4px';
+    tr.appendChild(th);
+    thirdBase.forEach(t => {
+      const codon = f + s + t;
+      const aa = codeData[codon];
+      const td = document.createElement('td');
+      td.innerHTML = `<div class="aa">${aa}</div><div style="font-size:10px;color:var(--text-mute);">${codon}</div>`;
+      if (aa === 'STOP') td.classList.add('stop');
+      if (codon === 'AUG') td.classList.add('start');
+      td.title = `${codon} → ${aa}`;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+});
+
+// ============ Builder ============
+const mrnaInput = document.getElementById('mrnaInput');
+const builderOutput = document.getElementById('builderOutput');
+function loadExample(seq) {
+  mrnaInput.value = seq;
+  translate();
+}
+function randomize() {
+  const bases = ['A','U','G','C'];
+  let seq = 'AUG ';
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 3; j++) seq += bases[Math.floor(Math.random() * 4)];
+    seq += ' ';
+  }
+  seq += 'UAA';
+  mrnaInput.value = seq;
+  translate();
+}
+function translate() {
+  const raw = mrnaInput.value.toUpperCase().replace(/[^AUGC]/g, '');
+  builderOutput.innerHTML = '';
+  if (raw.length < 3) {
+    builderOutput.innerHTML = '<div style="color:var(--text-mute);font-size:13px;">Gib mindestens 3 Basen ein...</div>';
+    return;
+  }
+  let stopped = false;
+  for (let i = 0; i + 2 < raw.length; i += 3) {
+    const codon = raw.substr(i, 3);
+    const aa = codeData[codon] || '???';
+    const chip = document.createElement('div');
+    chip.className = 'aa-chip' + (aa === 'STOP' ? ' stop' : '');
+    chip.style.animationDelay = (i / 3 * 0.05) + 's';
+    chip.innerHTML = `<span style="opacity:0.6;font-size:10px;">${codon}</span> → <strong>${aa}</strong>`;
+    builderOutput.appendChild(chip);
+    if (aa === 'STOP') { stopped = true; break; }
+  }
+  if (!stopped && raw.length % 3 !== 0) {
+    const warn = document.createElement('div');
+    warn.style.cssText = 'color:var(--warn);font-size:12px;width:100%;margin-top:8px;';
+    warn.textContent = '⚠ Unvollständiges Codon am Ende';
+    builderOutput.appendChild(warn);
+  }
+}
+mrnaInput.addEventListener('input', translate);
+translate();
+
+// ============ Quiz ============
+const quizData = [
+  {
+    q: 'Wo findet die Transkription in eukaryotischen Zellen statt?',
+    options: ['Cytoplasma', 'Zellkern', 'Ribosom', 'Endoplasmatisches Retikulum'],
+    correct: 1,
+    explain: 'Die Transkription erfolgt im Zellkern, wo die DNA als Vorlage für die mRNA-Synthese dient.'
+  },
+  {
+    q: 'Welches Enzym ist für die Transkription verantwortlich?',
+    options: ['DNA-Polymerase', 'RNA-Polymerase', 'Ligase', 'Helicase'],
+    correct: 1,
+    explain: 'Die RNA-Polymerase II liest den DNA-Template-Strang und synthetisiert mRNA.'
+  },
+  {
+    q: 'Was ist das Startcodon der Translation?',
+    options: ['UAA', 'AUG', 'UAG', 'UGA'],
+    correct: 1,
+    explain: 'AUG kodiert für Methionin und ist das universelle Startcodon — hier beginnt die Translation.'
+  },
+  {
+    q: 'Was passiert beim Splicing?',
+    options: ['mRNA wird zerstört', 'Introns werden entfernt, Exons verbunden', 'DNA wird repliziert', 'Proteine werden gefaltet'],
+    correct: 1,
+    explain: 'Beim Splicing entfernt das Spliceosom die nicht-kodierenden Introns und fügt die kodierenden Exons zusammen.'
+  },
+  {
+    q: 'Welche Struktur vermittelt zwischen mRNA-Codon und Aminosäure?',
+    options: ['rRNA', 'mRNA', 'tRNA', 'DNA'],
+    correct: 2,
+    explain: 'tRNA trägt das Anticodon und die passende Aminosäure — sie ist der Adapter zwischen Code und Protein.'
+  }
+];
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+const quizContent = document.getElementById('quizContent');
+const quizProgress = document.getElementById('quizProgress');
+
+function renderQuiz() {
+  quizProgress.innerHTML = '';
+  quizData.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'quiz-dot';
+    if (i < quizIdx) dot.classList.add('done');
+    if (i === quizIdx) dot.classList.add('current');
+    quizProgress.appendChild(dot);
+  });
+
+  if (quizIdx >= quizData.length) {
+    quizContent.innerHTML = `
+      <div class="quiz-score">
+        <div class="quiz-score-num">${quizScore}/${quizData.length}</div>
+        <h3 style="margin-bottom:12px;">${quizScore === quizData.length ? '🏆 Perfekt!' : quizScore >= 3 ? '👏 Gut gemacht!' : '💪 Weiter üben!'}</h3>
+        <p style="color:var(--text-dim);margin-bottom:24px;">
+          ${quizScore === quizData.length ? 'Du bist ein Molekularbiologie-Profi!' : 'Die Proteinbiosynthese ist komplex — Versuch es nochmal!'}
+        </p>
+        <button class="btn btn-primary" onclick="resetQuiz()">🔄 Nochmal starten</button>
+      </div>
+    `;
+    return;
+  }
+
+  const q = quizData[quizIdx];
+  quizAnswered = false;
+  quizContent.innerHTML = `
+    <div class="quiz-question">${quizIdx + 1}. ${q.q}</div>
+    <div class="quiz-options">
+      ${q.options.map((o, i) => `
+        <button class="quiz-option" data-idx="${i}">
+          <span class="quiz-letter">${String.fromCharCode(65 + i)}</span>
+          <span>${o}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <div class="quiz-nav">
+      <span style="color:var(--text-mute);font-size:13px;">Frage ${quizIdx + 1} von ${quizData.length}</span>
+      <button class="btn btn-primary" id="nextBtn" style="display:none;">Weiter →</button>
+    </div>
+  `;
+
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const idx = parseInt(btn.dataset.idx);
+      const correct = q.correct;
+      document.querySelectorAll('.quiz-option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add('correct');
+        if (i === idx && idx !== correct) b.classList.add('wrong');
+      });
+      if (idx === correct) quizScore++;
+      const fb = document.getElementById('quizFeedback');
+      fb.textContent = (idx === correct ? '✓ Richtig! ' : '✗ Leider falsch. ') + q.explain;
+      fb.classList.add('show');
+      document.getElementById('nextBtn').style.display = 'inline-flex';
+    });
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    quizIdx++;
+    renderQuiz();
+  });
+}
+function resetQuiz() {
+  quizIdx = 0;
+  quizScore = 0;
+  renderQuiz();
+}
+renderQuiz();
+
+// ============ Reveal on scroll ============
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
