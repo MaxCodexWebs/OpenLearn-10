@@ -2,459 +2,901 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#09030e">
     <title>Chemie Lernportal</title>
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <style>
         :root {
-            --bg-deep: #09030e;
-            --purple-dark: #170b24;
-            --purple-card: rgba(30, 14, 48, 0.6);
-            --purple-card-hover: rgba(45, 20, 74, 0.8);
-            --purple-border: rgba(168, 85, 247, 0.15);
-            --purple-border-hover: rgba(192, 132, 252, 0.5);
-            --accent-light: #c084fc;
-            --accent-glow: rgba(192, 132, 252, 0.25);
-            --text-main: #f3e8ff;
+            --bg-deep: #050208;
+            --bg-deep-2: #0a0513;
+            --purple-950: #1a0829;
+            --purple-900: #2a0e42;
+            --purple-800: #3b0f5e;
+            --purple-700: #5b21b6;
+            --purple-600: #7c3aed;
+            --purple-500: #a855f7;
+            --purple-400: #c084fc;
+            --purple-300: #d8b4fe;
+            --pink-400: #f472b6;
+            --cyan-400: #22d3ee;
+            --glass-bg: rgba(26, 8, 41, 0.35);
+            --glass-bg-hover: rgba(42, 14, 66, 0.55);
+            --glass-border: rgba(192, 132, 252, 0.18);
+            --glass-border-hover: rgba(244, 114, 182, 0.5);
+            --glass-highlight: rgba(255, 255, 255, 0.08);
+            --text-main: #f5edff;
             --text-muted: #d8b4fe;
             --text-sub: #a78bfa;
+            --text-dim: #7e6ba8;
+            --shadow-glow: 0 0 40px rgba(168, 85, 247, 0.25);
+            --shadow-glow-lg: 0 20px 60px rgba(147, 51, 234, 0.35);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-deep);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-deep);
             color: var(--text-main);
             min-height: 100vh;
+            min-height: 100dvh;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: "cv11", "ss01";
         }
 
-        /* Canvas Background Animation */
+        /* ============ LAYERED BACKGROUND ============ */
         #particleCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            contain: strict;
+        }
+
+        .hex-pattern {
+            position: fixed;
+            inset: 0;
             z-index: -1;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'><path d='M30 2 L56 17 L56 35 L30 50 L4 35 L4 17 Z' fill='none' stroke='%23a855f7' stroke-width='1'/></svg>");
+            background-size: 60px 52px;
             pointer-events: none;
         }
 
-        /* Ambient Glow Blobs */
         .glow-blob {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(9, 3, 14, 0) 70%);
             border-radius: 50%;
+            filter: blur(80px);
             z-index: -1;
-            filter: blur(60px);
-            animation: floatBlob 15s infinite alternate ease-in-out;
+            pointer-events: none;
+            will-change: transform;
+            contain: layout paint;
         }
-        .glow-blob-1 { top: -100px; left: -100px; }
-        .glow-blob-2 { bottom: -100px; right: -100px; animation-delay: -5s; }
+        .glow-blob-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.35) 0%, transparent 70%);
+            top: -150px; left: -100px;
+            animation: floatBlob1 20s infinite alternate ease-in-out;
+        }
+        .glow-blob-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(244, 114, 182, 0.22) 0%, transparent 70%);
+            bottom: -200px; right: -150px;
+            animation: floatBlob2 25s infinite alternate ease-in-out;
+        }
+        .glow-blob-3 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(34, 211, 238, 0.12) 0%, transparent 70%);
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: floatBlob3 30s infinite alternate ease-in-out;
+        }
 
-        @keyframes floatBlob {
+        @keyframes floatBlob1 {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(50px, 50px) scale(1.1); }
+            100% { transform: translate(80px, 60px) scale(1.2); }
+        }
+        @keyframes floatBlob2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-60px, -40px) scale(1.15); }
+        }
+        @keyframes floatBlob3 {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-40%, -60%) scale(1.3); }
         }
 
-        /* Main Container */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            width: 100%;
+        /* Noise texture overlay für echten Glasmorphismus */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
             z-index: 1;
+            pointer-events: none;
+            opacity: 0.025;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.8'/></svg>");
         }
 
-        /* Header / Hero Section */
+        /* ============ LAYOUT ============ */
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 28px);
+            width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* ============ HERO / HEADER ============ */
         header {
             text-align: center;
-            margin-bottom: 60px;
-            padding-top: 20px;
+            margin-bottom: clamp(40px, 8vw, 80px);
+            padding-top: clamp(20px, 4vw, 40px);
+            position: relative;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: transparent;
-            border: 1px solid var(--purple-border);
-            padding: 8px 16px;
-            border-radius: 50px;
+            gap: 10px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 10px 20px;
+            border-radius: 100px;
             font-size: 0.85rem;
-            color: var(--accent-light);
-            font-weight: 500;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
-            backdrop-filter: blur(10px);
+            color: var(--purple-300);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 24px;
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 20px rgba(168, 85, 247, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--purple-400), transparent 50%, var(--pink-400));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .hero-badge .pulse-dot {
+            width: 8px; height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 3.8rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            background: transparent;
-            margin-bottom: 16px;
-            color: var(--accent-light)
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--purple-300) 40%, var(--pink-400) 75%, var(--cyan-400) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease infinite;
+            position: relative;
+        }
+        h1 .chem-accent {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 0.6em;
+            color: var(--purple-400);
+            -webkit-text-fill-color: var(--purple-400);
+            vertical-align: super;
+            opacity: 0.7;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .subtitle {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             color: var(--text-sub);
-            max-width: 600px;
+            max-width: 620px;
             margin: 0 auto;
             line-height: 1.6;
+            font-weight: 400;
+        }
+        .subtitle strong {
+            color: var(--purple-300);
+            font-weight: 600;
         }
 
-        /* Semesters Grid */
+        /* ============ MOLECULE HERO DECORATION ============ */
+        .molecule-deco {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .molecule-deco svg {
+            width: 100%; height: 100%;
+            filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.4));
+        }
+        .molecule-deco-1 {
+            top: 10%; left: 5%;
+            width: 80px; height: 80px;
+            animation: floatDeco 6s ease-in-out infinite;
+        }
+        .molecule-deco-2 {
+            bottom: 5%; right: 8%;
+            width: 100px; height: 100px;
+            animation: floatDeco 8s ease-in-out infinite reverse;
+        }
+        @keyframes floatDeco {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(8deg); }
+        }
+
+        /* ============ SEMESTER CARDS ============ */
         .semesters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+            gap: clamp(20px, 3vw, 32px);
             margin-bottom: 40px;
         }
 
         .semester-card {
-            background: var(--purple-card);
-            border: 1px solid var(--purple-border);
-            border-radius: 24px;
-            padding: 30px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-radius: 28px;
+            padding: clamp(24px, 4vw, 32px);
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 var(--glass-highlight),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            contain: content;
         }
 
+        /* Animierter Gradient-Border */
         .semester-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: linear-gradient(135deg,
+                rgba(192, 132, 252, 0.6),
+                rgba(244, 114, 182, 0.2) 30%,
+                transparent 60%,
+                rgba(34, 211, 238, 0.3) 90%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Radial Glow hinter der Karte */
+        .semester-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+            z-index: -1;
         }
 
         .semester-card:hover {
-            border-color: var(--purple-border-hover);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            box-shadow:
+                0 24px 64px rgba(147, 51, 234, 0.3),
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
-
-        .semester-card:hover::before {
-            opacity: 1;
-        }
+        .semester-card:hover::after { opacity: 1; }
+        .semester-card:hover::before { opacity: 1; }
 
         .semester-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .semester-header i {
-            color: var(--accent-light);
-            background: rgba(192, 132, 252, 0.1);
-            padding: 10px;
-            border-radius: 12px;
+        .semester-icon-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .semester-icon-wrap i {
+            color: #fff;
+            background: linear-gradient(135deg, var(--purple-600), var(--pink-400));
+            padding: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .semester-icon-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--purple-400), transparent);
+            opacity: 0.4;
+            filter: blur(8px);
+            z-index: 0;
         }
 
+        .semester-header-text { flex: 1; min-width: 0; }
         .semester-header h2 {
-            font-size: 1.4rem;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
             font-weight: 700;
             color: #fff;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+        .semester-meta {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            margin-top: 2px;
+            font-weight: 500;
         }
 
-        /* Links List Styling */
+        .semester-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .status-active {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+        .status-empty {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--text-dim);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        /* ============ LINK ITEMS ============ */
         .links-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .link-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(23, 11, 36, 0.5);
-            border: 1px solid rgba(168, 85, 247, 0.1);
-            padding: 16px 20px;
-            border-radius: 16px;
+            gap: 16px;
+            background: rgba(10, 5, 19, 0.4);
+            border: 1px solid rgba(192, 132, 252, 0.08);
+            padding: clamp(14px, 3vw, 18px) clamp(16px, 3vw, 22px);
+            border-radius: 18px;
             text-decoration: none;
             color: var(--text-main);
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            min-height: 72px;
+            touch-action: manipulation;
         }
 
-        .link-item:hover {
-            background: var(--purple-card-hover);
-            border-color: var(--accent-light);
+        /* Hover-Glow-Effekt */
+        .link-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--purple-400), var(--pink-400));
+            border-radius: 4px;
+            transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .link-item:hover,
+        .link-item:focus-visible {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-hover);
             transform: translateX(6px);
-            box-shadow: 0 0 20px var(--accent-glow);
-            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            outline: none;
+        }
+        .link-item:hover::before,
+        .link-item:focus-visible::before { height: 60%; }
+
+        .link-item:active {
+            transform: translateX(6px) scale(0.98);
+            transition-duration: 0.1s;
         }
 
         .link-content {
             display: flex;
             align-items: center;
             gap: 14px;
+            min-width: 0;
+            flex: 1;
         }
 
         .link-icon-wrapper {
-            background: rgba(168, 85, 247, 0.15);
-            color: var(--accent-light);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(244, 114, 182, 0.15));
+            color: var(--purple-300);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+            border: 1px solid rgba(192, 132, 252, 0.15);
+            position: relative;
         }
 
         .link-item:hover .link-icon-wrapper {
-            background: var(--accent-light);
-            color: var(--bg-deep);
-            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--purple-500), var(--pink-400));
+            color: #fff;
+            transform: scale(1.08) rotate(-4deg);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+            border-color: transparent;
         }
 
         .link-text {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 3px;
+            min-width: 0;
+            flex: 1;
         }
 
         .link-title {
-            font-size: 0.95rem;
+            font-size: clamp(0.92rem, 2vw, 1rem);
             font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .link-desc {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-sub);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .link-arrow {
-            color: var(--text-sub);
-            transition: transform 0.3s ease, color 0.3s ease;
+            color: var(--text-dim);
+            transition: all 0.35s ease;
             display: flex;
             align-items: center;
+            flex-shrink: 0;
         }
-
         .link-item:hover .link-arrow {
+            color: var(--pink-400);
             transform: translateX(4px);
-            color: var(--accent-light);
         }
 
-        /* Footer */
+        /* Disabled/Empty Link */
+        .link-item.is-disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        .link-item.is-disabled:hover {
+            transform: none;
+            background: rgba(10, 5, 19, 0.4);
+            border-color: rgba(192, 132, 252, 0.08);
+            box-shadow: none;
+        }
+        .link-item.is-disabled::before { display: none; }
+
+        /* ============ FOOTER ============ */
         footer {
             text-align: center;
-            padding: 30px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-sub);
-            font-size: 0.85rem;
-            background: rgba(9, 3, 14, 0.8);
-            backdrop-filter: blur(10px);
+            padding: clamp(24px, 4vw, 36px) 20px;
+            border-top: 1px solid rgba(192, 132, 252, 0.08);
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            background: rgba(5, 2, 8, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: relative;
+            z-index: 2;
+        }
+        footer a {
+            color: var(--purple-300);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        footer a:hover { color: var(--pink-400); }
+        .footer-divider {
+            display: inline-block;
+            margin: 0 8px;
+            opacity: 0.4;
         }
 
-        /* Responsive Layout Adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
+        /* ============ ACCESSIBILITY ============ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
-            .semesters-grid {
-                grid-template-columns: 1fr;
+            #particleCanvas { display: none; }
+        }
+
+        /* ============ MOBILE ============ */
+        @media (max-width: 640px) {
+            .molecule-deco { display: none; }
+            .glow-blob-3 { display: none; }
+            .glow-blob { filter: blur(60px); opacity: 0.7; }
+        }
+
+        @media (hover: none) {
+            /* Touch-optimiert: Hover wird zu tap */
+            .link-item:active {
+                background: var(--glass-bg-hover);
+                border-color: var(--glass-border-hover);
+            }
+            .link-item:active::before { height: 60%; }
+            .link-item:active .link-icon-wrapper {
+                transform: scale(1.08) rotate(-4deg);
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Background Blobs -->
-    <div class="glow-blob glow-blob-1"></div>
-    <div class="glow-blob glow-blob-2"></div>
-
-    <!-- Molecule / Particle Background Canvas -->
-    <canvas id="particleCanvas"></canvas>
+    <!-- Background Layers -->
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="hex-pattern" aria-hidden="true"></div>
+    <div class="glow-blob glow-blob-1" aria-hidden="true"></div>
+    <div class="glow-blob glow-blob-2" aria-hidden="true"></div>
+    <div class="glow-blob glow-blob-3" aria-hidden="true"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
 
     <div class="container">
-        <!-- Header -->
         <header>
-            <div class="hero-badge">
-                <i data-lucide="atom" style="width: 16px; height: 16px;"></i>
-                Chemie Portal 2026
+            <!-- Dekorative Moleküle -->
+            <div class="molecule-deco molecule-deco-1" aria-hidden="true">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="8" fill="#c084fc"/>
+                    <circle cx="60" cy="20" r="6" fill="#f472b6"/>
+                    <circle cx="40" cy="60" r="10" fill="#a855f7"/>
+                    <line x1="20" y1="20" x2="60" y2="20" stroke="#c084fc" stroke-width="2"/>
+                    <line x1="40" y1="60" x2="20" y2="20" stroke="#c084fc" stroke-width="2"/>
+                    <line x1="40" y1="60" x2="60" y2="20" stroke="#c084fc" stroke-width="2"/>
+                </svg>
             </div>
-            <h1>Chemie Lernportal</h1>
-            <p class="subtitle">Entdecke spannende Themen, Reaktionen und Strukturformeln. Übersichtlich gegliedert nach Halbjahren.</p>
+            <div class="molecule-deco molecule-deco-2" aria-hidden="true">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="15" r="7" fill="#22d3ee"/>
+                    <circle cx="85" cy="50" r="7" fill="#c084fc"/>
+                    <circle cx="65" cy="85" r="7" fill="#f472b6"/>
+                    <circle cx="35" cy="85" r="7" fill="#a855f7"/>
+                    <circle cx="15" cy="50" r="7" fill="#d8b4fe"/>
+                    <line x1="50" y1="15" x2="85" y2="50" stroke="#c084fc" stroke-width="1.5"/>
+                    <line x1="85" y1="50" x2="65" y2="85" stroke="#c084fc" stroke-width="1.5"/>
+                    <line x1="65" y1="85" x2="35" y2="85" stroke="#c084fc" stroke-width="1.5"/>
+                    <line x1="35" y1="85" x2="15" y2="50" stroke="#c084fc" stroke-width="1.5"/>
+                    <line x1="15" y1="50" x2="50" y2="15" stroke="#c084fc" stroke-width="1.5"/>
+                </svg>
+            </div>
+
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                <i data-lucide="atom" style="width:16px;height:16px;"></i>
+                Chemie Portal · 2026
+            </div>
+            <h1>Chemie <span class="chem-accent">[Lern]</span>portal</h1>
+            <p class="subtitle">Entdecke <strong>organische Verbindungen</strong>, Reaktionsmechanismen und Strukturformeln. Übersichtlich gegliedert nach Halbjahren.</p>
         </header>
 
-        <!-- Main Semesters Content Grid -->
         <main class="semesters-grid">
-            
             <!-- 1. Halbjahr -->
-            <section class="semester-card">
+            <section class="semester-card" aria-labelledby="sem1-title">
                 <div class="semester-header">
-                    <i data-lucide="flask-conical" style="width: 24px; height: 24px;"></i>
-                    <h2>1. Halbjahr</h2>
+                    <div class="semester-icon-wrap">
+                        <i data-lucide="flask-conical" style="width:24px;height:24px;"></i>
+                    </div>
+                    <div class="semester-header-text">
+                        <h2 id="sem1-title">1. Halbjahr</h2>
+                        <div class="semester-meta">Grundlagen · Organik</div>
+                    </div>
+                    <span class="semester-status status-active">Aktiv</span>
                 </div>
-                <!-- Links-Liste (hier können ganz einfach weitere <a> Elemente hinzugefügt werden) -->
+
                 <div class="links-list">
                     <a href="OrganicheChemie1.html" class="link-item">
                         <div class="link-content">
                             <div class="link-icon-wrapper">
-                                <i data-lucide="orbit" style="width: 18px; height: 18px;"></i>
+                                <i data-lucide="orbit" style="width:18px;height:18px;"></i>
                             </div>
                             <div class="link-text">
-                                <span class="link-title">Organische Chemie</span>
-                                <span class="link-desc">Einstiegsinhalt</span>
+                                <span class="link-title">Alkane</span>
+                                <span class="link-desc">Methan...</span>
                             </div>
                         </div>
                         <div class="link-arrow">
-                            <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                            <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
+                        </div>
+                    </a>
+                    <a href="Alkene.html" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon-wrapper">
+                                <i data-lucide="orbit" style="width:18px;height:18px;"></i>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">Alkene</span>
+                                <span class="link-desc">Ethen...</span>
+                            </div>
+                        </div>
+                        <div class="link-arrow">
+                            <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
                         </div>
                     </a>
                 </div>
             </section>
 
             <!-- 2. Halbjahr -->
-            <section class="semester-card">
+            <section class="semester-card" aria-labelledby="sem2-title">
                 <div class="semester-header">
-                    <i data-lucide="test-tubes" style="width: 24px; height: 24px;"></i>
-                    <h2>2. Halbjahr</h2>
+                    <div class="semester-icon-wrap">
+                        <i data-lucide="test-tubes" style="width:24px;height:24px;"></i>
+                    </div>
+                    <div class="semester-header-text">
+                        <h2 id="sem2-title">2. Halbjahr</h2>
+                        <div class="semester-meta">In Vorbereitung</div>
+                    </div>
+                    <span class="semester-status status-empty">Leer</span>
                 </div>
-                <!-- Links-Liste (hier können ganz einfach weitere <a> Elemente hinzugefügt werden) -->
+
                 <div class="links-list">
-                    <a href="#" class="link-item">
+                    <a href="#" class="link-item is-disabled" aria-disabled="true" tabindex="-1">
                         <div class="link-content">
                             <div class="link-icon-wrapper">
-                                <i data-lucide="zap" style="width: 18px; height: 18px;"></i>
+                                <i data-lucide="lock" style="width:18px;height:18px;"></i>
                             </div>
                             <div class="link-text">
-                                <span class="link-title">Leer</span>
-                                <span class="link-desc">--</span>
+                                <span class="link-title">Noch keine Inhalte</span>
+                                <span class="link-desc">Bald verfügbar</span>
                             </div>
                         </div>
                         <div class="link-arrow">
-                            <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                            <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
                         </div>
                     </a>
                 </div>
             </section>
-
         </main>
     </div>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Chemie Lernportal &bull; Modernes Design in Dark Purple &amp; Light Purple</p>
+        <p>
+            &copy; 2026 Chemie Lernportal
+            <span class="footer-divider">•</span>
+            Dark Purple &amp; Light Purple
+            <span class="footer-divider">•</span>
+            <a href="#">Impressum</a>
+        </p>
     </footer>
 
-    <!-- Script to Initialize Lucide Icons & Molecule/Particle Canvas Animation -->
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+        // ============ LUCIDE ICONS ============
+        if (window.lucide) lucide.createIcons();
 
-        // Canvas Particle / Molecule Network Animation
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
+        // ============ CANVAS PERFORMANCE-OPTIMIERT ============
+        (() => {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d', { alpha: true });
+            if (!ctx) return;
 
-        let width, height;
-        let particles = [];
+            const DPR = Math.min(window.devicePixelRatio || 1, 2);
+            let width = 0, height = 0;
+            let particles = [];
+            let animationId = null;
+            let isVisible = true;
+            let frameCount = 0;
+            let lastFpsCheck = performance.now();
+            let currentFps = 60;
+            let targetCount = window.innerWidth > 768 ? 50 : 25;
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
+            // Spatial Grid für O(n) Nachbarsuche
+            const CELL_SIZE = 140;
+            let grid = {};
 
-        window.addEventListener('resize', resize);
-        resize();
+            const resize = () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * DPR;
+                canvas.height = height * DPR;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+                targetCount = width > 768 ? 50 : 25;
+                initParticles();
+            };
 
-        class MoleculeParticle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.6;
-                this.radius = Math.random() * 2 + 1.5;
-            }
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(resize, 150);
+            });
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(192, 132, 252, 0.6)';
-                ctx.fill();
-            }
-        }
-
-        // Create particle set proportional to screen size
-        const particleCount = Math.min(window.innerWidth > 768 ? 60 : 30, 80);
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new MoleculeParticle());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-
-            // Update and draw particles & connecting chemical bonds (lines)
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 130) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        // Alpha based on distance for smooth fading
-                        const alpha = (1 - dist / 130) * 0.18;
-                        ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 1.8 + 1.2;
+                    this.hue = 270 + Math.random() * 40; // purple-pink range
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                    this.x = Math.max(0, Math.min(width, this.x));
+                    this.y = Math.max(0, Math.min(height, this.y));
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${this.hue}, 80%, 72%, 0.55)`;
+                    ctx.fill();
                 }
             }
 
-            requestAnimationFrame(animate);
-        }
+            const initParticles = () => {
+                particles = [];
+                for (let i = 0; i < targetCount; i++) particles.push(new Particle());
+            };
 
-        animate();
+            const getCellKey = (x, y) => `${Math.floor(x / CELL_SIZE)},${Math.floor(y / CELL_SIZE)}`;
+
+            const buildGrid = () => {
+                grid = {};
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    const key = getCellKey(p.x, p.y);
+                    if (!grid[key]) grid[key] = [];
+                    grid[key].push(i);
+                }
+            };
+
+            const drawConnections = () => {
+                const MAX_DIST = 130;
+                const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p1 = particles[i];
+                    const cx = Math.floor(p1.x / CELL_SIZE);
+                    const cy = Math.floor(p1.y / CELL_SIZE);
+
+                    for (let dx = -1; dx <= 1; dx++) {
+                        for (let dy = -1; dy <= 1; dy++) {
+                            const key = `${cx + dx},${cy + dy}`;
+                            const cell = grid[key];
+                            if (!cell) continue;
+                            for (let k = 0; k < cell.length; k++) {
+                                const j = cell[k];
+                                if (j <= i) continue;
+                                const p2 = particles[j];
+                                const ddx = p1.x - p2.x;
+                                const ddy = p1.y - p2.y;
+                                const distSq = ddx * ddx + ddy * ddy;
+                                if (distSq < MAX_DIST_SQ) {
+                                    const alpha = (1 - Math.sqrt(distSq) / MAX_DIST) * 0.22;
+                                    ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
+                                    ctx.beginPath();
+                                    ctx.moveTo(p1.x, p1.y);
+                                    ctx.lineTo(p2.x, p2.y);
+                                    ctx.stroke();
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const animate = () => {
+                if (!isVisible) { animationId = requestAnimationFrame(animate); return; }
+
+                ctx.clearRect(0, 0, width, height);
+                buildGrid();
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                drawConnections();
+
+                // FPS-Monitoring + adaptive particle count
+                frameCount++;
+                const now = performance.now();
+                if (now - lastFpsCheck > 1000) {
+                    currentFps = frameCount;
+                    frameCount = 0;
+                    lastFpsCheck = now;
+                    if (currentFps < 35 && particles.length > 20) {
+                        particles.pop();
+                        particles.pop();
+                    }
+                }
+
+                animationId = requestAnimationFrame(animate);
+            };
+
+            // Visibility API: Pause wenn Tab nicht sichtbar
+            document.addEventListener('visibilitychange', () => {
+                isVisible = !document.hidden;
+            });
+
+            // Pause wenn Canvas außerhalb Viewport
+            if ('IntersectionObserver' in window) {
+                const io = new IntersectionObserver(entries => {
+                    isVisible = entries[0].isIntersecting && !document.hidden;
+                }, { threshold: 0 });
+                io.observe(canvas);
+            }
+
+            resize();
+            animate();
+        })();
     </script>
 </body>
 </html>
