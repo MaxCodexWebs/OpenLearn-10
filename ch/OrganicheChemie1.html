@@ -1,404 +1,1811 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kompendium der Organischen Chemie</title>
-    <style>
-        :root {
-            --bg-main: #0d0614;
-            --bg-card: #180d26;
-            --bg-card-hover: #221235;
-            --purple-primary: #9d4edd;
-            --purple-light: #c77dff;
-            --purple-glow: rgba(157, 78, 221, 0.25);
-            --text-main: #e0aaff;
-            --text-muted: #9b72cf;
-            --text-white: #ffffff;
-            --border-color: #381d59;
-            --code-bg: #12071f;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 10px;
-        }
-
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 15px;
-            background: linear-gradient(135deg, #1f0b38, #0d0614);
-            border-bottom: 2px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px var(--purple-glow);
-        }
-
-        header h1 {
-            color: var(--text-white);
-            font-size: 2rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px var(--purple-primary);
-        }
-
-        @media (min-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        nav.toc {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        nav.toc h2 {
-            color: var(--purple-light);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        nav.toc ul {
-            list-style: none;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
-
-        @media (min-width: 600px) {
-            nav.toc ul {
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            }
-        }
-
-        nav.toc a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.2s;
-            display: block;
-            padding: 5px 0;
-        }
-
-        nav.toc a:hover {
-            color: var(--purple-light);
-            padding-left: 5px;
-        }
-
-        section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        @media (min-width: 768px) {
-            section {
-                padding: 30px;
-                margin-bottom: 30px;
-            }
-        }
-
-        h2.section-title {
-            color: var(--purple-light);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            h2.section-title {
-                font-size: 1.8rem;
-            }
-        }
-
-        h3 {
-            color: var(--text-white);
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        p {
-            margin-bottom: 15px;
-        }
-
-        ul, ol {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 5px;
-        }
-
-        /* NEU: Responsiver Container für Tabellen mit horizontalem Scrollen */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            margin: 20px 0;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--code-bg);
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px; /* Verhindert zu starkes Stauchen auf kleinen Bildschirmen */
-            background: transparent;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.95rem;
-        }
-
-        th {
-            background-color: #24113b;
-            color: var(--purple-light);
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: var(--bg-card-hover);
-        }
-
-        code {
-            background: var(--code-bg);
-            color: var(--purple-light);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            border: 1px solid var(--border-color);
-            font-size: 0.9rem;
-        }
-
-        .formula-box {
-            background: var(--code-bg);
-            border-left: 4px solid var(--purple-primary);
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 0 8px 8px 0;
-            font-family: monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-        }
-
-        footer {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-            margin-top: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="AlkanLab – interaktive, werbefreie Lernplattform zu Alkanen und organischer Chemie. Offlinefähig, CC0-lizenzierte Eigeninhalte.">
+<title>AlkanLab · Alkane & organische Chemie interaktiv lernen</title>
+<style>
+:root{
+  --bg:#0e1016;--bg2:#141724;--card:#1a1e2e;--card2:#212640;--line:#2d3452;
+  --text:#e9ebf5;--muted:#a9afc9;--accent:#a78bfa;--accent2:#7c3aed;
+  --accent-soft:rgba(167,139,250,.14);--hint:#f5a524;--hint-soft:rgba(245,165,36,.12);
+  --danger:#f87171;--danger-soft:rgba(248,113,113,.12);--ok:#4ade80;--ok-soft:rgba(74,222,128,.12);
+  --radius:14px;--sidebar:280px;--topbar:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:#fff}
+h1,h2,h3,h4{line-height:1.3;font-weight:700}
+h1{font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:.4rem}
+h2{font-size:1.25rem;margin:2rem 0 .8rem;padding-bottom:.4rem;border-bottom:1px solid var(--line);color:var(--accent)}
+h3{font-size:1.05rem;margin:1.2rem 0 .5rem}
+p{margin:.5rem 0}
+a{color:var(--accent)}
+a:hover{color:#c4b5fd}
+ul,ol{margin:.5rem 0 .5rem 1.4rem}
+li{margin:.25rem 0}
+code,.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,Menlo,monospace}
+mark{background:var(--accent2);color:#fff;border-radius:3px;padding:0 2px}
+button{font:inherit;cursor:pointer}
+input,select{font:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent2);color:#fff;padding:.5rem 1rem;border-radius:8px;z-index:200}
+.skip:focus{left:8px}
+/* ---------- Layout ---------- */
+#topbar{position:fixed;top:0;left:var(--sidebar);right:0;height:var(--topbar);background:rgba(14,16,22,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:1rem;padding:0 1.2rem;z-index:50}
+#sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--line);overflow-y:auto;z-index:60;display:flex;flex-direction:column}
+#main{margin-left:var(--sidebar);padding:calc(var(--topbar) + 1.5rem) 1.5rem 3rem;max-width:1060px}
+.brand{display:flex;align-items:center;gap:.7rem;padding:1.1rem 1.2rem;border-bottom:1px solid var(--line)}
+.brand svg{flex:none}
+.brand b{font-size:1.15rem;letter-spacing:.3px}
+.brand small{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.4px}
+#nav{padding:.8rem .7rem;flex:1}
+.navlink{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;background:none;border:0;color:var(--muted);padding:.55rem .7rem;border-radius:10px;text-decoration:none;font-size:.92rem;margin:.1rem 0}
+.navlink:hover{background:var(--card);color:var(--text)}
+.navlink[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.navlink .num{flex:none;width:26px;height:26px;border-radius:8px;background:var(--card2);display:grid;place-items:center;font-size:.78rem;font-weight:700;color:var(--muted)}
+.navlink[aria-current="page"] .num{background:var(--accent2);color:#fff}
+.navlink .done{margin-left:auto;color:var(--ok);font-weight:700}
+.sidefoot{padding:.9rem 1.2rem;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem}
+#menuBtn{display:none;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:10px;width:42px;height:42px;font-size:1.2rem}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:55}
+.progresswrap{flex:1;min-width:80px;max-width:420px}
+.progresswrap small{color:var(--muted);font-size:.72rem;display:block;margin-bottom:3px}
+.pbar{height:8px;background:var(--card2);border-radius:99px;overflow:hidden}
+.pbar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:99px;transition:width .4s}
+/* ---------- Suche ---------- */
+.searchbox{position:relative;margin-left:auto}
+.searchbox input{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:.5rem .9rem;width:230px}
+.searchbox input::placeholder{color:var(--muted)}
+#searchResults{position:absolute;top:calc(100% + 8px);right:0;width:min(430px,92vw);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.5);max-height:60vh;overflow-y:auto;display:none;z-index:80}
+#searchResults.open{display:block}
+.sr-item{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:var(--text);padding:.7rem .9rem}
+.sr-item:last-child{border-bottom:0}
+.sr-item:hover{background:var(--accent-soft)}
+.sr-item b{color:var(--accent);display:block;font-size:.9rem}
+.sr-item span{color:var(--muted);font-size:.8rem}
+.sr-empty{padding:.8rem .9rem;color:var(--muted);font-size:.88rem}
+/* ---------- Karten & Boxen ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem 1.3rem;margin:1rem 0}
+.goalbox{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--radius) var(--radius) 0;padding:.9rem 1.2rem;margin:1rem 0}
+.goalbox b{color:var(--accent)}
+.hintbox{border-left:4px solid var(--hint);background:var(--hint-soft);border-radius:0 var(--radius) var(--radius) 0;padding:.9rem 1.2rem;margin:1rem 0}
+.hintbox b{color:var(--hint)}
+.warnbox{border-left:4px solid var(--danger);background:var(--danger-soft);border-radius:0 var(--radius) var(--radius) 0;padding:.9rem 1.2rem;margin:1rem 0}
+.warnbox b{color:var(--danger)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid2>.card,.grid3>.card{margin:0}
+.badge{display:inline-block;background:var(--card2);color:var(--muted);border-radius:99px;padding:.15rem .7rem;font-size:.75rem;font-weight:600}
+.badge.purple{background:var(--accent-soft);color:var(--accent)}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.hint{background:var(--hint-soft);color:var(--hint)}
+.formula{font-family:ui-monospace,Consolas,monospace;font-size:1.15rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.6rem 1rem;display:inline-block;margin:.3rem 0;letter-spacing:.5px}
+.formula.big{font-size:1.5rem;color:var(--accent)}
+details.faq{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:.6rem 0;padding:0}
+details.faq summary{cursor:pointer;padding:.8rem 1.1rem;font-weight:600;list-style-position:inside}
+details.faq summary:hover{color:var(--accent)}
+details.faq>div{padding:0 1.1rem .9rem}
+.tablewrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:640px}
+th{background:var(--card2);color:var(--accent);text-align:left;padding:.6rem .8rem;font-size:.8rem;letter-spacing:.3px;white-space:nowrap}
+td{padding:.55rem .8rem;border-top:1px solid var(--line);vertical-align:middle}
+tr:hover td{background:rgba(167,139,250,.05)}
+td svg{display:block;max-width:230px;height:auto}
+/* ---------- Buttons ---------- */
+.btn{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:.5rem 1rem;font-size:.9rem;font-weight:600;transition:background .15s}
+.btn:hover{background:#2a3052}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#17122b}
+.btn.primary:hover{background:#c4b5fd}
+.btn.ghost{background:transparent}
+.btn.small{padding:.3rem .7rem;font-size:.8rem}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0}
+/* ---------- Quiz ---------- */
+.quiz-q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q fieldset{border:0}
+.quiz-q legend{font-weight:600;margin-bottom:.6rem}
+.quiz-opt{display:flex;gap:.6rem;align-items:flex-start;padding:.45rem .6rem;border-radius:8px;cursor:pointer}
+.quiz-opt:hover{background:var(--accent-soft)}
+.quiz-opt input{margin-top:.3rem;accent-color:var(--accent)}
+.quiz-q input[type=text]{background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.45rem .8rem;min-width:220px}
+.quiz-q select{background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.4rem .6rem;max-width:100%}
+.matchrow{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.4rem 0}
+.matchrow .mleft{min-width:170px;font-weight:600}
+.feedback{margin-top:.7rem;padding:.6rem .9rem;border-radius:8px;font-size:.9rem;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--ok-soft);border:1px solid rgba(74,222,128,.4);color:#bbf7d0}
+.feedback.err{background:var(--danger-soft);border:1px solid rgba(248,113,113,.4);color:#fecaca}
+.quiz-sum{background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:.8rem 1.1rem;margin-top:.8rem;font-weight:600}
+/* ---------- Molekül-Viewer ---------- */
+.viewer{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;margin:1rem 0}
+.viewer svg{width:100%;height:auto;display:block;background:radial-gradient(ellipse at 50% 40%,#1c2136 0%,#12141f 75%);border-radius:10px;touch-action:none;cursor:grab}
+.viewer svg:active{cursor:grabbing}
+.viewer .vmeta{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:.6rem}
+.viewer .vmeta b{color:var(--accent)}
+.viewer .vinfo{color:var(--muted);font-size:.85rem;margin-top:.5rem;min-height:1.4em}
+.viewer .vcontrols{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.6rem}
+.viewer input[type=range]{accent-color:var(--accent);width:130px}
+.viewer select{background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.35rem .6rem}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:.4rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+/* ---------- Lernkarten ---------- */
+.fc{perspective:1200px;height:230px;margin:1rem 0;cursor:pointer}
+.fc-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.4rem;border-radius:var(--radius);border:1px solid var(--line)}
+.fc-front{background:var(--card2)}
+.fc-back{background:var(--accent-soft);border-color:var(--accent);transform:rotateY(180deg)}
+.fc-face small{color:var(--muted);position:absolute;top:.7rem;left:1rem;font-size:.72rem;letter-spacing:1px;text-transform:uppercase}
+.fc-face p{font-size:1.05rem;font-weight:600}
+/* ---------- Balancer / Animation ---------- */
+.eqrow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-size:1.1rem;margin:.8rem 0}
+.stepper{display:inline-flex;align-items:center;gap:.3rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.25rem .4rem}
+.stepper button{width:30px;height:30px;border-radius:7px;border:0;background:var(--card2);color:var(--accent);font-weight:700;font-size:1rem}
+.stepper button:hover{background:var(--accent2);color:#fff}
+.stepper .coef{min-width:26px;text-align:center;font-weight:700;color:var(--accent)}
+.atomtable{font-size:.85rem;min-width:0;width:auto}
+.atomtable td,.atomtable th{padding:.35rem .8rem}
+.combustion svg{width:100%;height:auto;background:radial-gradient(ellipse at 50% 40%,#1c2136 0%,#12141f 75%);border-radius:10px}
+/* ---------- Explorer / Diagramm ---------- */
+.explorer-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start}
+.explorer-grid input[type=range]{width:100%;accent-color:var(--accent)}
+.statlist{list-style:none;margin:0}
+.statlist li{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px dashed var(--line);padding:.35rem 0;font-size:.92rem}
+.statlist li b{color:var(--accent)}
+.chart svg{width:100%;height:auto}
+/* ---------- Videokarten ---------- */
+.videocard{display:flex;gap:1rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:1rem 1.2rem;margin:.7rem 0}
+.videocard .vplay{flex:none;width:46px;height:46px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent);font-size:1.2rem}
+.videocard b{display:block}
+.videocard small{color:var(--muted);display:block;margin:.15rem 0 .5rem}
+.videocard.search{border-left-color:var(--hint)}
+.videocard.search .vplay{background:var(--hint-soft);color:var(--hint)}
+/* ---------- Kapitelkopf / Fuß ---------- */
+.chapterhead{margin-bottom:1rem}
+.chapterhead .kicker{color:var(--accent);font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase}
+.chapterhead .sub{color:var(--muted)}
+.chapterfoot{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+.summarybox{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);padding:1rem 1.3rem;margin:1.2rem 0}
+.summarybox h2{border:0;margin:0 0 .5rem;padding:0}
+/* ---------- Start ---------- */
+.hero{background:linear-gradient(135deg,#1b1533 0%,#141724 60%);border:1px solid var(--line);border-radius:20px;padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.hero .deco{position:absolute;right:-20px;bottom:-30px;opacity:.25;pointer-events:none}
+.chaptergrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1rem 0}
+.chaptercard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;text-decoration:none;color:var(--text);display:block;transition:border-color .15s,transform .15s}
+.chaptercard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.chaptercard .cnum{color:var(--accent);font-weight:800;font-size:.75rem;letter-spacing:1px}
+.chaptercard b{display:block;margin:.2rem 0}
+.chaptercard small{color:var(--muted);font-size:.8rem;display:block}
+/* ---------- Sonstiges ---------- */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent2);color:#fff;padding:.7rem 1.4rem;border-radius:12px;font-weight:600;opacity:0;transition:.3s;z-index:120;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+pre.license{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:1rem;font-size:.78rem;white-space:pre-wrap;max-height:340px;overflow-y:auto;color:var(--muted)}
+.glossar dt{font-weight:700;color:var(--accent);margin-top:.8rem}
+.glossar dd{margin-left:0;color:var(--text)}
+.glossar input{background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.45rem .8rem;width:100%;max-width:340px;margin-bottom:.5rem}
+.svgframe{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:.8rem;margin:.8rem 0;overflow-x:auto}
+.svgframe svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.svgcap{color:var(--muted);font-size:.8rem;text-align:center;margin-top:.4rem}
+.nomen-halb{font-family:ui-monospace,Consolas,monospace;font-size:1.25rem;color:var(--accent);background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.7rem 1rem;display:inline-block;margin:.5rem 0}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+footer.sitefoot{margin-top:3rem;color:var(--muted);font-size:.78rem;border-top:1px solid var(--line);padding-top:1rem}
+@media (max-width:1000px){
+  #sidebar{transform:translateX(-100%);transition:transform .25s}
+  #sidebar.open{transform:translateX(0)}
+  #overlay.show{display:block}
+  #topbar{left:0}
+  #main{margin-left:0;padding:calc(var(--topbar) + 1rem) 1rem 3rem}
+  #menuBtn{display:block}
+  .searchbox input{width:150px}
+  .grid2,.grid3,.explorer-grid{grid-template-columns:1fr}
+}
+@media (max-width:560px){.progresswrap small{display:none}.searchbox input{width:120px}.hero{padding:1.2rem}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .fc-inner{transition:none}
+}
+</style>
 </head>
 <body>
+<a class="skip" href="#content">Zum Inhalt springen</a>
 
-    <div class="container">
-        <header>
-            <h1>Organisches Chemie Kompendium</h1>
-            <p>Grundlagen, Funktionelle Gruppen, Isomerie, Reaktionsmechanismen und Biochemie</p>
-        </header>
+<aside id="sidebar" aria-label="Kapitelnavigation">
+  <div class="brand">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><polyline points="3,24 11,10 19,24 27,10 31,17" fill="none" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="24" r="3" fill="#a78bfa"/><circle cx="31" cy="17" r="3" fill="#a78bfa"/></svg>
+    <div><b>AlkanLab</b><small>ORGANISCHE CHEMIE · INTERAKTIV</small></div>
+  </div>
+  <nav id="nav" aria-label="Kapitel"></nav>
+  <div class="sidefoot">Version 1.0 · Offlinefähig<br>Eigene Inhalte: CC0 (gemeinfrei)<br>Keine Tracker · Keine Cookies</div>
+</aside>
+<div id="overlay"></div>
 
-        <nav class="toc">
-            <h2>Inhaltsverzeichnis</h2>
-            <ul>
-                <li><a href="#grundlagen">1. Grundlagen & Kohlenstoff</a></li>
-                <li><a href="#funktionelle-gruppen">2. Funktionelle Gruppen</a></li>
-                <li><a href="#isomerie">3. Isomerie</a></li>
-                <li><a href="#reaktionen">4. Grundlegende Reaktionen</a></li>
-                <li><a href="#biochemie">5. Ausblick Biochemie</a></li>
-            </ul>
-        </nav>
+<header id="topbar">
+  <button id="menuBtn" aria-label="Menü öffnen" aria-expanded="false">☰</button>
+  <div class="progresswrap" role="status" aria-label="Lernfortschritt">
+    <small id="progressLabel">Fortschritt: 0 von 10 Kapiteln</small>
+    <div class="pbar"><div id="progressFill"></div></div>
+  </div>
+  <div class="searchbox">
+    <label class="skip" for="searchInput">Suche</label>
+    <input id="searchInput" type="search" placeholder="Begriff suchen … ( / )" autocomplete="off" aria-label="Begriffe und Kapitel durchsuchen" aria-expanded="false">
+    <div id="searchResults" role="listbox" aria-label="Suchergebnisse"></div>
+  </div>
+</header>
 
-        <main>
-            <!-- 1. Grundlagen -->
-            <section id="grundlagen">
-                <h2 class="section-title">1. Grundlagen & Kohlenstoff</h2>
-                <p>Die organische Chemie ist die Chemie der Kohlenstoffverbindungen. Kohlenstoff (C) besitzt die Ordnungszahl 6 und verfügt über 4 Valenzelektronen, was zu einer maximalen Bindigkeit von 4 führt (Tetravalenz).</p>
-                
-                <h3>Hybridisierung</h3>
-                <ul>
-                    <li><strong>sp³-Hybridisierung:</strong> Vier Einfachbindungen, tetraedrische Geometrie, Bindungswinkel ca. 109,5° (z. B. Alcane).</li>
-                    <li><strong>sp²-Hybridisierung:</strong> Eine Doppelbindung und zwei Einfachbindungen, trigonale planar, Bindungswinkel ca. 120° (z. B. Alkene).</li>
-                    <li><strong>sp-Hybridisierung:</strong> Eine Dreifachbindung oder zwei Doppelbindungen, lineare Geometrie, Bindungswinkel 180° (z. B. Alkine).</li>
-                </ul>
-            </section>
+<main id="main">
+  <div id="content" tabindex="-1"></div>
+  <footer class="sitefoot">AlkanLab – eine eigenständige Lernplattform. Eigene Texte, Grafiken und Code: CC0 1.0 (Public Domain). Externe YouTube-Videos bleiben Eigentum der jeweiligen Kanäle. Details unter „Info &amp; Lizenzen“.</footer>
+</main>
 
-            <!-- 2. Funktionelle Gruppen -->
-            <section id="funktionelle-gruppen">
-                <h2 class="section-title">2. Funktionelle Gruppen</h2>
-                <p>Funktionelle Gruppen bestimmen maßgeblich die chemischen und physikalischen Eigenschaften organischer Moleküle.</p>
-                
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Stoffklasse</th>
-                                <th>Funktionelle Gruppe</th>
-                                <th>Strukturformel / Suffix</th>
-                                <th>Beispiel</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Alcane</td>
-                                <td>C-C Einfachbindung</td>
-                                <td><code>-ane</code></td>
-                                <td>Ethan (<code>CH<sub>3</sub>-CH<sub>3</sub></code>)</td>
-                            </tr>
-                            <tr>
-                                <td>Alkene</td>
-                                <td>C=C Doppelbindung</td>
-                                <td><code>-en</code></td>
-                                <td>Ethen (<code>CH<sub>2</sub>=CH<sub>2</sub></code>)</td>
-                            </tr>
-                            <tr>
-                                <td>Alkine</td>
-                                <td>C≡C Dreifachbindung</td>
-                                <td><code>-in</code></td>
-                                <td>Ethin (<code>CH≡CH</code>)</td>
-                            </tr>
-                            <tr>
-                                <td>Alkohole</td>
-                                <td>Hydroxygruppe</td>
-                                <td><code>-OH</code> / <code>-ol</code></td>
-                                <td>Ethanol (<code>CH<sub>3</sub>-CH<sub>2</sub>-OH</code>)</td>
-                            </tr>
-                            <tr>
-                                <td>Ether</td>
-                                <td>Ethergruppe</td>
-                                <td><code>-O-</code></td>
-                                <td>Diethylether</td>
-                            </tr>
-                            <tr>
-                                <td>Aldehyde</td>
-                                <td>Aldehydgruppe (Formylgruppe)</td>
-                                <td><code>-CHO</code> / <code>-al</code></td>
-                                <td>Ethanal (Acetaldehyd)</td>
-                            </tr>
-                            <tr>
-                                <td>Ketone</td>
-                                <td>Ketogruppe (Carbonylgruppe)</td>
-                                <td><code>&gt;C=O</code> / <code>-on</code></td>
-                                <td>Propanon (Aceton)</td>
-                            </tr>
-                            <tr>
-                                <td>Carbonsäuren</td>
-                                <td>Carboxygruppe</td>
-                                <td><code>-COOH</code> / <code>-säure</code></td>
-                                <td>Essigsäure (Ethansäure)</td>
-                            </tr>
-                            <tr>
-                                <td>Ester</td>
-                                <td>Estergruppe</td>
-                                <td><code>-COO-</code> / <code>-ester</code></td>
-                                <td>Essigsäureethylester</td>
-                            </tr>
-                            <tr>
-                                <td>Amine</td>
-                                <td>Aminogruppe</td>
-                                <td><code>-NH<sub>2</sub></code> / <code>-amin</code></td>
-                                <td>Methylamin</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+<div id="toast" role="status" aria-live="polite"></div>
+<noscript><div style="padding:6rem 2rem;text-align:center">Diese Lernplattform benötigt JavaScript für die interaktiven Elemente. Bitte aktiviere JavaScript in deinem Browser.</div></noscript>
 
-            <!-- 3. Isomerie -->
-            <section id="isomerie">
-                <h2 class="section-title">3. Isomerie</h2>
-                <p>Isomere sind Verbindungen mit derselben Summenformel, aber unterschiedlicher Struktur oder räumlicher Anordnung.</p>
-                
-                <h3>Konstitutionsisomerie</h3>
-                <p>Die Atome sind unterschiedlich verknüpft (z.B. Kettenisomerie, Stellungsisomerie, Funktionisomerie).</p>
-                
-                <h3>Stereoisomerie</h3>
-                <p>Gleiche Verknüpfung, aber unterschiedliche räumliche Anordnung (Konfiguration):</p>
-                <ul>
-                    <li><strong>Cis-Trans-Isomerie (Geometrische Isomerie):</strong> Treten bei Doppelbindungen oder Ringsystemen auf (eingeschränkte Drehbarkeit). Cis = gleiche Seiten, Trans = gegenüberliegende Seiten.</li>
-                    <li><strong>Enantiomerie (Chiralität):</strong> Moleküle verhalten sich wie Bild und Spiegelbild. Sie besitzen ein stereogenes Zentrum (asymmetrisches C-Atom mit 4 verschiedenen Substituenten) und drehen polarisiertes Licht.</li>
-                </ul>
-            </section>
+<script>
+'use strict';
+/* =====================================================================
+   AlkanLab · Interaktive Lernplattform Alkane & organische Chemie
+   Eigene Inhalte (Text/Grafik/Code): CC0 1.0 Universal – siehe LICENSE.txt
+   Keine externen Abhängigkeiten. Alle Daten bleiben lokal (localStorage).
+   ===================================================================== */
 
-            <!-- 4. Reaktionen -->
-            <section id="reaktionen">
-                <h2 class="section-title">4. Grundlegende Reaktionsarten</h2>
-                <div class="formula-box">
-                    Reaktionsgrundtypen: Substitution (S), Addition (A), Elimination (E), Kondensation (K)
-                </div>
-                <ul>
-                    <li><strong>Substitution:</strong> Ein Atom oder eine Atomgruppe wird durch ein(e) andere(s) ersetzt (z.B. radikalische Halogenierung von Alcanen).</li>
-                    <li><strong>Addition:</strong> Anlagerung von Molekülen an Mehrfachbindungen (z.B. elektrophile Addition von Halogenen oder Halogenwasserstoffen an Alkene).</li>
-                    <li><strong>Elimination:</strong> Abspaltung von Atomen oder Atomgruppen unter Ausbildung einer Mehrfachbindung (Umkehrung der Addition).</li>
-                    <li><strong>Kondensation:</strong> Verknüpfung zweier Moleküle unter Austritt eines kleinen Moleküls (meist Wasser, z.B. Veresterung oder Peptidbindung).</li>
-                </ul>
-            </section>
+/* ---------------- Utilities ---------------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let uidN=0; const uid=()=>'uid'+(++uidN);
+const SUBS='₀₁₂₃₄₅₆₇₈₉';
+const sub=n=>String(n).split('').map(c=>SUBS[+c]||c).join('');
+const alkFormula=n=>'C'+(n>1?sub(n):'')+'H'+sub(2*n+2);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const fmtT=x=>x.toFixed(1).replace('.',',');
+const fmtD=x=>x.toFixed(3).replace('.',',');
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function normAns(s){
+  const map={'₀':'0','₁':'1','₂':'2','₃':'3','₄':'4','₅':'5','₆':'6','₇':'7','₈':'8','₉':'9'};
+  return String(s).toLowerCase().trim().replace(/[₀₁₂₃₄₅₆₇₈₉]/g,c=>map[c]).replace(/ß/g,'ss').replace(/[\s\-–‑,_.]/g,'');
+}
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const activeAnims=new Set();
+function stopAnims(){activeAnims.forEach(id=>cancelAnimationFrame(id));activeAnims.clear();}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
 
-            <!-- 5. Biochemie -->
-            <section id="biochemie">
-                <h2 class="section-title">5. Ausblick Biochemie</h2>
-                <p>Die organische Chemie bildet das Fundament der Biochemie. Zu den wichtigsten Biomolekülen gehören:</p>
-                <ul>
-                    <li><strong>Kohlenhydrate (Saccharide):</strong> Monosaccharide (Glucose, Fructose), Disaccharide (Saccharose), Polysaccharide (Stärke, Cellulose).</li>
-                    <li><strong>Aminosäuren & Proteine:</strong> Verknüpfung von Aminosäuren über Peptidbindungen (Amidbindungen) zu langen Ketten.</li>
-                    <li><strong>Lipide:</strong> Fette als Ester aus Glycerin und Fettsäuren, sowie Membranlipide.</li>
-                    <li><strong>Nucleinsäuren:</strong> DNA und RNA als Träger der genetischen Information, aufgebaut aus Nucleotiden (Zucker, Phosphat, Base).</li>
-                </ul>
-            </section>
-        </main>
+/* ---------------- Fachdaten: Alkane ---------------- */
+const ALKANES=[
+ {n:1,name:'Methan',bp:-161.5,mp:-182.5,d:null,state:'gasförmig',use:'Hauptbestandteil von Erdgas (Heizen, Kochen, Stromerzeugung)'},
+ {n:2,name:'Ethan',bp:-88.6,mp:-183.3,d:null,state:'gasförmig',use:'Bestandteil von Erdgas; Rohstoff für die Kunststoffherstellung'},
+ {n:3,name:'Propan',bp:-42.1,mp:-187.7,d:null,state:'gasförmig',use:'Camping- und Heizgas (Flüssiggas / LPG)'},
+ {n:4,name:'Butan',bp:-0.5,mp:-138.3,d:null,state:'gasförmig',use:'Feuerzeuggas; Bestandteil von Flüssiggas (LPG)'},
+ {n:5,name:'Pentan',bp:36.1,mp:-129.7,d:0.626,state:'flüssig',use:'Lösungsmittel; Bestandteil von Benzin'},
+ {n:6,name:'Hexan',bp:68.7,mp:-95.3,d:0.659,state:'flüssig',use:'Lösungsmittel (z. B. Pflanzenöl-Extraktion); Benzinbestandteil'},
+ {n:7,name:'Heptan',bp:98.4,mp:-90.6,d:0.684,state:'flüssig',use:'Benzinbestandteil; Referenzstoff der Oktanzahl (n-Heptan = 0)'},
+ {n:8,name:'Octan',bp:125.6,mp:-56.8,d:0.703,state:'flüssig',use:'Bestandteil von Benzin'},
+ {n:9,name:'Nonan',bp:150.8,mp:-53.5,d:0.718,state:'flüssig',use:'Bestandteil von Kraftstoffen; Lösungsmittel'},
+ {n:10,name:'Decan',bp:174.1,mp:-29.7,d:0.730,state:'flüssig',use:'Bestandteil von Diesel und Kerosin; Lösungsmittel'}
+];
 
-        <footer>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Organisches Chemie Kompendium. Alle Inhalte dienen der allgemeinen Bildung.</p>
-            </div>
-        </footer>
+/* ---------------- 3D-Molekülgeometrie (Tetraederwinkel 109,47°) ---------------- */
+const vAdd=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const vSub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const vMul=(a,k)=>[a[0]*k,a[1]*k,a[2]*k];
+const vLen=a=>Math.hypot(a[0],a[1],a[2]);
+const vNorm=a=>vMul(a,1/(vLen(a)||1));
+const vCross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+function chainCoords(n){const a=35.26438968*Math.PI/180,p=[];for(let i=0;i<n;i++)p.push([i*Math.cos(a),(i%2)*Math.sin(a),0]);return p;}
+function hDirs(nb){
+  const k=nb.length;
+  if(k===0)return[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(vNorm);
+  if(k===1){
+    const u=vNorm(nb[0]);let ref=[0,0,1];
+    if(Math.abs(u[2])>0.9)ref=[1,0,0];
+    const e1=vNorm(vCross(u,ref)),e2=vCross(u,e1),r=Math.sqrt(8)/3;
+    return[0,120,240].map(d=>{const t=d*Math.PI/180;return vAdd(vMul(u,-1/3),vAdd(vMul(e1,r*Math.cos(t)),vMul(e2,r*Math.sin(t))));});
+  }
+  if(k===2){
+    const u=vNorm(nb[0]),v=vNorm(nb[1]),s=vNorm(vAdd(u,v)),w=vNorm(vCross(u,v));
+    return[vAdd(vMul(s,-0.57735),vMul(w,0.8165)),vAdd(vMul(s,-0.57735),vMul(w,-0.8165))];
+  }
+  if(k===3){const s=nb.reduce(vAdd,[0,0,0]);return[vMul(vNorm(s),-1)];}
+  return[];
+}
+function buildMol(carbons,cbonds){
+  const atoms=carbons.map(p=>({el:'C',p})),bonds=cbonds.map(b=>b.slice());
+  carbons.forEach((p,i)=>{
+    const nb=[];cbonds.forEach(([a,b])=>{if(a===i)nb.push(vSub(carbons[b],p));else if(b===i)nb.push(vSub(carbons[a],p));});
+    hDirs(nb).forEach(d=>{bonds.push([i,atoms.length]);atoms.push({el:'H',p:vAdd(p,vMul(d,0.72))});});
+  });
+  const c=atoms.reduce((s,a)=>vAdd(s,a.p),[0,0,0]).map(x=>x/atoms.length);
+  atoms.forEach(a=>a.p=vSub(a.p,c));
+  return{atoms,bonds};
+}
+function chainMol(n){return buildMol(chainCoords(n),Array.from({length:n-1},(_,i)=>[i,i+1]));}
+function branchedMol(n,branches){
+  const c=chainCoords(n),cb=Array.from({length:n-1},(_,i)=>[i,i+1]);
+  branches.forEach(idx=>{
+    const nb=[];cb.forEach(([a,b])=>{if(a===idx)nb.push(vSub(c[b],c[idx]));else if(b===idx)nb.push(vSub(c[a],c[idx]));});
+    cb.push([idx,c.length]);c.push(vAdd(c[idx],hDirs(nb)[0]));
+  });
+  return{c,cb};
+}
+const TETRA=[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(vNorm);
+const MOLS={};
+ALKANES.forEach(a=>{MOLS[a.name.toLowerCase()]={name:a.name,f:alkFormula(a.n),note:a.n<=4?'bei Raumtemperatur gasförmig':'bei Raumtemperatur flüssig',mol:chainMol(a.n)};});
+MOLS.butan.name='n-Butan';MOLS.butan.note='Siedepunkt −0,5 °C · unverzweigt';
+MOLS.isobutan={name:'Isobutan (2-Methylpropan)',f:'C₄H₁₀',note:'Siedepunkt −11,7 °C · verzweigt',mol:buildMol(...(()=>{const{c,cb}=branchedMol(3,[1]);return[c,cb];})())};
+MOLS.isopentan={name:'2-Methylbutan (Isopentan)',f:'C₅H₁₂',note:'Siedepunkt 27,8 °C',mol:buildMol(...(()=>{const{c,cb}=branchedMol(4,[1]);return[c,cb];})())};
+MOLS.neopentan={name:'2,2-Dimethylpropan (Neopentan)',f:'C₅H₁₂',note:'Siedepunkt 9,5 °C',mol:buildMol([ [0,0,0],...TETRA ],[[0,1],[0,2],[0,3],[0,4]])};
+MOLS.m3pentan={name:'3-Methylpentan',f:'C₆H₁₄',note:'Methylgruppe an C3',mol:buildMol(...(()=>{const{c,cb}=branchedMol(5,[2]);return[c,cb];})())};
+MOLS.dm23butan={name:'2,3-Dimethylbutan',f:'C₆H₁₄',note:'je eine Methylgruppe an C2 und C3',mol:buildMol(...(()=>{const{c,cb}=branchedMol(4,[1,2]);return[c,cb];})())};
+MOLS.e3pentan={name:'3-Ethylpentan',f:'C₇H₁₆',note:'Ethylgruppe an C3',mol:(()=>{const{c,cb}=branchedMol(5,[2]);const nb=[vSub(c[2],c[5])];cb.push([5,6]);c.push(vAdd(c[5],hDirs(nb)[0]));return buildMol(c,cb);})()};
+const MOLGROUPS={
+  basis:['methan','ethan','propan','butan'],
+  alkane:ALKANES.map(a=>a.name.toLowerCase()),
+  isomere:['butan','isobutan'],
+  pentane:['pentan','isopentan','neopentan'],
+  nomen:['isobutan','isopentan','neopentan','m3pentan','dm23butan','e3pentan']
+};
+
+/* ---------------- Eigene SVG-Grafiken ---------------- */
+function strukturSVG(n,opt={}){
+  const sx=46,pad=44,yC=70,yH1=22,yH2=118,w=pad*2+(n-1)*sx,h=140;
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Strukturformel mit '+n+' Kohlenstoffatomen" font-family="system-ui,sans-serif" font-size="15" font-weight="700" text-anchor="middle">';
+  const L=(x1,y1,x2,y2)=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#7d84a8" stroke-width="2"/>';
+  const T=(x,y,t,f)=>'<text x="'+x+'" y="'+(y+5)+'" fill="'+f+'">'+t+'</text>';
+  const hcol=i=>(opt.hl&&(i===0||i===n-1))?'#f5a524':'#e9ebf5';
+  for(let i=0;i<n;i++){
+    const x=pad+i*sx;
+    if(i<n-1)s+=L(x+9,yC,x+sx-9,yC);
+    s+=L(x,yC-9,x,yH1+9)+L(x,yC+9,x,yH2-9);
+    s+=T(x,yH1,'H',i===0||i===n-1?hcol(i):'#e9ebf5')+T(x,yH2,'H','#e9ebf5')+T(x,yC,'C','#a78bfa');
+  }
+  if(n===1){s+=L(pad-9,yC,pad-34,yC)+L(pad+9,yC,pad+34,yC)+T(pad-40,yC,'H',hcol(0))+T(pad+40,yC,'H',hcol(0));}
+  else{
+    const xl=pad-40,xr=pad+(n-1)*sx+40;
+    s+=L(pad-9,yC,xl+9,yC)+L(pad+(n-1)*sx+9,yC,xr-9,yC)+T(xl,yC,'H',hcol(0))+T(xr,yC,'H',hcol(n-1));
+  }
+  return s+'</svg>';
+}
+function skelettSVG(n,branches=[],numbers=false){
+  const sx=36,top=30,bot=64,pad=24;
+  const pts=Array.from({length:n},(_,i)=>[pad+i*sx,i%2?bot:top]);
+  const w=pad*2+(n-1)*sx,h=124;
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Skelettformel mit '+n+' C-Atomen'+(branches.length?' und Verzweigung':'')+'" font-family="system-ui,sans-serif">';
+  s+='<polyline points="'+pts.map(p=>p.join(',')).join(' ')+'" fill="none" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  const counts={};
+  branches.forEach(b=>{
+    const at=(typeof b==='object')?b.at:b,len=(typeof b==='object')?(b.len||1):1;
+    counts[at]=(counts[at]||0)+1;
+    const v=pts[at-1],dir=v[1]===top?-1:1,off=branches.filter(x=>((typeof x==='object')?x.at:x)===at).length>1?(counts[at]===1?-16:16):0;
+    const b1=[v[0]+off,v[1]+dir*30];
+    s+='<line x1="'+v[0]+'" y1="'+v[1]+'" x2="'+b1[0]+'" y2="'+b1[1]+'" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>';
+    if(len===2){const b2=[b1[0]+24,b1[1]+dir*16];s+='<line x1="'+b1[0]+'" y1="'+b1[1]+'" x2="'+b2[0]+'" y2="'+b2[1]+'" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>';}
+  });
+  if(numbers)pts.forEach((p,i)=>{s+='<text x="'+p[0]+'" y="'+(p[1]===top?p[1]-10:p[1]+20)+'" fill="#f5a524" font-size="13" font-weight="700" text-anchor="middle">'+(i+1)+'</text>';});
+  return s+'</svg>';
+}
+function shellSVG(){
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="220" role="img" aria-label="Schalenmodell des Kohlenstoffatoms: 2 Elektronen innen, 4 Außenelektronen" font-family="system-ui,sans-serif">';
+  s+='<circle cx="120" cy="120" r="46" fill="none" stroke="#3a4166" stroke-width="1.5"/><circle cx="120" cy="120" r="92" fill="none" stroke="#3a4166" stroke-width="1.5"/>';
+  s+='<circle cx="120" cy="120" r="24" fill="#212640" stroke="#a78bfa" stroke-width="2"/><text x="120" y="126" fill="#a78bfa" font-size="15" font-weight="700" text-anchor="middle">6+</text>';
+  [[120,74],[120,166]].forEach(p=>{s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#e9ebf5"/>';});
+  [[120,28],[212,120],[120,212],[28,120]].forEach(p=>{s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="#a78bfa"/>';});
+  s+='<text x="120" y="235" fill="#a9afc9" font-size="12" text-anchor="middle">4 Außenelektronen → 4 Bindungen</text></svg>';
+  return s;
+}
+function alkanTableHTML(){
+  let rows='';
+  ALKANES.forEach(a=>{
+    const halb=a.n<=5?('CH₃'+(a.n>2?'–'+Array(a.n-2).fill('CH₂').join('–'):'')+'–CH₃').replace(/^CH₃–CH₃$/,a.n===2?'CH₃–CH₃':'CH₃–CH₃'):(('CH₃–(CH₂)'+sub(a.n-2)+'–CH₃'));
+    const halbTxt=a.n===1?'CH₄':halb;
+    rows+='<tr><td><b>'+a.name+'</b></td><td class="mono">'+alkFormula(a.n)+'</td><td>'+strukturSVG(a.n)+'</td><td class="mono" style="white-space:nowrap">'+halbTxt+'</td><td>'+a.n+' / '+(2*a.n+2)+'</td><td>'+a.state+'</td><td>'+a.use+'</td></tr>';
+  });
+  return '<div class="tablewrap"><table><caption class="skip">Homologe Reihe der Alkane von Methan bis Decan</caption><thead><tr><th>Name</th><th>Summenformel</th><th>Strukturformel</th><th>Halbstrukturformel</th><th>C / H</th><th>Zustand (20 °C)</th><th>Typische Verwendung</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+
+/* ---------------- Videos (verifiziert am 14.11.2026) ---------------- */
+const VIDEOS={
+  k1:[{title:'Elektronenpaarbindung bei Molekülen | Atombindung',channel:'Chemie Endlich Verstehen',url:'https://www.youtube.com/watch?v=1HZ2EZ73Hes',len:'5:35',desc:'Warum Atome Bindungen eingehen: Edelgaskonfiguration, Duett- und Oktettregel – die Grundlage für die vier Bindungen des Kohlenstoffs.'}],
+  k2:[{title:'Alkane | Homologe Reihe der Alkane',channel:'Chemie Endlich Verstehen',url:'https://www.youtube.com/watch?v=NzPRbK-t-fU',len:'3:05',desc:'Aufbau der Alkane und Herleitung der allgemeinen Summenformel CₙH₂ₙ₊₂ – genau passend zu diesem Kapitel.'}],
+  k3:[{title:'Alkane Grundlagen einfach erklärt │ Chemie Lernvideo',channel:'Learning Level Up',url:'https://www.youtube.com/watch?v=4IFA-q-hOyU',len:'7:00',desc:'Homologe Reihe, Namensgebung, Aggregatzustände, Isomerie und Alkylgruppen in einem kompakten Überblick.'}],
+  k4:[{title:'Strukturformeln / Lewis-Formeln aufstellen',channel:'Chemie Endlich Verstehen',url:'https://www.youtube.com/watch?v=wqu2bZOzDrM',len:'6:49',desc:'Schritt für Schritt Strukturformeln zeichnen – mit einer Übung am Methan-Molekül.'}],
+  k5:[{search:'Eigenschaften der Alkane Siedetemperatur Van-der-Waals einfach erklärt',desc:'Zu diesem Kapitel wurde kein direkt verifiziertes Video hinterlegt. Diese Suche führt zu passenden Erklärvideos, z. B. von „Chemie – simpleclub“ oder „Chemie Endlich Verstehen“.'}],
+  k6:[{search:'Verbrennung von Alkanen Reaktionsgleichung aufstellen einfach erklärt',desc:'Zu diesem Kapitel wurde kein direkt verifiziertes Video hinterlegt. Die Suche führt zu Erklärvideos, z. B. von „Studytiger – Chemie“ oder „Herr Mathe“.'}],
+  k7:[{title:'Alkane Grundlagen einfach erklärt │ Chemie Lernvideo',channel:'Learning Level Up',url:'https://www.youtube.com/watch?v=4IFA-q-hOyU',len:'7:00',desc:'Enthält ab der Mitte einen Abschnitt zu Isomeren: n-Butan/Isobutan und die drei Pentan-Isomere.'},{search:'Isomerie Alkane Konstitutionsisomere einfach erklärt',desc:'Ergänzende Suche für ein eigenes Isomerie-Video (kein direkt verifizierter Link hinterlegt).'}],
+  k8:[{title:'Benennung der Alkane nach IUPAC Nomenklatur',channel:'Chemie Endlich Verstehen',url:'https://www.youtube.com/watch?v=tex0RtapCRs',len:'3:56',desc:'Die fünf Schritte der Benennung an einem完整的 Beispiel: Hauptkette, Alkylgruppen, Alphabet, Nummerierung, Zahlen.'},{title:'Alkane benennen | Übungsaufgaben + Lösungen',channel:'Chemie Endlich Verstehen',url:'https://www.youtube.com/watch?v=zO5qzlFV1G8',len:'5:33',desc:'Drei vorgerechnete Übungsaufgaben – ideal zur Selbstkontrolle nach dem Nomenklatur-Trainer.'}],
+  k9:[{search:'Methan Treibhausgas Erdgas einfach erklärt',desc:'Zu diesem Kapitel wurde kein direkt verifiziertes Video hinterlegt. Die Suche führt zu Videos über Methan, Erdgas und Klimawirkung.'}],
+  k10:[{search:'Alkane Zusammenfassung Chemie Klassenarbeit Prüfung',desc:'Ergänzende Suche für Wiederholungsvideos vor der Prüfung (kein direkt verifizierter Link hinterlegt).'}]
+};
+function videoCardsHTML(kid){
+  return (VIDEOS[kid]||[]).map(v=>{
+    if(v.search){
+      const u='https://www.youtube.com/results?search_query='+encodeURIComponent(v.search);
+      return '<div class="videocard search"><div class="vplay" aria-hidden="true">🔎</div><div><b>Video-Suche statt Direktlink</b><small>'+esc(v.desc)+'</small><a class="btn small" href="'+u+'" target="_blank" rel="noopener noreferrer">YouTube-Suche öffnen: „'+esc(v.search)+'“ ↗</a><br><small style="margin-top:.4rem">Externer Dienst · öffnet in neuem Tab · Internet erforderlich. Prüfe Kanal und fachliche Qualität selbst – wir haben hier bewusst keinen ungeprüften Link gesetzt.</small></div></div>';
+    }
+    return '<div class="videocard"><div class="vplay" aria-hidden="true">▶</div><div><b>'+esc(v.title)+'</b><small>Kanal: '+esc(v.channel)+' · Länge: '+v.len+' · Quelle: YouTube (Titel, Kanal und Inhalt wurden geprüft)</small><p style="font-size:.9rem;color:var(--muted)">'+esc(v.desc)+'</p><a class="btn small primary" href="'+v.url+'" target="_blank" rel="noopener noreferrer">Auf YouTube ansehen ↗</a><small style="margin-top:.4rem">Externes Video – die Rechte liegen beim Kanal. Es ist <b>nicht</b> Teil der CC0-Widmung dieser Plattform. Öffnet YouTube in einem neuen Tab (Internet erforderlich, keine automatische Datenübertragung).</small></div></div>';
+  }).join('');
+}
+
+/* ---------------- Quizdaten ---------------- */
+const QUIZZES={
+ k1:[
+  {t:'mc',q:'Warum geht Kohlenstoff in organischen Molekülen praktisch immer vier Bindungen ein?',o:['Er besitzt vier Außenelektronen und erreicht mit vier Bindungen acht Außenelektronen (Oktettregel).','Er ist ein besonders großes Atom.','Er besitzt vier Protonen.','Wasserstoff zwingt ihn dazu.'],a:0,e:'C steht in der 4. Hauptgruppe: 4 Außenelektronen + 4 geteilte Elektronenpaare = 8 Außenelektronen (Edelgaskonfiguration).'},
+  {t:'tf',q:'Kohlenwasserstoffe bestehen ausschließlich aus Kohlenstoff und Wasserstoff.',a:true,e:'Genau – nur C und H. Verbindungen wie Zucker oder Fette sind zwar organisch, aber keine Kohlenwasserstoffe, weil sie auch Sauerstoff enthalten.'},
+  {t:'mc',q:'Welche dieser Verbindungen ist ein Kohlenwasserstoff?',o:['C₂H₆','H₂O','CO₂','NaCl'],a:0,e:'C₂H₆ (Ethan) enthält nur C und H. CO₂ enthält zwar Kohlenstoff, aber keinen Wasserstoff und wird traditionell zur anorganischen Chemie gezählt.'},
+  {t:'tf',q:'Alkane enthalten mindestens eine C=C-Doppelbindung.',a:false,e:'Falsch – Alkane haben ausschließlich Einfachbindungen. C=C-Doppelbindungen sind das Merkmal der Alkene.'}
+ ],
+ k2:[
+  {t:'gap',q:'Wie lautet die allgemeine Summenformel der Alkane?',a:['cnh2n+2'],sol:'CₙH₂ₙ₊₂',e:'n ist die Anzahl der C-Atome. Jedes C trägt 2 H, plus je ein额外 H an den beiden Kettenenden: 2n + 2.'},
+  {t:'gap',q:'Ein Alkan mit 6 C-Atomen hat wie viele H-Atome? (Zahl)',a:['14'],sol:'14',e:'2 · 6 + 2 = 14 → C₆H₁₄ (Hexan).'},
+  {t:'mc',q:'Was bedeutet „gesättigt“ bei Kohlenwasserstoffen?',o:['Alle C–C-Bindungen sind Einfachbindungen; das Molekül ist maximal mit Wasserstoff „gesättigt“.','Der Stoff ist bei Raumtemperatur flüssig.','Das Molekül enthält keinen Wasserstoff.','Das Molekül ist ringförmig.'],a:0,e:'Gesättigt = keine Mehrfachbindungen, jeder Bindungsplatz, der frei ist, trägt ein H-Atom.'},
+  {t:'tf',q:'C₅H₁₂ ist die Summenformel von Pentan.',a:true,e:'Richtig: 2 · 5 + 2 = 12.'}
+ ],
+ k3:[
+  {t:'mc',q:'Um welche Baueinheit unterscheiden sich zwei benachbarte Alkane der homologen Reihe?',o:['CH₂','CH₄','C₂H₂','H₂O'],a:0,e:'Jedes nächste Mitglied hat genau ein CH₂ mehr – deshalb ändern sich die Eigenschaften so regelmäßig.'},
+  {t:'gap',q:'Wie heißt das Alkan mit der Summenformel C₉H₂₀?',a:['nonan'],sol:'Nonan',e:'Nona = 9 → Nonan. Kontrolle: 2 · 9 + 2 = 20 ✓'},
+  {t:'mc',q:'Welches dieser Alkane ist bei Raumtemperatur flüssig?',o:['Hexan','Methan','Propan','Butan'],a:0,e:'C1–C4 sind gasförmig. Hexan (C6) ist flüssig (Siedepunkt 68,7 °C).'},
+  {t:'mc',q:'Welches Alkan folgt direkt auf Heptan?',o:['Octan','Hexan','Nonan','Decan'],a:0,e:'Heptan = 7 C, das nächste (8 C) ist Octan.'}
+ ],
+ k4:[
+  {t:'mc',q:'Was zeigt eine Skelettformel NICHT ausdrücklich?',o:['Die H-Atome – sie werden gedanklich ergänzt.','Die Anzahl der C-Atome','Verzweigungen der Kette','Die C–C-Bindungen'],a:0,e:'Ecken und Enden sind C-Atome; die fehlenden Bindungsplätze werden gedanklich mit H aufgefüllt.'},
+  {t:'gap',q:'Wie lautet die Halbstrukturformel von Ethan?',a:['ch3ch3'],sol:'CH₃–CH₃',e:'Pro C-Atom werden die H-Atome zusammengefasst: CH₃–CH₃.'},
+  {t:'mc',q:'Eine Zickzack-Linie mit 5 Enden bzw. Ecken steht für welches Alkan?',o:['Pentan','Butan','Hexan','Methan'],a:0,e:'5 Ecken/Enden = 5 C-Atome = Pentan.'}
+ ],
+ k5:[
+  {t:'tf',q:'Alkane lösen sich gut in Wasser.',a:false,e:'Alkane sind unpolar (hydrophob). Wasser ist polar – „Ähnliches löst sich in Ähnlichem“. Deshalb schwimmt Benzin auf Wasser, statt sich zu lösen.'},
+  {t:'mc',q:'Warum steigt die Siedetemperatur mit zunehmender Kettenlänge?',o:['Größere Moleküle haben stärkere Van-der-Waals-Kräfte zwischen den Molekülen; es wird mehr Energie zum Trennen benötigt.','Die C–C-Bindungen im Molekül werden stärker.','Längere Alkane enthalten mehr Sauerstoff.','Die Wasserstoffbrückenbindungen werden stärker.'],a:0,e:'Beim Sieden werden die Kräfte ZWISCHEN den Molekülen überwunden, nicht die Bindungen IM Molekül. Größere Kontaktfläche + mehr Elektronen → stärkere Van-der-Waals-Kräfte.'},
+  {t:'mc',q:'Was passiert beim Sieden eines Alkans auf Teilchenebene?',o:['Die Anziehungskräfte zwischen den Molekülen werden überwunden – die Moleküle selbst bleiben intakt.','Die C–C-Bindungen brechen.','Die Moleküle zerfallen in einzelne Atome.','Es entsteht sofort CO₂.'],a:0,e:'Sieden ist eine physikalische Änderung: ganze Moleküle gehen in die Gasphase über.'},
+  {t:'tf',q:'Flüssige Alkane schwimmen auf Wasser, weil ihre Dichte kleiner als die von Wasser ist.',a:true,e:'Z. B. Hexan: 0,659 g/cm³ vs. Wasser 1,0 g/cm³. Deshalb bildet Öl einen Film auf der Wasseroberfläche.'}
+ ],
+ k6:[
+  {t:'gap',q:'Ergänze den Koeffizienten: CH₄ + ___ O₂ → CO₂ + 2 H₂O',a:['2'],sol:'2',e:'Rechts sind 2 + 2 = 4 O-Atome → links braucht man 2 O₂.'},
+  {t:'mc',q:'Was entsteht bei der vollständigen Verbrennung eines Alkans?',o:['CO₂ und H₂O (plus viel Energie)','CO und H₂O','C und H₂','CO₂ und H₂'],a:0,e:'Bei ausreichend Sauerstoff werden alle C zu CO₂ und alle H zu H₂O oxidiert.'},
+  {t:'mc',q:'Was kann bei Sauerstoffmangel statt CO₂ entstehen?',o:['Kohlenstoffmonoxid (CO) und/oder Ruß (C)','Nur mehr CO₂','Stickstoff direkt aus dem Alkan','Wasserstoffgas'],a:0,e:'Unvollständige Verbrennung: z. B. 2 CH₄ + 3 O₂ → 2 CO + 4 H₂O. CO ist hochgiftig!'},
+  {t:'tf',q:'Beim Ausgleichen einer Reaktionsgleichung darf man die tiefgestellten Zahlen (Indizes) verändern.',a:false,e:'Niemals! Indizes ändern den Stoff selbst (H₂O → H₂O₂ wäre ein anderer Stoff). Erlaubt sind nur Koeffizienten VOR den Formeln.'}
+ ],
+ k7:[
+  {t:'mc',q:'Isomere sind Moleküle mit …',o:['gleicher Summenformel, aber unterschiedlicher Verknüpfung der Atome.','gleicher Struktur, aber anderer Summenformel.','immer identischer Siedetemperatur.','unterschiedlichen Elementen.'],a:0,e:'Gleiche Atome, anderer Bauplan → unterschiedliche Stoffe mit eigenen Eigenschaften.'},
+  {t:'gap',q:'Wie viele Konstitutionsisomere hat Pentan (C₅H₁₂)? (Zahl oder Wort)',a:['3','drei'],sol:'3',e:'n-Pentan, 2-Methylbutan (Isopentan) und 2,2-Dimethylpropan (Neopentan).'},
+  {t:'mc',q:'Warum siedet Isobutan (−11,7 °C) niedriger als n-Butan (−0,5 °C)?',o:['Die kompakte, verzweigte Form bietet weniger Kontaktfläche → schwächere Van-der-Waals-Kräfte.','Isobutan hat weniger H-Atome.','Isobutan enthält Doppelbindungen.','Isobutan hat eine kleinere Molekülmasse.'],a:0,e:'Beide haben C₄H₁₀ und dieselbe Masse! Nur die Form unterscheidet sich – kugelige Moleküle „kleben“ schlechter aneinander.'},
+  {t:'tf',q:'Wenn ich eine Kohlenstoffkette nur drehe oder biege, erhalte ich ein neues Isomer.',a:false,e:'Nein – solange die Verknüpfung (wer mit wem verbunden ist) gleich bleibt, ist es dasselbe Molekül, nur in einer anderen räumlichen Anordnung (Konformation).'}
+ ],
+ k8:[
+  {t:'gap',q:'Benenne: CH₃–CH(CH₃)–CH₃',a:['2methylpropan','isobutan'],sol:'2-Methylpropan',e:'Längste Kette: 3 C → Propan. Eine Methylgruppe an C2 → 2-Methylpropan (Trivialname: Isobutan).'},
+  {t:'mc',q:'Nach welcher Regel wird die Hauptkette nummeriert?',o:['So, dass die Seitenketten die kleinstmöglichen Nummern bekommen.','Immer von links nach rechts.','So, dass die Zahlen möglichst groß werden.','Das ist beliebig.'],a:0,e:'Deshalb heißt es 2-Methylpentan und nicht 4-Methylpentan.'},
+  {t:'gap',q:'Wie heißt die Seitenkette –CH₃?',a:['methyl','methylgruppe'],sol:'Methyl',e:'Methan → Methyl: Die Endung -an wird zu -yl.'},
+  {t:'mc',q:'Wie heißt die Gruppe –C₂H₅?',o:['Ethyl','Methyl','Ethan','Propyl'],a:0,e:'Ethan (C2) minus ein H → Ethylgruppe.'}
+ ],
+ k9:[
+  {t:'gap',q:'Was ist der Hauptbestandteil von Erdgas?',a:['methan','ch4'],sol:'Methan (CH₄)',e:'Erdgas besteht überwiegend aus Methan – deshalb ist Methan das wirtschaftlich wichtigste Alkan.'},
+  {t:'mc',q:'Woraus besteht Flüssiggas (LPG) hauptsächlich?',o:['Propan und Butan','Methan und Ethan','Decan und Undecan','Nur Wasserstoff'],a:0,e:'Propan/Butan lassen sich schon bei mäßigem Druck verflüssigen – praktisch für Campingflaschen und Feuerzeuge.'},
+  {t:'tf',q:'Methan ist – auf gleiche Masse und 100 Jahre bezogen – ein stärkeres Treibhausgas als CO₂.',a:true,e:'Methan wirkt rund 28–30-mal stärker als CO₂ (je nach Bewertungsbericht). Deshalb sind Gaslecks klimaschädlich, auch ohne Verbrennung.'}
+ ],
+ mini1:[
+  {t:'mc',q:'Schnellcheck: Wie viele Bindungen geht ein C-Atom in Alkanen ein?',o:['4','2','6','1'],a:0,e:'Immer 4 – zu anderen C-Atomen und/oder zu H-Atomen.'},
+  {t:'tf',q:'„Organisch“ in der Chemie bedeutet: Die Verbindung enthält Kohlenstoff.',a:true,e:'Ja – mit wenigen traditionellen Ausnahmen wie CO, CO₂ und Carbonaten, die zur anorganischen Chemie zählen.'}
+ ],
+ mini4:[
+  {t:'match',q:'Ordne jede Darstellungsform ihrem Merkmal zu:',p:[['Summenformel','Zählt nur die Atome, z. B. C₂H₆'],['Strukturformel','Zeigt alle Atome und alle Bindungen als Striche'],['Halbstrukturformel','Fasst die H-Atome je C zusammen, z. B. CH₃–CH₃'],['Skelettformel','Zickzack-Linie; Ecken und Enden sind C-Atome']],e:'Von „nur Anzahl“ bis „nur Gerüst“: Jede Form lässt bewusst Informationen weg, um schneller lesbar zu sein.'}
+ ],
+ mini9:[
+  {t:'match',q:'Ordne den Alltagsstoff seiner chemischen Beschreibung zu:',p:[['Erdgas','Überwiegend Methan (CH₄)'],['Campinggas (LPG)','Propan/Butan, unter Druck verflüssigt'],['Kerzenwachs (Paraffin)','Langkettige Alkane, etwa C₂₀–C₄₀'],['Benzin','Gemisch aus Alkanen, u. a. etwa C₅–C₁₁']],e:'Vom kleinsten Alkan (Gas) bis zu langen Ketten (Wachs) – die Kettenlänge bestimmt den Alltagseinsatz.'}
+ ],
+ exam:[
+  {t:'gap',q:'Die allgemeine Summenformel der Alkane lautet: ___',a:['cnh2n+2'],sol:'CₙH₂ₙ₊₂',e:'n = Anzahl der C-Atome; 2n + 2 H-Atome.'},
+  {t:'mc',q:'Wie heißt das Alkan C₈H₁₈?',o:['Octan','Heptan','Nonan','Hexan'],a:0,e:'Octa = 8. Kontrolle: 2 · 8 + 2 = 18 ✓'},
+  {t:'tf',q:'Alkane sind unpolar und deshalb in Wasser praktisch unlöslich.',a:true,e:'Hydrophob + geringere Dichte → Alkane schwimmen auf Wasser.'},
+  {t:'gap',q:'Ergänze: C₃H₈ + ___ O₂ → 3 CO₂ + 4 H₂O',a:['5'],sol:'5',e:'Rechts: 3·2 + 4 = 10 O-Atome → 5 O₂.'},
+  {t:'mc',q:'Welche Stoffe können bei unvollständiger Verbrennung entstehen?',o:['CO und Ruß (C)','Nur CO₂','O₃ und H₂','NaCl'],a:0,e:'Bei O₂-Mangel: giftiges Kohlenstoffmonoxid und/oder Ruß – zusätzlich entsteht Wasser.'},
+  {t:'mc',q:'Was sind Konstitutionsisomere?',o:['Moleküle mit gleicher Summenformel, aber unterschiedlicher Verknüpfung der Atome','Moleküle mit gleicher Struktur','Atome mit gleicher Neutronenzahl','Moleküle, die sich nur durch Drehung unterscheiden'],a:0,e:'Anderer Bauplan bei gleichen Atomen – z. B. n-Butan und Isobutan.'},
+  {t:'gap',q:'Benenne: CH₃–CH(CH₃)–CH₂–CH₃',a:['2methylbutan','isopentan'],sol:'2-Methylbutan',e:'Längste Kette: 4 C (Butan), Methyl an C2. Achtung: nicht „2-Ethylpropan“ – immer die längste Kette suchen!'},
+  {t:'tf',q:'In der homologen Reihe der Alkane unterscheidet sich jedes Nachbarpaar um CH₂.',a:true,e:'Deshalb der regelmäßige Trend bei Siede- und Schmelztemperaturen.'},
+  {t:'mc',q:'Warum steigt die Siedetemperatur von Methan zu Decan?',o:['Stärkere Van-der-Waals-Kräfte zwischen größeren Molekülen','Stärkere C–C-Bindungen','Mehr Wasserstoffbrücken','Höhere Dichte des Wassers'],a:0,e:'Mehr Elektronen + größere Kontaktfläche → stärkere Zwischenmolekulare Kräfte.'},
+  {t:'match',q:'Ordne Name und Summenformel zu:',p:[['Methan','CH₄'],['Butan','C₄H₁₀'],['Heptan','C₇H₁₆'],['Decan','C₁₀H₂₂']],e:'Immer prüfen mit 2n + 2!'},
+  {t:'mc',q:'In welchem Aggregatzustand liegt Propan bei Raumtemperatur vor?',o:['gasförmig','flüssig','fest','Plasma'],a:0,e:'C1–C4 sind bei Raumtemperatur gasförmig. In der LPG-Flasche wird Propan durch Druck verflüssigt.'},
+  {t:'mc',q:'Welche Stoffklasse enthält mindestens eine C=C-Doppelbindung?',o:['Alkene','Alkane','Cycloalkane','Edelgase'],a:0,e:'Alkene: C=C · Alkine: C≡C · Alkane: nur Einfachbindungen.'}
+ ]
+};
+
+/* ---------------- Lernkarten & Glossar ---------------- */
+const FLASHCARDS=[
+ {q:'Was ist organische Chemie?',a:'Die Chemie der Kohlenstoffverbindungen. Wenige Ausnahmen (CO, CO₂, Carbonate) zählen traditionell zur anorganischen Chemie.'},
+ {q:'Was ist ein Kohlenwasserstoff?',a:'Eine Verbindung, die NUR aus Kohlenstoff (C) und Wasserstoff (H) besteht.'},
+ {q:'Warum geht Kohlenstoff vier Bindungen ein?',a:'C hat 4 Außenelektronen. Mit 4 gemeinsamen Elektronenpaaren erreicht es 8 Außenelektronen (Oktettregel / Edelgaskonfiguration).'},
+ {q:'Allgemeine Summenformel der Alkane?',a:'CₙH₂ₙ₊₂ – jedes C trägt 2 H, plus 1 extra H an jedem der beiden Kettenenden.'},
+ {q:'Was bedeutet „gesättigt“?',a:'Nur C–C-Einfachbindungen; das Molekül ist maximal mit H-Atomen besetzt.'},
+ {q:'Was ist eine homologe Reihe?',a:'Eine Stofffolge, bei der jedes nächste Mitglied um CH₂ wächst – mit regelmäßigem Trend der Eigenschaften (z. B. Siedetemperatur).'},
+ {q:'Methan: Formel und Bedeutung?',a:'CH₄ – das kleinste Alkan und Hauptbestandteil von Erdgas.'},
+ {q:'Butan: Formel und Verwendung?',a:'C₄H₁₀ – Feuerzeuggas und Bestandteil von Flüssiggas (LPG).'},
+ {q:'Was sind Isomere?',a:'Moleküle mit gleicher Summenformel, aber unterschiedlicher Verknüpfung der Atome → unterschiedliche Eigenschaften.'},
+ {q:'Wie viele Isomere hat Pentan? Welche?',a:'3: n-Pentan (36,1 °C), 2-Methylbutan/Isopentan (27,8 °C), 2,2-Dimethylpropan/Neopentan (9,5 °C).'},
+ {q:'Was sind Van-der-Waals-Kräfte?',a:'Schwache Anziehungskräfte ZWISCHEN Molekülen durch kurzzeitige Ladungsverschiebungen. Sie wachsen mit Molekülgröße und Kontaktfläche.'},
+ {q:'Siedetemperatur-Trend der Alkane?',a:'Steigt mit der Kettenlänge. Verzweigte Isomere sieden niedriger als ihre unverzweigten Verwandten.'},
+ {q:'Löslichkeit und Dichte der Alkane?',a:'Unlöslich in Wasser (unpolar/hydrophob), gut fettlöslich. Dichte < 1 g/cm³ → sie schwimmen auf Wasser.'},
+ {q:'Produkte der vollständigen Verbrennung?',a:'Alkan + O₂ → CO₂ + H₂O (+ viel Energie, exotherm).'},
+ {q:'Produkte der unvollständigen Verbrennung?',a:'Bei O₂-Mangel: CO (giftig, farb- und geruchlos!) und/oder Ruß (C) – plus H₂O.'},
+ {q:'Was ist eine Alkylgruppe?',a:'Ein Alkan minus ein H-Atom, Endung -yl: Methyl –CH₃, Ethyl –C₂H₅, Propyl –C₃H₇.'},
+ {q:'Die zwei wichtigsten Namensregeln?',a:'1. Längste C-Kette = Stammname. 2. So nummerieren, dass Seitenketten die kleinstmöglichen Nummern bekommen.'},
+ {q:'Was ist LPG (Flüssiggas)?',a:'Ein Propan-/Butan-Gemisch, das unter mäßigem Druck flüssig wird – Campinggas, Feuerzeuge, Grill.'}
+];
+const GLOSSARY=[
+ ['Alkane','Gesättigte, kettenförmige Kohlenwasserstoffe mit nur C–C-Einfachbindungen; Summenformel CₙH₂ₙ₊₂.'],
+ ['Alkylgruppe','Rest eines Alkans nach Entfernen eines H-Atoms; Endung -yl (Methyl, Ethyl, Propyl …).'],
+ ['gesättigt','Nur Einfachbindungen zwischen C-Atomen; maximal mit Wasserstoff besetzt.'],
+ ['ungesättigt','Mindestens eine C=C-Doppel- oder C≡C-Dreifachbindung (Alkene bzw. Alkine).'],
+ ['homologe Reihe','Stofffolge mit gleichem Bauprinzip; jedes Mitglied wächst um CH₂.'],
+ ['Isomere (Konstitutionsisomere)','Gleiche Summenformel, unterschiedliche Verknüpfung der Atome.'],
+ ['Summenformel','Gibt nur Art und Anzahl der Atome an, z. B. C₄H₁₀.'],
+ ['Strukturformel (Valenzstrichformel)','Zeigt alle Atome und alle Bindungen als Striche.'],
+ ['Halbstrukturformel','Verkürzte Strukturformel: H-Atome je C zusammengefasst, z. B. CH₃–CH₂–CH₃.'],
+ ['Skelettformel','Zickzack-Linie des C-Gerüsts; Ecken/Enden = C, H wird gedanklich ergänzt.'],
+ ['Elektronenpaarbindung (kovalente Bindung)','Bindung durch ein gemeinsames Elektronenpaar zweier Atome.'],
+ ['Oktettregel','Atome streben 8 Außenelektronen an (Edelgaskonfiguration); H strebt 2 an (Duettregel).'],
+ ['Van-der-Waals-Kräfte','Schwache Anziehung zwischen Molekülen durch kurzzeitige, spontane Ladungsverschiebungen.'],
+ ['unpolar','Ladung ist fast gleichmäßig verteilt; keine deutlichen Plus-/Minus-Enden im Molekül.'],
+ ['hydrophob','„Wassermeidend“ – unpolar und daher in Wasser praktisch unlöslich.'],
+ ['Dichte','Masse pro Volumen (g/cm³). Flüssige Alkane: ca. 0,6–0,8 g/cm³ < Wasser (1,0).'],
+ ['Siedetemperatur','Temperatur, bei der die Kräfte zwischen den Molekülen überwunden werden und der Stoff in die Gasphase übergeht.'],
+ ['exotherm','Bei der Reaktion wird Energie (Wärme) frei – z. B. bei jeder Verbrennung.'],
+ ['vollständige Verbrennung','Reaktion mit genug O₂: Produkte sind CO₂ und H₂O.'],
+ ['unvollständige Verbrennung','Reaktion mit zu wenig O₂: es entstehen CO und/oder Ruß (C) sowie H₂O.'],
+ ['Koeffizient','Zahl VOR einer Formel in der Reaktionsgleichung – nur sie darf beim Ausgleichen geändert werden.'],
+ ['Index','Tiefgestellte Zahl IN einer Formel (z. B. die 2 in H₂O) – beschreibt den Stoff und bleibt unverändert.'],
+ ['IUPAC','Internationale Vereinigung, die die systematischen Namensregeln (Nomenklatur) festlegt.'],
+ ['fossile Brennstoffe','Erdgas, Erdöl, Kohle – über Millionen Jahre aus abgestorbenen Organismen entstanden; endlich.'],
+ ['Treibhausgas','Gas, das Wärmestrahlung der Erde absorbiert (z. B. CO₂, Methan) und so die Atmosphäre erwärmt.'],
+ ['LPG (Flüssiggas)','Unter Druck verflüssigtes Propan-/Butan-Gemisch.'],
+ ['Paraffin','Gemisch langkettiger fester Alkane (etwa C₂₀–C₄₀), z. B. Kerzenwachs.']
+];
+
+/* ---------------- Nomenklatur-Trainer ---------------- */
+const NOMEN=[
+ {halb:'CH₃–CH(CH₃)–CH₃',sk:[3,[2]],name:'2-Methylpropan',accept:['2methylpropan','isobutan'],hint:'Längste Kette: 3 C-Atome.',e:'Propan-Kette (3 C), eine Methylgruppe an C2 → 2-Methylpropan. Trivialname: Isobutan.'},
+ {halb:'CH₃–CH(CH₃)–CH₂–CH₃',sk:[4,[2]],name:'2-Methylbutan',accept:['2methylbutan','isopentan'],hint:'Längste Kette: 4 C-Atome – nicht 3!',e:'Die längste durchgehende Kette hat 4 C → Butan. Methyl an C2 → 2-Methylbutan (Isopentan).'},
+ {halb:'CH₃–C(CH₃)₂–CH₃',sk:[3,[2,2]],name:'2,2-Dimethylpropan',accept:['22dimethylpropan','neopentan'],hint:'Längste Kette: 3 C; zwei gleiche Gruppen an einem C.',e:'Zwei Methylgruppen am selben C2 → 2,2-Dimethylpropan (Neopentan). „di“ = 2, Zahlen mit Komma trennen.'},
+ {halb:'CH₃–CH₂–CH(CH₃)–CH₂–CH₃',sk:[5,[3]],name:'3-Methylpentan',accept:['3methylpentan'],hint:'Längste Kette: 5 C-Atome.',e:'Pentan-Kette, Methyl genau in der Mitte an C3 → 3-Methylpentan. Von beiden Seiten ergibt sich die 3.'},
+ {halb:'CH₃–CH(CH₃)–CH(CH₃)–CH₃',sk:[4,[[{at:2}],[{at:3}]]],name:'2,3-Dimethylbutan',accept:['23dimethylbutan'],hint:'Längste Kette: 4 C; zwei Methylgruppen.',e:'Butan-Kette mit je einer Methylgruppe an C2 und C3 → 2,3-Dimethylbutan.'},
+ {halb:'CH₃–CH₂–CH(C₂H₅)–CH₂–CH₃',sk:[5,[{at:3,len:2}]],name:'3-Ethylpentan',accept:['3ethylpentan'],hint:'Seitenkette mit 2 C = Ethyl. Längste Kette: 5 C.',e:'Die Seitenkette hat 2 C → Ethyl. Längste Kette bleibt 5 C (Pentan) → 3-Ethylpentan.'}
+];
+
+/* ---------------- Lizenztexte (als Dateien exportierbar) ---------------- */
+const LICENSE_TXT=`AlkanLab – Interaktive Lernplattform: Alkane & organische Chemie
+================================================================
+
+EIGENE INHALTE – CC0 1.0 UNIVERSAL (PUBLIC DOMAIN DEDICATION)
+
+Die von den Erstellern dieser Plattform neu geschaffenen Inhalte
+(saemtliche Erklaertexte, selbst erstellte SVG-Grafiken, Molekuel-
+modelle, Diagramme, Quizfragen, Lernkarten sowie der HTML-, CSS- und
+JavaScript-Code) werden hiermit unter der Creative Commons
+CC0 1.0 Universal Public Domain Dedication veroeffentlicht.
+
+Offizieller Lizenztext (Deed):  https://creativecommons.org/publicdomain/zero/1.0/deed.de
+Vollstaendiger Rechtstext:      https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+Standard-Widmungserklaerung (englisch, verbindlich gemaess CC0):
+
+  To the extent possible under law, the person who associated CC0
+  with this work has waived all copyright and related or neighboring
+  rights to this work. This work is published from: unspecified.
+
+  This work is distributed without any warranty.
+
+Deutsche Zusammenfassung (nicht rechtsverbindlich):
+  Soweit gesetzlich moeglich, verzichtet die Person, die CC0 mit
+  diesem Werk verknuepft hat, auf alle Urheberrechte und verwandten
+  Schutzrechte an diesem Werk. Das Werk wird ohne jede Gewaehr-
+ leistung veroeffentlicht.
+
+WICHTIGE EINSCHRAENKUNG DES GELTUNGSBEREICHS:
+Diese CC0-Widmung gilt NUR fuer die oben genannten eigenen Inhalte,
+an denen die entsprechenden Rechte bestehen. Sie gilt NICHT fuer:
+  - externe YouTube-Videos (Rechte bei den jeweiligen Kanaelen),
+  - Marken und Namen Dritter (z. B. "YouTube"),
+  - sonstige in THIRD_PARTY_LICENSES.txt aufgefuehrte Inhalte.
+
+Es wird keine Garantie dafuer uebernommen, dass das Werk frei von
+Rechten Dritter ist. Die CC0-Widmung umfasst keine Patent- oder
+Markenrechte. Wer das Werk nutzt, ist selbst dafuer verantwortlich,
+etwaige Rechte Dritter zu pruefen (z. B. Persoenlichkeitsrechte).
+
+Chemische Fakten (Summenformeln, Siedetemperaturen, Reaktions-
+gleichungen) sind Gemeinwissen und unterliegen keinem Urheberrecht;
+die konkrete sprachliche und grafische Aufbereitung hier ist CC0.
+`;
+const THIRD_TXT=`THIRD_PARTY_LICENSES – Externe Ressourcen bei AlkanLab
+=====================================================
+Stand: 14.11.2026
+
+1) BIBLIOTHEKEN, SCHRIFTEN, TRACKING
+   - Keine externen JavaScript-Bibliotheken oder Frameworks.
+   - Keine Webfonts: ausschliesslich Systemschriften
+     (system-ui / Segoe UI / Roboto / Helvetica / Arial).
+   - Keine Cookies, keine Analyse-/Tracking-Dienste, keine Werbung,
+     keine externen Datenbanken. Lernfortschritt wird ausschliesslich
+     lokal im Browser (localStorage) gespeichert.
+   - Alle Grafiken, Molekuelmodelle, Diagramme und Animationen wurden
+     eigens fuer diese Plattform erstellt (eigenes SVG/JS) -> CC0.
+
+2) YOUTUBE-VIDEOS (EXTERNE LERNVERWEISE)
+   Die folgenden Videos werden AUSSCHLIESSLICH als normale Links zum
+   Originalvideo auf YouTube verlinkt. Es findet keine Einbettung,
+   kein Download und keine Kopie statt. Beim Anklicken des Links
+   verlaesst man die Plattform; es gelten die Datenschutz- und
+   Nutzungsbedingungen von YouTube (Google Ireland Ltd.).
+
+   Titel, Kanal und Inhalt wurden am 14.11.2026 ueber die jeweiligen
+   YouTube-Seiten geprueft. Die Lizenz der Videos selbst ist nicht
+   als CC0 bestaetigt; daher gilt: alle Rechte verbleiben bei den
+   Kanaelen. Die Videos sind NICHT Teil der CC0-Widmung dieser
+   Plattform und werden nicht als gemeinfrei bezeichnet.
+
+   a) "Elektronenpaarbindung bei Molekuelen | Atombindung"
+      Kanal: Chemie Endlich Verstehen
+      URL:   https://www.youtube.com/watch?v=1HZ2EZ73Hes
+   b) "Alkane | Homologe Reihe der Alkane"
+      Kanal: Chemie Endlich Verstehen
+      URL:   https://www.youtube.com/watch?v=NzPRbK-t-fU
+   c) "Alkane Grundlagen einfach erklaert | Chemie Lernvideo"
+      Kanal: Learning Level Up
+      URL:   https://www.youtube.com/watch?v=4IFA-q-hOyU
+   d) "Strukturformeln / Lewis-Formeln aufstellen"
+      Kanal: Chemie Endlich Verstehen
+      URL:   https://www.youtube.com/watch?v=wqu2bZOzDrM
+   e) "Benennung der Alkane nach IUPAC Nomenklatur"
+      Kanal: Chemie Endlich Verstehen
+      URL:   https://www.youtube.com/watch?v=tex0RtapCRs
+   f) "Alkane benennen | Uebungsaufgaben + Loesungen"
+      Kanal: Chemie Endlich Verstehen
+      URL:   https://www.youtube.com/watch?v=zO5qzlFV1G8
+
+   Zusaetzlich enthalten einige Kapitel gekennzeichnete SUCH-LINKS
+   zu YouTube-Suchergebnissen (keine konkreten Videoempfehlungen,
+   keine ungeprueften Direktlinks).
+
+   YouTube-Nutzungsbedingungen: https://www.youtube.com/t/terms
+   Google-Datenschutzerklaerung: https://policies.google.com/privacy
+
+3) FACHDATEN
+   Siedepunkte, Schmelzpunkte und Dichten sind gerundete Standard-
+   Literaturwerte (Normaldruck, ca. 20 °C fuer Dichten). Fakten sind
+   nicht urheberrechtlich geschuetzt; es wurden keine Texte,
+   Tabellenwerke oder Grafiken aus Schulbuechern, Wikipedia oder
+   anderen Quellen kopiert.
+
+4) CC0-VERWEISE
+   Deed (DE):     https://creativecommons.org/publicdomain/zero/1.0/deed.de
+   Legalcode:     https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+HINWEIS: Es wird keine Garantie dafuer uebernommen, dass die
+Plattform frei von Anspruechen Dritter ist. Die CC0-Widmung in
+LICENSE.txt betrifft nur die eigenen Inhalte.
+`;
+const README_TXT=`AlkanLab – README
+==================
+1. STARTEN
+   index.html doppelklicken – fertig. Kein Server, kein Build,
+   keine Installation noetig. Funktioniert in aktuellen Versionen
+   von Firefox, Chrome/Chromium, Edge und Safari.
+
+2. OFFLINE
+   Alle Lerninhalte, Molekuelmodelle, Quizze und Diagramme sind in
+   der einen HTML-Datei enthalten und funktionieren ohne Internet.
+   Nur die YouTube-Lernverweise benoetigen naturgemaess Internet.
+
+3. LERNFORTSCHRITT
+   Wird lokal im Browser gespeichert (localStorage, Schluessel
+   "alkanlab_v1"). Keine Konten, keine Cookies, keine Uebertragung.
+   Zuruecksetzen: Seite "Info & Lizenzen" -> Button "Fortschritt
+   zuruecksetzen" (oder Browserdaten der Seite loeschen).
+   Hinweis: Beim Oeffnen ueber file:// behandeln manche Browser
+   localStorage restriktiv – die Seite funktioniert dann trotzdem,
+   speichert den Fortschritt aber ggf. nicht dauerhaft.
+
+4. LIZENZDATEIEN
+   LICENSE.txt, THIRD_PARTY_LICENSES.txt und README.txt koennen auf
+   der Seite "Info & Lizenzen" per Button heruntergeladen werden.
+
+5. VEROEFFENTLICHEN
+   Die Datei auf einen beliebigen statischen Webspace legen
+   (z. B. GitHub Pages, Schulserver). Keine weiteren Dateien noetig.
+
+6. ANPASSEN
+   Alle Inhalte liegen in gut auffindbaren Datenstrukturen im
+   <script>-Bereich: ALKANES (Stoffdaten), QUIZZES (Fragen),
+   FLASHCARDS (Lernkarten), GLOSSARY (Begriffe), CHAPTERS (Texte),
+   VIDEOS (Lernverweise). Aenderungen dort wirken automatisch.
+
+7. BARRIEREFREIHEIT
+   Tastaturbedienung (Tab/Enter/Leertaste, Pfeiltasten im 3D-Viewer),
+   Fokus-Anzeigen, aria-Attribute, reduzierte Bewegung wird respektiert
+   (prefers-reduced-motion). suchfokus: Taste "/" springt zur Suche.
+`;
+
+/* ---------------- Kapitelinhalte ---------------- */
+function ch(id,num,title,subtitle,goal,body){return{id,num,title,subtitle,goal,body};}
+const CHAPTERS=[
+ch('k1',1,'Einführung in die organische Chemie','Kohlenstoff – das Element mit vier Händen',
+ 'Du kannst erklären, was organische Chemie ist, Kohlenwasserstoffe definieren, begründen, warum Kohlenstoff vier Bindungen eingeht, und gesättigte von ungesättigten Verbindungen unterscheiden.',
+ `<h2>Einstieg: Der Gasherd und der Autoschlüssel</h2>
+ <p>Wenn du am Gasherd kochst, verbrennt <b>Erdgas</b>. Wenn ein Auto fährt, verbrennt <b>Benzin</b>. Wenn eine Kerze brennt, schmilzt und verbrennt <b>Wachs</b>. So unterschiedlich diese Stoffe aussehen – chemisch sind sie enge Verwandte: Alle bestehen hauptsächlich aus <b>Kohlenstoff (C)</b> und <b>Wasserstoff (H)</b>. Genau darum geht es in der organischen Chemie.</p>
+ <h2>Was ist organische Chemie?</h2>
+ <p><b>Einfach gesagt:</b> Organische Chemie ist die Chemie der Kohlenstoffverbindungen – also von allem, was auf Kohlenstoff-Gerüsten aufgebaut ist.</p>
+ <p><b>Fachlich korrekt:</b> Die organische Chemie untersucht Aufbau, Eigenschaften und Reaktionen der Kohlenstoffverbindungen. Einige wenige, sehr einfache C-Verbindungen wie Kohlenstoffmonoxid (CO), Kohlenstoffdioxid (CO₂), Kohlensäure und ihre Salze (Carbonate) sowie Carbide werden aus historischen Gründen zur <i>anorganischen</i> Chemie gezählt.</p>
+ <div class="hintbox"><b>💡 Wichtig:</b> „Organisch“ heißt in der Chemie <u>nicht</u> „aus der Bio-Landwirtschaft“ oder „aus Lebewesen“. Auch Kunststoffe aus Erdöl sind chemisch organisch!</div>
+ <h2>Warum kann Kohlenstoff vier Bindungen eingehen?</h2>
+ <p>Kohlenstoff steht im Periodensystem in der <b>4. Hauptgruppe</b> und besitzt <b>4 Außenelektronen</b>. Atome sind besonders stabil, wenn ihre Außenschale voll ist – bei Kohlenstoff sind das 8 Elektronen (<b>Oktettregel</b>). Die fehlenden 4 Elektronen „teilt“ sich C mit anderen Atomen: Jede gemeinsame Bindung (<b>Elektronenpaarbindung</b>, auch kovalente Bindung genannt) besteht aus einem gemeinsamen Elektronenpaar. Mit <b>4 Bindungen</b> erreicht C die 8 Außenelektronen. Wasserstoff hat 1 Außenelektron und geht deshalb genau <b>1 Bindung</b> ein (Duettregel: 2 Elektronen).</p>
+ <div class="grid2">
+  <div class="card"><h3>Schalenmodell: Kohlenstoff</h3><div class="svgframe">${shellSVG()}<div class="svgcap">2 Elektronen innen, 4 Außenelektronen (lila) → 4 Bindungsplätze</div></div></div>
+  <div class="card"><h3>Methan: alle 4 Plätze besetzt</h3><div class="svgframe">${strukturSVG(1)}<div class="svgcap">Ein C-Atom, vier H-Atome, vier Einfachbindungen → CH₄</div></div></div>
+ </div>
+ <p>Das Besondere: C-Atome können sich auch <b>miteinander</b> verbinden – zu Ketten, Verzweigungen und Ringen. Kein anderes Element kann das so vielseitig. Deshalb gibt es viele Millionen organischer Verbindungen.</p>
+ <h2>Kohlenwasserstoffe: gesättigt vs. ungesättigt</h2>
+ <p><b>Kohlenwasserstoffe</b> sind Verbindungen, die <b>nur aus C und H</b> bestehen. Man unterscheidet:</p>
+ <ul>
+  <li><b>Gesättigte Kohlenwasserstoffe:</b> nur Einfachbindungen zwischen den C-Atomen. Jeder freie Bindungsplatz trägt ein H – das Molekül ist mit Wasserstoff „gesättigt“. Die kettenförmigen Vertreter heißen <b>Alkane</b> (unser Hauptthema!).</li>
+  <li><b>Ungesättigte Kohlenwasserstoffe:</b> mindestens eine Doppelbindung C=C (<b>Alkene</b>) oder Dreifachbindung C≡C (<b>Alkine</b>). Sie könnten durch eine Reaktion noch mehr H aufnehmen.</li>
+ </ul>
+ <h2>Alltagsbeispiele</h2>
+ <ul>
+  <li><b>Erdgas</b> (überwiegend Methan) – Heizen und Kochen</li>
+  <li><b>Benzin &amp; Diesel</b> – Gemische aus Kohlenwasserstoffen</li>
+  <li><b>Kerzenwachs (Paraffin)</b> – lange Alkan-Ketten</li>
+  <li><b>Kunststoffe</b> wie Polyethylen – riesige C-Ketten</li>
+  <li><b>Fette &amp; Öle</b> – organisch, aber <i>keine</i> Kohlenwasserstoffe, denn sie enthalten zusätzlich Sauerstoff</li>
+ </ul>
+ <h2>Interaktion: Schnellcheck</h2>
+ <div data-cmp="quiz" data-set="mini1"></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k1')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k1"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Organische Chemie = Chemie der Kohlenstoffverbindungen (wenige traditionelle Ausnahmen).</li>
+  <li>Kohlenwasserstoffe bestehen nur aus C und H.</li>
+  <li>C hat 4 Außenelektronen → 4 Bindungen (Oktettregel); H geht 1 Bindung ein.</li>
+  <li>Gesättigt = nur Einfachbindungen (Alkane); ungesättigt = Doppel-/Dreifachbindungen (Alkene/Alkine).</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Warum heißt es überhaupt „organisch“?</summary><div><p>Früher glaubte man, solche Stoffe könnten nur in Lebewesen („Organismen“) durch eine besondere „Lebenskraft“ entstehen. 1828 stellte Friedrich Wöhler Harnstoff – einen typisch „organischen“ Stoff – aus anorganischem Ammoniumcyanat im Labor her. Damit war die Lebenskraft-Theorie widerlegt. Der Name „organische Chemie“ blieb trotzdem erhalten.</p></div></details>`),
+ch('k2',2,'Die Alkane','Gesättigte Kohlenwasserstoffe und die Formel CₙH₂ₙ₊₂',
+ 'Du kannst Alkane definieren, ihre allgemeine Summenformel CₙH₂ₙ₊₂ begründen und für beliebige Kettenlängen anwenden.',
+ `<h2>Einstieg: Das Feuerzeug in deiner Jackentasche</h2>
+ <p>In einem durchsichtigen Feuerzeug siehst du eine „Flüssigkeit“ – trotzdem verbrennt ein Gas. Dieser Stoff heißt <b>Butan</b>, ein Alkan. Unter leichtem Druck wird es flüssig; lässt du es ausströmen, wird es sofort gasförmig und brennt. Alkane sind die einfachste und wichtigste Grundfamilie der organischen Chemie.</p>
+ <h2>Was sind Alkane?</h2>
+ <p><b>Einfach gesagt:</b> Alkane sind Ketten aus Kohlenstoffatomen, die untereinander nur mit <b>Einfachbindungen</b> verbunden sind. Alle übrigen Bindungsplätze sind mit Wasserstoff aufgefüllt.</p>
+ <p><b>Fachlich korrekt:</b> Alkane sind <b>gesättigte, acyclische</b> (kettenförmige, nicht ringförmige) Kohlenwasserstoffe mit der allgemeinen Summenformel <b>CₙH₂ₙ₊₂</b>. Unverzweigte Alkane nennt man <b>n-Alkane</b>.</p>
+ <div class="hintbox"><b>💡 Abgrenzung:</b> Ringförmige, gesättigte Kohlenwasserstoffe heißen <b>Cycloalkane</b> und haben die Formel CₙH₂ₙ – sie gehören <u>nicht</u> zu den Alkanen im Sinne dieser Formel. In diesem Kurs meinen wir mit „Alkanen“ immer die kettenförmigen.</div>
+ <h2>Warum funktioniert die Formel CₙH₂ₙ₊₂?</h2>
+ <p>Schau dir die Strukturformel von Butan an. Jedes C-Atom in der Kette trägt <b>oben und unten je ein H</b> → das sind <b>2n</b> Wasserstoffatome. An den <b>beiden Kettenenden</b> sitzt jeweils <b>ein zusätzliches H</b> (orange markiert) → <b>+2</b>. Zusammen: <b>2n + 2</b>.</p>
+ <div class="svgframe">${strukturSVG(4,{hl:true})}<div class="svgcap">Butan: 4 C × 2 H (oben/unten) + 2 End-H (orange) = 10 H → C₄H₁₀</div></div>
+ <p class="formula big">CₙH₂ₙ₊₂</p>
+ <h2>Beispiel: Schritt für Schritt rechnen</h2>
+ <div class="card"><ol>
+  <li><b>n = 1 (Methan):</b> H = 2·1 + 2 = 4 → CH₄</li>
+  <li><b>n = 3 (Propan):</b> H = 2·3 + 2 = 8 → C₃H₈</li>
+  <li><b>n = 8 (Octan):</b> H = 2·8 + 2 = 18 → C₈H₁₈</li>
+  <li><b>Rückwärts:</b> Ein Alkan hat 22 H. Dann gilt 2n + 2 = 22 → n = 10 → C₁₀H₂₂ (Decan).</li>
+ </ol></div>
+ <h2>Interaktion: Formel-Rechner</h2>
+ <div data-cmp="formelcalc"></div>
+ <h2>Visualisierung: Das kleinste Alkan in 3D</h2>
+ <p>Methan ist kein flaches Kreuz, sondern ein <b>Tetraeder</b>: Die vier Bindungen zeigen zu den Ecken einer Pyramide (Bindungswinkel ≈ 109,5°). Drehe das Modell!</p>
+ <div data-cmp="viewer" data-mol="methan" data-select="basis"></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k2')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k2"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Alkane = gesättigte, kettenförmige Kohlenwasserstoffe; nur C–C-Einfachbindungen.</li>
+  <li>Allgemeine Summenformel: <b>CₙH₂ₙ₊₂</b> (2 H pro C + 2 End-H).</li>
+  <li>Jedes C hat 4 Bindungen, jedes H genau 1.</li>
+  <li>Die reale Form ist tetraedrisch (≈109,5°), nicht flach.</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Woher weiß man, dass Alkane tetraedrisch sind?</summary><div><p>Die vier bindenden Elektronenpaare stoßen sich gegenseitig ab und ordnen sich so weit voneinander entfernt wie möglich an – das ergibt den Tetraederwinkel von 109,47°. Dieses Prinzip (Elektronenpaar-Abstoßungsmodell) erklärt die Form vieler Moleküle.</p></div></details>`),
+ch('k3',3,'Die homologe Reihe der Alkane','Von Methan bis Decan – eine Familie wächst',
+ 'Du kennst die ersten zehn Alkane mit Namen und Formeln, kannst die homologe Reihe erklären und Aggregatzustände sowie Verwendungen zuordnen.',
+ `<h2>Einstieg: Warum ist Erdgas gasförmig und Kerzenwachs fest?</h2>
+ <p>Beides besteht aus Alkanen! Der Unterschied ist nur die <b>Kettenlänge</b>. Weil jedes nächste Alkan genau um <b>CH₂</b> wächst, ändern sich die Eigenschaften Schritt für Schritt – vom Gas über die Flüssigkeit bis zum Wachs. Eine solche regelmäßige Stofffolge nennt man <b>homologe Reihe</b>.</p>
+ <h2>Die ersten zehn Alkane im Überblick</h2>
+ <p>Die Namen der ersten vier Alkane sind historisch gewachsen. Ab fünf C-Atomen verrät das Zahlwort (griechisch/lateinisch) die Kettenlänge: <i>penta</i> = 5, <i>hexa</i> = 6, <i>hepta</i> = 7, <i>octa</i> = 8, <i>nona</i> = 9, <i>deca</i> = 10. Die Endung <b>-an</b> kennzeichnet die Alkane.</p>
+ ${alkanTableHTML()}
+ <p style="color:var(--muted);font-size:.85rem">Strukturformeln zeigen die unverzweigten n-Alkane. Bei längeren Ketten ist die Halbstrukturformel verkürzt als CH₃–(CH₂)ₖ–CH₃ geschrieben – beides ist korrekt.</p>
+ <h2>Aggregatzustand bei Raumtemperatur</h2>
+ <ul>
+  <li><b>C₁–C₄</b> (Methan bis Butan): <b>gasförmig</b></li>
+  <li><b>C₅ bis etwa C₁₇</b> (z. B. Pentan bis Decan in unserer Tabelle): <b>flüssig</b></li>
+  <li><b>sehr langkettige Alkane</b> (ab etwa C₁₈): <b>fest</b> (z. B. Paraffin)</li>
+ </ul>
+ <p>Die genaue Grenze zwischen flüssig und fest wird je nach Quelle leicht unterschiedlich angegeben – merke dir den Trend: <b>je länger die Kette, desto „fester“ der Stoff</b>. Warum das so ist, erklärt Kapitel 5.</p>
+ <h2>Visualisierung: Alle zehn Alkane als 3D-Modell</h2>
+ <p>Wähle ein Alkan aus und vergleiche: Wie verändert sich die Form? Zähle die lila C-Atome!</p>
+ <div data-cmp="viewer" data-mol="propan" data-select="alkane"></div>
+ <h2>Beispiel: Reihe fortsetzen</h2>
+ <div class="card"><p>Gegeben: Heptan C₇H₁₆. Gesucht: das nächste Alkan.</p><ol><li>Ein CH₂ hinzufügen: C₇H₁₆ + CH₂ → C₈H₁₈.</li><li>8 C-Atomen → Zahlwort <i>octa</i> → <b>Octan</b>.</li><li>Kontrolle mit der Formel: 2·8 + 2 = 18 ✓</li></ol></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k3')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k3"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Homologe Reihe: jedes nächste Alkan hat ein CH₂ mehr.</li>
+  <li>Methan CH₄, Ethan C₂H₆, Propan C₃H₈, Butan C₄H₁₀, Pentan C₅H₁₂, Hexan C₆H₁₄, Heptan C₇H₁₆, Octan C₈H₁₈, Nonan C₉H₂₀, Decan C₁₀H₂₂.</li>
+  <li>C₁–C₄ gasförmig, mittlere Ketten flüssig, sehr lange Ketten fest.</li>
+  <li>Eigenschaften ändern sich entlang der Reihe regelmäßig (Trend).</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Geht die Reihe immer so weiter?</summary><div><p>Ja! Nach Decan folgen Undecan (C₁₁H₂₄), Dodecan (C₁₂H₂₆) usw. Polyethylen (ein Kunststoff) besteht praktisch aus extrem langen Alkan-Ketten mit tausenden C-Atomen. Ab Butan gibt es außerdem verzweigte Varianten – dazu mehr in Kapitel 7 (Isomerie).</p></div></details>`),
+ch('k4',4,'Strukturformeln verstehen','Vier Sprachen für ein Molekül',
+ 'Du kannst Summenformel, Strukturformel, Halbstrukturformel und Skelettformel unterscheiden, ineinander übersetzen und Atome im Modell erkennen.',
+ `<h2>Einstieg: Ein Rezept in vier Versionen</h2>
+ <p>„Sandwich“ – „Brot + Käse + Brot“ – eine Zutatenliste – ein Foto. Vier Beschreibungen, dasselbe Essen, unterschiedlich viel Detail. Genauso ist es mit Molekülformeln: Chemiker nutzen je nach Zweck verschiedene Darstellungen.</p>
+ <h2>Die vier Darstellungsformen</h2>
+ <div class="grid2">
+  <div class="card"><h3>1 · Summenformel</h3><p class="formula big">C₂H₆</p><p>Zählt nur, <b>wie viele</b> Atome jeder Sorte vorhanden sind. Verrät <u>nicht</u>, wie sie verbunden sind. Gut zum Rechnen (z. B. bei Reaktionsgleichungen).</p></div>
+  <div class="card"><h3>2 · Strukturformel (Valenzstrichformel)</h3><div class="svgframe">${strukturSVG(2)}</div><p>Zeigt <b>alle Atome und alle Bindungen</b> als Striche. Jeder Strich = ein gemeinsames Elektronenpaar. Maximal anschaulich, aber bei großen Molekülen unübersichtlich.</p></div>
+  <div class="card"><h3>3 · Halbstrukturformel</h3><p class="formula big">CH₃–CH₃</p><p>Die H-Atome werden <b>pro C-Atom zusammengefasst</b>; die C–H-Striche fallen weg. Schnell geschrieben und trotzdem ist der Bauplan erkennbar. Verzweigungen stehen in Klammern: CH₃–CH(CH₃)–CH₃.</p></div>
+  <div class="card"><h3>4 · Skelettformel</h3><div class="svgframe">${skelettSVG(2)}</div><p>Nur das <b>C-Gerüst als Zickzack-Linie</b>. Jedes Ende und jede Ecke ist ein C-Atom; die H-Atome werden gedanklich bis zu 4 Bindungen ergänzt. Der Standard in der Profi-Chemie.</p></div>
+ </div>
+ <div class="hintbox"><b>💡 Skelett-Regel:</b> Zähle Enden + Ecken = Anzahl C. Ein einzelner gerader Strich = Ethan (2 C), ein „V“ = Propan (3 C), ein Zickzack mit 4 Punkten = Butan.</div>
+ <h2>Visualisierung: Ethan in 3D – Atome anklicken!</h2>
+ <p>Im Modell erkennst du: <b>2 lila C-Atome</b>, <b>6 helle H-Atome</b>, <b>7 Bindungen</b> (1× C–C, 6× C–H). Klicke einzelne Atome an, um sie zu identifizieren, und schalte die H-Atome testweise aus – übrig bleibt das „Skelett“.</p>
+ <div data-cmp="viewer" data-mol="ethan" data-select="basis"></div>
+ <h2>Beispiel: Propan als Skelett zeichnen</h2>
+ <div class="card"><ol>
+  <li>Summenformel C₃H₈ → 3 C-Atome in einer Kette.</li>
+  <li>3 C-Atome = 2 Bindungen = Zickzack mit 3 Punkten („V“-Form).</li>
+  <li>Fertig – die 8 H werden nicht gezeichnet, sondern gedacht: Enden je 3 H, Mitte 2 H.</li>
+ </ol><div class="svgframe">${skelettSVG(3)}<div class="svgcap">Propan als Skelett: 2 Striche, 3 Punkte, 3 C</div></div></div>
+ <h2>Interaktion: Zuordnen</h2>
+ <div data-cmp="quiz" data-set="mini4"></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k4')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k4"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Summenformel: nur Anzahl (C₂H₆).</li>
+  <li>Strukturformel: alle Atome + alle Bindungsstriche.</li>
+  <li>Halbstrukturformel: H je C zusammengefasst (CH₃–CH₃).</li>
+  <li>Skelettformel: Zickzack; Ecken/Enden = C, H wird ergänzt.</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Lewis-Schreibweise</summary><div><p>Statt Strichen kann man Bindungen auch als Elektronen<b>punkte</b> bzw. -striche zwischen den Atomsymbolen zeichnen (Lewis-Formel). Ein Bindungsstrich in der Strukturformel entspricht genau einem bindenden Elektronenpaar. Nichtbindende Elektronenpaare spielen bei Alkanen keine Rolle – C und H haben hier keine freien Paare.</p></div></details>`),
+ch('k5',5,'Eigenschaften der Alkane','Warum Öl auf Wasser schwimmt und Decan später siedet als Methan',
+ 'Du kannst Löslichkeit, Dichte, Brennbarkeit und den Trend der Siede-/Schmelztemperaturen erklären – mit Van-der-Waals-Kräften begründen.',
+ `<h2>Einstieg: Der Ölfilm auf der Pfütze</h2>
+ <p>Nach Regen schimmern manchmal bunte Filme auf Pfützen – Reste von Öl oder Benzin. Sie <b>schwimmen oben</b> und <b>lösen sich nicht</b>. Beides ist typisch für Alkane und hat zwei Gründe: geringe Dichte und fehlende Polarität.</p>
+ <h2>Löslichkeit: Ähnliches löst sich in Ähnlichem</h2>
+ <p><b>Einfach gesagt:</b> Alkane und Wasser „mögen sich nicht“. Wasser-Moleküle sind <b>polar</b> (sie haben ein leicht negatives und ein leicht positives Ende) und halten untereinander fest zusammen. Alkane sind <b>unpolar</b> – ihre Ladung ist fast gleichmäßig verteilt, weil C und H ähnlich stark an den Bindungselektronen ziehen. Sie können sich nicht zwischen die Wassermoleküle „drängen“.</p>
+ <p><b>Fachbegriffe:</b> unpolar + wasserunlöslich = <b>hydrophob</b>; gut in Fetten/Ölen löslich = <b>lipophil</b>. Deshalb entfernt man Fettflecken nicht mit Wasser, sondern mit unpolar Lösungsmitteln (z. B. Waschbenzin).</p>
+ <h2>Dichte und Brennbarkeit</h2>
+ <ul>
+  <li>Flüssige Alkane: ca. <b>0,6–0,8 g/cm³</b> – alle leichter als Wasser (1,0 g/cm³) → sie schwimmen oben.</li>
+  <li>Alle Alkane sind <b>brennbar</b> und verbrennen stark <b>exotherm</b> (setzen Wärme frei) → Kapitel 6.</li>
+ </ul>
+ <h2>Van-der-Waals-Kräfte: der Klebstoff zwischen den Molekülen</h2>
+ <p><b>Einfach gesagt:</b> Auch unpolare Moleküle ziehen sich ein bisschen an. Die Elektronen bewegen sich ständig; für winzige Momente ist die Ladung zufällig ungleich verteilt. Diese kurzzeitigen „Mini-Dipole“ ziehen Nachbarmoleküle schwach an. Das sind <b>Van-der-Waals-Kräfte</b>.</p>
+ <p><b>Der Trend:</b> Je <b>größer</b> das Molekül (mehr Elektronen, größere Kontaktfläche), desto <b>stärker</b> die Van-der-Waals-Kräfte – und desto mehr Energie braucht man, um die Moleküle voneinander zu trennen. Deshalb <b>steigen Siede- und Schmelztemperaturen mit der Kettenlänge</b>.</p>
+ <div class="warnbox"><b>⚠ Häufiges Missverständnis:</b> Beim Sieden brechen <u>nicht</u> die C–C-Bindungen im Molekül! Überwunden werden nur die schwachen Kräfte <u>zwischen</u> den Molekülen. Die Moleküle bleiben vollständig intakt.</div>
+ <h2>Visualisierung: Siede- und Schmelztemperaturen im Diagramm</h2>
+ <div data-cmp="chart"></div>
+ <p style="color:var(--muted);font-size:.85rem">Gerundete Literaturwerte bei Normaldruck. Die <b>Siedetemperaturen</b> steigen sehr regelmäßig. Die <b>Schmelztemperaturen</b> steigen nur im Trend – hier spielt auch die Packung der Moleküle im Kristall eine Rolle (geradzahlig vs. ungeradzahlig), deshalb gibt es kleine „Zickzacks“ (z. B. Ethan/Propan).</p>
+ <h2>Interaktion: Alkan-Explorer</h2>
+ <p>Schiebe den Regler und beobachte, wie sich Formel, Zustand und Temperaturen ändern:</p>
+ <div data-cmp="explorer"></div>
+ <h2>Beispiel: Warum ist Methan ein Gas und Decan eine Flüssigkeit?</h2>
+ <div class="card"><ol>
+  <li>Methan (CH₄) ist winzig → sehr schwache Van-der-Waals-Kräfte.</li>
+  <li>Schon bei −161,5 °C reicht die Raumwärme, um es zu verdampfen → bei 20 °C ist es längst gasförmig.</li>
+  <li>Decan (C₁₀H₂₂) ist groß → viel stärkere Van-der-Waals-Kräfte.</li>
+  <li>Es siedet erst bei 174,1 °C → bei 20 °C bleibt es flüssig.</li>
+ </ol></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k5')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k5"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Unpolar → hydrophob: praktisch unlöslich in Wasser, gut fettlöslich.</li>
+  <li>Dichte &lt; 1 g/cm³ → Alkane schwimmen auf Wasser.</li>
+  <li>Brennbar, Verbrennung ist exotherm.</li>
+  <li>Van-der-Waals-Kräfte wachsen mit der Molekülgröße → Siedetemperatur steigt mit der Kettenlänge.</li>
+  <li>Beim Sieden werden nur Zwischenmolekulare Kräfte überwunden.</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Warum kocht Wasser schon bei 100 °C, obwohl es so klein ist?</summary><div><p>Wasser-Moleküle bilden untereinander <b>Wasserstoffbrücken</b> – eine besonders starke Art der Molekül-Anziehung, viel stärker als Van-der-Waals-Kräfte. Deshalb siedet das winzige H₂O bei +100 °C, während das viel größere Methan schon bei −161,5 °C siedet. Die Art der Kräfte ist wichtiger als die Größe allein!</p></div></details>`),
+ch('k6',6,'Verbrennung von Alkanen','Vollständig, unvollständig – und wie man Gleichungen ausgleicht',
+ 'Du kannst die vollständige und unvollständige Verbrennung beschreiben, Reaktionsgleichungen aufstellen und systematisch ausgleichen.',
+ `<h2>Einstieg: Die blaue Flamme am Gasherd</h2>
+ <p>Eine gut eingestellte Gasflamme brennt <b>blau</b> – Zeichen für genug Sauerstoff und vollständige Verbrennung. Eine <b>gelb-rußende</b> Flamme zeigt Sauerstoffmangel an. Was dabei chemisch passiert, lernst du hier.</p>
+ <h2>Vollständige Verbrennung</h2>
+ <p>Bei <b>ausreichend Sauerstoff</b> werden alle C-Atome zu <b>Kohlenstoffdioxid (CO₂)</b> und alle H-Atome zu <b>Wasser (H₂O)</b> oxidiert. Dabei wird viel Energie frei (<b>exotherm</b>) – darum nutzen wir Alkane als Brennstoffe.</p>
+ <p class="formula">CH₄ + 2 O₂ → CO₂ + 2 H₂O</p>
+ <p class="formula">C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O</p>
+ <p>Allgemein: <span class="formula">CₙH₂ₙ₊₂ + (3n+1)/2 O₂ → n CO₂ + (n+1) H₂O</span></p>
+ <h2>Beispiel: Propan-Gleichung Schritt für Schritt ausgleichen</h2>
+ <div class="card"><p>Start: C₃H₈ + O₂ → CO₂ + H₂O (noch nicht ausgeglichen). Regel: <b>Nur Koeffizienten vor den Formeln ändern, niemals die Indizes!</b></p><ol>
+  <li><b>Kohlenstoff zuerst:</b> links 3 C → rechts <b>3 CO₂</b>.</li>
+  <li><b>Wasserstoff als Nächstes:</b> links 8 H → rechts <b>4 H₂O</b> (4·2 = 8 ✓).</li>
+  <li><b>Sauerstoff zuletzt:</b> rechts jetzt 3·2 + 4·1 = <b>10 O</b> → links <b>5 O₂</b>.</li>
+  <li>Fertig: <b>C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O</b> ✓</li>
+ </ol>
+ <div class="hintbox"><b>💡 Bruch-Trick:</b> Bei Ethan käme man auf 3,5 O₂. Halbe Moleküle gibt es nicht – also die <b>ganze Gleichung ×2</b> nehmen: 2 C₂H₆ + 7 O₂ → 4 CO₂ + 6 H₂O.</div></div>
+ <h2>Visualisierung: Die Methan-Verbrennung als Animation</h2>
+ <p>Beobachte: Aus 1 CH₄ und 2 O₂ entstehen 1 CO₂ und 2 H₂O – <b>kein Atom geht verloren</b>, sie werden nur neu verbunden (Massenerhaltung!).</p>
+ <div data-cmp="combustion"></div>
+ <h2>Unvollständige Verbrennung</h2>
+ <p>Bei <b>Sauerstoffmangel</b> wird der Kohlenstoff nicht vollständig zu CO₂ oxidiert. Stattdessen entstehen <b>Kohlenstoffmonoxid (CO)</b> und/oder <b>Ruß (C)</b> – Wasser entsteht weiterhin:</p>
+ <p class="formula">2 CH₄ + 3 O₂ → 2 CO + 4 H₂O</p>
+ <p class="formula">CH₄ + O₂ → C + 2 H₂O</p>
+ <div class="warnbox"><b>⚠ Lebensgefährlich:</b> Kohlenstoffmonoxid (CO) ist <b>hochgiftig</b>, farb- und geruchlos. Es blockiert den Sauerstofftransport im Blut. Defekte Gasthermen oder Grillen in geschlossenen Räumen führen jedes Jahr zu tödlichen Vergiftungen. Verbrennungsgeräte brauchen immer足够 Frischluft und Wartung!</div>
+ <h2>Interaktion: Gleichungen selbst ausgleichen</h2>
+ <p>Setze die Koeffizienten mit + und −. Die Atomzählung läuft live mit. Ziel: links = rechts, <b>kleinste ganze Zahlen</b>.</p>
+ <div data-cmp="balancer"></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k6')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k6"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Vollständig (genug O₂): Alkan + O₂ → CO₂ + H₂O + Energie.</li>
+  <li>Unvollständig (O₂-Mangel): zusätzlich/stattdessen CO und/oder Ruß.</li>
+  <li>Ausgleichen: C → H → O; nur Koeffizienten ändern; Brüche ×2.</li>
+  <li>CH₄ + 2 O₂ → CO₂ + 2 H₂O · C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O.</li>
+  <li>CO ist giftig – Warnzeichen: gelbe, rußende Flamme.</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Wie weist man die Produkte nach?</summary><div><p><b>CO₂:</b> Leitet man das Abgas durch Kalkwasser (Calciumhydroxid-Lösung), wird es milchig-trüb: Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O. <b>Wasser:</b> Es kondensiert an einer kalten Fläche (z. B. einem kalten Becherglas über der Flamme) als Beschlag – deshalb „tropft“ eine kalte Autofenster-Scheibe bei kaltem Motor.</p></div></details>`),
+ch('k7',7,'Isomerie','Gleiche Formel, anderer Bauplan',
+ 'Du kannst Isomere definieren, n-Butan und Isobutan unterscheiden und erklären, warum Verzweigung die Siedetemperatur senkt.',
+ `<h2>Einstieg: Zwei Lego-Bausätze, gleiche Steine</h2>
+ <p>Aus denselben Lego-Steinen kannst du einen Turm oder ein Haus bauen. In der Chemie ist es genauso: Aus <b>4 C und 10 H</b> lassen sich <b>zwei verschiedene Moleküle</b> bauen – n-Butan und Isobutan. Gleiche Teile, anderer Bauplan, <b>andere Eigenschaften</b>. Solche Moleküle heißen <b>Isomere</b>.</p>
+ <h2>Was sind Isomere?</h2>
+ <p><b>Einfach gesagt:</b> Isomere haben die <b>gleiche Summenformel</b>, aber die Atome sind <b>anders miteinander verbunden</b>.</p>
+ <p><b>Fachlich korrekt:</b> Moleküle mit identischer Summenformel, aber unterschiedlicher Verknüpfung der Atome nennt man <b>Konstitutionsisomere</b> (Strukturisomere). Bei Alkanen spricht man speziell von <b>Kettenisomerie</b>: gerade Kette vs. verzweigte Kette. Isomere sind <b>unterschiedliche Stoffe</b> mit eigenen Siede-/Schmelzpunkten.</p>
+ <div class="hintbox"><b>💡 Wichtig:</b> Bloßes <b>Drehen oder Biegen</b> der Kette erzeugt <u>kein</u> neues Isomer! Solange sich nicht ändert, <i>wer mit wem</i> verbunden ist, bleibt es dasselbe Molekül. Prüfe immer die Verknüpfung, nicht die Zeichenrichtung.</div>
+ <h2>Beispiel: Butan und 2-Methylpropan (Isobutan)</h2>
+ <div class="grid2">
+  <div class="card"><h3>n-Butan</h3><p class="formula">CH₃–CH₂–CH₂–CH₃</p><div class="svgframe">${skelettSVG(4)}<div class="svgcap">4 C in gerader Kette</div></div><p>Siedepunkt: <b>−0,5 °C</b></p></div>
+  <div class="card"><h3>Isobutan (2-Methylpropan)</h3><p class="formula">CH₃–CH(CH₃)–CH₃</p><div class="svgframe">${skelettSVG(3,[2])}<div class="svgcap">3 C in der Kette + 1 C als Ast</div></div><p>Siedepunkt: <b>−11,7 °C</b></p></div>
+ </div>
+ <p>Beide: <b>C₄H₁₀</b>, gleiche Molekülmasse. Aber Isobutan siedet <b>niedriger</b>: Die kompakte, verzweigte Form ist „kugeliger“ und bietet <b>weniger Kontaktfläche</b> für Van-der-Waals-Kräfte. Die Moleküle halten schlechter zusammen → weniger Energie zum Verdampfen.</p>
+ <h2>Visualisierung: Vergleiche die 3D-Modelle</h2>
+ <p>Drehe beide Modelle und vergleiche die Form – gestreckt vs. kompakt:</p>
+ <div class="grid2">
+  <div data-cmp="viewer" data-mol="butan"></div>
+  <div data-cmp="viewer" data-mol="isobutan"></div>
+ </div>
+ <h2>Mehr Isomere: die drei Pentane (C₅H₁₂)</h2>
+ <div class="grid3">
+  <div class="card"><h3>n-Pentan</h3><div class="svgframe">${skelettSVG(5)}</div><p>Siedepunkt <b>36,1 °C</b></p></div>
+  <div class="card"><h3>2-Methylbutan<br><span class="badge">Isopentan</span></h3><div class="svgframe">${skelettSVG(4,[2])}</div><p>Siedepunkt <b>27,8 °C</b></p></div>
+  <div class="card"><h3>2,2-Dimethylpropan<br><span class="badge">Neopentan</span></h3><div class="svgframe">${skelettSVG(3,[2,2])}</div><p>Siedepunkt <b>9,5 °C</b></p></div>
+ </div>
+ <p>Immer mehr Verzweigung → immer niedrigere Siedetemperatur. Die Zahl der möglichen Isomere wächst rasant: <b>Butan 2 · Pentan 3 · Hexan 5 · Heptan 9</b> … und C₂₀H₄₂ hat bereits über 366 000 denkbare Konstitutionsisomere!</p>
+ <h2>Interaktion: Isomere selbst erkennen</h2>
+ <p>Wähle im Modell verschiedene C₅H₁₂-Varianten – gleiche Formel, drei verschiedene Stoffe:</p>
+ <div data-cmp="viewer" data-mol="pentan" data-select="pentane"></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k7')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k7"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Isomere: gleiche Summenformel, andere Verknüpfung → andere Stoffe.</li>
+  <li>Alkane können ab C₄ verzweigte Isomere bilden (Butan: 2 Isomere).</li>
+  <li>Pentan hat 3 Isomere: n-Pentan, Isopentan, Neopentan.</li>
+  <li>Verzweigung → kompakter → schwächere Van-der-Waals-Kräfte → niedrigere Siedetemperatur.</li>
+  <li>Drehen/Biegen ≠ Isomer – nur eine andere Verknüpfung zählt.</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Gibt es noch andere Isomerie-Arten?</summary><div><p>Ja: Bei der <b>Stereoisomerie</b> ist die Verknüpfung gleich, aber die räumliche Anordnung verschieden (z. B. cis/trans bei Alkenen oder Spiegelbild-Isomere). Für Alkane ohne Doppelbindungen und Ringe ist in der Schule vor allem die hier behandelte Konstitutionsisomerie (Kettenisomerie) wichtig.</p></div></details>`),
+ch('k8',8,'Nomenklatur und Benennung','So bekommt jedes Alkan seinen richtigen Namen',
+ 'Du kannst verzweigte Alkane systematisch benennen: längste Kette finden, kleinstmöglich nummerieren, Alkylgruppen korrekt angeben.',
+ `<h2>Einstieg: Warum heißt es „2-Methylbutan“ und nicht „Isopentan-Ding“?</h2>
+ <p>Bei Millionen organischer Verbindungen braucht jedes Molekül einen eindeutigen Namen. Die <b>IUPAC</b> (internationale Chemie-Vereinigung) hat dafür klare Regeln festgelegt – wie ein Baukastensystem aus <b>Zahlen + Seitenketten + Stammname</b>.</p>
+ <h2>Die fünf Schritte</h2>
+ <div class="card"><ol>
+  <li><b>Längste C-Kette finden</b> → Stammname (z. B. 4 C = Butan). Achtung: Die längste Kette kann „um die Ecke“ verlaufen!</li>
+  <li><b>Seitenketten erkennen</b> → Alkylgruppen (Endung <b>-yl</b>): –CH₃ Methyl, –C₂H₅ Ethyl, –C₃H₇ Propyl, –C₄H₉ Butyl.</li>
+  <li><b>Kette kleinstmöglich nummerieren</b>: von dem Ende aus, das der ersten Seitenkette die kleinere Zahl gibt.</li>
+  <li><b>Gleiche Gruppen zusammenfassen</b>: di (2), tri (3), tetra (4); ihre Positionen mit Komma trennen: 2,2-…</li>
+  <li><b>Alles zusammensetzen</b>: Position(en)-Gruppenname + Stammname; verschiedene Gruppen alphabetisch (di/tri zählen beim Alphabet nicht mit). Zwischen Zahl und Buchstabe: Bindestrich.</li>
+ </ol></div>
+ <h2>Beispiel Schritt für Schritt: CH₃–CH(CH₃)–CH₂–CH₃</h2>
+ <div class="card">
+  <div class="svgframe">${skelettSVG(4,[2],true)}<div class="svgcap">Nummerierung von links: Methylgruppe an C2 (nicht an C3!)</div></div>
+  <ol>
+   <li>Längste Kette: <b>4 C</b> → Butan. (Nicht 3! Der Weg über den Ast wäre kürzer.)</li>
+   <li>Seitenkette: <b>1 C</b> → Methyl.</li>
+   <li>Nummerierung von links: Methyl an <b>C2</b>; von rechts wäre es C3 → 2 ist kleiner ✓</li>
+   <li>Nur eine Gruppe → kein „di“ nötig.</li>
+   <li>Name: <b>2-Methylbutan</b> ✓</li>
+  </ol>
+ </div>
+ <div class="hintbox"><b>💡 Typischer Fehler:</b> „4-Methylpentan“ gibt es nicht – von der anderen Seite gezählt ist es <b>2-Methylpentan</b>. Immer beide Zählrichtungen prüfen!</div>
+ <h2>Alkylgruppen-Übersicht</h2>
+ <div class="tablewrap"><table><thead><tr><th>Alkan</th><th>Alkylgruppe</th><th>Formel</th><th>Merke</th></tr></thead><tbody>
+ <tr><td>Methan CH₄</td><td><b>Methyl</b></td><td class="mono">–CH₃</td><td>-an → -yl</td></tr>
+ <tr><td>Ethan C₂H₆</td><td><b>Ethyl</b></td><td class="mono">–C₂H₅</td><td>2 C</td></tr>
+ <tr><td>Propan C₃H₈</td><td><b>Propyl</b></td><td class="mono">–C₃H₇</td><td>3 C</td></tr>
+ <tr><td>Butan C₄H₁₀</td><td><b>Butyl</b></td><td class="mono">–C₄H₉</td><td>4 C</td></tr>
+ </tbody></table></div>
+ <h2>Visualisierung: Verzweigte Alkane in 3D</h2>
+ <div data-cmp="viewer" data-mol="isopentan" data-select="nomen"></div>
+ <h2>Interaktion: Nomenklatur-Trainer</h2>
+ <p>Benenne die Moleküle selbst. Groß-/Kleinschreibung und Bindestriche sind egal – die Struktur zählt!</p>
+ <div data-cmp="nomenklatur"></div>
+ <h2>Videos zum Vertiefen</h2>${videoCardsHTML('k8')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k8"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Längste Kette = Stammname; Seitenketten = Alkylgruppen (-yl).</li>
+  <li>Kleinstmögliche Nummern für die Seitenketten.</li>
+  <li>di/tri/tetra bei gleichen Gruppen; Zahlen mit Komma, Zahl–Wort mit Bindestrich.</li>
+  <li>Verschiedene Gruppen alphabetisch ordnen (di/tri ignorieren).</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Ein Name mit zwei verschiedenen Gruppen</summary><div><p>Beispiel: eine Heptan-Kette mit Ethyl an C4 und Methyl an C2 und C3 → <b>4-Ethyl-2,3-dimethylheptan</b>. Ethyl steht vor Methyl (E vor M), das „di“ wird beim Alphabetisieren ignoriert. Genau dieses Beispiel wird im verlinkten Video Schritt für Schritt vorgerechnet.</p></div></details>`),
+ch('k9',9,'Alkane im Alltag','Energieträger, Werkstoffe – und die Klimafolge',
+ 'Du kannst wichtige Alkan-Gemische (Erdgas, LPG, Benzin, Paraffin) zuordnen und Chancen sowie Umweltfolgen fossiler Brennstoffe sachlich erklären.',
+ `<h2>Einstieg: Ein Tag voller Alkane</h2>
+ <p>Morgens duschen mit Gas warmem Wasser (Erdgas), mittags mit dem Auto fahren (Benzin), abends grillen (Flüssiggas) und eine Kerze anzünden (Paraffin) – Alkane begleiten deinen ganzen Tag. Woher kommen sie, und was bedeutet das für die Umwelt?</p>
+ <h2>Die wichtigsten Alkan-Gemische</h2>
+ <div class="grid2">
+  <div class="card"><h3>🔥 Erdgas</h3><p>Besteht <b>überwiegend aus Methan</b> (CH₄), dazu etwas Ethan und andere Gase. Einsatz: Heizen, Kochen, Stromerzeugung, Industrie.</p></div>
+  <div class="card"><h3>⛺ Flüssiggas (LPG)</h3><p><b>Propan/Butan-Gemisch</b>, unter mäßigem Druck verflüssigt. So passt viel Energie in kleine Flaschen: Campingkocher, Feuerzeuge, Grill, Gabelstapler.</p></div>
+  <div class="card"><h3>⛽ Benzin</h3><p>Ein <b>Gemisch</b> aus vielen Kohlenwasserstoffen, überwiegend Alkane etwa von <b>C₅ bis C₁₁</b>. Die „Oktanzahl“ beschreibt die Klopffestigkeit: Isooctan (2,2,4-Trimethylpentan) = 100, n-Heptan = 0 als Vergleichsstoffe.</p></div>
+  <div class="card"><h3>🕯 Paraffin (Kerzenwachs)</h3><p>Gemisch <b>langkettiger, fester Alkane</b> (etwa C₂₀–C₄₀). Auch Vaseline und manche Schmierstoffe bestehen aus langen Alkan-Ketten.</p></div>
+ </div>
+ <h2>Woher kommen fossile Brennstoffe?</h2>
+ <p>Erdöl und Erdgas entstanden über <b>Millionen von Jahren</b> aus abgestorbenen Meeres-Kleinstlebewesen, die unter Luftabschluss von Sedimenten bedeckt und durch Druck und Wärme umgewandelt wurden. Weil das viel länger dauert als unser Verbrauch, sind diese Lagerstätten <b>endlich</b> – man nennt sie <b>fossile Brennstoffe</b>.</p>
+ <h2>Umweltaspekte – sachlich betrachtet</h2>
+ <ul>
+  <li><b>CO₂-Ausstoß:</b> Jede Verbrennung von Alkanen setzt CO₂ frei – ein Treibhausgas, das die Erde erwärmt. Pro freigesetzter Energie entsteht bei Methan am wenigsten CO₂ unter den fossilen Brennstoffen, bei Kohle am meisten.</li>
+  <li><b>Methan als Treibhausgas:</b> Entweicht Methan unverbrannt (Lecks an Leitungen/Förderanlagen), wirkt es auf 100 Jahre gerechnet rund <b>28–30-mal stärker</b> als die gleiche Masse CO₂ (je nach Bewertungsbericht). Gaslecks sind also doppelt problematisch.</li>
+  <li><b>Klimawirkung:</b> Die zusätzliche Freisetzung von Kohlenstoff, der Jahrmillionen unter der Erde gespeichert war, verstärkt den Treibhauseffekt und treibt den Klimawandel an.</li>
+  <li><b>Endlichkeit:</b> Fossile Vorräte sind begrenzt. Zudem stecken in Erdöl die Rohstoffe für Kunststoffe &amp; Co. – „verbrennen kann man jeden Rohstoff nur einmal“.</li>
+ </ul>
+ <h2>Interaktion: Zuordnen</h2>
+ <div data-cmp="quiz" data-set="mini9"></div>
+ <h2>Video zum Vertiefen</h2>${videoCardsHTML('k9')}
+ <h2>Wissenscheck</h2>
+ <div data-cmp="quiz" data-set="k9"></div>
+ <div class="summarybox"><h2>Zusammenfassung</h2><ul>
+  <li>Erdgas ≈ Methan · LPG = Propan/Butan (verflüssigt) · Benzin ≈ C₅–C₁₁-Gemisch · Paraffin ≈ C₂₀–C₄₀.</li>
+  <li>Fossile Brennstoffe: über Millionen Jahre entstanden, endlich.</li>
+  <li>Verbrennung → CO₂ (Treibhausgas); unverbranntes Methan ist ein noch stärkeres Treibhausgas.</li>
+  <li>Kettenlänge bestimmt den Einsatz: kurz → Brenngas, mittel → Kraftstoff, lang → Wachs.</li>
+ </ul></div>
+ <details class="faq"><summary>Weiterführendes Wissen: Biogas – gleiches Molekül, andere Herkunft</summary><div><p><b>Biogas</b> entsteht heute aus vergorenen Pflanzenresten und Gülle und besteht ebenfalls überwiegend aus Methan. Chemisch ist es dasselbe CH₄ – aber der Kohlenstoff stammt aus Pflanzen, die ihn kurz zuvor als CO₂ aus der Luft aufgenommen haben. Deshalb gilt Biogas als vergleichsweise klimaschonender, erneuerbarer Energieträger, sofern kein Methan entweicht.</p></div></details>`),
+ch('k10',10,'Zusammenfassung & Prüfungsvorbereitung','Alles auf einen Blick – dann der Härtetest',
+ 'Du wiederholst alle Kerninhalte, kennst typische Prüfungsfragen und häufige Fehler – und testest dich in der interaktiven Abschlussprüfung.',
+ `<h2>Kompaktzusammenfassung</h2>
+ <div class="grid2">
+  <div class="card"><h3>Grundlagen</h3><p>Organische Chemie = C-Verbindungen. Kohlenwasserstoffe = nur C + H. C: 4 Bindungen (Oktett), H: 1. Gesättigt = nur Einfachbindungen.</p></div>
+  <div class="card"><h3>Alkane</h3><p>Gesättigte, kettenförmige KW. Formel <b>CₙH₂ₙ₊₂</b>. Homologe Reihe: +CH₂ pro Schritt. C₁–C₄ gasförmig, mittlere flüssig, lange fest.</p></div>
+  <div class="card"><h3>Eigenschaften</h3><p>Unpolar/hydrophob, Dichte &lt; Wasser, brennbar. Siedetemperatur ↑ mit Kettenlänge (Van-der-Waals-Kräfte). Verzweigung senkt sie.</p></div>
+  <div class="card"><h3>Reaktionen & Namen</h3><p>Vollständig: CO₂ + H₂O; unvollständig: CO/Ruß. Benennung: längste Kette, kleinste Zahlen, Alkyl (-yl), di/tri, Alphabet.</p></div>
+ </div>
+ <h2>Die wichtigsten Formeln</h2>
+ <div class="tablewrap"><table><thead><tr><th>Was</th><th>Formel</th></tr></thead><tbody>
+  <tr><td>Allgemeine Alkanformel</td><td class="mono"><b>CₙH₂ₙ₊₂</b></td></tr>
+  <tr><td>Alkylgruppe (Rest)</td><td class="mono">–CₙH₂ₙ₊₁</td></tr>
+  <tr><td>Vollständige Verbrennung, allgemein</td><td class="mono">CₙH₂ₙ₊₂ + (3n+1)/2 O₂ → n CO₂ + (n+1) H₂O</td></tr>
+  <tr><td>Verbrennung Methan</td><td class="mono">CH₄ + 2 O₂ → CO₂ + 2 H₂O</td></tr>
+  <tr><td>Verbrennung Propan</td><td class="mono">C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O</td></tr>
+  <tr><td>Unvollständig (Beispiel CO)</td><td class="mono">2 CH₄ + 3 O₂ → 2 CO + 4 H₂O</td></tr>
+  <tr><td>Unvollständig (Beispiel Ruß)</td><td class="mono">CH₄ + O₂ → C + 2 H₂O</td></tr>
+ </tbody></table></div>
+ <h2>Häufige Fehler – vermeide sie!</h2>
+ <div class="hintbox"><ul>
+  <li><b>CₙH₂ₙ statt CₙH₂ₙ₊₂:</b> CₙH₂ₙ gilt für Cycloalkane/Alkene, nicht für Alkane.</li>
+  <li><b>Indizes ändern beim Ausgleichen:</b> verboten! Nur Koeffizienten vor den Formeln.</li>
+  <li><b>„Isomere = gleiche Struktur“:</b> nein – gleiche <i>Summenformel</i>, andere Struktur.</li>
+  <li><b>„Beim Sieden brechen C–C-Bindungen“:</b> nein – nur Zwischenmolekulare Kräfte.</li>
+  <li><b>Kürzeste statt längste Kette</b> als Hauptkette gewählt (die Kette darf um die Ecke gehen!).</li>
+  <li><b>Von der falschen Seite nummeriert</b> → „4-Methylpentan“ statt 2-Methylpentan.</li>
+  <li><b>CO mit CO₂ verwechselt:</b> CO = giftiges Kohlenstoffmonoxid; CO₂ = Kohlenstoffdioxid.</li>
+  <li><b>Alkane ≠ Alkene:</b> -an = Einfachbindung, -en = Doppelbindung, -in = Dreifachbindung.</li>
+ </ul></div>
+ <h2>Typische Prüfungsfragen (mit Musterantworten)</h2>
+ <details class="faq"><summary>1 · „Erkläre die allgemeine Summenformel der Alkane.“</summary><div><p>CₙH₂ₙ₊₂: Jedes der n C-Atome in der Kette bindet 2 H-Atome (→ 2n), an beiden Kettenenden kommt je 1 H dazu (→ +2). Beispiel: n = 4 → C₄H₁₀.</p></div></details>
+ <details class="faq"><summary>2 · „Warum steigt die Siedetemperatur von Methan zu Decan?“</summary><div><p>Mit der Kettenlänge wachsen Molekülgröße, Elektronenzahl und Kontaktfläche. Dadurch werden die Van-der-Waals-Kräfte zwischen den Molekülen stärker; zum Trennen der Moleküle wird mehr Energie (höhere Temperatur) benötigt.</p></div></details>
+ <details class="faq"><summary>3 · „Stelle die Verbrennungsgleichung für Propan auf.“</summary><div><p>C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O. Vorgehen: 3 C → 3 CO₂; 8 H → 4 H₂O; rechts 10 O → links 5 O₂.</p></div></details>
+ <details class="faq"><summary>4 · „Was sind Isomere? Nenne die Isomere von Pentan.“</summary><div><p>Isomere: gleiche Summenformel, unterschiedliche Verknüpfung. Pentan (C₅H₁₂): n-Pentan, 2-Methylbutan (Isopentan), 2,2-Dimethylpropan (Neopentan).</p></div></details>
+ <details class="faq"><summary>5 · „Benenne CH₃–CH(CH₃)–CH₂–CH₃ und begründe.“</summary><div><p>2-Methylbutan: längste Kette 4 C (Butan); Methylgruppe an C2; Nummerierung von der Seite, die die kleinere Zahl liefert.</p></div></details>
+ <h2>Begriffserklärung (Glossar)</h2>
+ <div data-cmp="glossar"></div>
+ <h2>Lernkarten zum Wiederholen</h2>
+ <p>Klicke (oder Enter/Leertaste) zum Umdrehen. „Nochmal“ legt die Karte ans Ende des Stapels – so wiederholst du gezielt, bis alles sitzt.</p>
+ <div data-cmp="flashcards"></div>
+ <h2>Interaktive Abschlussprüfung</h2>
+ <p>12 Fragen aus allen Kapiteln, gemischte Formate. Beantworte alles und klicke dann auf „Prüfung auswerten“. Bestanden ab 70 %. Dein bestes Ergebnis wird lokal gespeichert.</p>
+ <div data-cmp="quiz" data-set="exam" data-mode="exam"></div>
+ <h2>Nochmal etwas anschauen?</h2>${videoCardsHTML('k10')}
+ <div class="summarybox"><h2>Geschafft!</h2><p>Wenn du die Prüfung bestehst und die Lernkarten sitzen, bist du bestens auf die Klassenarbeit vorbereitet. Die Lizenzdateien und alle Infos zur Plattform findest du unter <a href="#info">Info &amp; Lizenzen</a>.</p></div>`)
+];
+
+/* ---------------- Zustand (localStorage) ---------------- */
+const STORE='alkanlab_v1';
+let state={done:{},quiz:{},exam:null,cards:[]};
+try{const raw=localStorage.getItem(STORE);if(raw){const p=JSON.parse(raw);state={done:p.done||{},quiz:p.quiz||{},exam:p.exam??null,cards:p.cards||[]};}}catch(e){}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}}
+function updateProgress(){
+  const n=CHAPTERS.filter(c=>state.done[c.id]).length;
+  $('#progressFill').style.width=(n/10*100)+'%';
+  $('#progressLabel').textContent='Fortschritt: '+n+' von 10 Kapiteln'+(n===10?' · geschafft! 🎉':'');
+  $$('#nav .navlink').forEach(a=>{
+    const id=a.dataset.ch;const d=a.querySelector('.done');
+    if(d)d.textContent=state.done[id]?'✓':'';
+  });
+}
+
+/* ---------------- Navigation & Router ---------------- */
+const PAGES=[{id:'start',label:'🏠 Start & Übersicht'},...CHAPTERS.map(c=>({id:c.id,num:c.num,label:c.title})),{id:'info',label:'ℹ️ Info & Lizenzen'}];
+function buildNav(){
+  $('#nav').innerHTML=PAGES.map(p=>'<a class="navlink" href="#'+p.id+'" data-ch="'+p.id+'">'+(p.num?'<span class="num">'+p.num+'</span>':'<span class="num">•</span>')+'<span>'+esc(p.label)+'</span><span class="done" aria-hidden="true"></span></a>').join('');
+}
+function startHTML(){
+  const doneN=CHAPTERS.filter(c=>state.done[c.id]).length;
+  const known=state.cards.length;
+  const next=CHAPTERS.find(c=>!state.done[c.id])||CHAPTERS[9];
+  const cards=CHAPTERS.map(c=>{
+    const q=state.quiz[c.id];
+    return '<a class="chaptercard" href="#'+c.id+'"><span class="cnum">KAPITEL '+c.num+(state.done[c.id]?' · ✓ abgeschlossen':'')+'</span><b>'+esc(c.title)+'</b><small>'+esc(c.subtitle)+'</small>'+(q?'<span class="badge purple" style="margin-top:.5rem">Quiz-Bestleistung: '+q.best+'/'+q.total+'</span>':'')+'</a>';
+  }).join('');
+  return `<div class="hero">
+    <svg class="deco" width="340" height="160" viewBox="0 0 340 160" aria-hidden="true"><polyline points="10,120 60,40 110,120 160,40 210,120 260,40 310,120 330,90" fill="none" stroke="#a78bfa" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <p class="kicker" style="color:var(--accent);font-weight:700;letter-spacing:2px;font-size:.8rem">INTERAKTIVE LERNPLATTFORM · SEK I &amp; II</p>
+    <h1>Alkane &amp; organische Chemie<br>verstehen statt auswendig lernen.</h1>
+    <p style="max-width:560px;color:var(--muted)">10 Kapitel · drehbare 3D-Moleküle · Reaktions-Animation · Quizze mit Erklärungen · Lernkarten · Abschlussprüfung. Alles offline, ohne Konto, ohne Werbung.</p>
+    <p class="formula big">CₙH₂ₙ₊₂</p>
+    <div class="btnrow"><a class="btn primary" href="#${next.id}" style="text-decoration:none">▶ ${doneN===0?'Los geht’s mit Kapitel 1':'Weiterlernen: Kapitel '+next.num}</a><a class="btn" href="#k10" style="text-decoration:none">Direkt zur Abschlussprüfung</a></div>
+    <div class="btnrow" style="margin-top:1rem">
+      <span class="badge purple">📚 ${doneN}/10 Kapitel abgeschlossen</span>
+      <span class="badge purple">🃏 ${known}/${FLASHCARDS.length} Karten gewusst</span>
+      <span class="badge ${state.exam!==null&&state.exam>=70?'ok':'purple'}">🎓 Prüfung: ${state.exam!==null?state.exam+' %':'noch offen'}</span>
     </div>
+  </div>
+  <h2>Alle Kapitel</h2><div class="chaptergrid">${cards}</div>
+  <div class="card"><h3>So funktioniert’s</h3><ul>
+   <li><b>Links</b> navigierst du durch die Kapitel; oben siehst du deinen <b>Fortschritt</b>.</li>
+   <li>Jedes Kapitel endet mit einem <b>Wissenscheck</b>. Danach kannst du es als <b>abgeschlossen</b> markieren.</li>
+   <li><b>3D-Moleküle:</b> ziehen = drehen, Mausrad/Regler = zoomen, Klick auf ein Atom = Info. Auch per Tastatur (Pfeiltasten, +/−).</li>
+   <li>Die <b>Suche</b> oben findet Begriffe und Kapitel (Tastenkürzel: <code>/</code>).</li>
+   <li>Dein Fortschritt wird <b>nur lokal in deinem Browser</b> gespeichert – keine Konten, keine Datenübertragung.</li>
+  </ul></div>`;
+}
+function infoHTML(){
+  return `<div class="chapterhead"><p class="kicker">PLATTFORM</p><h1>Info &amp; Lizenzen</h1><p class="sub">Datenschutz, Bedienung und rechtliche Transparenz</p></div>
+  <h2>Über AlkanLab</h2>
+  <p>AlkanLab ist eine <b>vollständig eigenständige</b> Lernplattform in einer einzigen HTML-Datei: keine externen Bibliotheken, keine Webfonts, keine Tracker, keine Werbung, keine Cookies. Alle Texte, Grafiken, Molekülmodelle, Diagramme, Quizfragen und Animationen wurden eigens erstellt. Version 1.0 · November 2026.</p>
+  <h2>Datenschutz</h2>
+  <ul>
+   <li>Der Lernfortschritt (abgeschlossene Kapitel, Quiz-Bestleistungen, gewusste Karten) wird ausschließlich <b>lokal im Browser</b> gespeichert (localStorage, Schlüssel <code>alkanlab_v1</code>).</li>
+   <li>Es findet <b>keine Datenübertragung</b> an Server statt. Es gibt keine Konten und keine Analysewerkzeuge.</li>
+   <li>Nur wenn du einen <b>YouTube-Link anklickst</b>, verlässt du die Plattform; dann gelten die Datenschutzbedingungen von YouTube/Google. Videos werden nicht eingebettet und laden nicht automatisch.</li>
+  </ul>
+  <h2>Lizenz der eigenen Inhalte: CC0 1.0 (Public Domain)</h2>
+  <p>Alle eigenen Inhalte dieser Plattform sind unter <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de" target="_blank" rel="noopener noreferrer">CC0 1.0 Universal</a> der Allgemeinheit gewidmet. <b>Wichtig:</b> Diese Widmung gilt nur für Inhalte, an denen die entsprechenden Rechte bestehen. Externe YouTube-Videos und Namen Dritter sind <b>nicht</b> erfasst und werden nicht als gemeinfrei bezeichnet. Es wird keine Garantie übernommen, dass das Werk frei von Rechten Dritter ist.</p>
+  <div data-cmp="downloads"></div>
+  <h2>Externe Ressourcen (Kurzübersicht)</h2>
+  <p>Verlinkte YouTube-Videos (Titel/Kanal/Inhalt geprüft am 14.11.2026): je 3 Videos von <b>Chemie Endlich Verstehen</b> zur Elektronenpaarbindung, zu Alkanen/homologer Reihe sowie zu Strukturformeln, plus 2 Videos zur Nomenklatur (Erklärung + Übungen) und 1 Video von <b>Learning Level Up</b> zu Alkan-Grundlagen. Alle Rechte liegen bei den Kanälen. Details und Links: <code>THIRD_PARTY_LICENSES.txt</code> (oben herunterladbar) sowie die Videokarten in den Kapiteln.</p>
+  <h2>Fachliche Hinweise</h2>
+  <p>Siedepunkte, Schmelzpunkte und Dichten sind gerundete Standard-Literaturwerte (Normaldruck). Aggregatzustände beziehen sich auf Raumtemperatur (~20 °C); die Grenze flüssig/fest bei langkettigen Alkanen wird je nach Quelle leicht unterschiedlich angegeben. Die 3D-Modelle verwenden ideale Tetraedergeometrie (109,47°) – reale Moleküle weichen minimal ab und sind ständig in Bewegung.</p>
+  <h2>Fortschritt zurücksetzen</h2>
+  <p>Löscht alle lokal gespeicherten Ergebnisse (Kapitel, Quizze, Karten, Prüfung).</p>
+  <div class="btnrow"><button class="btn" id="resetProgress" style="border-color:var(--danger);color:var(--danger)">🗑 Gesamten Fortschritt zurücksetzen</button></div>`;
+}
+function chapterHTML(c){
+  return `<div class="chapterhead"><p class="kicker">KAPITEL ${c.num} VON 10</p><h1>${esc(c.title)}</h1><p class="sub">${esc(c.subtitle)}</p></div>
+  <div class="goalbox"><b>🎯 Lernziel:</b> ${esc(c.goal)}</div>
+  ${c.body}
+  <div class="chapterfoot">
+    <a class="btn" href="#${c.num===1?'start':'k'+(c.num-1)}" style="text-decoration:none">← ${c.num===1?'Start':'Kapitel '+(c.num-1)}</a>
+    <button class="btn primary" id="markDone" data-ch="${c.id}">${state.done[c.id]?'✓ Abgeschlossen (zurücksetzen)':'Kapitel abschließen ✓'}</button>
+    <a class="btn" href="#${c.num===10?'info':'k'+(c.num+1)}" style="text-decoration:none">${c.num===10?'Info & Lizenzen':'Kapitel '+(c.num+1)} →</a>
+  </div>`;
+}
+let pendingHighlight=null;
+function route(){
+  stopAnims();
+  const id=(location.hash||'#start').slice(1);
+  const c=CHAPTERS.find(x=>x.id===id);
+  const content=$('#content');
+  if(id==='start')content.innerHTML=startHTML();
+  else if(id==='info')content.innerHTML=infoHTML();
+  else if(c)content.innerHTML=chapterHTML(c);
+  else{location.hash='#start';return;}
+  document.title=(c?('Kapitel '+c.num+': '+c.title):(id==='info'?'Info & Lizenzen':'Start'))+' · AlkanLab';
+  initComponents(content);
+  $$('#nav .navlink').forEach(a=>{if(a.dataset.ch===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  const md=$('#markDone');
+  if(md)md.addEventListener('click',()=>{
+    const cid=md.dataset.ch;
+    state.done[cid]=!state.done[cid];save();updateProgress();
+    md.textContent=state.done[cid]?'✓ Abgeschlossen (zurücksetzen)':'Kapitel abschließen ✓';
+    toast(state.done[cid]?'Kapitel abgeschlossen – stark! ✓':'Kapitel wieder als offen markiert.');
+  });
+  const rp=$('#resetProgress');
+  if(rp)rp.addEventListener('click',()=>{
+    if(confirm('Wirklich den gesamten Lernfortschritt löschen?')){state={done:{},quiz:{},exam:null,cards:[]};save();updateProgress();route();toast('Fortschritt zurückgesetzt.');}
+  });
+  closeSidebar();closeSearch();
+  window.scrollTo({top:0,behavior:'auto'});
+  content.focus({preventScroll:true});
+  updateProgress();
+  if(pendingHighlight){highlightTerm(pendingHighlight);pendingHighlight=null;}
+}
+function highlightTerm(term){
+  const root=$('#content');const rx=new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(n){
+    if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+    const p=n.parentElement;
+    if(!p||p.closest('svg,script,style,mark'))return NodeFilter.FILTER_REJECT;
+    return rx.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+  }});
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  let first=null;
+  nodes.slice(0,40).forEach(n=>{
+    const parts=n.nodeValue.split(rx);const m=n.nodeValue.match(rx);if(!m)return;
+    const frag=document.createDocumentFragment();let rest=n.nodeValue;
+    let idx=rest.search(rx);
+    frag.appendChild(document.createTextNode(rest.slice(0,idx)));
+    const mk=document.createElement('mark');mk.textContent=m[0];frag.appendChild(mk);
+    frag.appendChild(document.createTextNode(rest.slice(idx+m[0].length)));
+    n.parentNode.replaceChild(frag,n);
+    if(!first)first=mk;
+  });
+  if(first)setTimeout(()=>first.scrollIntoView({block:'center',behavior:reducedMotion?'auto':'smooth'}),80);
+}
 
+/* ---------------- Suche ---------------- */
+let searchIndex=null;
+function buildSearchIndex(){
+  const tmp=document.createElement('div');
+  searchIndex=CHAPTERS.map(c=>{tmp.innerHTML=c.body;return{id:c.id,title:'Kapitel '+c.num+': '+c.title,text:(c.goal+' '+tmp.textContent).replace(/\s+/g,' ')};});
+  GLOSSARY.forEach(([t,d])=>searchIndex.push({id:'k10',title:'Glossar: '+t,text:d,gloss:t}));
+}
+function runSearch(q){
+  const box=$('#searchResults');const query=q.trim();
+  if(query.length<2){closeSearch();return;}
+  const ql=query.toLowerCase();const hits=[];
+  searchIndex.forEach(e=>{
+    const ti=e.title.toLowerCase().indexOf(ql),bi=e.text.toLowerCase().indexOf(ql);
+    if(ti>-1||bi>-1){
+      const i=bi>-1?bi:0;
+      const snip=(i>60?'…':'')+e.text.slice(Math.max(0,i-60),i+query.length+80)+'…';
+      hits.push({e,snip,rank:ti>-1?0:1});
+    }
+  });
+  hits.sort((a,b)=>a.rank-b.rank);
+  box.innerHTML=hits.length?hits.slice(0,12).map(h=>'<button class="sr-item" data-target="'+h.e.id+'" data-term="'+esc(h.e.gloss||query)+'" role="option"><b>'+esc(h.e.title)+'</b><span>'+esc(h.snip)+'</span></button>').join(''):'<div class="sr-empty">Keine Treffer für „'+esc(query)+'“. Versuche z. B. „Isomer“, „Siedetemperatur“ oder „Methan“.</div>';
+  box.classList.add('open');$('#searchInput').setAttribute('aria-expanded','true');
+  $$('#searchResults .sr-item').forEach(b=>b.addEventListener('click',()=>{
+    pendingHighlight=b.dataset.term;
+    if(location.hash==='#'+b.dataset.target)route();else location.hash='#'+b.dataset.target;
+    $('#searchInput').value='';closeSearch();
+  }));
+}
+function closeSearch(){$('#searchResults').classList.remove('open');$('#searchInput').setAttribute('aria-expanded','false');}
+
+/* ---------------- 3D-Molekül-Viewer ---------------- */
+function initViewer(host){
+  const groupKey=host.dataset.select;
+  let key=host.dataset.mol||'methan';
+  let rx=-0.4,ry=0.55,zoom=1,showH=true,labels=true;
+  const id=uid();
+  host.classList.add('viewer');
+  host.innerHTML=`<div class="vmeta"><b class="vname"></b><span class="badge purple vform"></span><span class="badge vnote"></span></div>
+   <svg viewBox="-260 -170 520 340" tabindex="0" role="img"></svg>
+   <div class="legend"><span><i style="background:#a78bfa"></i>C · Kohlenstoff</span><span><i style="background:#eef0f8"></i>H · Wasserstoff</span><span><i style="background:#7d84a8;border-radius:2px;height:4px;margin-top:4px"></i>Bindung (Elektronenpaar)</span><span style="font-style:italic">Modellfarben, keine CPK-Konvention</span></div>
+   <div class="vcontrols">
+     ${groupKey?'<label>Auswahl: <select class="vsel" aria-label="Molekül auswählen">'+MOLGROUPS[groupKey].map(k=>'<option value="'+k+'"'+(k===key?' selected':'')+'>'+esc(MOLS[k].name)+'</option>').join('')+'</select></label>':''}
+     <button class="btn small vH" aria-pressed="true">H-Atome: an</button>
+     <button class="btn small vL" aria-pressed="true">Symbole: an</button>
+     <button class="btn small vR">⟲ Ansicht</button>
+     <label class="btn small ghost" style="display:inline-flex;align-items:center;gap:.4rem">Zoom <input type="range" class="vZ" min="40" max="300" value="100" aria-label="Zoom"></label>
+   </div>
+   <div class="vinfo" role="status">Ziehen = drehen · Mausrad/Regler = zoomen · Klick auf ein Atom = Details · Tastatur: Pfeiltasten, +/−, 0</div>`;
+  const svg=host.querySelector('svg'),info=host.querySelector('.vinfo'),zIn=host.querySelector('.vZ');
+  function meta(){const m=MOLS[key];host.querySelector('.vname').textContent=m.name;host.querySelector('.vform').textContent=m.f;host.querySelector('.vnote').textContent=m.note||'';svg.setAttribute('aria-label','3D-Modell von '+m.name+', '+m.f+'. Pfeiltasten drehen, Plus und Minus zoomen.');}
+  function render(){
+    const m=MOLS[key].mol;
+    const cosY=Math.cos(ry),sinY=Math.sin(ry),cosX=Math.cos(rx),sinX=Math.sin(rx);
+    const R=Math.max(...m.atoms.map(a=>vLen(a.p)))||1;
+    const sc=118/R*zoom;
+    const proj=m.atoms.map(a=>{
+      const[x,y,z]=a.p;
+      const x1=x*cosY+z*sinY,z1=-x*sinY+z*cosY;
+      const y1=y*cosX-z1*sinX,z2=y*sinX+z1*cosX;
+      return{x:x1*sc,y:-y1*sc,z:z2/R,el:a.el};
+    });
+    const items=[];
+    m.bonds.forEach(([a,b])=>{
+      if(!showH&&(m.atoms[a].el==='H'||m.atoms[b].el==='H'))return;
+      const p=proj[a],q=proj[b];
+      items.push({z:(p.z+q.z)/2-0.001,s:'<line x1="'+p.x.toFixed(1)+'" y1="'+p.y.toFixed(1)+'" x2="'+q.x.toFixed(1)+'" y2="'+q.y.toFixed(1)+'" stroke="#7d84a8" stroke-width="'+Math.max(2,sc*0.07).toFixed(1)+'" stroke-linecap="round"/>'});
+    });
+    proj.forEach((p,i)=>{
+      if(!showH&&p.el==='H')return;
+      let r=(p.el==='C'?0.28:0.17)*sc*(1+0.1*p.z);r=Math.max(3,r);
+      const fill=p.el==='C'?'#a78bfa':'#eef0f8',stroke=p.el==='C'?'#6d4fc4':'#9aa0bd';
+      let s='<circle data-i="'+i+'" cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="'+r.toFixed(1)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.5" style="cursor:pointer"><title>'+p.el+' – '+(p.el==='C'?'Kohlenstoff':'Wasserstoff')+'</title></circle>';
+      if(labels&&r>7)s+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+r*0.35).toFixed(1)+'" text-anchor="middle" font-size="'+(r*0.95).toFixed(1)+'" font-weight="700" fill="#17122b" pointer-events="none">'+p.el+'</text>';
+      items.push({z:p.z,s});
+    });
+    items.sort((a,b)=>a.z-b.z);
+    svg.innerHTML=items.map(i=>i.s).join('');
+  }
+  function reset(){rx=-0.4;ry=0.55;zoom=1;zIn.value=100;render();}
+  let down=null,downTarget=null,moved=0;
+  svg.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY];downTarget=e.target;moved=0;svg.setPointerCapture(e.pointerId);});
+  svg.addEventListener('pointermove',e=>{
+    if(!down)return;
+    const dx=e.clientX-down[0],dy=e.clientY-down[1];moved+=Math.abs(dx)+Math.abs(dy);
+    ry+=dx*0.011;rx=clamp(rx+dy*0.011,-1.5,1.5);down=[e.clientX,e.clientY];render();
+  });
+  svg.addEventListener('pointerup',e=>{
+    if(moved<6&&downTarget&&downTarget.closest){
+      const c=downTarget.closest('circle[data-i]');
+      if(c){
+        const i=+c.dataset.i,a=MOLS[key].mol.atoms[i];
+        const nb=MOLS[key].mol.bonds.filter(b=>b[0]===i||b[1]===i).length;
+        info.textContent='Atom Nr. '+(i+1)+': '+(a.el==='C'?'Kohlenstoff (C)':'Wasserstoff (H)')+' · '+nb+' Bindung'+(nb===1?'':'en')+' · im Modell '+(a.el==='C'?'lila':'hell')+' dargestellt.';
+      }
+    }
+    down=null;
+  });
+  svg.addEventListener('wheel',e=>{e.preventDefault();zoom=clamp(zoom*Math.exp(-e.deltaY*0.0012),0.4,3);zIn.value=Math.round(zoom*100);render();},{passive:false});
+  svg.addEventListener('keydown',e=>{
+    const step=0.15;let used=true;
+    if(e.key==='ArrowLeft')ry-=step;else if(e.key==='ArrowRight')ry+=step;
+    else if(e.key==='ArrowUp')rx=clamp(rx-step,-1.5,1.5);else if(e.key==='ArrowDown')rx=clamp(rx+step,-1.5,1.5);
+    else if(e.key==='+'||e.key==='=')zoom=clamp(zoom*1.12,0.4,3);
+    else if(e.key==='-')zoom=clamp(zoom/1.12,0.4,3);
+    else if(e.key==='0')reset();else used=false;
+    if(used){e.preventDefault();zIn.value=Math.round(zoom*100);render();}
+  });
+  zIn.addEventListener('input',()=>{zoom=zIn.value/100;render();});
+  host.querySelector('.vR').addEventListener('click',reset);
+  const bH=host.querySelector('.vH'),bL=host.querySelector('.vL');
+  bH.addEventListener('click',()=>{showH=!showH;bH.setAttribute('aria-pressed',showH);bH.textContent='H-Atome: '+(showH?'an':'aus');render();});
+  bL.addEventListener('click',()=>{labels=!labels;bL.setAttribute('aria-pressed',labels);bL.textContent='Symbole: '+(labels?'an':'aus');render();});
+  const sel=host.querySelector('.vsel');
+  if(sel)sel.addEventListener('change',()=>{key=sel.value;meta();reset();info.textContent='Modell gewechselt: '+MOLS[key].name+' ('+MOLS[key].f+').';});
+  meta();render();
+}
+
+/* ---------------- Quiz-Engine ---------------- */
+function initQuiz(host){
+  const setKey=host.dataset.set,mode=host.dataset.mode||'instant';
+  const qs=QUIZZES[setKey];if(!qs)return;
+  const results=new Array(qs.length).fill(null);
+  function qHTML(q,i){
+    const name=uid();let inner='';
+    if(q.t==='mc'){
+      inner=q.o.map((o,j)=>'<label class="quiz-opt"><input type="radio" name="'+name+'" value="'+j+'"><span>'+esc(o)+'</span></label>').join('');
+    }else if(q.t==='tf'){
+      inner=['Wahr','Falsch'].map((o,j)=>'<label class="quiz-opt"><input type="radio" name="'+name+'" value="'+(j===0)+'"><span>'+o+'</span></label>').join('');
+    }else if(q.t==='gap'){
+      inner='<label>Deine Antwort: <input type="text" class="gapin" autocomplete="off" aria-label="Antwort eingeben"></label>';
+    }else if(q.t==='match'){
+      const rights=shuffle(q.p.map(p=>p[1]));
+      inner=q.p.map((p,j)=>'<div class="matchrow"><span class="mleft">'+esc(p[0])+'</span><span aria-hidden="true">→</span><select data-j="'+j+'" aria-label="Zuordnung für '+esc(p[0])+'"><option value="">– bitte wählen –</option>'+rights.map(r=>'<option value="'+esc(r)+'">'+esc(r)+'</option>').join('')+'</select><span class="mres" aria-hidden="true"></span></div>').join('');
+    }
+    return '<div class="quiz-q" data-i="'+i+'" data-type="'+q.t+'"><fieldset><legend>Frage '+(i+1)+' · '+esc(q.q)+'</legend>'+inner+'</fieldset>'+
+      (mode==='instant'?'<div class="btnrow"><button class="btn small primary qcheck">Prüfen</button><button class="btn small ghost qretry" hidden>Nochmal versuchen</button></div>':'')+
+      '<div class="feedback" role="status"></div></div>';
+  }
+  host.innerHTML=qs.map(qHTML).join('')+
+    (mode==='exam'?'<div class="btnrow"><button class="btn primary examSubmit">🎓 Prüfung auswerten</button><button class="btn ghost examReset" hidden>Neuer Versuch</button></div>':'<div class="btnrow"><button class="btn small ghost qreset">Alle Fragen zurücksetzen</button></div>')+
+    '<div class="quiz-sum" role="status"></div>';
+  const sum=host.querySelector('.quiz-sum');
+  const stored=state.quiz[setKey];
+  function summary(){
+    const answered=results.filter(r=>r!==null).length,correct=results.filter(r=>r===true).length;
+    let t='Beantwortet: '+answered+'/'+qs.length+' · Richtig: '+correct;
+    if(setKey==='exam'&&results.every(r=>r!==null)){
+      const pct=Math.round(correct/qs.length*100);
+      t='🎓 Ergebnis: '+correct+'/'+qs.length+' ('+pct+' %) – '+(pct>=70?'BESTANDEN! Stark! 💪':'noch nicht bestanden (70 % nötig). Schau dir die Erklärungen an und versuche es erneut.');
+      if(state.exam===null||pct>state.exam){state.exam=pct;save();}
+    }else if(answered===qs.length&&mode==='instant'){
+      t='✅ Wissenscheck fertig: '+correct+'/'+qs.length+' richtig.';
+      if(/^k\d+$/.test(setKey)){
+        const prev=state.quiz[setKey];
+        if(!prev||correct>prev.best){state.quiz[setKey]={best:correct,total:qs.length};save();}
+      }
+    }
+    const st=state.quiz[setKey];
+    if(st&&/^k\d+$/.test(setKey))t+=' · Bestleistung: '+st.best+'/'+st.total;
+    if(setKey==='exam'&&state.exam!==null)t+=' · Beste Prüfung: '+state.exam+' %';
+    sum.textContent=t;
+  }
+  function checkQ(card,showOnly=false){
+    const i=+card.dataset.i,q=qs[i],type=card.dataset.type,fb=card.querySelector('.feedback');
+    let ok=false,answered=false;
+    if(type==='mc'||type==='tf'){
+      const sel=card.querySelector('input:checked');
+      if(sel){answered=true;ok=type==='mc'?+sel.value===q.a:(sel.value==='true')===q.a;}
+    }else if(type==='gap'){
+      const v=card.querySelector('.gapin').value;
+      if(v.trim()){answered=true;ok=q.a.includes(normAns(v));}
+    }else if(type==='match'){
+      const sels=[...card.querySelectorAll('select')];
+      answered=sels.every(s=>s.value);
+      ok=answered&&sels.every(s=>s.value===q.p[+s.dataset.j][1]);
+      sels.forEach(s=>{const r=s.parentElement.querySelector('.mres');if(answered)r.textContent=s.value===q.p[+s.dataset.j][1]?' ✓':' ✗';});
+    }
+    if(!answered&&!showOnly){fb.className='feedback show err';fb.textContent='Bitte zuerst eine Antwort eingeben bzw. auswählen.';return null;}
+    results[i]=ok;
+    fb.className='feedback show '+(ok?'ok':'err');
+    let msg=ok?'✔ Richtig! ':'✘ Leider falsch. ';
+    if(!ok&&q.sol)msg+='Richtige Antwort: '+q.sol+'. ';
+    if(!ok&&type==='match')msg+='Die korrekte Zuordnung siehst du an den ✓/✗-Markierungen. ';
+    msg+=q.e;
+    fb.textContent=msg;
+    card.querySelectorAll('input,select').forEach(el=>el.disabled=true);
+    const chk=card.querySelector('.qcheck'),rt=card.querySelector('.qretry');
+    if(chk)chk.hidden=true;if(rt)rt.hidden=false;
+    summary();return ok;
+  }
+  function resetQ(card){
+    const i=+card.dataset.i;results[i]=null;
+    card.querySelectorAll('input[type=radio]').forEach(r=>{r.checked=false;r.disabled=false;});
+    const g=card.querySelector('.gapin');if(g){g.value='';g.disabled=false;}
+    card.querySelectorAll('select').forEach(s=>{s.value='';s.disabled=false;});
+    card.querySelectorAll('.mres').forEach(m=>m.textContent='');
+    const fb=card.querySelector('.feedback');fb.className='feedback';fb.textContent='';
+    const chk=card.querySelector('.qcheck'),rt=card.querySelector('.qretry');
+    if(chk)chk.hidden=false;if(rt)rt.hidden=true;
+    summary();
+  }
+  host.querySelectorAll('.quiz-q').forEach(card=>{
+    const chk=card.querySelector('.qcheck'),rt=card.querySelector('.qretry');
+    if(chk)chk.addEventListener('click',()=>checkQ(card));
+    if(rt)rt.addEventListener('click',()=>resetQ(card));
+    const g=card.querySelector('.gapin');
+    if(g&&mode==='instant')g.addEventListener('keydown',e=>{if(e.key==='Enter')checkQ(card);});
+  });
+  const rs=host.querySelector('.qreset');
+  if(rs)rs.addEventListener('click',()=>host.querySelectorAll('.quiz-q').forEach(resetQ));
+  const es=host.querySelector('.examSubmit'),er=host.querySelector('.examReset');
+  if(es)es.addEventListener('click',()=>{
+    const cards=[...host.querySelectorAll('.quiz-q')];
+    const open=cards.filter(c=>{
+      const t=c.dataset.type;
+      if(t==='mc'||t==='tf')return!c.querySelector('input:checked');
+      if(t==='gap')return!c.querySelector('.gapin').value.trim();
+      return[...c.querySelectorAll('select')].some(s=>!s.value);
+    });
+    if(open.length){sum.textContent='Bitte beantworte zuerst alle Fragen – es sind noch '+open.length+' offen.';open[0].scrollIntoView({block:'center',behavior:reducedMotion?'auto':'smooth'});return;}
+    cards.forEach(c=>checkQ(c,true));
+    es.hidden=true;er.hidden=false;
+    toast('Prüfung ausgewertet!');
+  });
+  if(er)er.addEventListener('click',()=>{host.querySelectorAll('.quiz-q').forEach(resetQ);es.hidden=false;er.hidden=true;});
+  summary();
+}
+
+/* ---------------- Reaktionsgleichungs-Balancer ---------------- */
+const EQ_PRESETS={
+ methan:{label:'Methan → CO₂ + H₂O (vollständig)',L:[['CH₄',{C:1,H:4}],['O₂',{O:2}]],R:[['CO₂',{C:1,O:2}],['H₂O',{H:2,O:1}]],sol:[1,2,1,2]},
+ ethan:{label:'Ethan → CO₂ + H₂O (vollständig)',L:[['C₂H₆',{C:2,H:6}],['O₂',{O:2}]],R:[['CO₂',{C:1,O:2}],['H₂O',{H:2,O:1}]],sol:[2,7,4,6]},
+ propan:{label:'Propan → CO₂ + H₂O (vollständig)',L:[['C₃H₈',{C:3,H:8}],['O₂',{O:2}]],R:[['CO₂',{C:1,O:2}],['H₂O',{H:2,O:1}]],sol:[1,5,3,4]},
+ butan:{label:'Butan → CO₂ + H₂O (vollständig)',L:[['C₄H₁₀',{C:4,H:10}],['O₂',{O:2}]],R:[['CO₂',{C:1,O:2}],['H₂O',{H:2,O:1}]],sol:[2,13,8,10]},
+ co:{label:'Methan → CO + H₂O (unvollständig)',L:[['CH₄',{C:1,H:4}],['O₂',{O:2}]],R:[['CO',{C:1,O:1}],['H₂O',{H:2,O:1}]],sol:[2,3,2,4]}
+};
+function initBalancer(host){
+  let preset='methan',coefs=[1,1,1,1];
+  host.classList.add('card');
+  function species(){const p=EQ_PRESETS[preset];return[...p.L,...p.R];}
+  function render(){
+    const p=EQ_PRESETS[preset],sp=species();
+    let eq='<div class="eqrow">';
+    sp.forEach((s,i)=>{
+      if(i===p.L.length)eq+='<span aria-hidden="true" style="font-size:1.4rem;color:var(--accent)">→</span>';
+      else if(i>0)eq+='<span aria-hidden="true">+</span>';
+      eq+='<span class="stepper"><button data-i="'+i+'" data-d="-1" aria-label="Koeffizient von '+s[0]+' verringern">−</button><span class="coef" aria-live="polite">'+coefs[i]+'</span><button data-i="'+i+'" data-d="1" aria-label="Koeffizient von '+s[0]+' erhöhen">+</button></span><b class="mono">'+s[0]+'</b>';
+    });
+    eq+='</div>';
+    const cnt=side=>{const t={C:0,H:0,O:0};side.forEach((s,k)=>{const c=coefs[k];Object.entries(s[1]).forEach(([el,n])=>t[el]+=n*c);});return t;};
+    const L=cnt(p.L),R=cnt(p.R.map((s,k)=>[s[0],s[1]]));
+    const cntR={C:0,H:0,O:0};p.R.forEach((s,k)=>{Object.entries(s[1]).forEach(([el,n])=>cntR[el]+=n*coefs[p.L.length+k]);});
+    let tab='<table class="atomtable"><thead><tr><th>Atom</th><th>Links</th><th>Rechts</th><th>Bilanz</th></tr></thead><tbody>';
+    ['C','H','O'].forEach(el=>{const ok=L[el]===cntR[el];tab+='<tr><td><b>'+el+'</b></td><td>'+L[el]+'</td><td>'+cntR[el]+'</td><td style="color:'+(ok?'var(--ok)':'var(--danger)')+'">'+(ok?'✓':'✗')+'</td></tr>';});
+    tab+='</tbody></table>';
+    host.innerHTML='<div class="btnrow"><label>Aufgabe: <select class="bsel" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.4rem .6rem">'+Object.entries(EQ_PRESETS).map(([k,v])=>'<option value="'+k+'"'+(k===preset?' selected':'')+'>'+v.label+'</option>').join('')+'</select></label></div>'+eq+tab+
+    '<div class="btnrow"><button class="btn primary bcheck">✓ Prüfen</button><button class="btn ghost bsol">Lösung zeigen</button><button class="btn ghost breset">Zurücksetzen</button></div><div class="feedback" role="status"></div>';
+    host.querySelectorAll('.stepper button').forEach(b=>b.addEventListener('click',()=>{
+      const i=+b.dataset.i;coefs[i]=clamp(coefs[i]+ +b.dataset.d,1,20);render();
+    }));
+    host.querySelector('.bsel').addEventListener('change',e=>{preset=e.target.value;coefs=[1,1,1,1];render();});
+    host.querySelector('.breset').addEventListener('click',()=>{coefs=[1,1,1,1];render();});
+    host.querySelector('.bsol').addEventListener('click',()=>{coefs=EQ_PRESETS[preset].sol.slice();render();const fb=host.querySelector('.feedback');fb.className='feedback show ok';fb.textContent='Lösung eingesetzt. Prüfe die Atomtabelle: links = rechts bei jedem Element!';});
+    host.querySelector('.bcheck').addEventListener('click',()=>{
+      const fb=host.querySelector('.feedback');
+      const bal=['C','H','O'].every(el=>L[el]===cntR[el]);
+      if(!bal){fb.className='feedback show err';fb.textContent='Noch nicht ausgeglichen: Links und rechts stimmen bei mindestens einem Element nicht überein (siehe ✗ in der Tabelle). Tipp: erst C, dann H, zuletzt O.';return;}
+      const g=coefs.reduce((a,b)=>gcd(a,b));
+      if(g>1){fb.className='feedback show err';fb.textContent='Atomzahlen stimmen – aber die Koeffizienten sind nicht die kleinsten ganzen Zahlen. Teile alle durch '+g+'.';return;}
+      fb.className='feedback show ok';fb.textContent='🎉 Perfekt ausgeglichen – kleinste ganze Zahlen! Die Atombilanz stimmt für C, H und O.';
+    });
+  }
+  render();
+}
+
+/* ---------------- Verbrennungs-Animation ---------------- */
+function initCombustion(host){
+  host.classList.add('card','combustion');
+  const gCH4='<line x1="0" y1="0" x2="-22" y2="0" stroke="#7d84a8" stroke-width="3"/><line x1="0" y1="0" x2="22" y2="0" stroke="#7d84a8" stroke-width="3"/><line x1="0" y1="0" x2="0" y2="-22" stroke="#7d84a8" stroke-width="3"/><line x1="0" y1="0" x2="0" y2="22" stroke="#7d84a8" stroke-width="3"/><circle cx="-22" cy="0" r="8" fill="#eef0f8"/><circle cx="22" cy="0" r="8" fill="#eef0f8"/><circle cx="0" cy="-22" r="8" fill="#eef0f8"/><circle cx="0" cy="22" r="8" fill="#eef0f8"/><circle cx="0" cy="0" r="14" fill="#a78bfa"/>';
+  const gO2='<line x1="-13" y1="0" x2="13" y2="0" stroke="#7d84a8" stroke-width="3"/><circle cx="-13" cy="0" r="12" fill="#f5a524"/><circle cx="13" cy="0" r="12" fill="#f5a524"/>';
+  const gCO2='<line x1="-26" y1="0" x2="26" y2="0" stroke="#7d84a8" stroke-width="3"/><circle cx="-26" cy="0" r="12" fill="#f5a524"/><circle cx="26" cy="0" r="12" fill="#f5a524"/><circle cx="0" cy="0" r="13" fill="#a78bfa"/>';
+  const gH2O='<line x1="0" y1="0" x2="-18" y2="-14" stroke="#7d84a8" stroke-width="3"/><line x1="0" y1="0" x2="18" y2="-14" stroke="#7d84a8" stroke-width="3"/><circle cx="-18" cy="-14" r="8" fill="#eef0f8"/><circle cx="18" cy="-14" r="8" fill="#eef0f8"/><circle cx="0" cy="0" r="12" fill="#f5a524"/>';
+  const lbl=(t)=>'<text y="42" text-anchor="middle" fill="#a9afc9" font-size="14" font-weight="600">'+t+'</text>';
+  host.innerHTML=`<svg viewBox="0 0 720 240" role="img" aria-label="Animation der Methanverbrennung: CH4 und 2 O2 reagieren zu CO2 und 2 H2O">
+    <circle class="glow" cx="340" cy="110" r="60" fill="rgba(245,165,36,.25)" opacity="0"/>
+    <path d="M310,205 h90 m-14,-8 l14,8 l-14,8" stroke="#a78bfa" stroke-width="3" fill="none"/>
+    <text x="355" y="230" text-anchor="middle" fill="#a78bfa" font-size="13">Energie wird frei (exotherm)</text>
+    <g class="m0">${gCH4}${lbl('CH₄')}</g><g class="m1">${gO2}${lbl('O₂')}</g><g class="m2">${gO2}${lbl('O₂')}</g>
+    <g class="p0" opacity="0">${gCO2}${lbl('CO₂')}</g><g class="p1" opacity="0">${gH2O}${lbl('H₂O')}</g><g class="p2" opacity="0">${gH2O}${lbl('H₂O')}</g>
+  </svg>
+  <div class="legend"><span><i style="background:#a78bfa"></i>C</span><span><i style="background:#eef0f8"></i>H</span><span><i style="background:#f5a524"></i>O (hier orange als Modellfarbe)</span></div>
+  <div class="btnrow"><button class="btn primary cplay">▶ Reaktion abspielen</button><button class="btn ghost creset">⟲ Zurücksetzen</button></div>
+  <p class="formula" style="display:block;text-align:center">CH₄ + 2 O₂ → CO₂ + 2 H₂O</p>
+  <p style="color:var(--muted);font-size:.85rem;text-align:center">Atombilanz: links 1 C · 4 H · 4 O — rechts 1 C · 4 H · 4 O ✓ (Massenerhaltung)</p>`;
+  const svg=host.querySelector('svg'),glow=host.querySelector('.glow');
+  const gs=['m0','m1','m2','p0','p1','p2'].map(c=>host.querySelector('.'+c));
+  const start=[[95,110],[215,55],[215,165]],cluster=[[300,110],[350,60],[350,160]];
+  const pStart=[[360,110],[360,110],[360,110]],pEnd=[[540,110],[650,55],[650,165]];
+  function layout(t){
+    const setG=(g,x,y,o)=>{g.setAttribute('transform','translate('+x+','+y+')');g.setAttribute('opacity',o);};
+    if(t<=0.45){
+      const k=ease(t/0.45);
+      for(let i=0;i<3;i++)setG(gs[i],lerp(start[i][0],cluster[i][0],k),lerp(start[i][1],cluster[i][1],k),1);
+      for(let i=3;i<6;i++)setG(gs[i],pStart[i-3][0],pStart[i-3][1],0);
+      glow.setAttribute('opacity',t>0.32?((t-0.32)/0.13*0.9).toFixed(2):0);
+    }else if(t<=0.58){
+      const k=(t-0.45)/0.13;
+      for(let i=0;i<3;i++)setG(gs[i],cluster[i][0],cluster[i][1],Math.max(0,1-k).toFixed(2));
+      glow.setAttribute('opacity',(0.9*Math.sin(k*Math.PI)).toFixed(2));
+      for(let i=3;i<6;i++)setG(gs[i],pStart[i-3][0],pStart[i-3][1],0);
+    }else{
+      const k=ease((t-0.58)/0.42);
+      for(let i=0;i<3;i++)setG(gs[i],cluster[i][0],cluster[i][1],0);
+      glow.setAttribute('opacity',Math.max(0,0.5*(1-k)).toFixed(2));
+      for(let i=3;i<6;i++){const j=i-3;setG(gs[i],lerp(pStart[j][0],pEnd[j][0],k),lerp(pStart[j][1],pEnd[j][1],k),k.toFixed(2));}
+    }
+  }
+  layout(0);
+  const play=host.querySelector('.cplay');
+  play.addEventListener('click',()=>{
+    if(reducedMotion){layout(1);return;}
+    play.disabled=true;const t0=performance.now(),dur=3000;
+    const step=now=>{
+      const t=clamp((now-t0)/dur,0,1);layout(t);
+      if(t<1){const id=requestAnimationFrame(step);activeAnims.add(id);}
+      else{play.disabled=false;}
+    };
+    const id=requestAnimationFrame(step);activeAnims.add(id);
+  });
+  host.querySelector('.creset').addEventListener('click',()=>{stopAnims();play.disabled=false;layout(0);});
+}
+
+/* ---------------- Diagramm Siede-/Schmelzpunkte ---------------- */
+function initChart(host){
+  host.classList.add('card','chart');
+  let mode='bp';
+  function render(){
+    const W=660,H=320,L=56,Rp=16,T=20,B=44;
+    const vals=ALKANES.map(a=>mode==='bp'?a.bp:a.mp);
+    const ymin=-200,ymax=200;
+    const X=i=>L+(W-L-Rp)*i/9, Y=v=>T+(H-T-B)*(1-(v-ymin)/(ymax-ymin));
+    let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+(mode==='bp'?'Siedetemperaturen':'Schmelztemperaturen')+' der Alkane Methan bis Decan">';
+    for(let v=-200;v<=200;v+=50){
+      s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-Rp)+'" y2="'+Y(v)+'" stroke="'+(v===0?'#4a527d':'#262c47')+'" stroke-width="'+(v===0?1.5:1)+'"/>';
+      s+='<text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" fill="#a9afc9" font-size="11">'+v+'</text>';
+    }
+    s+='<text x="14" y="'+(H/2)+'" fill="#a9afc9" font-size="11" transform="rotate(-90 14 '+(H/2)+')" text-anchor="middle">Temperatur in °C</text>';
+    const col=mode==='bp'?'#a78bfa':'#f5a524';
+    s+='<polyline points="'+vals.map((v,i)=>X(i)+','+Y(v)).join(' ')+'" fill="none" stroke="'+col+'" stroke-width="3" stroke-linejoin="round"/>';
+    ALKANES.forEach((a,i)=>{
+      const v=vals[i];
+      s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="6" fill="'+col+'" stroke="#12141f" stroke-width="2" tabindex="0"><title>'+a.name+': '+fmtT(v)+' °C</title></circle>';
+      s+='<text x="'+X(i)+'" y="'+(H-24)+'" text-anchor="middle" fill="#a9afc9" font-size="10.5">'+a.name+'</text>';
+      s+='<text x="'+X(i)+'" y="'+(H-10)+'" text-anchor="middle" fill="#6f7694" font-size="10">C'+a.n+'</text>';
+      s+='<text x="'+X(i)+'" y="'+(Y(v)-12)+'" text-anchor="middle" fill="'+col+'" font-size="10.5" font-weight="700">'+fmtT(v)+'</text>';
+    });
+    s+='</svg>';
+    host.innerHTML='<div class="btnrow"><button class="btn small cbp" aria-pressed="'+(mode==='bp')+'">Siedetemperaturen</button><button class="btn small cmp" aria-pressed="'+(mode==='mp')+'">Schmelztemperaturen</button><span class="badge">'+(mode==='bp'?'sehr regelmäßiger Anstieg':'Anstieg mit Unregelmäßigkeiten (Kristallpackung)')+'</span></div>'+s+'<p style="color:var(--muted);font-size:.8rem">Fahre über einen Punkt (oder fokussiere ihn mit Tab), um den Wert zu sehen. Gerundete Literaturwerte bei Normaldruck.</p>';
+    host.querySelector('.cbp').addEventListener('click',()=>{mode='bp';render();});
+    host.querySelector('.cmp').addEventListener('click',()=>{mode='mp';render();});
+  }
+  render();
+}
+
+/* ---------------- Alkan-Explorer ---------------- */
+function initExplorer(host){
+  host.classList.add('card');
+  host.innerHTML=`<label for="exr"><b>Kettenlänge n:</b> <output class="exn" style="color:var(--accent);font-weight:800">5</output></label>
+  <input id="exr" type="range" min="1" max="10" value="5" step="1" aria-label="Anzahl der Kohlenstoffatome">
+  <div class="explorer-grid" style="margin-top:.8rem">
+   <div><p class="formula big exf"></p><ul class="statlist exstats"></ul></div>
+   <div class="svgframe exsvg" style="margin:0"></div>
+  </div><p class="exhint" style="color:var(--muted);font-size:.85rem"></p>`;
+  const r=host.querySelector('#exr');
+  function upd(){
+    const n=+r.value,a=ALKANES[n-1];
+    host.querySelector('.exn').textContent=n;
+    host.querySelector('.exf').textContent=a.name+' · '+alkFormula(n);
+    host.querySelector('.exstats').innerHTML=
+     '<li><span>Zustand (20 °C)</span><b>'+a.state+'</b></li>'+
+     '<li><span>Siedetemperatur</span><b>'+fmtT(a.bp)+' °C</b></li>'+
+     '<li><span>Schmelztemperatur</span><b>'+fmtT(a.mp)+' °C</b></li>'+
+     '<li><span>Dichte (flüssig, 20 °C)</span><b>'+(a.d?fmtD(a.d)+' g/cm³':'– (Gas)')+'</b></li>'+
+     '<li><span>H-Atome: 2·'+n+'+2</span><b>'+(2*n+2)+'</b></li>';
+    host.querySelector('.exsvg').innerHTML=strukturSVG(n)+'<div class="svgcap">Strukturformel von '+a.name+'</div>';
+    host.querySelector('.exhint').textContent=n<=4?'Kurz & klein: schwache Van-der-Waals-Kräfte → bei Raumtemperatur gasförmig.':(n<=7?'Mittelgroß: stärkere Van-der-Waals-Kräfte → flüssig, aber leicht verdampfend (typisch für Benzin).':'Lang: kräftige Van-der-Waals-Kräfte → flüssig mit hoher Siedetemperatur. Noch längere Ketten wären fest (Wachs).');
+  }
+  r.addEventListener('input',upd);upd();
+}
+
+/* ---------------- Formel-Rechner ---------------- */
+function initFormelCalc(host){
+  host.classList.add('card');
+  host.innerHTML=`<label for="fcin"><b>Anzahl C-Atome (n):</b></label>
+  <div class="btnrow"><input id="fcin" type="number" min="1" max="60" value="7" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.45rem .8rem;width:110px"><span class="formula big fcout" style="margin:0"></span></div>
+  <p class="fcalc" style="color:var(--muted)"></p><div class="feedback fcerr" role="status"></div>`;
+  const inp=host.querySelector('#fcin'),out=host.querySelector('.fcout'),calc=host.querySelector('.fcalc'),err=host.querySelector('.fcerr');
+  function upd(){
+    const n=parseInt(inp.value,10);
+    if(!Number.isInteger(n)||n<1||n>60){out.textContent='';calc.textContent='';err.className='feedback show err';err.textContent='Bitte eine ganze Zahl von 1 bis 60 eingeben.';return;}
+    err.className='feedback';
+    out.textContent=alkFormula(n);
+    const name=n<=10?ALKANES[n-1].name:(n===11?'Undecan':n===12?'Dodecan':'Alkan mit '+n+' C-Atomen');
+    calc.textContent='Rechnung: H = 2·n + 2 = 2·'+n+' + 2 = '+(2*n+2)+' → '+name+' mit '+n+' C und '+(2*n+2)+' H.';
+  }
+  inp.addEventListener('input',upd);upd();
+}
+
+/* ---------------- Nomenklatur-Trainer ---------------- */
+function initNomen(host){
+  let idx=0,solved=0,tries=0;const done=new Set();
+  host.classList.add('card');
+  function render(){
+    const it=NOMEN[idx];
+    const branches=Array.isArray(it.sk[1])?it.sk[1].flat():it.sk[1];
+    host.innerHTML=`<div class="btnrow"><span class="badge purple">Aufgabe ${idx+1} / ${NOMEN.length}</span><span class="badge ok">Gelöst: ${solved}</span></div>
+    <p><b>Benenne dieses Alkan nach IUPAC:</b></p>
+    <p class="nomen-halb">${it.halb}</p>
+    <div class="svgframe">${skelettSVG(it.sk[0],branches)}<div class="svgcap">Skelettformel (Ecken/Enden = C)</div></div>
+    <div class="btnrow"><input type="text" class="nin" placeholder="z. B. 2-Methylpropan" autocomplete="off" aria-label="Name des Alkans" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:.5rem .9rem;min-width:230px">
+    <button class="btn primary ncheck">Prüfen</button><button class="btn ghost nsol">Lösung zeigen</button><button class="btn nnext">Weiter →</button></div>
+    <div class="feedback" role="status"></div>`;
+    const inp=host.querySelector('.nin'),fb=host.querySelector('.feedback');
+    function check(){
+      const v=normAns(inp.value);
+      if(!v){fb.className='feedback show err';fb.textContent='Bitte zuerst einen Namen eingeben.';return;}
+      tries++;
+      if(it.accept.includes(v)){
+        fb.className='feedback show ok';fb.textContent='✔ Richtig: '+it.name+'. '+it.e;
+        if(!done.has(idx)){done.add(idx);solved++;host.querySelector('.badge.ok').textContent='Gelöst: '+solved;}
+        inp.disabled=true;
+      }else{
+        fb.className='feedback show err';fb.textContent='✘ Noch nicht richtig. '+(tries>=2?('Tipp: '+it.hint):'Prüfe: längste Kette? kleinste Zahl? Gruppenname mit -yl?');
+        inp.classList.add('shake');setTimeout(()=>inp.classList.remove('shake'),350);
+      }
+    }
+    host.querySelector('.ncheck').addEventListener('click',check);
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')check();});
+    host.querySelector('.nsol').addEventListener('click',()=>{fb.className='feedback show ok';fb.textContent='Lösung: '+it.name+'. '+it.e;});
+    host.querySelector('.nnext').addEventListener('click',()=>{idx=(idx+1)%NOMEN.length;tries=0;render();});
+    inp.focus();
+  }
+  render();
+}
+
+/* ---------------- Lernkarten ---------------- */
+function initFlashcards(host){
+  let order=FLASHCARDS.map((_,i)=>i),pos=0,flipped=false;
+  const known=new Set(state.cards);
+  host.classList.add('card');
+  function render(){
+    const c=FLASHCARDS[order[pos]];
+    host.innerHTML=`<div class="btnrow"><span class="badge purple fcstat">Karte ${pos+1} / ${order.length}</span><span class="badge ok">Gewusst: ${known.size} / ${FLASHCARDS.length}</span>${known.has(order[pos])?'<span class="badge ok">✓ schon gewusst</span>':''}</div>
+    <div class="fc${flipped?' flipped':''}" role="button" tabindex="0" aria-pressed="${flipped}" aria-label="Lernkarte umdrehen. ${flipped?'Antwortseite':'Fragenseite'}">
+      <div class="fc-inner">
+        <div class="fc-face fc-front"><small>Frage · klicken zum Umdrehen</small><p>${esc(c.q)}</p></div>
+        <div class="fc-face fc-back"><small>Antwort</small><p>${esc(c.a)}</p></div>
+      </div>
+    </div>
+    <div class="btnrow"><button class="btn fprev">← Zurück</button><button class="btn fflip">🔄 Umdrehen</button><button class="btn fnext">Weiter →</button></div>
+    <div class="btnrow"><button class="btn primary fknown">✓ Gewusst</button><button class="btn fagain">↻ Nochmal üben</button><button class="btn ghost fshuffle">🔀 Mischen</button></div>`;
+    const fc=host.querySelector('.fc');
+    const flip=()=>{flipped=!flipped;fc.classList.toggle('flipped',flipped);fc.setAttribute('aria-pressed',flipped);};
+    fc.addEventListener('click',flip);
+    fc.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
+    host.querySelector('.fflip').addEventListener('click',flip);
+    const go=d=>{pos=(pos+d+order.length)%order.length;flipped=false;render();};
+    host.querySelector('.fprev').addEventListener('click',()=>go(-1));
+    host.querySelector('.fnext').addEventListener('click',()=>go(1));
+    host.querySelector('.fknown').addEventListener('click',()=>{
+      known.add(order[pos]);state.cards=[...known];save();
+      if(known.size===FLASHCARDS.length)toast('🎉 Alle Karten gewusst – Prüfungsvorbereitung läuft!');
+      go(1);
+    });
+    host.querySelector('.fagain').addEventListener('click',()=>{
+      const id=order[pos];known.delete(id);state.cards=[...known];save();
+      order.splice(pos,1);order.push(id);
+      if(pos>=order.length)pos=0;flipped=false;render();
+      toast('Karte ans Ende des Stapels gelegt – Wiederholung folgt.');
+    });
+    host.querySelector('.fshuffle').addEventListener('click',()=>{order=shuffle(order);pos=0;flipped=false;render();});
+  }
+  render();
+}
+
+/* ---------------- Glossar ---------------- */
+function initGlossar(host){
+  host.classList.add('card','glossar');
+  host.innerHTML='<label for="glf"><b>Begriff filtern:</b></label><br><input id="glf" type="search" placeholder="z. B. hydrophob …" autocomplete="off"><dl>'+
+    GLOSSARY.map(([t,d])=>'<div class="glentry"><dt>'+esc(t)+'</dt><dd>'+esc(d)+'</dd></div>').join('')+'</dl>';
+  const inp=host.querySelector('#glf');
+  inp.addEventListener('input',()=>{
+    const q=inp.value.toLowerCase().trim();
+    host.querySelectorAll('.glentry').forEach(e=>{
+      e.style.display=(!q||e.textContent.toLowerCase().includes(q))?'':'none';
+    });
+  });
+}
+
+/* ---------------- Lizenz-Downloads ---------------- */
+function initDownloads(host){
+  const files=[['LICENSE.txt',LICENSE_TXT,'CC0-Widmung für die eigenen Inhalte'],['THIRD_PARTY_LICENSES.txt',THIRD_TXT,'Externe Ressourcen & deren Lizenzen'],['README.txt',README_TXT,'Anleitung zur Verwendung']];
+  host.innerHTML='<div class="btnrow">'+files.map((f,i)=>'<button class="btn primary dl" data-i="'+i+'">⬇ '+f[0]+'</button>').join('')+'</div>'+
+   files.map(f=>'<details class="faq"><summary>'+f[0]+' anzeigen – '+f[2]+'</summary><div><pre class="license">'+esc(f[1])+'</pre></div></details>').join('');
+  host.querySelectorAll('.dl').forEach(b=>b.addEventListener('click',()=>{
+    const f=files[+b.dataset.i];
+    const blob=new Blob([f[1]],{type:'text/plain;charset=utf-8'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=f[0];
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+    toast(f[0]+' wurde heruntergeladen.');
+  }));
+}
+
+/* ---------------- Komponenten-Registry ---------------- */
+function initComponents(root){
+  root.querySelectorAll('[data-cmp]').forEach(host=>{
+    switch(host.dataset.cmp){
+      case 'viewer':initViewer(host);break;
+      case 'quiz':initQuiz(host);break;
+      case 'balancer':initBalancer(host);break;
+      case 'combustion':initCombustion(host);break;
+      case 'chart':initChart(host);break;
+      case 'explorer':initExplorer(host);break;
+      case 'formelcalc':initFormelCalc(host);break;
+      case 'nomenklatur':initNomen(host);break;
+      case 'flashcards':initFlashcards(host);break;
+      case 'glossar':initGlossar(host);break;
+      case 'downloads':initDownloads(host);break;
+    }
+  });
+}
+
+/* ---------------- Sidebar (mobil) & globale Events ---------------- */
+function closeSidebar(){$('#sidebar').classList.remove('open');$('#overlay').classList.remove('show');$('#menuBtn').setAttribute('aria-expanded','false');}
+$('#menuBtn').addEventListener('click',()=>{
+  const open=$('#sidebar').classList.toggle('open');
+  $('#overlay').classList.toggle('show',open);
+  $('#menuBtn').setAttribute('aria-expanded',open);
+});
+$('#overlay').addEventListener('click',closeSidebar);
+let searchTimer=null;
+$('#searchInput').addEventListener('input',e=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>runSearch(e.target.value),160);});
+$('#searchInput').addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeSearch();e.target.blur();}
+  if(e.key==='Enter'){const first=$('#searchResults .sr-item');if(first)first.click();}
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.searchbox'))closeSearch();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&!e.target.closest('input,select,textarea')){e.preventDefault();$('#searchInput').focus();}
+});
+window.addEventListener('hashchange',route);
+
+/* ---------------- Start ---------------- */
+buildNav();
+buildSearchIndex();
+route();
+</script>
 </body>
 </html>
