@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rumbo a Latinoamérica · Spanischklausur-Lernhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#0d0703; --bg1:#170c05; --bg2:#1f1107;
+  --orange:#ff7a1a; --hot:#ff5c00; --amber:#ffb35c; --peach:#ffd9b0;
+  --ink:#f4e8da; --muted:#c7ae97;
+  --glass-bd:rgba(255,166,94,.22);
+  --ok:#8de08d; --ok-bd:rgba(141,224,141,.45);
+  --bad:#ff7a6e; --bad-bd:rgba(255,122,110,.45);
+  --disp:"Bricolage Grotesque", sans-serif;
+  --body:"Instrument Sans", sans-serif;
+  --mono:"Space Mono", monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--bg0);line-height:1.65;overflow-x:hidden;min-height:100vh}
+::selection{background:var(--hot);color:#fff}
+section{padding:96px 0;scroll-margin-top:96px;position:relative}
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+
+/* Hintergrund */
+.bg-fx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.6}
+.g1{width:640px;height:640px;left:-180px;top:-220px;background:radial-gradient(circle,rgba(255,92,0,.34),transparent 70%);animation:drift1 26s ease-in-out infinite alternate}
+.g2{width:520px;height:520px;right:-140px;top:34%;background:radial-gradient(circle,rgba(255,160,60,.20),transparent 70%);animation:drift2 32s ease-in-out infinite alternate}
+.g3{width:700px;height:700px;left:24%;bottom:-320px;background:radial-gradient(circle,rgba(160,50,0,.30),transparent 70%);animation:drift1 38s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(90px,60px) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-70px,-80px) scale(.92)}}
+.bg-weave{position:absolute;inset:0;opacity:.5;background:
+  repeating-linear-gradient(45deg, rgba(255,140,50,.045) 0 1px, transparent 1px 16px),
+  repeating-linear-gradient(-45deg, rgba(255,140,50,.035) 0 1px, transparent 1px 16px)}
+.mota{position:absolute;bottom:-4vh;border-radius:50%;background:radial-gradient(circle,rgba(255,190,100,.95),rgba(255,190,100,0) 70%);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0);opacity:0}12%{opacity:.85}85%{opacity:.5}100%{transform:translateY(-115vh);opacity:0}}
+.mota:nth-child(odd){width:5px;height:5px}.mota:nth-child(even){width:3px;height:3px}
+.mota:nth-of-type(1){left:6%;animation-duration:19s}.mota:nth-of-type(2){left:16%;animation-duration:26s;animation-delay:3s}
+.mota:nth-of-type(3){left:27%;animation-duration:22s;animation-delay:8s}.mota:nth-of-type(4){left:38%;animation-duration:30s;animation-delay:1s}
+.mota:nth-of-type(5){left:49%;animation-duration:21s;animation-delay:12s}.mota:nth-of-type(6){left:58%;animation-duration:27s;animation-delay:5s}
+.mota:nth-of-type(7){left:67%;animation-duration:18s;animation-delay:9s}.mota:nth-of-type(8){left:76%;animation-duration:29s;animation-delay:2s}
+.mota:nth-of-type(9){left:84%;animation-duration:23s;animation-delay:14s}.mota:nth-of-type(10){left:93%;animation-duration:25s;animation-delay:6s}
+body::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.055;mix-blend-mode:overlay;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Glas */
+.glass{background:linear-gradient(150deg, rgba(255,190,120,.10), rgba(255,190,120,.03) 45%, rgba(255,255,255,.02));
+  border:1px solid var(--glass-bd);backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);
+  border-radius:20px;box-shadow:0 18px 50px rgba(6,3,1,.55), inset 0 1px 0 rgba(255,225,190,.14)}
+.lift{transition:transform .35s cubic-bezier(.2,.8,.3,1), border-color .35s, box-shadow .35s}
+.lift:hover{transform:translateY(-4px);border-color:rgba(255,170,90,.5);
+  box-shadow:0 26px 60px rgba(6,3,1,.65), 0 0 44px rgba(255,122,26,.14), inset 0 1px 0 rgba(255,225,190,.2)}
+
+/* Typo */
+.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:.7rem;margin-bottom:14px}
+.kicker::before{content:"◈";color:var(--hot)}
+h1,h2,h3{font-family:var(--disp);line-height:1.04;letter-spacing:-.015em}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:44px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(2rem,4.4vw,3.3rem);font-weight:800}
+.sec-head .lead{max-width:440px;color:var(--muted);font-size:.98rem}
+.sec-num{font-family:var(--mono);font-size:.8rem;color:rgba(255,179,92,.55);border:1px solid rgba(255,179,92,.25);padding:.35rem .7rem;border-radius:999px;white-space:nowrap}
+em{color:var(--amber);font-style:italic}
+
+/* Buttons / Chips */
+.btn{font-family:var(--disp);font-weight:700;font-size:.92rem;border:none;cursor:pointer;padding:.8rem 1.5rem;border-radius:999px;color:#2a1204;
+  background:linear-gradient(135deg,#ffa040,#ff5c00);box-shadow:0 8px 26px rgba(255,92,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .25s, box-shadow .25s, filter .25s;text-decoration:none;display:inline-block}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 14px 34px rgba(255,92,0,.5)}
+.btn:active{transform:translateY(0)}
+.btn-ghost{background:transparent;color:var(--peach);border:1px solid rgba(255,170,90,.4);box-shadow:none}
+.btn-ghost:hover{background:rgba(255,140,50,.12);box-shadow:0 8px 24px rgba(255,92,0,.18)}
+.chip{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+  padding:.35rem .8rem;border-radius:999px;border:1px solid rgba(255,170,90,.3);color:var(--amber);background:rgba(255,140,50,.08)}
+
+/* Nav */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s, border-color .4s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(15,8,3,.72);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border-color:rgba(255,166,94,.18)}
+.nav{max-width:1240px;margin:0 auto;padding:14px 26px;display:flex;align-items:center;gap:1.2rem}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--ink);font-family:var(--disp);font-weight:800;font-size:1.05rem}
+.brand .sol{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1rem;
+  background:radial-gradient(circle at 32% 30%, #ffd9a0, #ff5c00);box-shadow:0 0 22px rgba(255,110,20,.6);animation:sunpulse 4s ease-in-out infinite}
+@keyframes sunpulse{50%{box-shadow:0 0 34px rgba(255,110,20,.9)}}
+.brand small{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--amber);display:block;font-weight:400}
+.nav-links{display:flex;gap:.2rem;margin-left:auto;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.86rem;padding:.5rem .7rem;border-radius:10px;position:relative;transition:color .25s, background .25s}
+.nav-links a:hover{color:var(--peach);background:rgba(255,140,50,.1)}
+.nav-links a.active{color:var(--amber)}
+.nav-links a.active::after{content:"";position:absolute;left:.7rem;right:.7rem;bottom:2px;height:2px;background:var(--hot);border-radius:2px}
+.prog{display:flex;align-items:center;gap:.6rem;padding:.45rem .9rem;border-radius:999px;border:1px solid rgba(255,170,90,.3);background:rgba(255,140,50,.08);font-family:var(--mono);font-size:.68rem;color:var(--amber);white-space:nowrap}
+.prog-bar{width:74px;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.prog-bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--amber),var(--hot));border-radius:99px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+
+/* Hero */
+.hero{padding:170px 0 0;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:3rem;align-items:start}
+.hero .kicker{margin-bottom:22px}
+.hero h1{font-size:clamp(2.8rem,7vw,5.6rem);font-weight:800;color:var(--peach);text-shadow:0 0 60px rgba(255,120,30,.25);min-height:1.1em}
+.hero h1 .accent{color:var(--hot);text-shadow:0 0 40px rgba(255,92,0,.6)}
+.hero-sub{margin:26px 0 30px;max-width:520px;color:var(--muted);font-size:1.08rem}
+.hero-sub b{color:var(--peach)}
+.hero-chips{display:flex;gap:.6rem;flex-wrap:wrap}
+.hero-stats{display:flex;gap:2.4rem;margin-top:44px;flex-wrap:wrap}
+.hstat b{font-family:var(--disp);font-size:2rem;font-weight:800;color:var(--amber);display:block;line-height:1}
+.hstat span{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.briefing{padding:1.7rem}
+.briefing h3{font-size:1.15rem;margin-bottom:.2rem}
+.briefing .sub{font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;color:var(--amber);text-transform:uppercase;margin-bottom:1.3rem}
+.brief-row{margin-bottom:1rem}
+.brief-row .lbl{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem}
+.brief-row .lbl b{font-family:var(--mono);color:var(--amber)}
+.brief-track{height:7px;border-radius:99px;background:rgba(0,0,0,.35);overflow:hidden;border:1px solid rgba(255,170,90,.15)}
+.brief-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ffb35c,#ff5c00);width:0;transition:width 1.4s cubic-bezier(.2,.8,.3,1)}
+.spot{margin-top:1.4rem;padding:1rem;border-radius:14px;border:1px dashed rgba(255,170,90,.35);display:flex;gap:.9rem;align-items:center;transition:opacity .4s}
+.spot.fade{opacity:0}
+.spot .flag{font-size:2rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+.spot b{font-family:var(--disp);font-size:1.05rem;display:block}
+.spot small{color:var(--muted);font-size:.78rem;line-height:1.4;display:block}
+.timer{margin-top:1.4rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.9rem 1rem;border-radius:14px;background:rgba(0,0,0,.3);border:1px solid rgba(255,170,90,.2)}
+.timer .time{font-family:var(--mono);font-size:1.7rem;font-weight:700;color:var(--peach);letter-spacing:.06em}
+.timer .time.running{color:var(--hot);animation:blink 2s ease-in-out infinite}
+@keyframes blink{50%{text-shadow:0 0 18px rgba(255,92,0,.8)}}
+.timer .tl{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.tbtn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,170,90,.4);background:rgba(255,140,50,.12);color:var(--amber);cursor:pointer;font-size:.85rem;transition:.25s}
+.tbtn:hover{background:var(--hot);color:#fff;transform:scale(1.08)}
+.marquee{margin-top:70px;border-top:1px solid rgba(255,170,90,.18);border-bottom:1px solid rgba(255,170,90,.18);padding:1rem 0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq-track{display:inline-flex;gap:3.4rem;white-space:nowrap;animation:mq 30s linear infinite;font-family:var(--disp);font-weight:700;font-size:1.05rem;color:rgba(255,217,176,.55)}
+.mq-track:hover{animation-play-state:paused}
+.mq-track span::after{content:"☀";color:var(--hot);margin-left:3.4rem;font-size:.8rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* Leseverstehen */
+.lect-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:start}
+.reader{padding:2rem}
+.reader h3{font-size:1.35rem;margin-bottom:.3rem}
+.reader .src{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;color:var(--muted);margin-bottom:1.4rem;text-transform:uppercase}
+.reader p{margin-bottom:1rem;color:#eadfce;font-size:.99rem}
+.voc{color:var(--amber);border-bottom:2px dotted rgba(255,179,92,.7);cursor:help;position:relative;outline:none}
+.voc::after{content:attr(data-de);position:absolute;left:50%;bottom:135%;transform:translateX(-50%) translateY(6px);
+  background:#241105;border:1px solid var(--amber);color:var(--peach);font-family:var(--body);font-size:.78rem;
+  padding:.4rem .7rem;border-radius:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:.25s;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.voc:hover::after,.voc:focus::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.strat{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
+.rf{padding:.95rem 1.1rem;border-radius:14px;border:1px solid rgba(255,170,90,.2);background:rgba(20,10,4,.4);margin-bottom:.8rem;transition:border-color .3s}
+.rf .st{font-size:.92rem;margin-bottom:.6rem}
+.rf .opts{display:flex;gap:.5rem}
+.rf button{font-family:var(--mono);font-size:.72rem;padding:.42rem 1rem;border-radius:999px;border:1px solid rgba(255,170,90,.35);background:transparent;color:var(--peach);cursor:pointer;transition:.25s}
+.rf button:hover:not(:disabled){background:rgba(255,140,50,.18);transform:translateY(-1px)}
+.rf button:disabled{cursor:default;opacity:.45}
+.rf.correct{border-color:var(--ok-bd)}.rf.wrong{border-color:var(--bad-bd)}
+.rf button.hit{background:rgba(141,224,141,.2)!important;border-color:var(--ok-bd);color:var(--ok);opacity:1!important}
+.rf button.miss{background:rgba(255,122,110,.16)!important;border-color:var(--bad-bd);color:var(--bad);opacity:1!important}
+.why{display:none;margin-top:.65rem;font-size:.82rem;color:var(--muted);padding:.55rem .8rem;border-left:3px solid var(--hot);background:rgba(255,92,0,.06);border-radius:0 8px 8px 0}
+.rf.answered .why,.qq.answered .why{display:block;animation:fadeUp .5s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}}
+.oq{margin-top:1.6rem}
+.oq .q{font-weight:600;margin:.9rem 0 .5rem;color:var(--peach)}
+.oq textarea{width:100%;min-height:70px;resize:vertical;background:rgba(0,0,0,.35);border:1px solid rgba(255,170,90,.3);border-radius:12px;color:var(--peach);padding:.7rem .9rem;font-family:var(--body);font-size:.9rem;transition:border-color .25s}
+.oq textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,150,60,.15)}
+.sol{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.2,.8,.3,1)}
+.sol.open{max-height:360px}
+.sol-inner{margin-top:.7rem;padding:.9rem 1rem;border-radius:12px;background:rgba(141,224,141,.08);border:1px solid rgba(141,224,141,.3);font-size:.86rem;color:#d6ecd2}
+.sol-inner b{color:var(--ok);font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;display:block;margin-bottom:.35rem}
+
+/* Grammatik */
+.tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.tab-btn{font-family:var(--disp);font-weight:700;font-size:.88rem;padding:.65rem 1.25rem;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(255,170,90,.3);background:rgba(255,140,50,.07);color:var(--muted);transition:.3s}
+.tab-btn:hover{color:var(--peach);border-color:rgba(255,170,90,.6);transform:translateY(-2px)}
+.tab-btn.active{background:linear-gradient(135deg,#ffa040,#ff5c00);color:#2a1204;border-color:transparent;box-shadow:0 8px 24px rgba(255,92,0,.4)}
+.panel{display:none;animation:fadeUp .5s}
+.panel.active{display:block}
+.gram-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:1.6rem;margin-bottom:1.6rem}
+.gcard{padding:1.6rem}
+.gcard h4{font-family:var(--disp);font-size:1.1rem;color:var(--amber);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.gcard h4::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--hot);box-shadow:0 0 12px var(--hot)}
+.gcard ul{list-style:none}
+.gcard li{padding:.45rem 0;border-bottom:1px dashed rgba(255,170,90,.15);font-size:.9rem;color:#e7dccb}
+.gcard li:last-child{border:none}
+.gcard li b{color:var(--peach)}
+.gcard li .es{color:var(--amber)}
+.tbl{width:100%;border-collapse:collapse;font-size:.86rem}
+.tbl th{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#2a1204;background:linear-gradient(135deg,var(--amber),var(--orange));padding:.55rem .7rem;text-align:left}
+.tbl td{padding:.5rem .7rem;border-bottom:1px solid rgba(255,170,90,.13);color:#e9ddcc}
+.tbl td:first-child{color:var(--amber);font-weight:600}
+.tbl tr:hover td{background:rgba(255,140,50,.06)}
+.sig{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.gaps{padding:1.8rem}
+.gaps h4{font-family:var(--disp);font-size:1.2rem;margin-bottom:.4rem}
+.gaps .hint{font-size:.85rem;color:var(--muted);margin-bottom:1.4rem}
+.gap-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.75rem 0;border-bottom:1px dashed rgba(255,170,90,.14)}
+.gap-row .num{font-family:var(--mono);font-size:.7rem;color:var(--hot);width:22px}
+.gap-row .sentence{flex:1;min-width:240px;font-size:.95rem}
+.gap{width:130px;background:rgba(0,0,0,.4);border:1px dashed rgba(255,170,90,.5);border-radius:10px;color:var(--peach);
+  padding:.45rem .6rem;text-align:center;font-family:var(--body);font-size:.9rem;transition:.25s}
+.gap:focus{outline:none;border-style:solid;border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,150,60,.18)}
+.gap.ok{border-color:var(--ok-bd);background:rgba(141,224,141,.12);color:var(--ok);border-style:solid}
+.gap.no{border-color:var(--bad-bd);background:rgba(255,122,110,.1);color:var(--bad);border-style:solid;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.gap-fb{font-family:var(--mono);font-size:.68rem;min-width:86px}
+.gap-fb.ok{color:var(--ok)}.gap-fb.no{color:var(--bad)}
+.check{font-family:var(--mono);font-size:.68rem;padding:.42rem .9rem;border-radius:999px;border:1px solid rgba(255,170,90,.4);background:transparent;color:var(--amber);cursor:pointer;transition:.25s}
+.check:hover{background:var(--hot);color:#fff;border-color:transparent}
+
+/* Historia Timeline */
+.hist-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:start}
+.tl{position:relative;margin-left:8px;padding-left:2.4rem}
+.tl::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--hot),rgba(255,170,90,.15))}
+.tl-item{position:relative;padding:1.2rem 1.4rem;margin-bottom:1.3rem}
+.tl-item::before{content:"";position:absolute;left:-2.95rem;top:1.5rem;width:14px;height:14px;border-radius:50%;background:var(--hot);border:3px solid #1a0d05;box-shadow:0 0 16px rgba(255,92,0,.85)}
+.tl-item .year{font-family:var(--mono);color:var(--amber);font-size:.75rem;letter-spacing:.2em;display:block;margin-bottom:.3rem}
+.tl-item b{font-family:var(--disp);font-size:1.05rem;display:block;margin-bottom:.25rem}
+.tl-item p{font-size:.86rem;color:var(--muted)}
+.cult-card{padding:1.4rem;margin-bottom:1.2rem}
+.cult-card .top{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem}
+.cult-card .ico{font-size:1.6rem}
+.cult-card b{font-family:var(--disp);font-size:1.15rem}
+.cult-card small{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--hot);text-transform:uppercase;display:block}
+.cult-card p{font-size:.86rem;color:var(--muted);margin-bottom:.6rem}
+.cult-card .kw{display:flex;gap:.45rem;flex-wrap:wrap}
+
+/* Schreiben */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:3.4rem;counter-reset:step}
+.step{padding:1.3rem 1.1rem;position:relative;transition:transform .3s}
+.step:hover{transform:translateY(-5px)}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);font-family:var(--mono);font-size:.72rem;color:var(--hot);display:block;margin-bottom:.6rem;letter-spacing:.2em}
+.step b{font-family:var(--disp);display:block;margin-bottom:.35rem;font-size:.98rem}
+.step span{font-size:.78rem;color:var(--muted);line-height:1.5;display:block}
+.step::after{content:"→";position:absolute;right:-14px;top:50%;color:rgba(255,170,90,.4);font-size:.9rem;z-index:3}
+.step:last-child::after{display:none}
+.write-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:2rem;align-items:start}
+.country-panel{display:none;animation:fadeUp .5s}
+.country-panel.active{display:block}
+.cflag{font-size:3.2rem;line-height:1;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6))}
+.facts{padding:1.8rem}
+.facts .name{font-family:var(--disp);font-size:1.7rem;font-weight:800;margin:.5rem 0 1.2rem}
+.frow{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px dashed rgba(255,170,90,.16);font-size:.88rem}
+.frow span{color:var(--muted)}.frow b{color:var(--peach);text-align:right}
+.curioso{margin-top:1.2rem;padding:.85rem 1rem;border-radius:12px;background:rgba(255,92,0,.1);border-left:3px solid var(--hot);font-size:.84rem;color:var(--peach)}
+.curioso b{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--amber);display:block;margin-bottom:.3rem}
+.red h4{font-family:var(--disp);font-size:.95rem;color:var(--amber);margin:1.3rem 0 .6rem}
+.red h4:first-child{margin-top:0}
+.copyrow{display:flex;align-items:center;gap:.7rem;padding:.55rem .8rem;border-radius:10px;margin-bottom:.4rem;background:rgba(0,0,0,.28);border:1px solid rgba(255,170,90,.14);transition:.25s}
+.copyrow:hover{border-color:rgba(255,170,90,.45);background:rgba(255,140,50,.08)}
+.copyrow code{font-family:var(--body);font-size:.86rem;color:#e9ddcc;flex:1;font-style:italic}
+.copy-btn{border:none;background:rgba(255,140,50,.16);color:var(--amber);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:.8rem;transition:.25s;flex-shrink:0}
+.copy-btn:hover{background:var(--hot);color:#fff;transform:scale(1.1)}
+.beispiel{padding:2rem}
+.beispiel h3{font-size:1.25rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;padding:.28rem .6rem;border-radius:6px;vertical-align:middle;text-transform:uppercase;font-weight:700}
+.t-i{background:rgba(255,179,92,.9);color:#3a1c05}.t-g{background:rgba(255,122,26,.9);color:#fff}
+.t-p{background:rgba(255,217,176,.9);color:#3a1c05}.t-c{background:rgba(255,92,0,.9);color:#fff}.t-o{background:rgba(141,224,141,.85);color:#123312}
+.beispiel p{margin-bottom:1rem;font-size:.95rem;color:#eadfce}
+.cklist{margin-top:2rem;padding:1.8rem}
+.cklist h3{font-size:1.15rem;margin-bottom:1.1rem}
+.ck{display:flex;align-items:center;gap:.8rem;padding:.55rem 0;cursor:pointer;font-size:.9rem;color:var(--muted);transition:color .25s;user-select:none}
+.ck:hover{color:var(--peach)}
+.ck input{display:none}
+.ck .box{width:22px;height:22px;border-radius:7px;border:1.5px solid rgba(255,170,90,.45);display:grid;place-items:center;font-size:.75rem;color:transparent;transition:.25s;flex-shrink:0}
+.ck input:checked ~ .box{background:linear-gradient(135deg,var(--amber),var(--hot));border-color:transparent;color:#2a1204;box-shadow:0 0 16px rgba(255,120,20,.5)}
+.ck input:checked ~ .txt{color:var(--peach)}
+.ck-msg{margin-top:1rem;font-family:var(--mono);font-size:.72rem;color:var(--amber);min-height:1.2em}
+
+/* Vocabulario */
+.fc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem}
+.fc{height:190px;perspective:1100px;cursor:pointer}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.9,.35,1)}
+.fc.flip .fc-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:1.2rem;text-align:center;
+  border:1px solid var(--glass-bd);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.fc-front{background:linear-gradient(155deg,rgba(255,180,100,.13),rgba(255,140,50,.03))}
+.fc-back{background:linear-gradient(155deg,rgba(255,110,20,.3),rgba(120,45,0,.35));transform:rotateY(180deg)}
+.fc .word{font-family:var(--disp);font-weight:800;font-size:1.1rem;color:var(--peach)}
+.fc .trans{font-size:.95rem;color:#fff;font-weight:600}
+.fc .flip-hint{font-family:var(--mono);font-size:.55rem;letter-spacing:.18em;color:rgba(255,179,92,.6);text-transform:uppercase;margin-top:.4rem}
+.fc:hover .fc-inner{transform:translateY(-5px)}
+.fc.flip:hover .fc-inner{transform:rotateY(180deg) translateY(-5px)}
+
+/* Quiz */
+.quiz-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.score{font-family:var(--mono);font-size:.85rem;color:var(--amber);padding:.6rem 1.2rem;border-radius:999px;border:1px solid rgba(255,170,90,.35);background:rgba(255,140,50,.08)}
+.qq{padding:1.5rem 1.7rem;margin-bottom:1.1rem}
+.qq .qt{font-weight:600;margin-bottom:1rem;font-size:.98rem;display:flex;gap:.7rem}
+.qq .qt .qn{font-family:var(--mono);color:var(--hot);font-size:.78rem;padding-top:.15rem}
+.qopts{display:flex;gap:.6rem;flex-wrap:wrap}
+.qopt{flex:1;min-width:150px;text-align:left;padding:.7rem 1rem;border-radius:12px;border:1px solid rgba(255,170,90,.25);background:rgba(0,0,0,.25);color:#e7dccb;cursor:pointer;font-family:var(--body);font-size:.88rem;transition:.25s}
+.qopt:hover:not(:disabled){border-color:var(--amber);background:rgba(255,140,50,.14);transform:translateY(-2px)}
+.qopt:disabled{cursor:default}
+.qopt.hit{border-color:var(--ok-bd);background:rgba(141,224,141,.15);color:var(--ok)}
+.qopt.miss{border-color:var(--bad-bd);background:rgba(255,122,110,.12);color:var(--bad)}
+.qq .why{display:none;margin-top:.9rem;font-size:.82rem;color:var(--muted);padding:.55rem .8rem;border-left:3px solid var(--hot);background:rgba(255,92,0,.06);border-radius:0 8px 8px 0}
+.quiz-result{margin-top:2rem;padding:1.8rem;text-align:center;display:none}
+.quiz-result.show{display:block;animation:fadeUp .6s}
+.quiz-result .big{font-family:var(--disp);font-size:2rem;font-weight:800;color:var(--amber);margin-bottom:.4rem}
+
+/* Tipps */
+.tips-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:3rem}
+.tip{padding:1.5rem}
+.tip .ico{font-size:1.5rem;margin-bottom:.7rem;display:block;filter:drop-shadow(0 4px 12px rgba(255,110,20,.5))}
+.tip b{font-family:var(--disp);display:block;margin-bottom:.4rem;font-size:1rem}
+.tip p{font-size:.82rem;color:var(--muted)}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.plan-card{padding:1.6rem;border-top:3px solid var(--hot)}
+.plan-card .d{font-family:var(--mono);font-size:.62rem;letter-spacing:.25em;color:var(--hot);text-transform:uppercase;margin-bottom:.6rem;display:block}
+.plan-card b{font-family:var(--disp);display:block;margin-bottom:.5rem}
+.plan-card ul{list-style:none;font-size:.84rem;color:var(--muted)}
+.plan-card li{padding:.3rem 0}
+.plan-card li::before{content:"→ ";color:var(--amber)}
+
+footer{padding:70px 0 50px;border-top:1px solid rgba(255,170,90,.15);text-align:center;position:relative;z-index:2}
+footer .big{font-family:var(--disp);font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;color:var(--peach);margin-bottom:.8rem}
+footer .big span{color:var(--hot)}
+footer p{color:var(--muted);font-size:.85rem}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);z-index:99;
+  background:#2a1505;border:1px solid var(--amber);color:var(--peach);padding:.8rem 1.5rem;border-radius:999px;
+  font-family:var(--mono);font-size:.78rem;box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 30px rgba(255,120,20,.25);
+  transition:transform .45s cubic-bezier(.2,.9,.3,1.2);pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:1020px){
+  .hero-grid,.lect-grid,.gram-grid,.write-grid,.hist-grid{grid-template-columns:1fr}
+  .fc-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .step::after{display:none}
+  .tips-grid{grid-template-columns:repeat(2,1fr)}
+  .plan{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .nav-links{display:none}
+  .fc-grid{grid-template-columns:1fr}
+  .steps,.tips-grid{grid-template-columns:1fr}
+  .hero{padding-top:130px}
+  .sec-head{flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-fx" aria-hidden="true">
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+  <div class="bg-weave"></div>
+  <i class="mota"></i><i class="mota"></i><i class="mota"></i><i class="mota"></i><i class="mota"></i>
+  <i class="mota"></i><i class="mota"></i><i class="mota"></i><i class="mota"></i><i class="mota"></i>
+</div>
+
+<header id="topbar">
+  <nav class="nav">
+    <a class="brand" href="#top"><span class="sol">☀</span><span>¡DALE!<small>SPANISCHKLAUSUR</small></span></a>
+    <div class="nav-links">
+      <a href="#sec-lectura">Lectura</a>
+      <a href="#sec-gramatica">Grammatik</a>
+      <a href="#sec-historia">Historia</a>
+      <a href="#sec-escribir">Redacción</a>
+      <a href="#sec-vocabulario">Vocabulario</a>
+      <a href="#sec-quiz">Quiz</a>
+      <a href="#sec-tipps">Tipps</a>
+    </div>
+    <div class="prog" title="Dein Lernfortschritt">
+      <span id="progNum">0/40</span>
+      <div class="prog-bar"><i id="progFill"></i></div>
+      <span id="progPct">0%</span>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">Klausurvorbereitung · Spanisch · Unidad Latinoamérica</div>
+        <h1><span id="scramble" data-text="RUMBO A">RUMBO A</span><br><span class="accent">AMÉRICA LATINA</span></h1>
+        <p class="hero-sub">Dein interaktiver Lernhub: <b>zwei Lesetexte</b> (Oaxaca + Azteken), <b>Grammatik</b> mit Lückentraining, <b>Historia</b> als Timeline und alles für deine <b>Redacción über ein Land</b>. <em>¡Vamos!</em></p>
+        <div class="hero-chips">
+          <span class="chip">📖 2× Comprensión de lectura</span>
+          <span class="chip">🏛 Azteken, Maya & Inka</span>
+          <span class="chip">✳ Gramática: pasado & subjuntivo</span>
+          <span class="chip">✍ Redacción: presentar un país</span>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><b>40</b><span>Aktivitäten</span></div>
+          <div class="hstat"><b>6</b><span>Themenblöcke</span></div>
+          <div class="hstat"><b>~60</b><span>Minuten Session</span></div>
+        </div>
+      </div>
+
+      <div class="glass briefing reveal" style="--d:.15s">
+        <div class="sub">Briefing de examen</div>
+        <h3>Aufbau deiner Klausur</h3>
+        <div class="brief-row"><div class="lbl"><span>Comprensión de lectura</span><b>35%</b></div><div class="brief-track"><i data-w="35"></i></div></div>
+        <div class="brief-row"><div class="lbl"><span>Gramática</span><b>30%</b></div><div class="brief-track"><i data-w="30"></i></div></div>
+        <div class="brief-row"><div class="lbl"><span>Redacción (país)</span><b>35%</b></div><div class="brief-track"><i data-w="35"></i></div></div>
+        <div class="spot" id="spot">
+          <span class="flag" id="spotFlag">🇲🇽</span>
+          <div><b id="spotName">México</b><small id="spotDesc">Capital: CDMX · ~129 Mio. EW · 68 indigene Sprachen</small></div>
+        </div>
+        <div class="timer">
+          <div><div class="time" id="timerTime">25:00</div><div class="tl">Sesión Pomodoro</div></div>
+          <div style="display:flex;gap:.5rem">
+            <button class="tbtn" id="timerToggle" title="Start/Pause">▶</button>
+            <button class="tbtn" id="timerReset" title="Reset">↺</button>
+          </div>
+        </div>
+        <div style="margin-top:1.2rem;text-align:center">
+          <a href="#sec-lectura" class="btn">Empezar → Leseverstehen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      <span>MÉXICO</span><span>GUATEMALA</span><span>CUBA</span><span>COLOMBIA</span><span>VENEZUELA</span><span>ECUADOR</span><span>PERÚ</span><span>BOLIVIA</span><span>CHILE</span><span>ARGENTINA</span><span>URUGUAY</span><span>PARAGUAY</span>
+      <span>MÉXICO</span><span>GUATEMALA</span><span>CUBA</span><span>COLOMBIA</span><span>VENEZUELA</span><span>ECUADOR</span><span>PERÚ</span><span>BOLIVIA</span><span>CHILE</span><span>ARGENTINA</span><span>URUGUAY</span><span>PARAGUAY</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 LESEVERSTEHEN (2 TEXTE) ============ -->
+<section id="sec-lectura">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Teil 1 · Comprensión de lectura</div>
+        <h2>Leseverstehen · 2 Texte</h2>
+      </div>
+      <p class="lead">Wähle einen Text. Nutze die <em>Vokabel-Hilfe</em> (punktierte Wörter) y contesta las preguntas.</p>
+      <span class="sec-num">01 / 06</span>
+    </div>
+
+    <div class="read-wrap">
+      <div class="tabs reveal">
+        <button class="tab-btn active" data-tab="lo1">📖 Texto 1 · Mercado de Oaxaca</button>
+        <button class="tab-btn" data-tab="lo2">🏛 Texto 2 · Los aztecas</button>
+      </div>
+
+      <!-- TEXTO 1 -->
+      <div class="panel active" data-panel="lo1">
+        <div class="lect-grid">
+          <article class="glass reader reveal">
+            <div class="src">Texto 1 · México · adaptado</div>
+            <h3>Un sábado en el mercado de Oaxaca</h3>
+            <p>Oaxaca de Juárez, en el sur de México, es <span class="voc" tabindex="0" data-de="berühmt">famosa</span> por sus mercados. Cada sábado, cientos de personas llegan al Mercado de Abastos para comprar y vender. Entre los <span class="voc" tabindex="0" data-de="Stände">puestos</span> se mezclan los <span class="voc" tabindex="0" data-de="Gerüche">olores</span> del chocolate, del mole y de las frutas tropicales. Las <span class="voc" tabindex="0" data-de="Verkäuferinnen">vendedoras</span>, muchas de ellas mujeres indígenas zapotecas, ofrecen <span class="voc" tabindex="0" data-de="Textilien">textiles</span> de colores, cerámica negra y mezcal artesanal.</p>
+            <p>El mercado no es solo un lugar de compras: es un <span class="voc" tabindex="0" data-de="Treffpunkt">punto de encuentro</span>. Aquí se habla español, pero también zapoteco y mixteco, dos de las más de 60 <span class="voc" tabindex="0" data-de="indigene Sprachen">lenguas indígenas</span> que existen en México. Los abuelos cuentan historias, los músicos tocan la marimba y los niños corren entre las cestas de chiles.</p>
+            <p>Sin embargo, los mercados tradicionales están <span class="voc" tabindex="0" data-de="unter Druck">bajo presión</span>. Los supermercados y las tiendas en línea cambian los <span class="voc" tabindex="0" data-de="Gewohnheiten">hábitos</span> de los jóvenes. Por eso, muchas comunidades <span class="voc" tabindex="0" data-de="verteidigen">defienden</span> sus mercados como espacios de cultura e identidad. «El mercado es nuestra casa», dice Doña Rosa, que vende mole desde hace cuarenta años. Para Oaxaca, el mercado es mucho más que comercio: es <span class="voc" tabindex="0" data-de="lebendige Erinnerung">memoria viva</span>.</p>
+            <div class="strat">
+              <span class="chip">① Erst überfliegen (skimming)</span>
+              <span class="chip">② Fragen lesen → gezielt suchen (scanning)</span>
+              <span class="chip">③ Unbekanntes aus dem Kontext erschließen</span>
+            </div>
+          </article>
+          <div>
+            <div class="reveal" style="--d:.1s">
+              <h3 style="font-size:1.15rem;margin-bottom:1rem">Aufgabe 1 · ¿Verdadero o falso?</h3>
+              <div class="rf" id="rf1" data-sol="f">
+                <div class="st">1. El Mercado de Abastos solo abre los domingos.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Falso – en el texto dice: „Cada <b>sábado</b>, cientos de personas llegan al mercado.“</div>
+              </div>
+              <div class="rf" id="rf2" data-sol="v">
+                <div class="st">2. En el mercado se hablan lenguas indígenas además del español.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Verdadero – se habla español, pero también <b>zapoteco y mixteco</b>.</div>
+              </div>
+              <div class="rf" id="rf3" data-sol="v">
+                <div class="st">3. Los supermercados y las tiendas en línea cambian los hábitos de los jóvenes.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Verdadero – steht fast wörtlich im dritten Absatz.</div>
+              </div>
+              <div class="rf" id="rf4" data-sol="f">
+                <div class="st">4. Doña Rosa vende textiles desde hace cuarenta años.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Falso – Doña Rosa vende <b>mole</b> desde hace cuarenta años.</div>
+              </div>
+            </div>
+            <div class="oq reveal" style="--d:.2s">
+              <h3 style="font-size:1.15rem;margin-bottom:.4rem">Aufgabe 2 · Preguntas abiertas</h3>
+              <div class="q">a) ¿Por qué es el mercado más que un lugar de compras?</div>
+              <textarea placeholder="Escribe tu respuesta en español…"></textarea>
+              <button class="check sol-btn" style="margin-top:.5rem">Musterlösung zeigen ⌄</button>
+              <div class="sol"><div class="sol-inner"><b>Musterlösung</b>El mercado es un punto de encuentro: la gente habla español y lenguas indígenas, los abuelos cuentan historias, los músicos tocan la marimba. Es un espacio de cultura, identidad y memoria viva.</div></div>
+              <div class="q">b) ¿Qué problemas tienen los mercados tradicionales hoy?</div>
+              <textarea placeholder="Escribe tu respuesta en español…"></textarea>
+              <button class="check sol-btn" style="margin-top:.5rem">Musterlösung zeigen ⌄</button>
+              <div class="sol"><div class="sol-inner"><b>Musterlösung</b>Están bajo presión porque los supermercados y las tiendas en línea cambian los hábitos de los jóvenes. Por eso las comunidades los defienden como espacios de cultura.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEXTO 2: AZTEKEN -->
+      <div class="panel" data-panel="lo2">
+        <div class="lect-grid">
+          <article class="glass reader reveal">
+            <div class="src">Texto 2 · México · Los aztecas</div>
+            <h3>Tenochtitlan: la maravilla de los aztecas</h3>
+            <p>En 1325, los aztecas (o mexicas) <span class="voc" tabindex="0" data-de="gründeten">fundaron</span> su capital, Tenochtitlan, en una isla del lago de Texcoco, donde hoy se encuentra la Ciudad de México. Según la leyenda, su dios Huitzilopochtli les dio una <span class="voc" tabindex="0" data-de="Zeichen">señal</span>: un <span class="voc" tabindex="0" data-de="Adler">águila</span> sobre un nopal, comiendo una serpiente. Esta imagen está hoy en el <span class="voc" tabindex="0" data-de="Wappen">escudo</span> de la bandera mexicana.</p>
+            <p>En poco tiempo, Tenochtitlan se convirtió en una de las ciudades más grandes del mundo: unos 200.000 habitantes vivían entre <span class="voc" tabindex="0" data-de="Kanäle">canales</span>, jardines flotantes (las famosas <span class="voc" tabindex="0" data-de="schwimmende Gärten">chinampas</span>) y grandes <span class="voc" tabindex="0" data-de="Tempel">templos</span> piramidales. En el centro de la ciudad estaba el Templo Mayor, dedicado a los dioses de la lluvia y de la guerra.</p>
+            <p>Los aztecas eran excelentes <span class="voc" tabindex="0" data-de="Krieger">guerreros</span>, comerciantes e ingenieros, pero también desarrollaron un complejo sistema de <span class="voc" tabindex="0" data-de="Steuern/Abgaben">impuestos</span> y una sociedad muy <span class="voc" tabindex="0" data-de="hierarchisch">jerárquica</span>. Su imperio dominó gran parte de Mesoamérica hasta la llegada de los españoles.</p>
+            <p>En 1521, Hernán Cortés y sus aliados indígenas <span class="voc" tabindex="0" data-de="eroberten">conquistaron</span> la ciudad. Sobre las <span class="voc" tabindex="0" data-de="Ruinen">ruinas</span> de Tenochtitlan nació la Ciudad de México. Sin embargo, la <span class="voc" tabindex="0" data-de="Erbe">herencia</span> azteca sigue viva: en la lengua, en la comida —el maíz, el chocolate, el chile— y en la identidad de millones de mexicanos.</p>
+            <div class="strat">
+              <span class="chip">🔎 Zahlen & Jahreszeiten unterstreichen</span>
+              <span class="chip">🧭 Personen: ¿quién hace qué?</span>
+              <span class="chip">⏳ Zeitform beachten: indefinido → Geschichte</span>
+            </div>
+          </article>
+          <div>
+            <div class="reveal" style="--d:.1s">
+              <h3 style="font-size:1.15rem;margin-bottom:1rem">Aufgabe 1 · ¿Verdadero o falso?</h3>
+              <div class="rf" id="rf5" data-sol="v">
+                <div class="st">1. Los aztecas fundaron Tenochtitlan en una isla del lago de Texcoco.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Verdadero – 1325, auf einer Insel im Texcoco-See.</div>
+              </div>
+              <div class="rf" id="rf6" data-sol="v">
+                <div class="st">2. El águila sobre el nopal aparece hoy en el escudo de la bandera mexicana.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Verdadero – die Legende lebt auf der mexikanischen Flagge weiter.</div>
+              </div>
+              <div class="rf" id="rf7" data-sol="f">
+                <div class="st">3. Tenochtitlan tenía unos 20.000 habitantes.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Falso – eran unos <b>200.000</b> habitantes. Achtung: Zahlengenauigkeit wird geprüft!</div>
+              </div>
+              <div class="rf" id="rf8" data-sol="f">
+                <div class="st">4. Hernán Cortés conquistó la ciudad sin aliados indígenas.</div>
+                <div class="opts"><button data-val="v">Verdadero</button><button data-val="f">Falso</button></div>
+                <div class="why">Falso – Cortés conquistó Tenochtitlan <b>con sus aliados indígenas</b>.</div>
+              </div>
+            </div>
+            <div class="oq reveal" style="--d:.2s">
+              <h3 style="font-size:1.15rem;margin-bottom:.4rem">Aufgabe 2 · Preguntas abiertas</h3>
+              <div class="q">a) ¿Qué son las chinampas y para qué servían?</div>
+              <textarea placeholder="Escribe tu respuesta en español…"></textarea>
+              <button class="check sol-btn" style="margin-top:.5rem">Musterlösung zeigen ⌄</button>
+              <div class="sol"><div class="sol-inner"><b>Musterlösung</b>Las chinampas eran jardines flotantes sobre el lago. Los aztecas los usaban para la agricultura: cultivaban maíz, chile y otras plantas.</div></div>
+              <div class="q">b) ¿Dónde sigue viva la herencia azteca hoy?</div>
+              <textarea placeholder="Escribe tu respuesta en español…"></textarea>
+              <button class="check sol-btn" style="margin-top:.5rem">Musterlösung zeigen ⌄</button>
+              <div class="sol"><div class="sol-inner"><b>Musterlösung</b>La herencia azteca sigue viva en la lengua (por ejemplo el náhuatl), en la comida (el maíz, el chocolate, el chile), en el escudo de la bandera y en la identidad de millones de mexicanos.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 GRAMMATIK ============ -->
+<section id="sec-gramatica">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Teil 2 · Gramática</div>
+        <h2>Grammatik-Werkstatt</h2>
+      </div>
+      <p class="lead">Fünf Tabs: <em>Vergangenheitszeiten</em>, <em>subjuntivo</em>, <em>ser/estar</em> und <em>conectores</em> für deinen Text. Danach: Lückentraining.</p>
+      <span class="sec-num">02 / 06</span>
+    </div>
+
+    <div class="tabs reveal">
+      <button class="tab-btn active" data-tab="t1">Indefinido</button>
+      <button class="tab-btn" data-tab="t2">Perfecto vs. Indefinido</button>
+      <button class="tab-btn" data-tab="t3">Subjuntivo</button>
+      <button class="tab-btn" data-tab="t4">ser/estar · por/para</button>
+      <button class="tab-btn" data-tab="t5">Conectores</button>
+    </div>
+
+    <div class="gram-wrap">
+      <div class="panel active" data-panel="t1">
+        <div class="gram-grid">
+          <div class="glass gcard lift">
+            <h4>Regelmäßige Formen (Pretérito indefinido)</h4>
+            <table class="tbl">
+              <tr><th></th><th>hablar</th><th>comer</th><th>vivir</th></tr>
+              <tr><td>yo</td><td>hablé</td><td>comí</td><td>viví</td></tr>
+              <tr><td>tú</td><td>hablaste</td><td>comiste</td><td>viviste</td></tr>
+              <tr><td>él/ella</td><td>habló</td><td>comió</td><td>vivió</td></tr>
+              <tr><td>nosotros</td><td>hablamos</td><td>comimos</td><td>vivimos</td></tr>
+              <tr><td>vosotros</td><td>hablasteis</td><td>comisteis</td><td>vivisteis</td></tr>
+              <tr><td>ellos</td><td>hablaron</td><td>comieron</td><td>vivieron</td></tr>
+            </table>
+            <div class="sig"><span class="chip">ayer</span><span class="chip">anoche</span><span class="chip">anteayer</span><span class="chip">el año pasado</span><span class="chip">en 2019</span><span class="chip">una vez</span></div>
+          </div>
+          <div class="glass gcard lift">
+            <h4>Wichtige unregelmäßige Stämme</h4>
+            <ul>
+              <li><b>estar → estuv-</b> · <span class="es">estuve, estuviste, estuvo…</span></li>
+              <li><b>tener → tuv-</b> · <span class="es">tuve, tuviste, tuvo…</span></li>
+              <li><b>hacer → hic-</b> · <span class="es">hice, hiciste, hizo…</span></li>
+              <li><b>poder → pud-</b> · <span class="es">pude, pudiste, pudo…</span></li>
+              <li><b>venir → vin-</b> · <span class="es">vine, viniste, vino…</span></li>
+              <li><b>ir / ser → fu-</b> · <span class="es">fui, fuiste, fue…</span></li>
+            </ul>
+            <p style="margin-top:1rem;font-size:.85rem;color:var(--muted)">⚠ Merkhilfe: Unregelmäßige Formen haben <b>keine Akzente</b> und einen gemeinsamen Stamm für alle Personen.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="t2">
+        <div class="gram-grid">
+          <div class="glass gcard lift">
+            <h4>Pretérito perfecto <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(he hablado)</span></h4>
+            <ul>
+              <li>Handlung reicht bis in die <b>Gegenwart</b></li>
+              <li><span class="es">Hoy <b>he visitado</b> el mercado.</span></li>
+              <li><span class="es">Esta semana <b>hemos hablado</b> de Perú.</span></li>
+              <li>Signalwörter: <b>hoy, esta mañana, esta semana, ya, todavía no, recientemente</b></li>
+            </ul>
+          </div>
+          <div class="glass gcard lift">
+            <h4>Pretérito indefinido <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(hablé)</span></h4>
+            <ul>
+              <li>Handlung <b>abgeschlossen</b>, feste Zeitangabe</li>
+              <li><span class="es">Ayer <b>visité</b> el mercado.</span></li>
+              <li><span class="es">En 1521 los españoles <b>conquistaron</b> Tenochtitlan.</span></li>
+              <li>Signalwörter: <b>ayer, anoche, el año pasado, en 2010, la semana pasada</b></li>
+            </ul>
+          </div>
+        </div>
+        <div class="glass gcard">
+          <h4>Eselsbrücke</h4>
+          <p style="font-size:.92rem;color:#e7dccb">Frage dich: <em>Ist der Zeitrahmen noch „offen“ (hoy, esta semana)?</em> → <b>perfecto</b>. <em>Ist er vorbei (ayer, en 1521)?</em> → <b>indefinido</b>.</p>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="t3">
+        <div class="gram-grid">
+          <div class="glass gcard lift">
+            <h4>Formen (Presente de subjuntivo)</h4>
+            <table class="tbl">
+              <tr><th></th><th>hablar</th><th>comer</th><th>vivir</th></tr>
+              <tr><td>yo</td><td>hable</td><td>coma</td><td>viva</td></tr>
+              <tr><td>tú</td><td>hables</td><td>comas</td><td>vivas</td></tr>
+              <tr><td>él/ella</td><td>hable</td><td>coma</td><td>viva</td></tr>
+              <tr><td>nosotros</td><td>hablemos</td><td>comamos</td><td>vivamos</td></tr>
+              <tr><td>ellos</td><td>hablen</td><td>coman</td><td>vivan</td></tr>
+            </table>
+            <p style="margin-top:1rem;font-size:.85rem;color:var(--muted)">Trick: Endungen „vertauscht“ – -ar-Verben bekommen <b>-e</b>, -er/-ir-Verben bekommen <b>-a</b>.</p>
+          </div>
+          <div class="glass gcard lift">
+            <h4>Wann? Auslöser im Hauptsatz</h4>
+            <ul>
+              <li><span class="es">Quiero que</span> vengas. – Ich will, dass du kommst.</li>
+              <li><span class="es">Espero que</span> hagas un buen examen.</li>
+              <li><span class="es">Es importante que</span> practiquemos.</li>
+              <li><span class="es">Ojalá</span> llueva mañana.</li>
+              <li><span class="es">Para que</span> aprendas más.</li>
+              <li><span class="es">Aunque</span> + Zukunft → subjuntivo</li>
+            </ul>
+            <div class="sig" style="margin-top:1rem"><span class="chip">deseo</span><span class="chip">opinión/valoración</span><span class="chip">finalidad</span><span class="chip">ojalá</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="t4">
+        <div class="gram-grid">
+          <div class="glass gcard lift">
+            <h4>ser vs. estar</h4>
+            <ul>
+              <li><b>ser</b> – Identität, Herkunft, Beruf, Material, Uhrzeit: <span class="es">Oaxaca <b>es</b> famosa. <b>Son</b> las dos.</span></li>
+              <li><b>estar</b> – Zustand, Ort, Verlauf: <span class="es">El mercado <b>está</b> en el centro. <b>Estoy</b> nervioso.</span></li>
+              <li>Vergleich: <span class="es">El mole <b>es</b> caliente</span> (an sich scharf) vs. <span class="es"><b>está</b> caliente</span> (gerade heiß).</li>
+            </ul>
+          </div>
+          <div class="glass gcard lift">
+            <h4>por vs. para</h4>
+            <ul>
+              <li><b>por</b> – Grund, Ursache, „durch“: <span class="es">Viajo <b>por</b> América Latina. Gracias <b>por</b> tu ayuda.</span></li>
+              <li><b>para</b> – Ziel, Zweck, Empfänger: <span class="es">Estudio <b>para</b> el examen. Un regalo <b>para</b> ti.</span></li>
+              <li>Merksatz: <em>por</em> = warum/durch, <em>para</em> = wofür/wohin.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="t5">
+        <div class="gram-grid">
+          <div class="glass gcard lift">
+            <h4>Conectores para tu redacción</h4>
+            <ul>
+              <li><b>además</b> – außerdem · <span class="es">Además del español, se habla náhuatl.</span></li>
+              <li><b>sin embargo</b> – jedoch · <span class="es">Es turístico; sin embargo, hay pobreza.</span></li>
+              <li><b>por eso</b> – deshalb · <span class="es">Por eso defienden sus tradiciones.</span></li>
+              <li><b>aunque</b> – obwohl · <span class="es">Aunque hay problemas, es un país fascinante.</span></li>
+              <li><b>mientras que</b> – während · <span class="es">En el norte hay desiertos, mientras que en el sur hay selvas.</span></li>
+            </ul>
+          </div>
+          <div class="glass gcard lift">
+            <h4>Struktur-Wörter für die Klausur</h4>
+            <ul>
+              <li><b>primero / luego / después</b> – zuerst / dann / danach</li>
+              <li><b>por un lado … por otro lado</b> – einerseits … andererseits</li>
+              <li><b>en conclusión / para terminar</b> – zusammenfassend / zum Abschluss</li>
+              <li><b>en mi opinión / creo que / me parece que</b> – Meinung ausdrücken</li>
+              <li>💡 Ziel: <b>mindestens 4 Conectores</b> in deiner Redacción verwenden!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass gaps reveal" style="--d:.15s">
+      <h4>¡A practicar! · Lückentraining</h4>
+      <p class="hint">Schreib die richtige Verbform ins Feld und klicke auf „Check“. Tipp: Achte auf die Signalwörter – zwei Sätze kommen direkt aus dem Azteken-Text.</p>
+
+      <div class="gap-row"><span class="num">01</span><div class="sentence">Ayer yo <input class="gap" data-ans="fui" data-id="gap1" placeholder="ir"> al mercado de Oaxaca.</div><span class="gap-fb" id="fb-gap1"></span><button class="check" data-for="gap1">Check</button></div>
+      <div class="gap-row"><span class="num">02</span><div class="sentence">El año pasado mi familia <input class="gap" data-ans="visitó" data-id="gap2" placeholder="visitar"> Colombia.</div><span class="gap-fb" id="fb-gap2"></span><button class="check" data-for="gap2">Check</button></div>
+      <div class="gap-row"><span class="num">03</span><div class="sentence">Hoy ya <input class="gap" data-ans="he comprado" data-id="gap3" placeholder="comprar" style="width:160px"> los regalos.</div><span class="gap-fb" id="fb-gap3"></span><button class="check" data-for="gap3">Check</button></div>
+      <div class="gap-row"><span class="num">04</span><div class="sentence">Espero que tú <input class="gap" data-ans="hagas" data-id="gap4" placeholder="hacer"> un buen examen.</div><span class="gap-fb" id="fb-gap4"></span><button class="check" data-for="gap4">Check</button></div>
+      <div class="gap-row"><span class="num">05</span><div class="sentence">En 2019 los estudiantes <input class="gap" data-ans="escribieron" data-id="gap5" placeholder="escribir" style="width:150px"> un texto sobre Perú.</div><span class="gap-fb" id="fb-gap5"></span><button class="check" data-for="gap5">Check</button></div>
+      <div class="gap-row"><span class="num">06</span><div class="sentence">María <input class="gap" data-ans="estuvo" data-id="gap6" placeholder="estar"> enferma la semana pasada.</div><span class="gap-fb" id="fb-gap6"></span><button class="check" data-for="gap6">Check</button></div>
+      <div class="gap-row"><span class="num">07</span><div class="sentence">En 1325 los aztecas <input class="gap" data-ans="fundaron" data-id="gap7" placeholder="fundar" style="width:150px"> Tenochtitlan.</div><span class="gap-fb" id="fb-gap7"></span><button class="check" data-for="gap7">Check</button></div>
+      <div class="gap-row"><span class="num">08</span><div class="sentence">En 1521 los españoles <input class="gap" data-ans="conquistaron" data-id="gap8" placeholder="conquistar" style="width:150px"> la ciudad.</div><span class="gap-fb" id="fb-gap8"></span><button class="check" data-for="gap8">Check</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 HISTORIA ============ -->
+<section id="sec-historia">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Teil 3 · Landeskunde</div>
+        <h2>Historia de América Latina</h2>
+      </div>
+      <p class="lead">Timeline für den Überblick + die drei großen Kulturen im Vergleich. <em>Perfekt für Einleitungen</em> in deiner Redacción.</p>
+      <span class="sec-num">03 / 06</span>
+    </div>
+
+    <div class="hist-grid">
+      <div class="tl reveal">
+        <div class="glass tl-item lift"><span class="year">~250 – 900</span><b>Klassik der Maya</b><p>Hochkultur in Mesoamérica: Schrift, Kalender, Astronomie. Zentren: Tikal, Palenque, Chichén Itzá.</p></div>
+        <div class="glass tl-item lift"><span class="year">1325</span><b>Fundación de Tenochtitlan</b><p>Die Azteken gründen ihre Hauptstadt auf einer Insel im Texcoco-See – heute Ciudad de México.</p></div>
+        <div class="glass tl-item lift"><span class="year">1438 – 1533</span><b>Imperio inca</b><p>Das Inka-Reich erstreckt sich über die Anden: Cusco, Machu Picchu, Straßen-Netz, Quipus.</p></div>
+        <div class="glass tl-item lift"><span class="year">1492</span><b>Llegada de Colón</b><p>Christoph Kolumbus erreicht Amerika – Beginn des Kontakts zwischen Europa und América.</p></div>
+        <div class="glass tl-item lift"><span class="year">1521 / 1533</span><b>La conquista</b><p>Fall von Tenochtitlan (1521) und des Inka-Reichs (1533). Beginn der Kolonialzeit (~300 Jahre).</p></div>
+        <div class="glass tl-item lift"><span class="year">1810 – 1826</span><b>La independencia</b><p>Unabhängigkeitskriege: México 1810/1821, Südamerika unter Bolívar und San Martín. La mayoría de los países se independizan de España.</p></div>
+        <div class="glass tl-item lift"><span class="year">Hoy</span><b>América Latina hoy</b><p>20+ Länder, ~660 Mio. Menschen, enorme Vielfalt: Sprachen, Kulturen, Natur – und große soziale Unterschiede.</p></div>
+      </div>
+
+      <div>
+        <div class="glass cult-card lift reveal">
+          <div class="top"><span class="ico">🌽</span><div><small>Mesoamérica · Yucatán, Guatemala</small><b>Los mayas</b></div></div>
+          <p>Bekannte Hochkultur mit eigener Schrift, präzisem Kalender und dem Konzept der Null. Heute leben Millionen Maya-Nachfahren in Guatemala und Süd-Mexiko.</p>
+          <div class="kw"><span class="chip">escritura</span><span class="chip">calendario</span><span class="chip">Tikal</span><span class="chip">Chichén Itzá</span></div>
+        </div>
+        <div class="glass cult-card lift reveal" style="--d:.1s">
+          <div class="top"><span class="ico">🦅</span><div><small>Zentral-Mexiko · 1325–1521</small><b>Los aztecas (mexicas)</b></div></div>
+          <p>Gründeten Tenochtitlan, nutzten Chinampas für die Landwirtschaft und sprachen Náhuatl. Ihr Erbe lebt in Flagge, Sprache und Küche Mexikos weiter.</p>
+          <div class="kw"><span class="chip">Tenochtitlan</span><span class="chip">chinampas</span><span class="chip">náhuatl</span><span class="chip">Templo Mayor</span></div>
+        </div>
+        <div class="glass cult-card lift reveal" style="--d:.2s">
+          <div class="top"><span class="ico">🏔</span><div><small>Anden · Perú, Bolivia, Ecuador</small><b>Los incas</b></div></div>
+          <p>Größtes präkolumbianisches Reich Südamerikas. Meister im Straßenbau und in der Steinarchitektur – ohne Schrift, aber mit Knotenschnüren (quipus).</p>
+          <div class="kw"><span class="chip">Cusco</span><span class="chip">Machu Picchu</span><span class="chip">quipus</span><span class="chip">quechua</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 SCHREIBEN ============ -->
+<section id="sec-escribir">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Teil 4 · Redacción</div>
+        <h2>Einen Text über ein Land schreiben</h2>
+      </div>
+      <p class="lead">In der Klausur präsentierst du ein lateinamerikanisches Land. Hier ist dein <em>roter Faden</em>, Redemittel und zwei Musterbeispiele.</p>
+      <span class="sec-num">04 / 06</span>
+    </div>
+
+    <div class="steps">
+      <div class="glass step lift reveal"><b>Introducción</b><span>Land benennen, Lage nennen, Interesse wecken.</span></div>
+      <div class="glass step lift reveal" style="--d:.08s"><b>Geografía</b><span>Nachbarn, Landschaft, Klima beschreiben.</span></div>
+      <div class="glass step lift reveal" style="--d:.16s"><b>Población</b><span>Einwohner, Sprachen, Städte vorstellen.</span></div>
+      <div class="glass step lift reveal" style="--d:.24s"><b>Cultura y economía</b><span>Besonderheiten, Wirtschaft, Probleme.</span></div>
+      <div class="glass step lift reveal" style="--d:.32s"><b>Conclusión</b><span>Zusammenfassen + eigene Meinung (¡subjuntivo!).</span></div>
+    </div>
+
+    <div class="write-grid">
+      <div class="reveal">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="c1">🇲🇽 México</button>
+          <button class="tab-btn" data-tab="c2">🇨🇴 Colombia</button>
+          <button class="tab-btn" data-tab="c3">🇵🇪 Perú</button>
+          <button class="tab-btn" data-tab="c4">🇦🇷 Argentina</button>
+        </div>
+        <div class="fact-wrap">
+          <div class="glass facts country-panel active" data-panel="c1">
+            <div class="cflag">🇲🇽</div><div class="name">México</div>
+            <div class="frow"><span>Hauptstadt</span><b>Ciudad de México</b></div>
+            <div class="frow"><span>Einwohner</span><b>~129 Millionen</b></div>
+            <div class="frow"><span>Sprachen</span><b>Español + 68 lenguas indígenas</b></div>
+            <div class="frow"><span>Währung</span><b>Peso mexicano (MXN)</b></div>
+            <div class="frow"><span>Bekannt für</span><b>Azteken & Maya, Día de Muertos, Tacos</b></div>
+            <div class="curioso"><b>Dato curioso</b>Der Name „México“ stammt vom Aztekengott Mexitli – das Land war Herz des Aztekenreiches.</div>
+          </div>
+          <div class="glass facts country-panel" data-panel="c2">
+            <div class="cflag">🇨🇴</div><div class="name">Colombia</div>
+            <div class="frow"><span>Hauptstadt</span><b>Bogotá (2.640 m Höhe)</b></div>
+            <div class="frow"><span>Einwohner</span><b>~52 Millionen</b></div>
+            <div class="frow"><span>Sprachen</span><b>Español + über 60 indigene Sprachen</b></div>
+            <div class="frow"><span>Währung</span><b>Peso colombiano (COP)</b></div>
+            <div class="frow"><span>Bekannt für</span><b>Kaffee, Cumbia, enorme Biodiversität</b></div>
+            <div class="curioso"><b>Dato curioso</b>Colombia es el único país de Sudamérica con costas en el Pacífico y en el Caribe.</div>
+          </div>
+          <div class="glass facts country-panel" data-panel="c3">
+            <div class="cflag">🇵🇪</div><div class="name">Perú</div>
+            <div class="frow"><span>Hauptstadt</span><b>Lima</b></div>
+            <div class="frow"><span>Einwohner</span><b>~34 Millionen</b></div>
+            <div class="frow"><span>Sprachen</span><b>Español, Quechua, Aymara</b></div>
+            <div class="frow"><span>Währung</span><b>Sol (PEN)</b></div>
+            <div class="frow"><span>Bekannt für</span><b>Machu Picchu, Inka-Kultur, Ceviche</b></div>
+            <div class="curioso"><b>Dato curioso</b>Perú tiene casi 90 microclimas – von der Wüste bis zum Regenwald.</div>
+          </div>
+          <div class="glass facts country-panel" data-panel="c4">
+            <div class="cflag">🇦🇷</div><div class="name">Argentina</div>
+            <div class="frow"><span>Hauptstadt</span><b>Buenos Aires</b></div>
+            <div class="frow"><span>Einwohner</span><b>~46 Millionen</b></div>
+            <div class="frow"><span>Sprachen</span><b>Español (Rioplatense)</b></div>
+            <div class="frow"><span>Währung</span><b>Peso argentino (ARS)</b></div>
+            <div class="frow"><span>Bekannt für</span><b>Tango, Patagonien, Fútbol, Mate</b></div>
+            <div class="curioso"><b>Dato curioso</b>In Argentinien steht der höchste Berg Amerikas: el Aconcagua, 6.961 metros.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass gcard red reveal" style="--d:.12s">
+        <h4>Redemittel · Einleitung</h4>
+        <div class="copyrow"><code>En este texto voy a presentar …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>El país que he elegido es …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>… está situado en el sur/norte de América Latina.</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <h4>Redemittel · Geografía</h4>
+        <div class="copyrow"><code>Limita al norte con … y al sur con …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>El paisaje es muy variado: hay montañas, selvas y playas.</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <h4>Redemittel · Población y cultura</h4>
+        <div class="copyrow"><code>Tiene unos … millones de habitantes.</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>Además del español, se hablan lenguas indígenas como …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>Es famoso/a por …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <h4>Redemittel · Economía</h4>
+        <div class="copyrow"><code>La economía se basa en …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>Un problema importante es …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <h4>Redemittel · Conclusión y opinión</h4>
+        <div class="copyrow"><code>En conclusión, … / En mi opinión, …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>Me gustaría visitar … porque …</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+        <div class="copyrow"><code>Espero que algún día pueda conocer este país.</code><button class="copy-btn" title="Kopieren">⧉</button></div>
+      </div>
+    </div>
+
+    <div class="ejem-wrap" style="margin-top:2rem">
+      <div class="tabs reveal">
+        <button class="tab-btn active" data-tab="e1">📝 Ejemplo 1 · Colombia</button>
+        <button class="tab-btn" data-tab="e2">📝 Ejemplo 2 · México (Azteken)</button>
+      </div>
+      <div class="ejem-panels">
+        <article class="glass beispiel panel active reveal" data-panel="e1">
+          <h3>Ejemplo de redacción <span style="font-size:.8rem;font-weight:400;color:var(--muted)">· „Mi país: Colombia“ · ~150 Wörter</span></h3>
+          <p><span class="tag t-i">Intro</span> Hoy quiero presentar Colombia, un país situado en el noroeste de América del Sur. Colombia es famoso por su café, su música y su gente.</p>
+          <p><span class="tag t-g">Geo</span> El país limita con cinco países y tiene costas en el Pacífico y en el Caribe. El paisaje es muy variado: hay tres cordilleras de los Andes, selvas tropicales y playas.</p>
+          <p><span class="tag t-p">Población</span> Colombia tiene unos 52 millones de habitantes. Además del español, se hablan más de 60 lenguas indígenas.</p>
+          <p><span class="tag t-c">Cultura/Econ.</span> La economía se basa en el café, el petróleo y el turismo. Colombia es famosa por la cumbia y el vallenato, y ciudades como Cartagena atraen a muchos turistas. Sin embargo, la desigualdad social sigue siendo un problema.</p>
+          <p><span class="tag t-o">Opinión</span> En mi opinión, Colombia es un país fascinante porque combina naturaleza, cultura e historia. Me gustaría visitar Cartagena algún día.</p>
+        </article>
+        <article class="glass beispiel panel" data-panel="e2">
+          <h3>Ejemplo de redacción <span style="font-size:.8rem;font-weight:400;color:var(--muted)">· „Mi país: México“ · mit Historia-Bezug · ~160 Wörter</span></h3>
+          <p><span class="tag t-i">Intro</span> En este texto voy a presentar México, un país situado en el sur de América del Norte. México es famoso por su historia, su comida y sus tradiciones.</p>
+          <p><span class="tag t-g">Geo</span> México limita al norte con los Estados Unidos y al sur con Guatemala y Belice. El paisaje es muy variado: hay desiertos, selvas tropicales y playas en el Caribe y el Pacífico.</p>
+          <p><span class="tag t-p">Población</span> El país tiene unos 129 millones de habitantes. Además del español, se hablan 68 lenguas indígenas, por ejemplo el náhuatl, la lengua de los aztecas.</p>
+          <p><span class="tag t-c">Cultura/Econ.</span> La economía se basa en el turismo, el petróleo y la industria. México es famoso por el Día de Muertos, la comida mexicana y las ruinas aztecas y mayas, por ejemplo el Templo Mayor y Chichén Itzá. Sin embargo, la pobreza y la violencia son problemas serios.</p>
+          <p><span class="tag t-o">Opinión</span> En mi opinión, México es un país fascinante porque combina historia antigua y cultura moderna. Me gustaría visitar las ruinas de Tenochtitlan algún día, y espero que pueda hacerlo pronto.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="glass cklist reveal">
+      <h3>✅ Checkliste vor der Abgabe</h3>
+      <label class="ck"><input type="checkbox"><span class="box">✓</span><span class="txt">He presentado el país claramente (nombre, situación).</span></label>
+      <label class="ck"><input type="checkbox"><span class="box">✓</span><span class="txt">He descrito la geografía y la población con datos.</span></label>
+      <label class="ck"><input type="checkbox"><span class="box">✓</span><span class="txt">He usado al menos cuatro conectores: <em>además, sin embargo, por eso, aunque</em>.</span></label>
+      <label class="ck"><input type="checkbox"><span class="box">✓</span><span class="txt">He combinado presente, pretérito y subjuntivo correctamente.</span></label>
+      <label class="ck"><input type="checkbox"><span class="box">✓</span><span class="txt">He revisado la ortografía y los acentos (¡país, economía, café!).</span></label>
+      <label class="ck"><input type="checkbox"><span class="box">✓</span><span class="txt">Mi conclusión contiene mi opinión personal.</span></label>
+      <div class="ck-msg" id="ckMsg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 VOKABELN ============ -->
+<section id="sec-vocabulario">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Teil 5 · Vocabulario</div>
+        <h2>Flashcards: klick &amp; flip</h2>
+      </div>
+      <p class="lead">Zwölf Schlüsselwörter – inklusive Azteken-Vokabular. <em>Klicke auf eine Karte</em>, um die Übersetzung zu sehen.</p>
+      <span class="sec-num">05 / 06</span>
+    </div>
+    <div class="fc-grid">
+      <div class="fc reveal" data-id="card1"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">geografía</span><span class="word">la cordillera</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">das Gebirge / die Bergkette</span></div></div></div>
+      <div class="fc reveal" style="--d:.06s" data-id="card2"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">geografía</span><span class="word">la selva</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">der Regenwald / Dschungel</span></div></div></div>
+      <div class="fc reveal" style="--d:.12s" data-id="card3"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">geografía</span><span class="word">la frontera</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">die Grenze</span></div></div></div>
+      <div class="fc reveal" style="--d:.18s" data-id="card4"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">geografía</span><span class="word">el paisaje</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">die Landschaft</span></div></div></div>
+      <div class="fc reveal" data-id="card5"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">cultura</span><span class="word">los pueblos indígenas</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">die indigenen Völker</span></div></div></div>
+      <div class="fc reveal" style="--d:.06s" data-id="card6"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">cultura</span><span class="word">la costumbre</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">der Brauch, die Sitte</span></div></div></div>
+      <div class="fc reveal" style="--d:.12s" data-id="card7"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">historia</span><span class="word">la independencia</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">die Unabhängigkeit</span></div></div></div>
+      <div class="fc reveal" style="--d:.18s" data-id="card8"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">vida diaria</span><span class="word">el mercado</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">der Markt</span></div></div></div>
+      <div class="fc reveal" data-id="card9"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">aztecas</span><span class="word">el templo</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">der Tempel</span></div></div></div>
+      <div class="fc reveal" style="--d:.06s" data-id="card10"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">historia</span><span class="word">el imperio</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">das Imperium / Reich</span></div></div></div>
+      <div class="fc reveal" style="--d:.12s" data-id="card11"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">historia</span><span class="word">la conquista</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">die Eroberung</span></div></div></div>
+      <div class="fc reveal" style="--d:.18s" data-id="card12"><div class="fc-inner"><div class="fc-face fc-front"><span class="chip">comida</span><span class="word">el maíz</span><span class="flip-hint">klicken zum Umdrehen</span></div><div class="fc-face fc-back"><span class="trans">der Mais</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 QUIZ ============ -->
+<section id="sec-quiz">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Teil 6 · Quiz final</div>
+        <h2>Der Abschlusstest</h2>
+      </div>
+      <p class="lead">Zwölf Fragen quer durch alle Themen – wie fit bist du für die Klausur?</p>
+      <span class="sec-num">06 / 06</span>
+    </div>
+
+    <div class="quiz-head reveal">
+      <div class="score">PUNTOS: <span id="quizScore">0</span> / 12</div>
+      <button class="btn btn-ghost" id="quizRestart">↺ Quiz neu starten</button>
+    </div>
+
+    <div id="quizBox">
+      <div class="glass qq reveal" data-q="q1"><div class="qt"><span class="qn">Q1</span>¿Cuál es la capital de Colombia?</div>
+        <div class="qopts"><button class="qopt">a) Medellín</button><button class="qopt" data-ok>b) Bogotá</button><button class="qopt">c) Lima</button></div>
+        <div class="why">Bogotá – ca. 8 Mio. Einwohner, liegt auf 2.640 m Höhe in den Anden.</div></div>
+      <div class="glass qq reveal" data-q="q2"><div class="qt"><span class="qn">Q2</span>„La selva“ significa …</div>
+        <div class="qopts"><button class="qopt">a) der Strand</button><button class="qopt" data-ok>b) der Regenwald</button><button class="qopt">c) die Wüste</button></div>
+        <div class="why">la selva = der Regenwald, z. B. la selva amazónica.</div></div>
+      <div class="glass qq reveal" data-q="q3"><div class="qt"><span class="qn">Q3</span>Welches Signalwort verlangt das pretérito indefinido?</div>
+        <div class="qopts"><button class="qopt">a) hoy</button><button class="qopt" data-ok>b) ayer</button><button class="qopt">c) esta mañana</button></div>
+        <div class="why">„ayer“ markiert eine abgeschlossene Zeit → indefinido. hoy/esta mañana → perfecto.</div></div>
+      <div class="glass qq reveal" data-q="q4"><div class="qt"><span class="qn">Q4</span>Quiero que tú ___ más español.</div>
+        <div class="qopts"><button class="qopt">a) hablas</button><button class="qopt" data-ok>b) hables</button><button class="qopt">c) hablarás</button></div>
+        <div class="why">querer que + subjuntivo → hables.</div></div>
+      <div class="glass qq reveal" data-q="q5"><div class="qt"><span class="qn">Q5</span>Perú limita al norte con …</div>
+        <div class="qopts"><button class="qopt" data-ok>a) Ecuador y Colombia</button><button class="qopt">b) Brasil y Chile</button><button class="qopt">c) Argentina y Bolivia</button></div>
+        <div class="why">Im Norden grenzt Perú an Ecuador und Kolumbien.</div></div>
+      <div class="glass qq reveal" data-q="q6"><div class="qt"><span class="qn">Q6</span>„Es famoso por su café.“ – ¿De qué país hablamos?</div>
+        <div class="qopts"><button class="qopt">a) México</button><button class="qopt" data-ok>b) Colombia</button><button class="qopt">c) Argentina</button></div>
+        <div class="why">El eje cafetero – Kolumbien ist einer der größten Kaffee-Exporteure der Welt.</div></div>
+      <div class="glass qq reveal" data-q="q7"><div class="qt"><span class="qn">Q7</span>„He visitado México“ – ¿Qué tiempo es?</div>
+        <div class="qopts"><button class="qopt" data-ok>a) Pretérito perfecto</button><button class="qopt">b) Pretérito indefinido</button><button class="qopt">c) Subjuntivo</button></div>
+        <div class="why">haber + participio = pretérito perfecto (Bezug zur Gegenwart).</div></div>
+      <div class="glass qq reveal" data-q="q8"><div class="qt"><span class="qn">Q8</span>¿Cuántas lenguas indígenas existen aproximadamente en México?</div>
+        <div class="qopts"><button class="qopt">a) 5</button><button class="qopt" data-ok>b) más de 60</button><button class="qopt">c) más de 300</button></div>
+        <div class="why">México reconoce 68 lenguas indígenas – eins der sprachreichsten Länder der Welt.</div></div>
+      <div class="glass qq reveal" data-q="q9"><div class="qt"><span class="qn">Q9</span>¿Qué pueblo fundó Tenochtitlan en 1325?</div>
+        <div class="qopts"><button class="qopt">a) los incas</button><button class="qopt" data-ok>b) los aztecas</button><button class="qopt">c) los mayas</button></div>
+        <div class="why">Los aztecas (mexicas) fundaron Tenochtitlan en una isla del lago de Texcoco.</div></div>
+      <div class="glass qq reveal" data-q="q10"><div class="qt"><span class="qn">Q10</span>¿En qué año conquistaron los españoles Tenochtitlan?</div>
+        <div class="qopts"><button class="qopt">a) 1492</button><button class="qopt" data-ok>b) 1521</button><button class="qopt">c) 1810</button></div>
+        <div class="why">1521 – Hernán Cortés y sus aliados indígenas. 1492 = Colón, 1810 = independencia de México.</div></div>
+      <div class="glass qq reveal" data-q="q11"><div class="qt"><span class="qn">Q11</span>Las chinampas eran …</div>
+        <div class="qopts"><button class="qopt">a) templos piramidales</button><button class="qopt" data-ok>b) jardines flotantes</button><button class="qopt">c) barcos de guerra</button></div>
+        <div class="why">Schwimmende Gärten für die Landwirtschaft auf dem Texcoco-See.</div></div>
+      <div class="glass qq reveal" data-q="q12"><div class="qt"><span class="qn">Q12</span>¿Qué imperio dominó la región de los Andes?</div>
+        <div class="qopts"><button class="qopt">a) el imperio azteca</button><button class="qopt" data-ok>b) el imperio inca</button><button class="qopt">c) el imperio maya</button></div>
+        <div class="why">Die Inka herrschten über die Anden – mit Zentren in Cusco und Machu Picchu.</div></div>
+    </div>
+
+    <div class="glass quiz-result" id="quizResult">
+      <div class="big" id="quizResultTitle">¡Resultado!</div>
+      <p id="quizResultText" style="color:var(--muted)"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIPPS ============ -->
+<section id="sec-tipps">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="kicker">Extra · Estrategia</div>
+        <h2>Klausur-Tipps &amp; 3-Tage-Plan</h2>
+      </div>
+      <span class="sec-num">BONUS</span>
+    </div>
+    <div class="tips-grid">
+      <div class="glass tip lift reveal"><span class="ico">⏱</span><b>Zeit einteilen</b><p>Grobe Planung: 15 Min. Lesen, 15 Min. Grammatik, 30 Min. Schreiben – plus 5 Min. Kontrolle am Ende.</p></div>
+      <div class="glass tip lift reveal" style="--d:.08s"><span class="ico">🧩</span><b>Unbekannte Wörter?</b><p>Nicht paniken! Kontext lesen, Wortart erkennen, ähnliche Wörter aus dem Deutschen/Englischen nutzen.</p></div>
+      <div class="glass tip lift reveal" style="--d:.16s"><span class="ico">🔑</span><b>Signalwörter suchen</b><p>Sie entscheiden über die Zeitform: hoy → perfecto, ayer → indefinido. Immer unterstreichen!</p></div>
+      <div class="glass tip lift reveal" style="--d:.24s"><span class="ico">🗺</span><b>Erst Stichpunkte</b><p>Vor der Redacción: 5 Minuten Stichpunkte zu jedem Abschnitt – das gibt Struktur und Sicherheit.</p></div>
+    </div>
+    <div class="plan">
+      <div class="glass plan-card reveal"><span class="d">Tag 1</span><b>Lesen &amp; Wortschatz</b><ul><li>Beide Texte 2× lesen (Oaxaca + Azteken)</li><li>Alle 12 Flashcards 3× durchgehen</li><li>Vokabel-Tooltips auswendig lernen</li></ul></div>
+      <div class="glass plan-card reveal" style="--d:.1s"><span class="d">Tag 2</span><b>Grammatik &amp; Historia</b><ul><li>Tabellen abschreiben &amp; laut aufsagen</li><li>Lückentraining ohne Hilfe lösen</li><li>Timeline + Maya/Azteken/Inka wiederholen</li></ul></div>
+      <div class="glass plan-card reveal" style="--d:.2s"><span class="d">Tag 3</span><b>Schreiben &amp; Test</b><ul><li>Eigene Redacción mit Redemitteln schreiben</li><li>Checkliste abarbeiten (4+ Conectores!)</li><li>Quiz final – Ziel: 10/12+</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="big reveal">¡Mucha suerte en tu examen! <span>☀</span></div>
+    <p class="reveal">Letzter Tipp: Lieber früh schlafen als bis 3 Uhr wiederholen. · Lernhub „Rumbo a América Latina“ · hecho con ☕ y ❤</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">¡Copiado!</div>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Fortschritt */
+const TOTAL=40, done=new Set();
+function mark(id){
+  if(done.has(id))return;
+  done.add(id);
+  const pct=Math.round(done.size/TOTAL*100);
+  $('#progFill').style.width=pct+'%';
+  $('#progNum').textContent=done.size+'/'+TOTAL;
+  $('#progPct').textContent=pct+'%';
+  if(pct===100)toast('¡Increíble! 🎉 Todo completado – du bist bereit!');
+}
+
+/* Toast */
+let toastT;
+function toast(msg){
+  const t=$('#toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+/* Scramble-Titel */
+const sc=$('#scramble');
+if(sc&&!reduced){
+  const txt=sc.dataset.text,chars='ÁÉÍÓÚÑ¡¿☀#%*';let i=0;
+  const iv=setInterval(()=>{
+    sc.textContent=txt.split('').map((c,idx)=>idx<i?c:(c===' '?' ':chars[Math.floor(Math.random()*chars.length)])).join('');
+    i+=1;if(i>txt.length){sc.textContent=txt;clearInterval(iv);}
+  },55);
+}
+
+/* Reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+
+/* Header + aktive Nav */
+const bar=$('#topbar');
+addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>30),{passive:true});
+const navLinks=$$('.nav-links a');
+const secIO=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting)navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+}),{rootMargin:'-35% 0px -55% 0px'});
+$$('section[id^="sec-"]').forEach(s=>secIO.observe(s));
+
+/* Briefing-Balken */
+setTimeout(()=>$$('.brief-track i').forEach(i=>i.style.width=i.dataset.w+'%'),600);
+
+/* Länder-Spotlight */
+const spots=[
+ {f:'🇲🇽',n:'México',d:'Capital: CDMX · ~129 Mio. EW · 68 indigene Sprachen'},
+ {f:'🇨🇴',n:'Colombia',d:'Capital: Bogotá · ~52 Mio. EW · berühmt für Kaffee & Cumbia'},
+ {f:'🇵🇪',n:'Perú',d:'Capital: Lima · ~34 Mio. EW · Heimat von Machu Picchu'},
+ {f:'🇦🇷',n:'Argentina',d:'Capital: Buenos Aires · ~46 Mio. EW · Tango & Patagonien'},
+ {f:'🇨🇱',n:'Chile',d:'Capital: Santiago · ~20 Mio. EW · längstes Land der Welt'}
+];
+let si=0;const spotEl=$('#spot');
+setInterval(()=>{
+  spotEl.classList.add('fade');
+  setTimeout(()=>{
+    si=(si+1)%spots.length;
+    $('#spotFlag').textContent=spots[si].f;
+    $('#spotName').textContent=spots[si].n;
+    $('#spotDesc').textContent=spots[si].d;
+    spotEl.classList.remove('fade');
+  },400);
+},4200);
+
+/* Pomodoro */
+let secs=25*60,run=false,iv=null;
+const tEl=$('#timerTime'),tBtn=$('#timerToggle');
+function fmt(){tEl.textContent=String(Math.floor(secs/60)).padStart(2,'0')+':'+String(secs%60).padStart(2,'0');}
+tBtn.addEventListener('click',()=>{
+  run=!run;tBtn.textContent=run?'⏸':'▶';tEl.classList.toggle('running',run);
+  if(run){iv=setInterval(()=>{secs--;fmt();if(secs<=0){clearInterval(iv);run=false;tBtn.textContent='▶';tEl.classList.remove('running');toast('⏰ ¡Tiempo! Gönn dir eine Pause.');}},1000);}
+  else clearInterval(iv);
+});
+$('#timerReset').addEventListener('click',()=>{clearInterval(iv);run=false;secs=25*60;fmt();tBtn.textContent='▶';tEl.classList.remove('running');});
+fmt();
+
+/* Tabs – funktioniert für jede Tab-Gruppe (Tabs + Panels im selben Wrapper) */
+$$('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  const parent=btn.parentElement,scope=parent.parentElement;
+  parent.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  scope.querySelectorAll(':scope > .panel, :scope > .country-panel').forEach(p=>p.classList.remove('active'));
+  const target=scope.querySelector('[data-panel="'+btn.dataset.tab+'"]');
+  if(target)target.classList.add('active');
+}));
+
+/* Richtig/Falsch */
+$$('.rf').forEach(row=>{
+  row.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    if(row.classList.contains('answered'))return;
+    const sol=row.dataset.sol,val=b.dataset.val;
+    row.classList.add('answered');
+    row.querySelectorAll('button').forEach(x=>x.disabled=true);
+    if(val===sol){b.classList.add('hit');row.classList.add('correct');}
+    else{b.classList.add('miss');row.classList.add('wrong');
+      row.querySelectorAll('button').forEach(x=>{if(x.dataset.val===sol)x.classList.add('hit');});}
+    mark(row.id);
+  }));
+});
+
+/* Musterlösungen */
+$$('.sol-btn').forEach(b=>b.addEventListener('click',()=>{
+  const sol=b.nextElementSibling;sol.classList.toggle('open');
+  b.textContent=sol.classList.contains('open')?'Musterlösung verbergen ⌃':'Musterlösung zeigen ⌄';
+}));
+
+/* Lückentraining */
+$$('.check[data-for]').forEach(btn=>btn.addEventListener('click',()=>{
+  const id=btn.dataset.for,inp=document.querySelector('[data-id="'+id+'"]');
+  const val=inp.value.trim().toLowerCase().replace(/\s+/g,' ');
+  const ok=inp.dataset.ans.split('|').map(s=>s.trim().toLowerCase());
+  const fb=$('#fb-'+id);
+  if(!val){inp.classList.add('no');setTimeout(()=>inp.classList.remove('no'),500);return;}
+  if(ok.includes(val)){inp.classList.remove('no');inp.classList.add('ok');fb.textContent='¡Correcto!';fb.className='gap-fb ok';mark(id);}
+  else{inp.classList.remove('ok');inp.classList.add('no');fb.textContent='✗ → '+ok[0];fb.className='gap-fb no';}
+}));
+
+/* Flashcards */
+$$('.fc').forEach(c=>c.addEventListener('click',()=>{
+  c.classList.toggle('flip');
+  if(c.classList.contains('flip'))mark(c.dataset.id);
+}));
+
+/* Redemittel kopieren */
+$$('.copy-btn').forEach(b=>b.addEventListener('click',async()=>{
+  const txt=b.parentElement.querySelector('code').textContent;
+  try{await navigator.clipboard.writeText(txt);}catch(e){}
+  toast('¡Copiado! „'+txt.slice(0,34)+'…“');
+}));
+
+/* Checkliste */
+const cks=$$('.cklist input'),ckMsg=$('#ckMsg');
+cks.forEach(c=>c.addEventListener('change',()=>{
+  const n=cks.filter(x=>x.checked).length;
+  ckMsg.textContent=n===cks.length?'🏆 ¡Perfecto! Tu redacción está lista para la klausur.':
+    n>=4?'Casi listo – noch '+(cks.length-n)+' Punkt(e).':n>0?n+' von '+cks.length+' erledigt.':'';
+}));
+
+/* Quiz */
+let score=0,answered=0;
+$$('.qq').forEach(q=>{
+  q.querySelectorAll('.qopt').forEach(o=>{
+    o.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');answered++;
+      q.querySelectorAll('.qopt').forEach(x=>x.disabled=true);
+      if(o.hasAttribute('data-ok')){o.classList.add('hit');score++;}
+      else{o.classList.add('miss');q.querySelector('.qopt[data-ok]').classList.add('hit');}
+      $('#quizScore').textContent=score;
+      mark(q.dataset.q);
+      if(answered===12)showResult();
+    });
+  });
+});
+function showResult(){
+  const r=$('#quizResult');r.classList.add('show');
+  let t,m;
+  if(score===12){t='¡Excelente! 12/12 🏆';m='Klausur kann kommen – du bist top vorbereitet.';}
+  else if(score>=9){t='¡Muy bien! '+score+'/12 🌟';m='Fast perfekt. Schau dir die Fehler kurz an, dann passt das.';}
+  else if(score>=6){t='Vale, '+score+'/12 📚';m='Solide – wiederhole Grammatik-Signalwörter, Historia und die Länderfakten.';}
+  else{t=score+'/12 – ¡ánimo! 💪';m='Nochmal von vorn: Texte lesen, Tabellen üben, dann Quiz wiederholen.';}
+  $('#quizResultTitle').textContent=t;$('#quizResultText').textContent=m;
+  r.scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});
+}
+$('#quizRestart').addEventListener('click',()=>{
+  score=0;answered=0;$('#quizScore').textContent='0';
+  $('#quizResult').classList.remove('show');
+  $$('.qq').forEach(q=>{
+    q.classList.remove('answered');
+    q.querySelectorAll('.qopt').forEach(o=>{o.disabled=false;o.classList.remove('hit','miss');});
+  });
+  toast('Quiz neu gestartet – ¡de nuevo!');
+});
+})();
+</script>
+</body>
+</html>
