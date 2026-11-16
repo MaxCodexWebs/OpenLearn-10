@@ -3,129 +3,578 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Español - Décimo grado</title>
+    <title>Español · Décimo grado — Los tiempos del pasado</title>
+    <meta name="description" content="Unidad didáctica de Español para 10.º grado: distinguir, comprender y utilizar los tiempos del pasado.">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#160a04">
+
+    <!--
+        ══════════════════════════════════════════════════════════════
+        DATENSCHUTZ-HINWEIS: Die Schriftarten werden hier über Google
+        Fonts geladen. Für den DSGVO-konformen Produktivbetrieb die
+        Fonts herunterladen und LOKAL hosten, dann die <link>-Tags
+        entfernen und gegen @font-face tauschen.
+        ══════════════════════════════════════════════════════════════
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --bg-dark: #120c08;
-            --card-bg: #1a100a;
-            --orange-dark: #b84311;
-            --orange-deep: #8c2e0b;
-            --red-accent: #d92525;
-            --text-main: #f3e6dc;
-            --text-muted: #bfa799;
+        /* ═══════════════ 1 · DESIGN-TOKENS ═══════════════ */
+        :root{
+            --bg-0:#160a04;
+            --bg-1:#241007;
+            --glass:rgba(255,148,74,.07);
+            --glass-strong:rgba(255,148,74,.13);
+            --line:rgba(255,170,105,.16);
+            --line-bright:rgba(255,196,140,.38);
+            --amber:#ffb45e;
+            --orange:#ff7a2e;
+            --ember:#e8590c;
+            --deep:#9a3412;
+            --ink:#ffefe2;
+            --mut:#d9b294;
+            --dim:#a8836b;
+            --radius:14px;
+            --font-display:"Fraunces",Georgia,serif;
+            --font-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-color: var(--bg-dark);
-            /* Patrón geométrico sutil estilo alfombra / teppich español */
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(184, 67, 17, 0.08) 0%, transparent 60%),
-                repeating-linear-gradient(45deg, rgba(217, 37, 37, 0.03) 0, rgba(217, 37, 37, 0.03) 2px, transparent 0, transparent 20px),
-                repeating-linear-gradient(-45deg, rgba(140, 46, 11, 0.03) 0, rgba(140, 46, 11, 0.03) 2px, transparent 0, transparent 20px);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
+        *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+        html{ scroll-behavior:smooth; }
+        ::selection{ background:var(--ember); color:#fff; }
+
+        body{
+            min-height:100vh;
+            font-family:var(--font-body);
+            color:var(--ink);
+            background:
+                radial-gradient(1100px 600px at 85% -10%, rgba(232,89,12,.20), transparent 60%),
+                radial-gradient(900px 700px at -10% 40%, rgba(154,52,18,.28), transparent 60%),
+                radial-gradient(700px 500px at 60% 110%, rgba(255,122,46,.12), transparent 65%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-0) 55%);
+            background-attachment:fixed;
+            overflow-x:hidden;
+            line-height:1.55;
         }
 
-        header {
-            text-align: center;
-            max-width: 700px;
-            margin-bottom: 2.5rem;
-            border-bottom: 2px solid var(--red-accent);
-            padding-bottom: 1.5rem;
+        /* Mudéjar-Sternmuster (dezente spanische Geometrie) */
+        body::before{
+            content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='76' height='76' viewBox='0 0 76 76'%3E%3Cg fill='none' stroke='%23ff8a3d' stroke-opacity='0.075'%3E%3Cpath d='M38 6 48 28 70 38 48 48 38 70 28 48 6 38 28 28Z'/%3E%3Ccircle cx='38' cy='38' r='6'/%3E%3Cpath d='M0 0h10M66 0h10M0 76h10M66 76h10'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Feines Filmkorn für Tiefe */
+        body::after{
+            content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.05;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        header h2 {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            color: var(--text-main);
-            margin: 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        /* Schwebende Glut-Orbs */
+        .orb{ position:fixed; border-radius:50%; filter:blur(90px); z-index:0; pointer-events:none; will-change:transform; }
+        .orb-1{ width:420px; height:420px; top:-120px; right:-80px; background:radial-gradient(circle, rgba(255,122,46,.34), transparent 70%); animation:float-a 26s ease-in-out infinite alternate; }
+        .orb-2{ width:360px; height:360px; bottom:-140px; left:-100px; background:radial-gradient(circle, rgba(232,89,12,.28), transparent 70%); animation:float-b 32s ease-in-out infinite alternate; }
+        .orb-3{ width:240px; height:240px; top:44%; left:56%; background:radial-gradient(circle, rgba(255,180,94,.18), transparent 70%); animation:float-a 22s ease-in-out infinite alternate-reverse; }
+        @keyframes float-a{ from{ transform:translate(0,0) scale(1); } to{ transform:translate(-60px,50px) scale(1.12); } }
+        @keyframes float-b{ from{ transform:translate(0,0) scale(1.05); } to{ transform:translate(70px,-40px) scale(.95); } }
+
+        .wrap{ position:relative; z-index:1; width:min(1140px, 100% - 2.5rem); margin-inline:auto; }
+
+        /* ═══════════════ 2 · GLAS-BAUSTEIN ═══════════════ */
+        .glass{
+            position:relative;
+            background:linear-gradient(160deg, rgba(255,160,90,.11), rgba(255,120,40,.04) 45%, rgba(255,90,20,.08));
+            -webkit-backdrop-filter:blur(18px) saturate(150%);
+            backdrop-filter:blur(18px) saturate(150%);
+            border:1px solid var(--line);
+            border-radius:var(--radius);
+            box-shadow:0 22px 55px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.09);
+            overflow:hidden;
+        }
+        .glass::before{
+            content:""; position:absolute; inset:0 0 auto 0; height:1px;
+            background:linear-gradient(90deg, transparent, rgba(255,220,180,.55), transparent);
         }
 
-        section {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(184, 67, 17, 0.3);
-            border-left: 4px solid var(--red-accent);
-            border-radius: 8px;
-            padding: 1.5rem 2rem;
-            margin-bottom: 1.5rem;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            box-sizing: border-box;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
+        a{ color:var(--amber); }
+        :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; border-radius:4px; }
 
-        section:hover {
-            border-color: var(--orange-dark);
-            transform: translateY(-2px);
-        }
+        .skip{ position:absolute; left:-999px; top:8px; z-index:99; background:var(--ember); color:#fff; padding:.6rem 1rem; border-radius:8px; }
+        .skip:focus{ left:8px; }
 
-        section h3 {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* ═══════════════ 3 · TOPBAR ═══════════════ */
+        .topbar{
+            position:sticky; top:10px; z-index:50;
+            display:flex; align-items:center; gap:1.25rem;
+            padding:.65rem 1rem; margin-top:14px;
+            border-radius:99px;
         }
-
-        /* Ambos botones con idéntico diseño simétrico y estilizado */
-        button {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            background: linear-gradient(135deg, var(--orange-dark), var(--orange-deep));
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            padding: 1rem 1.25rem;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(140, 46, 11, 0.3);
-            transition: all 0.25s ease;
-            box-sizing: border-box;
-            text-align: left;
+        .brand{ display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--ink); font-weight:700; letter-spacing:.4px; }
+        .brand-mark{
+            display:grid; place-items:center; width:36px; height:36px; border-radius:10px;
+            background:linear-gradient(145deg, var(--orange), var(--deep));
+            box-shadow:0 4px 14px rgba(232,89,12,.45), inset 0 1px 0 rgba(255,255,255,.3);
+            color:#fff;
         }
-
-        button:hover {
-            background: linear-gradient(135deg, #cc4a13, var(--orange-dark));
-            border-color: var(--red-accent);
-            box-shadow: 0 6px 16px rgba(217, 37, 37, 0.25);
+        .brand small{ display:block; font-size:.62rem; font-weight:500; letter-spacing:2px; color:var(--dim); text-transform:uppercase; }
+        .topnav{ display:flex; gap:.25rem; margin-left:auto; }
+        .topnav a{
+            text-decoration:none; color:var(--mut); font-size:.85rem; font-weight:500;
+            padding:.45rem .85rem; border-radius:99px; transition:.25s;
         }
+        .topnav a:hover{ color:var(--ink); background:rgba(255,150,80,.12); }
+        .clock{
+            display:flex; align-items:center; gap:.5rem; font-size:.78rem; color:var(--mut);
+            border:1px solid var(--line); border-radius:99px; padding:.4rem .9rem;
+            font-variant-numeric:tabular-nums; white-space:nowrap;
+        }
+        .clock svg{ width:14px; height:14px; color:var(--amber); }
+        @media (max-width:760px){ .topnav{ display:none; } .clock span.lbl{ display:none; } }
 
-        button:active {
-            transform: scale(0.98);
+        /* ═══════════════ 4 · AUFTAKT ═══════════════ */
+        .hero{
+            position:relative;
+            display:grid; grid-template-columns:1.35fr .9fr; gap:2.5rem; align-items:center;
+            padding:4.2rem 0 3rem;
+        }
+        .sun{
+            position:absolute; right:-190px; top:-220px; width:560px; height:560px; z-index:-1;
+            background:repeating-conic-gradient(from 0deg, rgba(255,150,70,.11) 0deg 5deg, transparent 5deg 11deg);
+            border-radius:50%;
+            -webkit-mask:radial-gradient(circle, #000 0%, transparent 68%);
+            mask:radial-gradient(circle, #000 0%, transparent 68%);
+            animation:spin 100s linear infinite; pointer-events:none;
+        }
+        .sun::after{
+            content:""; position:absolute; inset:14%; border-radius:50%;
+            border:1px dashed rgba(255,170,105,.28);
+        }
+        @keyframes spin{ to{ transform:rotate(360deg); } }
+
+        .kicker{
+            display:inline-flex; align-items:center; gap:.6rem;
+            font-size:.72rem; font-weight:600; letter-spacing:2.6px; text-transform:uppercase; color:var(--amber);
+        }
+        .kicker::before{ content:""; width:34px; height:2px; background:linear-gradient(90deg, var(--ember), transparent); }
+
+        .hero h1{
+            font-family:var(--font-display); font-weight:600;
+            font-size:clamp(2.4rem, 5.6vw, 4.1rem);
+            line-height:1.06; margin:1rem 0 1.1rem;
+            text-shadow:0 4px 30px rgba(232,89,12,.25);
+        }
+        .hero h1 em{ font-style:italic; font-weight:500; color:var(--amber); }
+        .hero p.lead{ max-width:52ch; color:var(--mut); font-size:1.02rem; }
+        .hero-meta{ margin-top:1.6rem; display:flex; flex-wrap:wrap; gap:.6rem; }
+        .chip{
+            display:inline-flex; align-items:center; gap:.45rem;
+            font-size:.78rem; color:var(--mut);
+            border:1px solid var(--line); border-radius:99px; padding:.4rem .85rem;
+            background:rgba(255,140,60,.06);
+            -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+        }
+        .chip svg{ width:14px; height:14px; color:var(--orange); }
+
+        /* Ficha del curso */
+        .ficha{ padding:1.6rem 1.7rem; }
+        .ficha h2{
+            font-size:.72rem; letter-spacing:2.4px; text-transform:uppercase; color:var(--dim);
+            display:flex; align-items:center; gap:.5rem; margin-bottom:1.1rem;
+        }
+        .ficha h2 svg{ width:15px; height:15px; color:var(--amber); }
+        .ficha dl{ display:grid; grid-template-columns:auto 1fr; gap:.55rem 1.2rem; font-size:.9rem; }
+        .ficha dt{ color:var(--dim); }
+        .ficha dd{ color:var(--ink); font-weight:500; text-align:right; }
+        .state-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; background:#7dd47d; margin-right:.4rem; box-shadow:0 0 0 0 rgba(125,212,125,.5); animation:pulse 2s infinite; }
+        @keyframes pulse{ 70%{ box-shadow:0 0 0 8px rgba(125,212,125,0);} 100%{ box-shadow:0 0 0 0 rgba(125,212,125,0);} }
+        .progress{ margin-top:1.3rem; }
+        .progress .lbl{ display:flex; justify-content:space-between; font-size:.75rem; color:var(--dim); margin-bottom:.45rem; }
+        .bar{ height:7px; border-radius:99px; background:rgba(0,0,0,.35); border:1px solid var(--line); overflow:hidden; }
+        .bar i{ display:block; height:100%; width:0; border-radius:99px; background:linear-gradient(90deg, var(--amber), var(--ember)); transition:width 1.4s cubic-bezier(.2,.8,.2,1) .3s; box-shadow:0 0 12px rgba(255,150,70,.6); }
+        .in .bar i{ width:42%; }
+        @media (max-width:900px){ .hero{ grid-template-columns:1fr; padding-top:3rem; } .sun{ right:-260px; } }
+
+        /* ═══════════════ 5 · VERBEN-TICKER ═══════════════ */
+        .ticker{ border-radius:99px; padding:.85rem 0; margin-bottom:3rem; }
+        .ticker-track{ display:flex; gap:2.8rem; width:max-content; animation:ticker 46s linear infinite; }
+        .ticker:hover .ticker-track{ animation-play-state:paused; }
+        .ticker-track span{
+            font-family:var(--font-display); font-style:italic; font-size:1.05rem; color:var(--mut);
+            display:flex; align-items:center; gap:2.8rem; white-space:nowrap;
+        }
+        .ticker-track span::after{ content:"◆"; font-size:.5rem; color:var(--ember); font-style:normal; }
+        @keyframes ticker{ to{ transform:translateX(-50%); } }
+
+        /* ═══════════════ 6 · SEMESTER-BEREICHE ═══════════════ */
+        .sem{ margin-bottom:3rem; }
+        .sec-head{ display:flex; align-items:baseline; gap:1rem; margin-bottom:1.4rem; }
+        .sec-head h2{ font-family:var(--font-display); font-weight:600; font-size:clamp(1.4rem,2.8vw,1.9rem); }
+        .sec-head .sem-num{ font-family:var(--font-display); font-style:italic; color:var(--ember); font-size:1.1rem; }
+        .sec-head .rule{ flex:1; height:1px; background:linear-gradient(90deg, var(--line-bright), transparent); }
+
+        /* ── Kachel-Grid für Links im 1. Halbjahr ── */
+        .tiles{ display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr)); gap:1.2rem; }
+
+        .tile{
+            display:flex; flex-direction:column; gap:.8rem;
+            padding:1.5rem 1.5rem 1.3rem; text-decoration:none; color:inherit;
+            transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+            min-height:210px;
+        }
+        a.tile:hover{ transform:translateY(-4px); border-color:var(--line-bright); box-shadow:0 26px 60px rgba(232,89,12,.26), inset 0 1px 0 rgba(255,255,255,.12); }
+        a.tile::after{
+            content:""; position:absolute; top:0; bottom:0; width:55%; left:0;
+            background:linear-gradient(105deg, transparent, rgba(255,220,180,.10), transparent);
+            transform:translateX(-130%) skewX(-18deg); transition:transform .8s ease; pointer-events:none;
+        }
+        a.tile:hover::after{ transform:translateX(260%) skewX(-18deg); }
+
+        .tile-icon{
+            display:grid; place-items:center; width:46px; height:46px; border-radius:13px;
+            background:linear-gradient(145deg, var(--orange), var(--deep));
+            border:1px solid rgba(255,255,255,.22); color:#fff;
+            box-shadow:0 8px 20px rgba(232,89,12,.42), inset 0 1px 0 rgba(255,255,255,.35);
+            transition:transform .35s cubic-bezier(.3,1.6,.5,1);
+        }
+        .tile-icon svg{ width:22px; height:22px; }
+        a.tile:hover .tile-icon{ transform:rotate(-6deg) scale(1.08); }
+
+        .tile h3{ font-family:var(--font-display); font-weight:600; font-size:1.18rem; line-height:1.25; }
+        .tile p{ color:var(--mut); font-size:.86rem; flex:1; }
+
+        .tile-foot{ display:flex; align-items:center; justify-content:space-between; gap:.8rem; border-top:1px dashed var(--line); padding-top:.9rem; }
+        .tile-meta{ font-size:.75rem; color:var(--dim); }
+        .tile-go{ display:inline-flex; align-items:center; gap:.4rem; font-size:.85rem; font-weight:600; color:var(--amber); }
+        .tile-go svg{ width:15px; height:15px; transition:transform .25s; }
+        a.tile:hover .tile-go svg{ transform:translateX(4px); }
+
+        /* Platzhalter-Kachel (noch ohne Link) */
+        .tile--placeholder{ border-style:dashed; opacity:.7; }
+        .tile--placeholder .tile-icon{ background:rgba(255,140,60,.12); box-shadow:none; border-color:var(--line); color:var(--dim); }
+        .tile--placeholder .tile-go{ color:var(--dim); font-weight:500; }
+
+        /* ── Breite Teaser-Karte für das 2. Halbjahr ── */
+        .unit{ display:block; text-decoration:none; color:inherit; padding:1.9rem 2rem 1.7rem; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+        .unit:hover{ transform:translateY(-4px); border-color:var(--line-bright); box-shadow:0 30px 70px rgba(232,89,12,.28), inset 0 1px 0 rgba(255,255,255,.12); }
+        .unit .ghost{
+            position:absolute; right:.8rem; top:-1.4rem; z-index:0;
+            font-family:var(--font-display); font-weight:700; font-size:7.5rem; line-height:1;
+            color:rgba(255,150,80,.07); pointer-events:none; user-select:none;
+        }
+        .unit-head{ position:relative; z-index:1; display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem; }
+        .medal{
+            display:grid; place-items:center; width:54px; height:54px; border-radius:16px; flex:none;
+            background:linear-gradient(145deg, var(--orange), var(--deep));
+            border:1px solid rgba(255,255,255,.22); color:#fff;
+            box-shadow:0 10px 24px rgba(232,89,12,.45), inset 0 1px 0 rgba(255,255,255,.35);
+        }
+        .medal svg{ width:26px; height:26px; }
+        .sem-tag{ font-size:.68rem; font-weight:700; letter-spacing:2.2px; text-transform:uppercase; color:var(--amber); border:1px solid var(--line); border-radius:99px; padding:.32rem .8rem; background:rgba(255,140,60,.08); }
+        .unit h3{ position:relative; z-index:1; font-family:var(--font-display); font-weight:600; font-size:1.5rem; line-height:1.2; margin-bottom:.6rem; }
+        .unit p{ position:relative; z-index:1; color:var(--mut); font-size:.93rem; max-width:70ch; }
+        .badge-soon{ display:inline-flex; align-items:center; gap:.45rem; margin-top:1.2rem; position:relative; z-index:1; font-size:.68rem; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--dim); border:1px dashed var(--line-bright); border-radius:99px; padding:.4rem .95rem; }
+        .badge-soon svg{ width:13px; height:13px; }
+
+        /* ═══════════════ 7 · LERNPFAD ═══════════════ */
+        .route-wrap{ margin-bottom:3.4rem; }
+        .route{ padding:2rem 1.8rem 1.8rem; overflow-x:auto; }
+        .route-track{ display:flex; gap:.5rem; min-width:880px; position:relative; padding-top:1.2rem; }
+        .route-track::before{ content:""; position:absolute; top:6px; left:2%; right:2%; height:2px; background:linear-gradient(90deg, var(--deep), var(--orange), var(--deep)); opacity:.5; }
+        .stop{ flex:1; position:relative; padding:0 .6rem; }
+        .stop .dot{
+            position:absolute; top:-1.2rem; left:50%; transform:translateX(-50%);
+            width:14px; height:14px; border-radius:50%; background:var(--bg-1);
+            border:2px solid var(--orange); box-shadow:0 0 0 4px rgba(255,122,46,.15);
+            transition:.3s;
+        }
+        .stop:hover .dot{ background:var(--amber); box-shadow:0 0 16px rgba(255,180,94,.8); }
+        .stop .num{ font-family:var(--font-display); font-size:1.1rem; color:var(--ember); font-weight:700; }
+        .stop h4{ font-size:.88rem; font-weight:600; margin:.25rem 0 .4rem; color:var(--ink); }
+        .stop small{ font-size:.7rem; color:var(--dim); letter-spacing:1px; text-transform:uppercase; }
+
+        /* ═══════════════ 8 · KENNZAHLEN ═══════════════ */
+        .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:3.4rem; }
+        @media (max-width:840px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+        .stat{ padding:1.3rem 1.4rem; transition:.3s; }
+        .stat:hover{ transform:translateY(-3px); border-color:var(--line-bright); }
+        .stat svg{ width:20px; height:20px; color:var(--orange); margin-bottom:.7rem; }
+        .stat b{ display:block; font-family:var(--font-display); font-size:1.9rem; font-weight:700; line-height:1; }
+        .stat span{ font-size:.78rem; color:var(--dim); }
+
+        /* ═══════════════ 9 · FOOTER ═══════════════ */
+        footer{ border-top:1px solid var(--line); padding:2.4rem 0 3rem; }
+        .foot-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:2rem; }
+        @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr; } }
+        footer h5{ font-size:.7rem; letter-spacing:2.2px; text-transform:uppercase; color:var(--dim); margin-bottom:.9rem; }
+        footer p, footer li{ font-size:.85rem; color:var(--mut); }
+        footer ul{ list-style:none; }
+        footer li{ margin-bottom:.45rem; }
+        footer li a{ color:var(--mut); text-decoration:none; transition:.2s; display:inline-flex; align-items:center; gap:.35rem; }
+        footer li a:hover{ color:var(--amber); }
+        footer li a svg{ width:13px; height:13px; }
+        .foot-note{ font-size:.75rem; color:var(--dim); margin-top:.6rem; }
+        .foot-bottom{
+            margin-top:2.2rem; padding-top:1.4rem; border-top:1px dashed var(--line);
+            display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between;
+            font-size:.76rem; color:var(--dim);
+        }
+        .foot-bottom .handmade{ display:inline-flex; align-items:center; gap:.4rem; }
+        .foot-bottom svg{ width:13px; height:13px; color:var(--ember); }
+
+        /* Nach-oben-Knopf */
+        .totop{
+            position:fixed; right:22px; bottom:22px; z-index:60;
+            width:46px; height:46px; border-radius:50%; border:1px solid var(--line-bright);
+            display:grid; place-items:center; color:var(--amber); cursor:pointer;
+            background:rgba(40,18,8,.55); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+            opacity:0; transform:translateY(14px); pointer-events:none; transition:.35s;
+        }
+        .totop.show{ opacity:1; transform:none; pointer-events:auto; }
+        .totop:hover{ box-shadow:0 8px 24px rgba(255,122,46,.4); border-color:var(--amber); }
+        .totop svg{ width:20px; height:20px; }
+
+        /* ═══════════════ 10 · SCROLL-REVEAL & MOTION ═══════════════ */
+        .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+        .reveal.in{ opacity:1; transform:none; }
+        .tiles .reveal:nth-child(2){ transition-delay:.1s; } .tiles .reveal:nth-child(3){ transition-delay:.18s; } .tiles .reveal:nth-child(4){ transition-delay:.26s; }
+
+        @media (prefers-reduced-motion: reduce){
+            *,*::before,*::after{ animation:none !important; transition:none !important; }
+            html{ scroll-behavior:auto; }
+            .reveal{ opacity:1; transform:none; }
+            .in .bar i{ width:42%; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h2>Temas: Distinguir, comprender y utilizar los tiempos del pasado.</h2>
-    </header>
-    <section>
-        <h3>Primer semestre:</h3>
-        <form action="verbos.html">
-        <button>Tiempos verbales en español. (Repetición) &rarr;</button>
-        </form>
-    </section>
-    <section>
-        <h3>Segundo semestre:</h3>
-        <form>
-        <button href="#">Temas avanzados del pasado &rarr;</button>
-        </form>
-    </section>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <div class="wrap">
+
+        <!-- ══════ TOPBAR ══════ -->
+        <nav class="topbar glass" aria-label="Navegación principal">
+            <a class="brand" href="#top">
+                <span class="brand-mark" aria-hidden="true"><i data-lucide="sun"></i></span>
+                <span>Español · 10.º<small>Décimo grado</small></span>
+            </a>
+            <div class="topnav">
+                <a href="#semestre-1">Semestre I</a>
+                <a href="#semestre-2">Semestre II</a>
+                <a href="#ruta">Ruta</a>
+            </div>
+            <div class="clock" role="status">
+                <i data-lucide="calendar-days" aria-hidden="true"></i>
+                <span class="lbl" id="hoy">—</span>
+                <i data-lucide="clock-3" aria-hidden="true"></i>
+                <span id="hora">--:--:--</span>
+            </div>
+        </nav>
+
+        <!-- ══════ AUFTAKT ══════ -->
+        <header class="hero" id="top">
+            <div class="sun" aria-hidden="true"></div>
+
+            <div class="reveal">
+                <span class="kicker">Asignatura · Castellano · Curso 2026/27</span>
+                <h1><em>Distinguir, comprender y utilizar</em><br>los tiempos del pasado.</h1>
+                <p class="lead">Unidad didáctica del décimo grado: del repaso de los tiempos básicos hasta el dominio del pluscuamperfecto y las perífrasis verbales.</p>
+                <div class="hero-meta">
+                    <span class="chip"><i data-lucide="graduation-cap" aria-hidden="true"></i> Nivel A2 → B1</span>
+                    <span class="chip"><i data-lucide="book-open" aria-hidden="true"></i> 2 semestres</span>
+                    <span class="chip"><i data-lucide="shield-check" aria-hidden="true"></i> Sin cookies ni rastreadores</span>
+                </div>
+            </div>
+
+            <aside class="ficha glass reveal" aria-label="Ficha del curso">
+                <h2><i data-lucide="scroll-text" aria-hidden="true"></i> Ficha del curso</h2>
+                <dl>
+                    <dt>Asignatura</dt><dd>Español</dd>
+                    <dt>Grado</dt><dd>10.º</dd>
+                    <dt>Curso escolar</dt><dd>2026 / 27</dd>
+                    <dt>Nivel MCER</dt><dd>A2 → B1</dd>
+                    <dt>Estado</dt><dd><span class="state-dot" aria-hidden="true"></span>En curso</dd>
+                </dl>
+                <div class="progress">
+                    <div class="lbl"><span>Progreso · Semestre I</span><span>42 %</span></div>
+                    <div class="bar"><i></i></div>
+                </div>
+            </aside>
+        </header>
+
+        <!-- ══════ VERBEN-TICKER ══════ -->
+        <div class="ticker glass reveal" aria-hidden="true">
+            <div class="ticker-track">
+                <span>fui</span><span>era</span><span>he sido</span><span>hube sido</span><span>estuve</span><span>estaba</span><span>solía ir</span><span>dije</span><span>decía</span><span>he dicho</span><span>había hecho</span><span>fui andando</span>
+                <span>fui</span><span>era</span><span>he sido</span><span>hube sido</span><span>estuve</span><span>estaba</span><span>solía ir</span><span>dije</span><span>decía</span><span>he dicho</span><span>había hecho</span><span>fui andando</span>
+            </div>
+        </div>
+
+        <main id="contenido">
+
+            <!-- ══════════════════════════════════════════════════════
+                 1. HALBJAHR / PRIMER SEMESTRE
+                 Hier kommen die Themen-Links hin.
+                 ══════════════════════════════════════════════════════ -->
+            <section class="sem" id="semestre-1" aria-labelledby="s1-h">
+                <div class="sec-head reveal">
+                    <h2 id="s1-h">Primer semestre</h2>
+                    <span class="sem-num" aria-hidden="true">· I ·</span>
+                    <span class="rule" aria-hidden="true"></span>
+                </div>
+
+                <div class="tiles">
+
+                    <!-- Themen-Link Nr. 1 -->
+                    <a class="tile glass reveal" href="verbos.html">
+                        <span class="tile-icon" aria-hidden="true"><i data-lucide="repeat"></i></span>
+                        <h3>Tiempos verbales en español <em style="font-style:italic;color:var(--amber)">(Repetición)</em></h3>
+                        <p>Repaso sistemático de los tiempos básicos: formación, irregulares clave y primeros contrastes.</p>
+                        <div class="tile-foot">
+                            <span class="tile-meta">Lecciones 1–6 · nivel A2</span>
+                            <span class="tile-go">Abrir <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+                        </div>
+                    </a>
+                    <a class="tile glass reveal" href="exam1.html">
+                        <span class="tile-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
+                        <h3>Klassenarbeit Lateinamerika</h3>
+                        <p>Vorbereitung auf Klassenarbeit 1.</p>
+                        <div class="tile-foot">
+                            <span class="tile-meta">Lecciones · nivel</span>
+                            <span class="tile-go">Abrir <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+                        </div>
+                    </a>
+                    <!-- Platzhalter 1 (wird später durch einen echten Link ersetzt) -->
+                    <div class="tile tile--placeholder glass reveal">
+                        <span class="tile-icon" aria-hidden="true"><i data-lucide="hourglass"></i></span>
+                        <h3>Tema en preparación</h3>
+                        <p>Este enlace estará disponible próximamente.</p>
+                        <div class="tile-foot">
+                            <span class="tile-meta">Semestre I</span>
+                            <span class="tile-go">Próximamente</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ══════ 2. HALBJAHR / SEGUNDO SEMESTRE ══════ -->
+            <section class="sem" id="semestre-2" aria-labelledby="s2-h">
+                <div class="sec-head reveal">
+                    <h2 id="s2-h">Segundo semestre</h2>
+                    <span class="sem-num" aria-hidden="true">· II ·</span>
+                    <span class="rule" aria-hidden="true"></span>
+                </div>
+
+                <div class="unit glass reveal">
+                    <span class="ghost" aria-hidden="true">02</span>
+                    <div class="unit-head">
+                        <span class="medal" aria-hidden="true"><i data-lucide="layers"></i></span>
+                        <span class="sem-tag">Semestre II</span>
+                    </div>
+                    <h3>Temas avanzados del pasado</h3>
+                    <p>Contraste indefinido / imperfecto, pluscuamperfecto y perífrasis: el pasado en toda su profundidad narrativa. Los enlaces se publicarán durante el segundo semestre.</p>
+                    <span class="badge-soon"><i data-lucide="calendar-clock" aria-hidden="true"></i> Próximamente</span>
+                </div>
+            </section>
+
+            <!-- ══════ LERNPFAD ══════ -->
+            <div class="route-wrap reveal" id="ruta">
+                <div class="sec-head">
+                    <h2>Ruta de aprendizaje</h2>
+                    <span class="rule" aria-hidden="true"></span>
+                </div>
+                <div class="route glass">
+                    <div class="route-track">
+                        <div class="stop"><span class="dot" aria-hidden="true"></span><span class="num">01</span><h4>Repaso de los básicos</h4><small>Sem. I</small></div>
+                        <div class="stop"><span class="dot" aria-hidden="true"></span><span class="num">02</span><h4>Pretérito perfecto compuesto</h4><small>Sem. I</small></div>
+                        <div class="stop"><span class="dot" aria-hidden="true"></span><span class="num">03</span><h4>Pretérito indefinido</h4><small>Sem. I</small></div>
+                        <div class="stop"><span class="dot" aria-hidden="true"></span><span class="num">04</span><h4>Pretérito imperfecto</h4><small>Sem. I</small></div>
+                        <div class="stop"><span class="dot" aria-hidden="true"></span><span class="num">05</span><h4>Contraste de pasados</h4><small>Sem. II</small></div>
+                        <div class="stop"><span class="dot" aria-hidden="true"></span><span class="num">06</span><h4>Pluscuamperfecto y perífrasis</h4><small>Sem. II</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════ KENNZAHLEN ══════ -->
+            <div class="stats">
+                <div class="stat glass reveal"><i data-lucide="calendar-range" aria-hidden="true"></i><b>2</b><span>Semestres completos</span></div>
+                <div class="stat glass reveal"><i data-lucide="library" aria-hidden="true"></i><b>6</b><span>Unidades didácticas</span></div>
+                <div class="stat glass reveal"><i data-lucide="pen-line" aria-hidden="true"></i><b>45+</b><span>Verbos clave</span></div>
+                <div class="stat glass reveal"><i data-lucide="shield-check" aria-hidden="true"></i><b>0</b><span>Cookies &amp; rastreadores</span></div>
+            </div>
+        </main>
+
+        <!-- ══════ FOOTER ══════ -->
+        <footer>
+            <div class="foot-grid">
+                <div>
+                    <h5>Español · Décimo grado</h5>
+                    <p>Lernplattform der Fachschaft Spanisch für die Arbeit mit den Vergangenheitszeiten — handgemacht, werbefrei und ohne Tracking.</p>
+                </div>
+                <div>
+                    <h5>Curso</h5>
+                    <ul>
+                        <li><a href="#semestre-1">Semestre I — Temario</a></li>
+                        <li><a href="#semestre-2">Semestre II — Avance</a></li>
+                        <li><a href="#ruta">Ruta de aprendizaje</a></li>
+                        <li><a href="verbos.html">Tiempos verbales (Repetición)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Sitio principal</h5>
+                    <ul>
+                        <!-- URL der Hauptwebsite hier eintragen -->
+                        <li><a href="../index.html"><i data-lucide="globe" aria-hidden="true"></i> Página principal</a></li>
+                    </ul>
+                    <p class="foot-note">El aviso legal y la política de privacidad se encuentran en la página principal.</p>
+                </div>
+            </div>
+            <div class="foot-bottom">
+                <span>© 2026 Fachschaft Spanisch</span>
+                <span class="handmade"><i data-lucide="code-2" aria-hidden="true"></i> Handcodiert — kein Framework, kein Tracking</span>
+            </div>
+        </footer>
+    </div>
+
+    <button class="totop" id="totop" aria-label="Nach oben scrollen" lang="de">
+        <i data-lucide="arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        /* Live-Datum (Spanisch) & Uhrzeit */
+        const hoy = document.getElementById('hoy');
+        const hora = document.getElementById('hora');
+        hoy.textContent = new Date().toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+        const tick = () => hora.textContent = new Date().toLocaleTimeString('es-ES', { hour12:false });
+        tick(); setInterval(tick, 1000);
+
+        /* Scroll-Reveal */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        /* Nach-oben-Knopf */
+        const totop = document.getElementById('totop');
+        addEventListener('scroll', () => totop.classList.toggle('show', scrollY > 480), { passive:true });
+        totop.addEventListener('click', () => scrollTo({ top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+
+        /* Sanfte Orbs-Parallaxe */
+        if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const orbs = document.querySelectorAll('.orb');
+            addEventListener('mousemove', e => {
+                const x = (e.clientX / innerWidth - .5), y = (e.clientY / innerHeight - .5);
+                orbs.forEach((o, i) => {
+                    const f = (i + 1) * 9;
+                    o.style.translate = `${x * f}px ${y * f}px`;
+                });
+            }, { passive:true });
+        }
+    </script>
 </body>
 </html>
