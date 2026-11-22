@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computernetzwerke · Grundlagen-Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070b; --panel:rgba(255,255,255,.045); --panel2:rgba(255,255,255,.075);
+  --stroke:rgba(255,255,255,.12); --stroke2:rgba(255,255,255,.22);
+  --text:#e9eff5; --muted:#9db0bf;
+  --ice:#7ad7ff; --mint:#5ef0b2; --amber:#ffb45e; --red:#ff6d6d;
+  --fd:'Unbounded',sans-serif; --fb:'IBM Plex Sans',sans-serif; --fm:'IBM Plex Mono',monospace;
+  --cut:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 10% -6%,rgba(122,215,255,.09),transparent 60%),
+    radial-gradient(820px 560px at 96% 34%,rgba(255,180,94,.06),transparent 62%),
+    radial-gradient(700px 480px at 26% 108%,rgba(94,240,178,.05),transparent 60%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 52px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 52px);}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.6'/></svg>");}
+::selection{background:rgba(122,215,255,.35)}
+main,header,footer{position:relative;z-index:1}
+.wrap{max-width:1140px;margin:0 auto;padding:0 26px}
+
+/* ---------- Progress ---------- */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:99;
+  background:linear-gradient(90deg,var(--ice),var(--mint),var(--amber))}
+
+/* ---------- Hero ---------- */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;border-bottom:1px solid var(--stroke)}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,11,.25) 0%,rgba(5,7,11,0) 30%,rgba(5,7,11,.88) 100%)}
+.hero-in{position:relative;z-index:2;padding:0 0 0}
+.kicker{font-family:var(--fm);font-size:.78rem;letter-spacing:.22em;color:var(--ice);text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.kicker::before{content:"";width:44px;height:1px;background:var(--ice)}
+h1{font-family:var(--fd);font-weight:800;font-size:clamp(2.4rem,6.4vw,5rem);line-height:1.04;letter-spacing:.01em;text-transform:uppercase}
+h1 .dot{color:var(--ice)}
+.lead{max-width:640px;margin:22px 0 26px;color:var(--muted);font-size:1.06rem}
+.hchips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:44px}
+.hchip{font-family:var(--fm);font-size:.74rem;padding:8px 14px;border:1px solid var(--stroke);background:var(--panel);color:var(--text);text-decoration:none;backdrop-filter:blur(10px);transition:.25s;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.hchip b{color:var(--ice);font-weight:500;margin-right:6px}
+.hchip:hover{border-color:var(--ice);background:rgba(122,215,255,.1);transform:translateY(-2px)}
+.ticker{border-top:1px solid var(--stroke);background:rgba(5,7,11,.55);backdrop-filter:blur(8px);overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;padding:11px 0;font-family:var(--fm);font-size:.72rem;letter-spacing:.08em;color:rgba(122,215,255,.85);animation:tick 30s linear infinite}
+.ticker-track span{padding:0 26px}
+.ticker-track i{font-style:normal;color:var(--amber)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- Sections ---------- */
+section{padding:96px 0 20px}
+.sec-head{display:flex;gap:22px;align-items:flex-start;margin-bottom:38px}
+.sec-no{font-family:var(--fm);font-size:.8rem;color:var(--amber);border:1px solid rgba(255,180,94,.4);padding:7px 11px;margin-top:6px;white-space:nowrap;background:rgba(255,180,94,.06)}
+.sec-head h2{font-family:var(--fd);font-weight:700;font-size:clamp(1.5rem,3.2vw,2.3rem);line-height:1.15}
+.sec-sub{color:var(--muted);margin-top:8px;max-width:720px}
+.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--stroke);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 18px 44px rgba(0,0,0,.45);transition:border-color .3s,transform .3s,box-shadow .3s}
+.card:hover{border-color:var(--stroke2)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Definition ---------- */
+.def-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px}
+.def-main{padding:34px 36px}
+.def-main p{font-size:1.08rem}
+.def-main .hl{color:var(--ice);font-weight:600}
+.def-main .term{border-bottom:1px dotted var(--amber);color:var(--amber)}
+.bausteine{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.b-chip{font-family:var(--fm);font-size:.72rem;color:var(--muted);border:1px solid var(--stroke);padding:6px 11px;background:rgba(255,255,255,.03)}
+.b-chip b{color:var(--mint);font-weight:500}
+.warum{padding:28px 30px}
+.warum h3,.ttl{font-family:var(--fd);font-size:.86rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.warum h3::before,.ttl::before{content:"";width:8px;height:8px;background:var(--ice);box-shadow:0 0 12px var(--ice)}
+.warum li{list-style:none;padding:9px 0 9px 22px;position:relative;color:var(--muted);border-bottom:1px dashed rgba(255,255,255,.08);font-size:.94rem}
+.warum li:last-child{border:none}
+.warum li::before{content:"◆";position:absolute;left:0;color:var(--amber);font-size:.6rem;top:14px}
+.warum li b{color:var(--text);font-weight:600}
+
+/* ---------- Reichweite ---------- */
+.scale-wrap{padding:30px 32px 26px}
+.scale{position:relative;height:4px;margin:56px 8px 8px;background:linear-gradient(90deg,rgba(122,215,255,.25),rgba(94,240,178,.25),rgba(255,180,94,.3));border-radius:2px}
+.tick{position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;border:2px solid var(--ice);background:var(--bg);cursor:pointer;transition:.25s}
+.tick span{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-family:var(--fm);font-size:.72rem;color:var(--muted);letter-spacing:.1em}
+.tick i{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-style:normal;font-size:.66rem;color:rgba(157,176,191,.6);white-space:nowrap}
+.tick:hover{transform:translate(-50%,-50%) scale(1.25)}
+.tick.on{background:var(--ice);box-shadow:0 0 16px rgba(122,215,255,.8)}
+.tick.on span{color:var(--ice)}
+.range-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:22px;margin-top:48px}
+.range-detail{padding:28px 30px}
+.range-detail h3{font-family:var(--fd);font-size:1.3rem}
+.range-detail h3 small{font-family:var(--fb);font-weight:400;color:var(--muted);font-size:.85rem;display:block;margin-top:2px}
+.r-facts{margin:18px 0 0;display:grid;gap:9px}
+.r-facts div{display:flex;gap:12px;font-size:.93rem;color:var(--muted)}
+.r-facts b{font-family:var(--fm);font-size:.72rem;color:var(--ice);min-width:110px;padding-top:3px;font-weight:500}
+.range-cards{display:grid;gap:10px}
+.rc{padding:13px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.rc:hover{background:var(--panel2);transform:translateX(5px)}
+.rc.on{border-color:var(--ice);background:rgba(122,215,255,.08)}
+.rc b{font-family:var(--fd);font-size:.92rem;color:var(--ice);min-width:52px}
+.rc span{color:var(--muted);font-size:.87rem}
+.rc em{margin-left:auto;font-style:normal;font-family:var(--fm);font-size:.7rem;color:var(--amber);white-space:nowrap}
+
+/* ---------- Topologie ---------- */
+.topo-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:22px}
+.stage-card{padding:20px;position:relative}
+.stage-tools{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.t-btns{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:var(--fm);font-size:.73rem;letter-spacing:.06em;padding:8px 15px;border:1px solid var(--stroke);background:var(--panel);color:var(--muted);cursor:pointer;transition:.2s;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px)}
+.pill:hover{color:var(--text);border-color:var(--stroke2);transform:translateY(-1px)}
+.pill.on{color:#031018;background:var(--ice);border-color:var(--ice);font-weight:500;box-shadow:0 0 18px rgba(122,215,255,.35)}
+.seg{display:inline-flex;border:1px solid var(--stroke);background:var(--panel)}
+.seg button{font-family:var(--fm);font-size:.7rem;padding:7px 13px;border:none;background:none;color:var(--muted);cursor:pointer;letter-spacing:.06em}
+.seg button.on{background:rgba(122,215,255,.16);color:var(--ice)}
+svg.stage{width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.07)}
+.topo-side{display:flex;flex-direction:column;gap:14px}
+.t-caption{padding:20px 24px;font-size:.94rem;color:var(--muted)}
+.t-caption b{color:var(--text)}
+.t-caption .tag{font-family:var(--fm);font-size:.68rem;color:var(--ice);letter-spacing:.14em;display:block;margin-bottom:8px}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pc{padding:18px 20px}
+.pc h4{font-family:var(--fm);font-size:.72rem;letter-spacing:.12em;margin-bottom:10px}
+.pc.plus h4{color:var(--mint)}.pc.minus h4{color:var(--red)}
+.pc li{list-style:none;font-size:.86rem;color:var(--muted);padding:5px 0 5px 16px;position:relative}
+.pc.plus li::before{content:"+";position:absolute;left:0;color:var(--mint);font-weight:600}
+.pc.minus li::before{content:"–";position:absolute;left:0;color:var(--red);font-weight:600}
+.note-strip{padding:16px 22px;font-size:.88rem;color:var(--muted);border-left:3px solid var(--amber)}
+.note-strip b{color:var(--amber)}
+
+/* SVG stage elements */
+.edge{stroke:rgba(255,255,255,.16);stroke-width:1.5}
+.backbone{stroke:rgba(122,215,255,.4);stroke-width:4;stroke-linecap:round}
+.alt{stroke:rgba(255,180,94,.55);stroke-width:2;stroke-dasharray:5 5}
+.tnode{fill:#0c1522;stroke:rgba(255,255,255,.55);stroke-width:1.6;transition:.2s;cursor:pointer}
+.tnode:hover{stroke:var(--ice);filter:drop-shadow(0 0 6px rgba(122,215,255,.9))}
+.tnode.hit{stroke:var(--amber);filter:drop-shadow(0 0 8px rgba(255,180,94,.9))}
+.tlabel{fill:var(--muted);font-family:var(--fm);font-size:11px;text-anchor:middle}
+.pkt{filter:drop-shadow(0 0 6px currentColor)}
+
+/* ---------- Adressen ---------- */
+.addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+.addr-card{padding:26px 28px;border-top:3px solid var(--ice)}
+.addr-card.ip{border-top-color:var(--amber)}
+.addr-card .lvl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.addr-card h3{font-family:var(--fd);font-size:1.15rem}
+.osi{font-family:var(--fm);font-size:.68rem;padding:4px 9px;border:1px solid var(--stroke);color:var(--mint)}
+.addr{font-family:var(--fm);font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:.05em;background:rgba(0,0,0,.4);border:1px solid var(--stroke);padding:16px 18px;text-align:center;margin:14px 0 10px;white-space:nowrap;overflow-x:auto}
+.segA{color:var(--ice);border-bottom:2px solid var(--ice);padding-bottom:2px;cursor:help}
+.segB{color:var(--mint);border-bottom:2px solid var(--mint);padding-bottom:2px;cursor:help}
+.segN{color:var(--amber);border-bottom:2px solid var(--amber);padding-bottom:2px;cursor:help}
+.segH{color:var(--ice);border-bottom:2px solid var(--ice);padding-bottom:2px;cursor:help}
+.addr-hint{font-family:var(--fm);font-size:.72rem;color:var(--muted);min-height:1.4em;text-align:center;transition:.3s}
+.addr-hint.flash{color:var(--ice)}
+.bitline{display:flex;gap:3px;justify-content:center;margin:14px 0 4px;flex-wrap:wrap}
+.bitline i{width:9px;height:16px;background:rgba(122,215,255,.28);border:1px solid rgba(122,215,255,.4)}
+.bitline.i6 i:nth-child(-n+24){background:rgba(122,215,255,.7)}
+.bitline.i6 i:nth-child(n+25){background:rgba(94,240,178,.7);border-color:rgba(94,240,178,.5)}
+.bitline.i4 i{background:rgba(255,180,94,.28);border-color:rgba(255,180,94,.4)}
+.bitline.i4 i:nth-child(-n+24){background:rgba(255,180,94,.7)}
+.bit-cap{font-family:var(--fm);font-size:.66rem;color:var(--muted);text-align:center}
+.addr-card ul{margin-top:14px}
+.addr-card li{list-style:none;padding:6px 0 6px 20px;position:relative;font-size:.9rem;color:var(--muted);border-bottom:1px dashed rgba(255,255,255,.07)}
+.addr-card li:last-child{border:none}
+.addr-card li::before{content:"▸";position:absolute;left:2px;color:var(--ice)}
+.addr-card.ip li::before{color:var(--amber)}
+.addr-card li b{color:var(--text)}
+.arp{margin:0 0 22px;padding:15px 22px;font-size:.9rem;color:var(--muted);border-left:3px solid var(--mint)}
+.arp b{color:var(--mint);font-family:var(--fm);font-size:.8rem}
+.cmp{overflow-x:auto;margin-bottom:22px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px}
+th{font-family:var(--fm);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;text-align:left;padding:12px 16px;color:var(--muted);border-bottom:1px solid var(--stroke2)}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.07);color:var(--muted);vertical-align:top}
+td:first-child{font-family:var(--fm);font-size:.74rem;color:var(--ice);white-space:nowrap}
+td:nth-child(2) b{color:var(--ice);font-weight:600}
+td:nth-child(3) b{color:var(--amber);font-weight:600}
+tr:hover td{background:rgba(255,255,255,.03)}
+.memo{padding:24px 30px;display:flex;gap:20px;align-items:flex-start;border-left:3px solid var(--ice)}
+.memo .m-ico{font-family:var(--fd);font-size:1.6rem;color:var(--ice);line-height:1}
+.memo p{font-size:.98rem;color:var(--muted)}
+.memo b{color:var(--text)}
+
+/* ---------- Geräte ---------- */
+.dev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:26px}
+.dev{padding:26px 26px 22px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.dev:hover{transform:translateY(-6px)}
+.dev::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--ac)}
+.dev.hub{--ac:var(--muted)}.dev.switch{--ac:var(--mint)}.dev.router{--ac:var(--amber)}
+.dev .glyph{width:74px;height:44px;margin-bottom:16px}
+.dev h3{font-family:var(--fd);font-size:1.1rem;margin-bottom:4px}
+.dev .sub{font-family:var(--fm);font-size:.68rem;color:var(--ac);letter-spacing:.1em;margin-bottom:14px}
+.dev p{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.dev .traits{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.trait{font-family:var(--fm);font-size:.7rem;color:var(--muted)}
+.trait b{color:var(--text);font-weight:500}
+.meter{display:flex;gap:4px;align-items:center}
+.meter span{font-family:var(--fm);font-size:.64rem;color:var(--muted);margin-right:8px;letter-spacing:.08em}
+.meter i{width:26px;height:6px;background:rgba(255,255,255,.09)}
+.meter i.f{background:var(--ac);box-shadow:0 0 8px var(--ac)}
+.verdict{font-family:var(--fm);font-size:.68rem;margin-top:14px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.1);color:var(--ac)}
+.sim-card{padding:22px}
+.sim-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.playbtn{font-family:var(--fm);font-size:.72rem;padding:9px 16px;border:1px solid var(--ice);background:rgba(122,215,255,.1);color:var(--ice);cursor:pointer;transition:.2s;letter-spacing:.08em}
+.playbtn:hover{background:var(--ice);color:#031018;box-shadow:0 0 18px rgba(122,215,255,.4)}
+.sim-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:18px}
+.log{background:rgba(0,0,0,.5);border:1px solid var(--stroke);height:280px;overflow-y:auto;padding:14px 16px;font-family:var(--fm);font-size:.74rem;line-height:1.9}
+.log p{opacity:0;animation:login .4s forwards}
+@keyframes login{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.log .t{color:rgba(157,176,191,.5);margin-right:8px}
+.log .c-ice{color:var(--ice)}.log .c-mint{color:var(--mint)}.log .c-amber{color:var(--amber)}.log .c-red{color:var(--red)}.log .c-dim{color:var(--muted)}
+.devnote{margin-top:16px;padding:14px 20px;font-size:.87rem;color:var(--muted);border-left:3px solid var(--mint)}
+.devnote b{color:var(--mint)}
+
+/* ---------- Fallbeispiel ---------- */
+.scenario{padding:26px 30px;margin-bottom:22px;display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}
+.scenario .big{font-family:var(--fd);font-size:2.6rem;color:var(--ice);line-height:1;text-shadow:0 0 24px rgba(122,215,255,.4)}
+.scenario p{max-width:760px;color:var(--muted)}
+.scenario p b{color:var(--text)}
+.fk-grid{display:grid;grid-template-columns:1.45fr .95fr;gap:22px}
+.fk-stage{padding:20px;position:relative}
+.fk-controls{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 4px}
+.btn-danger{font-family:var(--fm);font-size:.72rem;padding:9px 16px;border:1px solid var(--red);background:rgba(255,109,109,.12);color:var(--red);cursor:pointer;letter-spacing:.06em;transition:.2s}
+.btn-danger:hover{background:var(--red);color:#160505;box-shadow:0 0 18px rgba(255,109,109,.45)}
+.btn-ok{font-family:var(--fm);font-size:.72rem;padding:9px 16px;border:1px solid var(--mint);background:rgba(94,240,178,.1);color:var(--mint);cursor:pointer;transition:.2s}
+.btn-ok:hover{background:var(--mint);color:#04150c}
+.btn-danger:disabled,.btn-ok:disabled{opacity:.35;cursor:not-allowed}
+.fk-side{display:flex;flex-direction:column;gap:14px}
+.fk-log{height:230px}
+.push{position:absolute;top:26px;right:26px;width:250px;background:rgba(10,16,24,.92);border:1px solid rgba(255,109,109,.55);border-left:4px solid var(--red);padding:13px 16px;backdrop-filter:blur(10px);opacity:0;transform:translateY(-14px) scale(.96);transition:.45s cubic-bezier(.2,.9,.3,1.2);pointer-events:none;box-shadow:0 14px 40px rgba(0,0,0,.6)}
+.push.show{opacity:1;transform:none}
+.push h5{font-family:var(--fm);font-size:.66rem;color:var(--red);letter-spacing:.12em;margin-bottom:5px}
+.push p{font-size:.83rem;color:var(--text);line-height:1.45}
+.push small{font-family:var(--fm);font-size:.62rem;color:var(--muted)}
+.fridge-hot{stroke:var(--red)!important;filter:drop-shadow(0 0 10px rgba(255,109,109,.8));animation:hotblink 1s ease infinite}
+@keyframes hotblink{50%{filter:drop-shadow(0 0 18px rgba(255,109,109,1))}}
+.fridge-ok{stroke:var(--mint)!important;filter:drop-shadow(0 0 10px rgba(94,240,178,.8))}
+.qa{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.qa-item{padding:20px 24px}
+.qa-item .q{font-weight:600;color:var(--text);font-size:.95rem;margin-bottom:0;cursor:pointer;display:flex;gap:12px;align-items:baseline}
+.qa-item .q::before{content:"F";font-family:var(--fd);font-size:.72rem;color:var(--amber);border:1px solid rgba(255,180,94,.45);padding:2px 7px;flex:none}
+.qa-item .a{max-height:0;overflow:hidden;transition:max-height .5s ease;color:var(--muted);font-size:.9rem}
+.qa-item.open .a{max-height:220px;margin-top:12px}
+.qa-item .a p{padding-left:34px;border-left:2px solid var(--mint);margin-left:13px}
+.qa-item .a b{color:var(--mint)}
+.hint{font-family:var(--fm);font-size:.68rem;color:var(--muted);margin-top:6px}
+
+/* ---------- Footer ---------- */
+footer{margin-top:110px;border-top:1px solid var(--stroke);padding:56px 0 46px;background:linear-gradient(180deg,transparent,rgba(122,215,255,.03))}
+.takeaways{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px}
+.tk{padding:20px 22px}
+.tk b{font-family:var(--fd);font-size:.78rem;color:var(--ice);display:block;margin-bottom:8px;letter-spacing:.06em}
+.tk p{font-size:.86rem;color:var(--muted)}
+.credits{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--fm);font-size:.68rem;color:rgba(157,176,191,.55);letter-spacing:.06em}
+
+@media(max-width:960px){
+  .def-grid,.range-grid,.topo-grid,.addr-grid,.sim-grid,.fk-grid,.qa{grid-template-columns:1fr}
+  .dev-grid,.takeaways{grid-template-columns:1fr}
+  section{padding:70px 0 10px}
+  .pc-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .ticker-track{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <canvas id="net"></canvas>
+  <div class="wrap hero-in">
+    <p class="kicker">IT-Grundlagen · Netzwerktechnik · Dossier</p>
+    <h1>Computer<span class="dot">·</span>netzwerke</h1>
+    <p class="lead">Vom einzelnen Rechner zum verbundenen System: wie Netze aufgebaut sind, wie Adressen funktionieren, welche Geräte Daten wohin lenken – und was passiert, wenn nachts die Kühltruhe im Supermarkt ausfällt.</p>
+    <nav class="hchips">
+      <a class="hchip" href="#definition"><b>01</b>Definition</a>
+      <a class="hchip" href="#einteilung"><b>02</b>Reichweite &amp; Struktur</a>
+      <a class="hchip" href="#adressen"><b>03</b>MAC vs. IP</a>
+      <a class="hchip" href="#geraete"><b>04</b>Hub · Switch · Router</a>
+      <a class="hchip" href="#fallbeispiel"><b>05</b>Fallbeispiel Kühltruhe</a>
+    </nav>
+  </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack">
+      <span>ETH-II-FRAME ▸ ZIEL-MAC <i>3C:5A:B4:01:9F:E2</i> ▸ QUELL-MAC <i>8C:3B:AD:11:22:33</i> ▸ TYP 0x0800</span>
+      <span>IPv4 ▸ 192.168.10.22 → 85.13.144.10 ▸ TTL 63 ▸ PRÜFSUMME OK</span>
+      <span>TCP ▸ PORT 49812 → 443 ▸ [SYN] ▸ SEQ 1042</span>
+      <span>SWITCH ▸ MAC-TABELLE AKTUALISIERT: PORT 3</span>
+      <span>ROUTER ▸ HOP ERLEDIGT · NÄCHSTES SEGMENT</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= 01 DEFINITION ================= -->
+<section id="definition">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-no">01</span>
+      <div>
+        <h2>Definition: Computernetzwerk</h2>
+        <p class="sec-sub">Was ein Netz eigentlich ist – und wozu man es betreibt.</p>
+      </div>
+    </header>
+    <div class="def-grid">
+      <div class="card def-main reveal">
+        <p>Ein <span class="hl">Computernetzwerk</span> ist der Zusammenschluss mehrerer Computersysteme – Rechner, Server, Smartphones, Drucker, Sensoren oder Steuerungen – über ein <span class="term">Übertragungsmedium</span> (Kabel oder Funk), um <span class="hl">Daten auszutauschen</span> und Ressourcen gemeinsam zu nutzen.</p>
+        <p style="margin-top:14px">Damit die Kommunikation gelingt, einigen sich alle Beteiligten auf feste Regeln: die <span class="term">Protokolle</span> (z.&nbsp;B. TCP/IP). Sie bestimmen Format, Adressierung, Zustellung und Fehlerkontrolle der Daten.</p>
+        <div class="bausteine">
+          <span class="b-chip"><b>▸</b> Endgeräte</span>
+          <span class="b-chip"><b>▸</b> Übertragungsmedium</span>
+          <span class="b-chip"><b>▸</b> Netzwerkkomponenten</span>
+          <span class="b-chip"><b>▸</b> Protokolle</span>
+          <span class="b-chip"><b>▸</b> Dienste &amp; Anwendungen</span>
+        </div>
+      </div>
+      <div class="card warum reveal">
+        <h3>Wozu vernetzen?</h3>
+        <ul>
+          <li><b>Ressourcen teilen</b> – Drucker, Speicher, Internetanschluss</li>
+          <li><b>Kommunikation</b> – Mail, Chat, Telefonie, Video</li>
+          <li><b>Zentrale Datenhaltung</b> – ein Server, alle greifen zu</li>
+          <li><b>Automatisierung</b> – Geräte melden Zustände (→ Kühltruhe)</li>
+          <li><b>Ausfallsicherheit</b> – Backups, redundante Wege</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 EINTEILUNG ================= -->
+<section id="einteilung">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-no">02</span>
+      <div>
+        <h2>Einteilung von Netzwerken</h2>
+        <p class="sec-sub">Nach Reichweite – und nach physischer sowie logischer Struktur (Topologie).</p>
+      </div>
+    </header>
+
+    <h3 class="ttl reveal">Nach Reichweite</h3>
+    <div class="card scale-wrap reveal">
+      <div class="scale" id="scale">
+        <div class="tick" data-r="pan" style="left:6%"><span>PAN</span><i>≈ 10 m</i></div>
+        <div class="tick" data-r="lan" style="left:24%"><span>LAN</span><i>≈ 1 km</i></div>
+        <div class="tick" data-r="man" style="left:46%"><span>MAN</span><i>≈ 100 km</i></div>
+        <div class="tick" data-r="wan" style="left:70%"><span>WAN</span><i>Länder</i></div>
+        <div class="tick" data-r="gan" style="left:93%"><span>GAN</span><i>global</i></div>
+      </div>
+      <div class="range-grid">
+        <div class="card range-detail" id="rangeDetail"></div>
+        <div class="range-cards" id="rangeCards"></div>
+      </div>
+    </div>
+
+    <h3 class="ttl reveal" style="margin-top:56px">Nach Struktur: Topologien</h3>
+    <div class="topo-grid">
+      <div class="card stage-card reveal">
+        <div class="stage-tools">
+          <div class="t-btns" id="topoBtns">
+            <button class="pill on" data-topo="bus">Bus</button>
+            <button class="pill" data-topo="stern">Stern</button>
+            <button class="pill" data-topo="ring">Ring</button>
+            <button class="pill" data-topo="baum">Baum</button>
+            <button class="pill" data-topo="masche">Masche</button>
+          </div>
+          <div class="seg" id="topoView">
+            <button class="on" data-view="phys">Physisch</button>
+            <button data-view="log">Logisch</button>
+          </div>
+        </div>
+        <svg class="stage" id="topoSvg" viewBox="0 0 560 300" aria-label="Topologie-Diagramm"></svg>
+        <p class="hint">▸ Knoten anklicken, um ein Datenpaket von dort zu senden.</p>
+      </div>
+      <div class="topo-side">
+        <div class="card t-caption reveal" id="topoCaption"></div>
+        <div class="pc-grid reveal">
+          <div class="card pc plus"><h4>+ VORTEILE</h4><ul id="topoPros"></ul></div>
+          <div class="card pc minus"><h4>− NACHTEILE</h4><ul id="topoCons"></ul></div>
+        </div>
+        <div class="card note-strip reveal"><b>Merke:</b> Physisch &amp; logisch können auseinanderfallen – ein physischer <b>Stern</b> (alle Kabel laufen am Switch zusammen) kann sich logisch wie ein <b>Bus</b> verhalten, wenn ein Hub die Daten an alle weiterleitet.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 ADRESSEN ================= -->
+<section id="adressen">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-no">03</span>
+      <div>
+        <h2>Kommunikation: MAC- vs. IP-Adresse</h2>
+        <p class="sec-sub">Jede Netzwerkkarte hat zwei „Namen“ – einen fürs lokale Segment, einen für den Weg durch alle Netze. Fahre über die Adress-Bestandteile.</p>
+      </div>
+    </header>
+
+    <div class="addr-grid">
+      <div class="card addr-card reveal">
+        <div class="lvl"><h3>MAC-Adresse</h3><span class="osi">OSI-Schicht 2 · Datenverbindung</span></div>
+        <div class="addr"><span class="segA" data-h="OUI – Herstellerkennung: von der IEEE vergeben, identifiziert den Hersteller (z. B. 3C:5A:B4)">3C:5A:B4</span>:<span class="segB" data-h="Geräte-ID: eindeutige Seriennummer des Herstellers für genau diese Netzwerkkarte">01:9F:E2</span></div>
+        <div class="bitline i6" id="bitsMac" aria-hidden="true"></div>
+        <p class="addr-cap">48 Bit = 6 Byte · hexadezimal · OUI (eisblau) + Geräte-ID (grün)</p>
+        <p class="addr-hint" data-def="Aufbau: 6 Hexadezimal-Byte-Paare, getrennt durch Doppelpunkt oder Bindestrich.">Aufbau: 6 Hexadezimal-Byte-Paare, getrennt durch Doppelpunkt oder Bindestrich.</p>
+        <ul>
+          <li><b>Physische Adresse</b> – fest in der Netzwerkkarte eingebrannt</li>
+          <li><b>Weltweit eindeutig</b>, vom Hersteller vergeben, praktisch unveränderlich</li>
+          <li>Zustellung <b>nur innerhalb desselben Netzsegments</b> (von Nachbar zu Nachbar)</li>
+          <li>Steht in jedem Ethernet-Frame als Quell- und Ziel-MAC</li>
+        </ul>
+      </div>
+      <div class="card addr-card ip reveal">
+        <div class="lvl"><h3>IP-Adresse (IPv4)</h3><span class="osi">OSI-Schicht 3 · Vermittlung</span></div>
+        <div class="addr"><span class="segN" data-h="Netzanteil: identifiziert das Netz (hier 192.168.0.0/24) – dank Subnetzmaske /24">192.168.0</span>.<span class="segH" data-h="Hostanteil: identifiziert das konkrete Gerät innerhalb dieses Netzes">23</span></div>
+        <div class="bitline i4" id="bitsIp" aria-hidden="true"></div>
+        <p class="addr-cap">32 Bit = 4 Oktette · dezimal · Netzanteil (amber) + Hostanteil (eisblau) · Maske /24</p>
+        <p class="addr-hint" data-def="Aufbau: 4 Dezimalzahlen (0–255), durch Punkte getrennt – z. B. 192.168.0.23.">Aufbau: 4 Dezimalzahlen (0–255), durch Punkte getrennt – z.&nbsp;B. 192.168.0.23.</p>
+        <ul>
+          <li><b>Logische Adresse</b> – wird zugewiesen (manuell oder per DHCP), änderbar</li>
+          <li>Gilt <b>netzübergreifend, Ende-zu-Ende</b>: bleibt auf dem ganzen Weg gleich</li>
+          <li>Ermöglicht <b>Routing</b>: Router entscheiden anhand des Netzanteils</li>
+          <li>IPv6 als Nachfolger: <b>128 Bit</b>, z.&nbsp;B. <span style="font-family:var(--fm);font-size:.85em">2001:db8::2f3a</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card arp reveal"><b>ARP (Address Resolution Protocol)</b> &nbsp;▸&nbsp; Damit ein Paket im lokalen Netz überhaupt zugestellt werden kann, fragt der Sender per ARP-Broadcast: „Wer hat die IP 192.168.10.24? Bitte MAC melden!“ – die IP wird also in eine MAC aufgelöst.</div>
+
+    <div class="card cmp reveal">
+      <table>
+        <thead><tr><th>Kriterium</th><th>MAC-Adresse</th><th>IP-Adresse (v4)</th></tr></thead>
+        <tbody>
+          <tr><td>OSI-Schicht</td><td>Schicht 2 – Datenverbindung</td><td>Schicht 3 – Vermittlung</td></tr>
+          <tr><td>Aufbau</td><td><b>48 Bit</b>, 6 Hexadezimal-Bytes (3C:5A:B4:01:9F:E2)</td><td><b>32 Bit</b>, 4 Dezimal-Oktette (192.168.0.23)</td></tr>
+          <tr><td>Vergabe</td><td>Hersteller (OUI + Seriennummer)</td><td>Administrator oder DHCP-Server</td></tr>
+          <tr><td>Änderbar</td><td>praktisch nein – „eingebrannt“</td><td>ja – wechselt mit dem Netz</td></tr>
+          <tr><td>Gültigkeit</td><td>lokal, im selben Segment</td><td>netzübergreifend, weltweit</td></tr>
+          <tr><td>Funktion</td><td>Zustellung <b>von Hop zu Hop</b> (Nachbar → Nachbar)</td><td>Adressierung <b>Ende-zu-Ende</b>, Routing</td></tr>
+          <tr><td>Analogie</td><td>Fahrgestellnummer – eindeutig &amp; unveränderlich</td><td>Postanschrift – ändert sich beim Umzug</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card memo reveal">
+      <div class="m-ico">✱</div>
+      <p><b>Merkhilfe:</b> Die <b>IP-Adresse</b> sagt, <b>wohin</b> das Paket insgesamt soll – sie bleibt vom Sender bis zum Empfänger gleich. Die <b>MAC-Adresse</b> sagt, <b>wer als Nächstes</b> übernimmt – sie wird in jedem Segment neu gesetzt. Die Router dazwischen tauschen sie bei jedem Hop aus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 GERÄTE ================= -->
+<section id="geraete">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-no">04</span>
+      <div>
+        <h2>Netzwerkgeräte: Hub · Switch · Router</h2>
+        <p class="sec-sub">Drei Verteiler, drei Intelligenzstufen. Wähle ein Gerät und beobachte im Simulator, wie ein Paket von Rechner A zu Rechner C gelangt.</p>
+      </div>
+    </header>
+
+    <div class="dev-grid">
+      <div class="card dev hub reveal">
+        <svg class="glyph" viewBox="0 0 74 44" fill="none" aria-hidden="true"><rect x="5" y="14" width="64" height="20" rx="4" stroke="#9db0bf" stroke-width="1.6"/><circle cx="18" cy="24" r="2.6" fill="#9db0bf"/><circle cx="30" cy="24" r="2.6" fill="#9db0bf"/><circle cx="42" cy="24" r="2.6" fill="#9db0bf"/><circle cx="54" cy="24" r="2.6" fill="#9db0bf"/><path d="M12 14V6M62 14V6" stroke="#9db0bf" stroke-width="1.4"/></svg>
+        <h3>Hub</h3>
+        <div class="sub">SCHICHT 1 · PHYSIKALISCH</div>
+        <p>Dummer Mehrfach-Verteiler: Jedes ankommende Signal wird unverstanden <b style="color:var(--text)">an alle Ports kopiert</b>. Adressen werden nicht ausgewertet, alle teilen sich eine Kollisionsdomäne (Halbduplex).</p>
+        <div class="traits">
+          <span class="trait"><b>Lernt Adressen:</b> nein</span>
+          <span class="trait"><b>Kennt:</b> nur Bits &amp; Signale</span>
+          <span class="trait"><b>Kollisionsdomänen:</b> 1 für alle</span>
+        </div>
+        <div class="meter"><span>INTELLIGENZ</span><i class="f"></i><i></i><i></i><i></i><i></i></div>
+        <div class="verdict">▸ VERALTET – heute durch Switches ersetzt</div>
+      </div>
+      <div class="card dev switch reveal">
+        <svg class="glyph" viewBox="0 0 74 44" fill="none" aria-hidden="true"><rect x="5" y="14" width="64" height="20" rx="4" stroke="#5ef0b2" stroke-width="1.6"/><rect x="13" y="20" width="7" height="8" stroke="#5ef0b2"/><rect x="24" y="20" width="7" height="8" stroke="#5ef0b2"/><rect x="35" y="20" width="7" height="8" stroke="#5ef0b2"/><rect x="46" y="20" width="7" height="8" stroke="#5ef0b2"/><path d="M58 27h8m-3-3l3 3-3 3M16 14V6m3 3l-3-3-3 3" stroke="#5ef0b2" stroke-width="1.4"/></svg>
+        <h3>Switch</h3>
+        <div class="sub">SCHICHT 2 · DATENVERBINDUNG</div>
+        <p>Der intelligente Verteiler im LAN: Er führt eine <b style="color:var(--text)">MAC-Adresstabelle</b> (Port ↔ MAC), lernt aus jedem Frame und stellt Pakete <b style="color:var(--text)">nur an den Zielport</b> zu. Jeder Port ist eine eigene Kollisionsdomäne (Vollduplex).</p>
+        <div class="traits">
+          <span class="trait"><b>Lernt Adressen:</b> MAC-Adressen</span>
+          <span class="trait"><b>Kennt:</b> Frames &amp; Ports</span>
+          <span class="trait"><b>Kollisionsdomänen:</b> 1 pro Port</span>
+        </div>
+        <div class="meter"><span>INTELLIGENZ</span><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div>
+        <div class="verdict">▸ STANDARD IN JEDEM LOKALEN NETZ</div>
+      </div>
+      <div class="card dev router reveal">
+        <svg class="glyph" viewBox="0 0 74 44" fill="none" aria-hidden="true"><rect x="9" y="20" width="56" height="18" rx="5" stroke="#ffb45e" stroke-width="1.6"/><path d="M22 20V8" stroke="#ffb45e" stroke-width="1.6"/><circle cx="22" cy="6" r="2.4" fill="#ffb45e"/><path d="M40 29h14m-4-3.4l4 3.4-4 3.4M34 29H20m4-3.4l-4 3.4 4 3.4" stroke="#ffb45e" stroke-width="1.4"/></svg>
+        <h3>Router</h3>
+        <div class="sub">SCHICHT 3 · VERMITTLUNG</div>
+        <p>Verbindet <b style="color:var(--text)">unterschiedliche Netze</b> miteinander – z.&nbsp;B. das Heim-LAN mit dem Internet. Er wertet <b style="color:var(--text)">IP-Adressen</b> aus, nutzt eine Routing-Tabelle und entscheidet pro Paket, an welchen nächsten Empfänger (Next Hop) es weitergeht.</p>
+        <div class="traits">
+          <span class="trait"><b>Lernt Adressen:</b> IP-Netze &amp; Routen</span>
+          <span class="trait"><b>Kennt:</b> Pakete &amp; Netzgrenzen</span>
+          <span class="trait"><b>Oft integriert:</b> NAT, DHCP, Firewall</span>
+        </div>
+        <div class="meter"><span>INTELLIGENZ</span><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div>
+        <div class="verdict">▸ DAS TOR ZU ANDEREN NETZEN (GATEWAY)</div>
+      </div>
+    </div>
+
+    <div class="card sim-card reveal">
+      <div class="sim-head">
+        <div class="t-btns" id="devBtns">
+          <button class="pill on" data-dev="hub">Hub</button>
+          <button class="pill" data-dev="switch">Switch</button>
+          <button class="pill" data-dev="router">Router</button>
+        </div>
+        <button class="playbtn" id="devPlay">▶ ABSPIELEN</button>
+      </div>
+      <div class="sim-grid">
+        <svg class="stage" id="devSvg" viewBox="0 0 760 320" aria-label="Paket-Simulator"></svg>
+        <div class="log" id="devLog" role="log"></div>
+      </div>
+      <div class="card devnote" id="devNote"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 FALLBEISPIEL ================= -->
+<section id="fallbeispiel">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-no">05</span>
+      <div>
+        <h2>Fallbeispiel: die vernetzte Kühltruhe</h2>
+        <p class="sec-sub">Supermarkt „Frischmarkt“ – alles Gelernte an einem echten Anwendungsfall.</p>
+      </div>
+    </header>
+
+    <div class="card scenario reveal">
+      <div class="big">−18°</div>
+      <p>Im Supermarkt <b>„Frischmarkt“</b> sind drei Tiefkühltruhen vernetzt. Jede Truhe besitzt einen Temperatursensor mit Netzwerkkarte: <b>MAC 8C:3B:AD:11:22:33 · IP 192.168.10.21–23</b>. Alle 30 Sekunden meldet sie ihre Temperatur über den <b>Switch</b> des Markts an den <b>Server der Zentrale</b> (IP 85.13.144.10) im Internet. Steigt die Temperatur gefährlich an, schickt die Zentrale eine <b>Push-Meldung</b> an das Smartphone der Marktleitung. <span style="font-family:var(--fm);font-size:.8em;color:var(--ice)">▸ Das Filialnetz ist ein klassisches LAN.</span></p>
+    </div>
+
+    <div class="fk-grid">
+      <div class="card fk-stage reveal">
+        <svg class="stage" id="fkSvg" viewBox="0 0 760 430" aria-label="Supermarkt-Szenario"></svg>
+        <div class="fk-controls">
+          <button class="btn-danger" id="btnStoer">⚠ STÖRFALL SIMULIEREN</button>
+          <button class="btn-ok" id="btnFix" disabled>✓ STÖRUNG BEHEBEN</button>
+        </div>
+        <p class="hint">Beobachte, welchen Weg die Warnung nimmt – und welche Adressen sich dabei ändern.</p>
+        <div class="push" id="pushCard">
+          <h5>⚠ ALARM · KÜLKETTE</h5>
+          <p><b>TK-2: −9 °C</b> statt −18 °C.<br>Tür prüfen, Ware kontrollieren!</p>
+          <small>soeben · Zentrale Frischmarkt</small>
+        </div>
+      </div>
+      <div class="fk-side">
+        <div class="card log fk-log" id="fkLog" role="log"></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="card qa-item reveal"><p class="q">Zu welchem Netztyp gehört das Filialnetz des Markts?</p><div class="a"><p>Zu einem <b>LAN</b> (Local Area Network): Es ist auf ein Gebäude begrenzt und wird per Ethernet/WLAN betrieben. Erst der Router führt hinaus ins WAN/Internet.</p></div></div>
+      <div class="card qa-item reveal"><p class="q">Warum braucht die Kühltruhe sowohl eine MAC- als auch eine IP-Adresse?</p><div class="a"><p>Die <b>IP-Adresse</b> (192.168.10.22) sorgt für den Weg bis zur Zentrale – Ende-zu-Ende. Die <b>MAC-Adresse</b> braucht jeder einzelne Zustellschritt im lokalen Segment, z.&nbsp;B. zur Router-Schnittstelle, denn Ethernet stellt nur von Nachbar zu Nachbar zu.</p></div></div>
+      <div class="card qa-item reveal"><p class="q">Was passiert bei einem Ausfall des Switches – und was beim Ausfall des Routers?</p><div class="a"><p><b>Switch defekt:</b> Die gesamte lokale Kommunikation im Markt bricht zusammen – keine Truhe erreicht mehr den Router. <b>Router defekt:</b> Das LAN läuft weiter, aber die Warnung verlässt das Filialnetz nicht mehr; die Zentrale erhält nichts.</p></div></div>
+      <div class="card qa-item reveal"><p class="q">Die Warnung geht an ein Smartphone im WLAN – wie kommt sie dorthin?</p><div class="a"><p>Der Switch verteilt die Daten im LAN per <b>MAC-Adresstabelle</b> gezielt an den WLAN-Zugangspunkt (bei Funk spricht man auch von <b>Zelle</b> als Topologie). Dieser stellt den Frame per Funk nur an das Smartphone mit der passenden MAC zu.</p></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="takeaways">
+      <div class="card tk reveal"><b>01 · REICHWEITE</b><p>PAN → LAN → MAN → WAN → GAN: Netze werden zuerst nach ihrer räumlichen Ausdehnung unterschieden.</p></div>
+      <div class="card tk reveal"><b>02 · ZWEI ADRESSEN</b><p>MAC = Fahrgestellnummer fürs lokale Segment. IP = Postanschrift für den Weg durch alle Netze.</p></div>
+      <div class="card tk reveal"><b>03 · DREI GERÄTE</b><p>Hub verteilt blind, Switch lernt MACs und liefert gezielt, Router verbindet Netze per IP.</p></div>
+    </div>
+    <div class="credits">
+      <span>COMPUTERNETZWERKE · GRUNDLAGEN-DOSSIER</span>
+      <span>STAND: NOV 2026 · SEITE 1/1</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function addLog(log,txt,cls){const p=document.createElement('p');if(cls)p.className=cls;const t=document.createElement('span');t.className='t';const d=new Date();t.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');p.appendChild(t);p.appendChild(document.createTextNode(txt));log.appendChild(p);log.scrollTop=log.scrollHeight;}
+function addDefs(svg){
+  const d=el('defs',{},svg);
+  const g=el('radialGradient',{id:svg.id+'bg',cx:'50%',cy:'35%',r:'80%'},d);
+  el('stop',{offset:'0%','stop-color':'rgba(122,215,255,0.07)'},g);
+  el('stop',{offset:'100%','stop-color':'rgba(122,215,255,0)'},g);
+  el('rect',{x:0,y:0,width:svg.viewBox.baseVal.width,height:svg.viewBox.baseVal.height,fill:'url(#'+svg.id+'bg)'},svg);
+}
+
+/* ---------- Progress ---------- */
+addEventListener('scroll',()=>{const h=document.documentElement;$('#pbar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+
+/* ---------- Reveal ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+$$('.reveal').forEach(n=>io.observe(n));
+
+/* ---------- Ticker duplizieren ---------- */
+const tt=$('#tickerTrack');tt.innerHTML+=tt.innerHTML;
+
+/* ---------- Hero-Canvas ---------- */
+(function(){
+  const cv=$('#net'),ctx=cv.getContext('2d');let W,H,nodes=[],packets=[],run=true;
+  function size(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;}
+  size();addEventListener('resize',size);
+  const N=Math.min(52,Math.floor(innerWidth/26));
+  for(let i=0;i<N;i++)nodes.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0007,vy:(Math.random()-.5)*.0007});
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>1)n.vx*=-1;if(n.y<0||n.y>1)n.vy*=-1;});
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+      const a=nodes[i],b=nodes[j],dx=(a.x-b.x)*W,dy=(a.y-b.y)*H,d=Math.hypot(dx,dy);
+      if(d<150*devicePixelRatio){ctx.strokeStyle='rgba(122,215,255,'+(0.14*(1-d/(150*devicePixelRatio)))+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke();}
+    }
+    nodes.forEach(n=>{ctx.fillStyle='rgba(180,235,255,.8)';ctx.beginPath();ctx.arc(n.x*W,n.y*H,1.8*devicePixelRatio,0,7);ctx.fill();});
+    if(Math.random()<.03&&packets.length<4){const i=Math.floor(Math.random()*N),j=Math.floor(Math.random()*N);if(i!==j)packets.push({a:nodes[i],b:nodes[j],t:0});}
+    packets=packets.filter(p=>p.t<=1);
+    packets.forEach(p=>{p.t+=.02;const x=(p.a.x+(p.b.x-p.a.x)*p.t)*W,y=(p.a.y+(p.b.y-p.a.y)*p.t)*H;ctx.fillStyle='rgba(255,180,94,.9)';ctx.beginPath();ctx.arc(x,y,2.6*devicePixelRatio,0,7);ctx.fill();});
+    if(run&&!REDUCED)requestAnimationFrame(frame);
+  }
+  frame();
+  new IntersectionObserver(e=>{run=e[0].isIntersecting;if(run&&!REDUCED)frame();},{threshold:.05}).observe(cv);
+})();
+
+/* ---------- Reichweite ---------- */
+const RANGES={
+ pan:{n:'PAN',full:'Personal Area Network',r:'bis ca. 10 m',t:'Bluetooth · NFC · USB',b:'Smartwatch ↔ Smartphone, Funk-Kopfhörer'},
+ lan:{n:'LAN',full:'Local Area Network',r:'Gebäude, bis ca. 1 km',t:'Ethernet (Kabel) · WLAN',b:'Heimnetz, Schulnetz, Filialnetz des Supermarkts'},
+ man:{n:'MAN',full:'Metropolitan Area Network',r:'Stadtgebiet, bis ca. 100 km',t:'Glasfaser · Richtfunk',b:'Filialverbund einer Stadt, Campus über Stadtteile'},
+ wan:{n:'WAN',full:'Wide Area Network',r:'Länder & Kontinente',t:'Mietleitungen, Seekabel, Satellit',b:'Firmennetz über Standorte hinweg, Internet'},
+ gan:{n:'GAN',full:'Global Area Network',r:'weltweit',t:'Satelliten, globale Seekabel',b:'Internet als „Netz der Netze“, Satelliten-Konstellationen'}
+};
+const ORDER=['pan','lan','man','wan','gan'];
+let curRange='lan';
+function renderRange(k){
+  curRange=k;const d=RANGES[k];
+  $('#rangeDetail').innerHTML='<h3>'+d.n+'<small>'+d.full+'</small></h3><div class="r-facts">'+
+   '<div><b>REICHWEITE</b><span>'+d.r+'</span></div>'+
+   '<div><b>TECHNIK</b><span>'+d.t+'</span></div>'+
+   '<div><b>BEISPIEL</b><span>'+d.b+'</span></div></div>';
+  $$('#scale .tick').forEach(t=>t.classList.toggle('on',t.dataset.r===k));
+  $$('#rangeCards .rc').forEach(c=>c.classList.toggle('on',c.dataset.r===k));
+}
+$('#rangeCards').innerHTML=ORDER.map(k=>{const d=RANGES[k];return '<div class="card rc" data-r="'+k+'"><b>'+d.n+'</b><span>'+d.full+'</span><em>'+d.r+'</em></div>';}).join('');
+$$('#rangeCards .rc').forEach(c=>c.addEventListener('click',()=>renderRange(c.dataset.r)));
+$$('#scale .tick').forEach(t=>t.addEventListener('click',()=>renderRange(t.dataset.r)));
+renderRange('lan');
+
+/* ---------- Topologien ---------- */
+const tSvg=$('#topoSvg');addDefs(tSvg);
+let topoToken=0,topoKey='bus',topoView='phys',topoNodes=[];
+const TC={
+ bus:{phys:'Alle Geräte hängen an einer gemeinsamen Hauptleitung (Backbone). Jedes Signal liegt für alle an – nur der adressierte Empfänger verarbeitet es.',
+      log:'Logisch ebenfalls ein Bus: Sendet ein Gerät, „hören“ alle mit. CSMA/CD regelt den Zugriff und erkennt Kollisionen.',
+      pros:['Sehr geringer Kabel- und Kostenaufwand','Einfach um weitere Geräte erweiterbar'],
+      cons:['Ausfall der Hauptleitung = Totalausfall','Kollisionen & Engpässe bei hohem Verkehrsaufkommen']},
+ stern:{phys:'Jedes Gerät ist über eine eigene Leitung mit einem zentralen Knoten (Switch/Hub) verbunden – die heute dominierende Verkabelung.',
+      log:'Logisch entscheidet das Zentralgerät: Ein Switch leitet gezielt weiter (logischer Stern), ein dagegen geschalteter Hub verteilt an alle – das Netz verhält sich dann wie ein logischer Bus.',
+      pros:['Ausfall eines Geräts betrifft die anderen nicht','Leicht erweiterbar, Fehler einfach einzugrenzen'],
+      cons:'Der Zentralknoten ist der Single Point of Failure','Höherer Kabelaufwand als beim Bus':$},
+ ring:{phys:'Jedes Gerät ist mit genau zwei Nachbarn verbunden, die Leitung bildet einen geschlossenen Ring.',
+      log:'Logisch oft ein Token Ring: Ein „Sende-Marker“ wandert reihum – nur wer das Token besitzt, darf senden. Dadurch keine Kollisionen.',
+      pros:['Gleichmäßige, kollisionsfreie Übertragung','Planbare Zugriffszeiten'],
+      cons:'Ausfall einer Station kann den Ring unterbrechen','Aufwendiger zu erweitern':$},
+ baum:{phys:'Hierarchische Struktur: ein Wurzelknoten, darunter Verzweigungen – typisch für größere Gebäude- oder Firmennetze.',
+      log:'Logisch folgt der Datenfluss der Hierarchie: nach oben zur Wurzel, dann hinab zum Zielzweig.',
+      pros:['Gut skalierbar, klare Zuständigkeiten je Ebene','Teilnetze lassen sich getrennt betreiben'],
+      cons:'Ausfall der Wurzel trennt ganze Zweige','Lastspitzen auf den oberen Ebenen':$},
+ masche:{phys:'Jedes Gerät ist mit mehreren bzw. allen anderen direkt verbunden (Vollvermaschung) – maximale Redundanz.',
+      log:'Logisch existieren viele parallele Pfade; ausgefallene Strecken werden einfach umgangen.',
+      pros:['Sehr ausfallsicher durch redundante Pfade','Hoher Gesamtdurchsatz möglich'],
+      cons:'Sehr hoher Kabel- und Kostenaufwand','Verkabelung und Verwaltung komplex':$}
+};
+function drawTopo(key){
+  tSvg.querySelectorAll('.dyn').forEach(n=>n.remove());
+  topoNodes=[];
+  const g=el('g',{class:'dyn'},tSvg);
+  let pts=[],links=[];
+  if(key==='bus'){
+    pts=[{x:120,y:70},{x:210,y:230},{x:300,y:70},{x:390,y:230},{x:470,y:70}];
+    el('line',{x1:60,y1:150,x2:500,y2:150,class:'backbone'},g);
+    pts.forEach(p=>el('line',{x1:p.x,y1:p.y,x2:p.x,y2:150,class:'edge'},g));
+  }else if(key==='stern'){
+    const c={x:280,y:150,hub:true};
+    pts=[{x:390,y:150},{x:335,y:55},{x:225,y:55},{x:170,y:150},{x:225,y:245},{x:335,y:245},c];
+    for(let i=0;i<6;i++)links.push([i,6]);
+  }else if(key==='ring'){
+    const cx=280,cy=150,r=110;
+    for(let i=0;i<6;i++){const a=(-90+i*60)*Math.PI/180;pts.push({x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)});}
+    for(let i=0;i<6;i++)links.push([i,(i+1)%6]);
+  }else if(key==='baum'){
+    pts=[{x:280,y:50},{x:150,y:150},{x:410,y:150},{x:85,y:250},{x:215,y:250},{x:345,y:250},{x:475,y:250}];
+    links=[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]];
+  }else{
+    pts=[{x:280,y:40},{x:389,y:119},{x:348,y:248},{x:212,y:248},{x:171,y:119}];
+    for(let i=0;i<5;i++)for(let j=i+1;j<5;j++)links.push([i,j]);
+  }
+  links.forEach(l=>el('line',{x1:pts[l[0]].x,y1:pts[l[0]].y,x2:pts[l[1]].x,y2:pts[l[1]].y,class:'edge'},g));
+  pts.forEach((p,i)=>{
+    const lbl=(p.hub)?'ZENTRAL':String.fromCharCode(65+i);
+    if(p.hub){el('rect',{x:p.x-16,y:p.y-12,width:32,height:24,class:'tnode',rx:4,'data-i':i},g);}
+    else el('circle',{cx:p.x,cy:p.y,r:10,class:'tnode','data-i':i},g);
+    const t=el('text',{x:p.x,y:p.y+(p.hub?32:28),class:'tlabel'},g);t.textContent=lbl;
+  });
+  topoNodes=pts;
+}
+function tPulse(i){const n=tSvg.querySelector('[data-i="'+i+'"]');if(!n)return;n.classList.add('hit');setTimeout(()=>n.classList.remove('hit'),700);}
+function tPacket(path,color,my,dur){
+  return new Promise(res=>{
+    const c=el('circle',{r:5,class:'pkt dyn',fill:color,style:'color:'+color},tSvg);
+    const total=path.reduce((s,p,i)=>i?s+Math.hypot(p.x-path[i-1].x,p.y-path[i-1].y):0,0);
+    const t0=performance.now(),D=dur||total*2.4;
+    (function step(t){
+      if(my!==topoToken){c.remove();return res();}
+      let k=Math.min(1,(t-t0)/D),acc=k*total,pos=path[0];
+      for(let i=1;i<path.length;i++){const l=Math.hypot(path[i].x-path[i-1].x,path[i].y-path[i-1].y);
+        if(acc<=l){const f=acc/l;pos={x:path[i-1].x+(path[i].x-path[i-1].x)*f,y:path[i-1].y+(path[i].y-path[i-1].y)*f};break;}
+        acc-=l;pos=path[i];}
+      c.setAttribute('cx',pos.x);c.setAttribute('cy',pos.y);
+      if(k<1)requestAnimationFrame(step);else{c.remove();res();}
+    })(t0);
+  });
+}
+async function playTopo(key,logical,from){
+  const my=++topoToken;
+  const src=(from==null)?1:from;
+  await sleep(120);
+  if(key==='bus'){
+    tPulse(src);await tPacket([{x:topoNodes[src].x,y:topoNodes[src].y},{x:topoNodes[src].x,y:150}],'#7ad7ff',my);
+    await Promise.all([tPacket([{x:topoNodes[src].x,y:150},{x:60,y:150}],'#7ad7ff',my),tPacket([{x:topoNodes[src].x,y:150},{x:500,y:150}],'#7ad7ff',my)]);
+    topoNodes.forEach((p,i)=>{if(i!==src)tPulse(i);});
+  }else if(key==='stern'){
+    if(!logical){const dst=(src+3)%6;tPulse(src);
+      await tPacket([topoNodes[src],topoNodes[6]],'#7ad7ff',my);
+      await tPacket([topoNodes[6],topoNodes[dst]],'#5ef0b2',my);tPulse(dst);
+    }else{tPulse(src);
+      await tPacket([topoNodes[src],topoNodes[6]],'#7ad7ff',my);
+      await Promise.all(topoNodes.map((p,i)=>(i!==6&&i!==src)?tPacket([topoNodes[6],p],'#ffb45e',my):null).filter(Boolean));
+      topoNodes.forEach((p,i)=>{if(i!==src&&i!==6)tPulse(i);});}
+  }else if(key==='ring'){
+    let path=[topoNodes[src]];for(let s=1;s<=6;s++)path.push(topoNodes[(src+s)%6]);
+    await tPacket(path,'#7ad7ff',my,2600);
+    path.slice(1).forEach((p,i)=>setTimeout(()=>{if(my===topoToken)tPulse((src+i+1)%6);},i*430));
+  }else if(key==='baum'){
+    const leaf=src%2?3:6;tPulse(0);
+    await tPacket([topoNodes[0],topoNodes[leaf===3?1:2]],'#7ad7ff',my);
+    await tPacket([topoNodes[leaf===3?1:2],topoNodes[leaf]],'#5ef0b2',my);tPulse(leaf);
+  }else{
+    el('polyline',{points:'280,40 389,119 348,248',class:'alt dyn',fill:'none'},tSvg);
+    el('polyline',{points:'280,40 171,119 212,248',class:'alt dyn',fill:'none'},tSvg);
+    tPulse(src);
+    await Promise.all([tPacket([topoNodes[0],topoNodes[2]],'#7ad7ff',my,900),tPacket([topoNodes[0],topoNodes[1],topoNodes[2]],'#ffb45e',my,1700),tPacket([topoNodes[0],topoNodes[4],topoNodes[3],topoNodes[2]],'#5ef0b2',my,2400)]);
+    tPulse(2);
+  }
+}
+function topoCaption(){
+  const d=TC[topoKey==='stern'?'stern':topoKey];
+  const mode=topoView==='phys'?d.phys:d.log;
+  const tag=topoView==='phys'?'PHYSISCHE TOPOLOGIE · VERKABELUNG':'LOGISCHE TOPOLOGIE · DATENFLUSS';
+  $('#topoCaption').innerHTML='<span class="tag">'+tag+' · '+topoKey.toUpperCase()+'</span><b>'+({bus:'Bus',stern:'Stern',ring:'Ring',baum:'Baum',masche:'Masche'})[topoKey]+':</b> '+mode;
+  $('#topoPros').innerHTML=d.pros.map(p=>'<li>'+p+'</li>').join('');
+  $('#topoCons').innerHTML=d.cons.map(c=>'<li>'+c+'</li>').join('');
+}
+$$('#topoBtns .pill').forEach(b=>b.addEventListener('click',()=>{
+  $$('#topoBtns .pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  topoKey=b.dataset.topo;drawTopo(topoKey);topoCaption();if(!REDUCED)playTopo(topoKey,topoView==='log');
+}));
+$$('#topoView button').forEach(b=>b.addEventListener('click',()=>{
+  $$('#topoView button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  topoView=b.dataset.view;topoCaption();if(!REDUCED)playTopo(topoKey,topoView==='log');
+}));
+tSvg.addEventListener('click',e=>{const n=e.target.closest('[data-i]');if(!n||n.dataset.i==='6'&&topoKey==='stern')return;playTopo(topoKey,topoView==='log',+n.dataset.i);});
+drawTopo('bus');topoCaption();
+
+/* ---------- Adress-Bits ---------- */
+$('#bitsMac').innerHTML='<i></i>'.repeat(48);
+$('#bitsIp').innerHTML='<i></i>'.repeat(32);
+$$('.segA,.segB,.segN,.segH').forEach(s=>{
+  const hint=s.closest('.addr-card').querySelector('.addr-hint'),def=hint.dataset.def;
+  s.addEventListener('mouseenter',()=>{hint.textContent=s.dataset.h;hint.classList.add('flash');});
+  s.addEventListener('mouseleave',()=>{hint.textContent=def;hint.classList.remove('flash');});
+});
+
+/* ---------- Geräte-Simulator ---------- */
+const dSvg=$('#devSvg'),dLog=$('#devLog');addDefs(dSvg);
+let devToken=0,devMode='hub';
+const DP={A:{x:70,y:60},B:{x:70,y:160},C:{x:70,y:260},X:{x:380,y:160},D:{x:690,y:60},E:{x:690,y:160},F:{x:690,y:260},
+          SW:{x:230,y:160},R:{x:420,y:160},CL:{x:575,y:160},SV:{x:700,y:160}};
+function dNode(id,label,shape){
+  const p=DP[id],g=el('g',{},dSvg);
+  if(shape==='pc'){el('rect',{x:p.x-15,y:p.y-13,width:30,height:20,rx:3,fill:'#0c1522',stroke:'rgba(255,255,255,.55)','stroke-width':1.6},g);el('line',{x1:p.x,y1:p.y+7,x2:p.x,y2:p.y+13,stroke:'rgba(255,255,255,.5)','stroke-width':1.6},g);el('line',{x1:p.x-9,y1:p.y+14,x2:p.x+9,y2:p.y+14,stroke:'rgba(255,255,255,.5)','stroke-width':1.6},g);}
+  else if(shape==='hub'){el('rect',{x:p.x-34,y:p.y-14,width:68,height:28,rx:5,fill:'#0c1522',stroke:'#9db0bf','stroke-width':1.8},g);for(let i=0;i<4;i++)el('circle',{cx:p.x-21+i*14,cy:p.y,r:2.6,fill:'#9db0bf'},g);}
+  else if(shape==='switch'){el('rect',{x:p.x-38,y:p.y-14,width:76,height:28,rx:5,fill:'#0c1522',stroke:'#5ef0b2','stroke-width':1.8},g);for(let i=0;i<5;i++)el('rect',{x:p.x-28+i*12,y:p.y-4,width:8,height:8,fill:'none',stroke:'#5ef0b2'},g);}
+  else if(shape==='router'){el('rect',{x:p.x-34,y:p.y-12,width:68,height:26,rx:6,fill:'#0c1522',stroke:'#ffb45e','stroke-width':1.8},g);el('line',{x1:p.x+18,y1:p.y-12,x2:p.x+18,y2:p.y-26,stroke:'#ffb45e','stroke-width':1.8},g);el('circle',{cx:p.x+18,cy:p.y-28,r:2.6,fill:'#ffb45e'},g);el('path',{d:'M'+(p.x-22)+' '+(p.y+1)+' h14 m-4 -3.5 l4 3.5 -4 3.5',stroke:'#ffb45e',fill:'none','stroke-width':1.4},g);}
+  else if(shape==='cloud'){el('ellipse',{cx:p.x,cy:p.y,rx:46,ry:25,fill:'rgba(122,215,255,.06)',stroke:'rgba(122,215,255,.5)','stroke-width':1.4,'stroke-dasharray':'5 4'},g);}
+  else if(shape==='server'){el('rect',{x:p.x-15,y:p.y-22,width:30,height:44,rx:3,fill:'#0c1522',stroke:'rgba(255,255,255,.6)','stroke-width':1.6},g);for(let i=0;i<3;i++)el('line',{x1:p.x-9,y1:p.y-12+i*11,x2:p.x+9,y2:p.y-12+i*11,stroke:'rgba(255,255,255,.4)','stroke-width':2},g);}
+  const t=el('text',{x:p.x,y:p.y+(shape==='server'?40:shape==='pc'?30:shape==='router'?34:36),class:'tlabel'},g);t.textContent=label;
+  return g;
+}
+function dEdge(a,b){const p=DP[a],q=DP[b];el('line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'edge'},dSvg);}
+function dFlash(id,color){const p=DP[id];const c=el('circle',{cx:p.x,cy:p.y,r:14,fill:'none',stroke:color,'stroke-width':2,class:'pkt'},dSvg);c.animate([{opacity:1,transform:'scale(.6)'},{opacity:0,transform:'scale(2.2)'}],{duration:600});setTimeout(()=>c.remove(),650);}
+function dPacket(a,b,color,my,label,dur){
+  return new Promise(res=>{
+    const p=DP[a],q=DP[b];
+    const c=el('circle',{r:5,fill:color,class:'pkt'},dSvg);
+    let tx=null;
+    if(label){tx=el('text',{class:'tlabel',fill:'#7ad7ff','font-size':'10'},dSvg);tx.textContent=label;}
+    const D=dur||Math.hypot(q.x-p.x,q.y-p.y)*2.6,t0=performance.now();
+    (function step(t){
+      if(my!==devToken){c.remove();if(tx)tx.remove();return res();}
+      const k=Math.min(1,(t-t0)/D),x=p.x+(q.x-p.x)*k,y=p.y+(q.y-p.y)*k;
+      c.setAttribute('cx',x);c.setAttribute('cy',y);
+      if(tx){tx.setAttribute('x',x);tx.setAttribute('y',y-14);}
+      if(k<1)requestAnimationFrame(step);else{c.remove();if(tx)tx.remove();res();}
+    })(t0);
+  });
+}
+function buildScene(mode){
+  dSvg.querySelectorAll('g,line').forEach(n=>n.remove());
+  if(mode==='router'){
+    dEdge('A','SW');dEdge('B','SW');dEdge('SW','R');dEdge('R','CL');dEdge('CL','SV');
+    dNode('A','RECHNER A','pc');dNode('B','RECHNER B','pc');dNode('SW','SWITCH','switch');dNode('R','ROUTER','router');dNode('CL','INTERNET','cloud');dNode('SV','SERVER','server');
+  }else{
+    ['A','B','C'].forEach(n=>dEdge(n,'X'));['D','E','F'].forEach(n=>dEdge(n,'X'));
+    ['A','B','C','D','E','F'].forEach(n=>dNode(n,'RECHNER '+n,'pc'));
+    dNode('X',mode==='hub'?'HUB':'SWITCH',mode);
+  }
+}
+async function runHub(my){
+  addLog(dLog,'Hub · Rechner A sendet an Rechner C …','c-dim');
+  dFlash('A','#7ad7ff');
+  await dPacket('A','X','#7ad7ff',my);
+  addLog(dLog,'HUB: Signal empfangen → wird an ALLE Ports kopiert','c-amber');
+  await Promise.all(['B','C','D','E','F'].map(n=>dPacket('X',n,'#ffb45e',my)));
+  ['B','C','D','E','F'].forEach(n=>dFlash(n,'#ffb45e'));
+  addLog(dLog,'B, D, E, F: „Nicht für mich“ → Frame verworfen','c-dim');
+  addLog(dLog,'C: Frame angenommen ✓','c-mint');
+  addLog(dLog,'⚠ Alle Ports teilen sich eine Kollisionsdomäne – viel Verkehr, wenig Effizienz','c-red');
+}
+async function runSwitch(my){
+  addLog(dLog,'Switch · Runde 1: A sendet an C (MAC von C noch unbekannt)','c-dim');
+  dFlash('A','#7ad7ff');
+  await dPacket('A','X','#7ad7ff',my,'Ziel-MAC: C');
+  addLog(dLog,'SWITCH lernt: MAC A → Port 1','c-mint');
+  addLog(dLog,'Ziel C unbekannt → Flutung an alle anderen Ports','c-amber');
+  await Promise.all(['B','C','D','E','F'].map(n=>dPacket('X',n,'#ffb45e',my)));
+  ['B','D','E','F'].forEach(n=>dFlash(n,'#ffb45e'));
+  addLog(dLog,'B, D, E, F verwerfen · C nimmt an ✓ · lernt: MAC C → Port 3','c-mint');
+  await sleep(350);if(my!==devToken)return;
+  addLog(dLog,'Runde 2: C antwortet an A (MAC nun bekannt)','c-dim');
+  dFlash('C','#7ad7ff');
+  await dPacket('C','X','#7ad7ff',my,'Ziel-MAC: A');
+  await dPacket('X','A','#5ef0b2',my,'nur Port 1');
+  dFlash('A','#5ef0b2');
+  addLog(dLog,'UNICAST ✓ Frame geht nur an den Zielport – niemand sonst bekommt ihn','c-mint');
+}
+async function runRouter(my){
+  addLog(dLog,'Router · A (192.168.10.22) will zum Server (85.13.144.10)','c-dim');
+  addLog(dLog,'IP-Paket bleibt komplett unverändert: Quell- & Ziel-IP gelten Ende-zu-Ende','c-ice');
+  dFlash('A','#7ad7ff');
+  await dPacket('A','SW','#7ad7ff',my,'MAC: A → Router',700);
+  await dPacket('SW','R','#7ad7ff',my,'MAC: A → Router',600);
+  addLog(dLog,'ROUTER liest Ziel-IP 85.13.144.10 → Routing-Tabelle: „via WAN-Schnittstelle“','c-amber');
+  addLog(dLog,'Neues Segment! MAC wird ersetzt: Router-WAN → Server','c-amber');
+  await dPacket('R','CL','#ffb45e',my,'MAC: Router → Server',700);
+  await dPacket('CL','SV','#ffb45e',my,'MAC: Router → Server',600);
+  dFlash('SV','#5ef0b2');
+  addLog(dLog,'SERVER empfängt ✓ gleiche IP, aber neue MAC auf jedem Hop','c-mint');
+  await sleep(300);if(my!==devToken)return;
+  addLog(dLog,'Antwortweg (grün): Server → … → A','c-dim');
+  await dPacket('SV','CL','#5ef0b2',my,null,450);
+  await dPacket('CL','R','#5ef0b2',my,null,450);
+  await dPacket('R','A','#5ef0b2',my,null,900);
+  dFlash('A','#5ef0b2');
+}
+const DEVNOTE={
+ hub:'Beim Hub bekommt jedes Gerät jede Nachricht – die Auswertung übernehmen die Endgeräte selbst. Folge: viel „unnützer“ Verkehr und Kollisionen. Hubs gelten als überholt.',
+ switch:'Der Switch lernt aus jedem Frame, welche MAC-Adresse an welchem Port hängt (MAC-Adresstabelle). Bekannte Ziele werden direkt bedient – das macht das LAN schnell und privat.',
+ router:'Der Router arbeitet auf IP-Ebene und verbindet getrennte Netze. Wichtig: Die IP-Adresse bleibt Ende-zu-Ende gleich, die MAC-Adresse wird an jeder Netzgrenze (jedem Hop) neu vergeben.'
+};
+async function playDev(){
+  dLog.innerHTML='';buildScene(devMode);
+  const my=++devToken;
+  $('#devNote').innerHTML='<b>▸ BEOBACHTUNG</b> &nbsp;'+DEVNOTE[devMode];
+  await sleep(200);if(my!==devToken)return;
+  if(devMode==='hub')await runHub(my);
+  else if(devMode==='switch')await runSwitch(my);
+  else await runRouter(my);
+}
+$$('#devBtns .pill').forEach(b=>b.addEventListener('click',()=>{
+  $$('#devBtns .pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  devMode=b.dataset.dev;playDev();
+}));
+$('#devPlay').addEventListener('click',playDev);
+
+/* ---------- Fallbeispiel Kühltruhe ---------- */
+const fSvg=$('#fkSvg'),fLog=$('#fkLog');addDefs(fSvg);
+let fkToken=0,fkBusy=false;
+const FK={TK1:{x:100,y:80},TK2:{x:100,y:215},TK3:{x:100,y:350},SW:{x:330,y:215},R:{x:470,y:215},CL:{x:600,y:140},SV:{x:706,y:74},PH:{x:688,y:330}};
+let tempVal=-18,tempTimer=null;
+function fridge(id,y,label){
+  const x=52;const g=el('g',{id:'fr'+id},fSvg);
+  el('rect',{x:x,y:y,width:106,height:84,rx:6,fill:'#0b1522',stroke:'rgba(122,215,255,.55)','stroke-width':1.8,id:'frR'+id},g);
+  el('line',{x1:x+8,y1:y+22,x2:x+98,y2:y+22,stroke:'rgba(255,255,255,.2)'},g);
+  const t1=el('text',{x:x+53,y:y+16,class:'tlabel',fill:'rgba(233,239,245,.9)'},g);t1.textContent=label;
+  const tt=el('text',{x:x+53,y:y+52,class:'tlabel','font-size':'18',id:'temp'+id,fill:'#7ad7ff'},g);tt.textContent='−18 °C';
+  const t2=el('text',{x:x+53,y:y+72,class:'tlabel','font-size':'9'},g);t2.textContent='MAC 8C:3B:AD:…:'+id;
+  if(id===2){const ip=el('text',{x:x+53,y:y+98,class:'tlabel','font-size':'9',fill:'#ffb45e'},fSvg);ip.textContent='IP 192.168.10.22';}
+}
+(function buildFK(){
+  [['TK1','SW'],['TK2','SW'],['TK3','SW'],['SW','R'],['R','CL'],['CL','SV']].forEach(p=>{
+    const a=FK[p[0]],b=FK[p[1]];
+    const off=p[0].startsWith('TK')?53:(p[0]==='SW'?38:(p[0]==='R'?34:(p[0]==='CL'?46:0)));
+    const x1=p[0].startsWith('TK')?158:a.x+off;
+    el('line',{x1:x1,y1:a.y,x2:b.x-(p[1]==='SW'?38:(p[1]==='R'?34:(p[1]==='CL'?46:15))),y2:b.y,class:'edge'},fSvg);
+  });
+  el('line',{x1:FK.CL.x,y1:FK.CL.y+25,x2:FK.PH.x-20,y2:FK.PH.y-30,class:'edge','stroke-dasharray':'5 5'},fSvg);
+  fridge(1,38,'TK-1');fridge(2,173,'TK-2');fridge(3,308,'TK-3');
+  dNodeFK('SW','SWITCH','switch');dNodeFK('R','ROUTER','router');
+  el('ellipse',{cx:FK.CL.x,cy:FK.CL.y,rx:46,ry:25,fill:'rgba(122,215,255,.06)',stroke:'rgba(122,215,255,.5)','stroke-width':1.4,'stroke-dasharray':'5 4'},fSvg);
+  const cl=el('text',{x:FK.CL.x,y:FK.CL.y+4,class:'tlabel'},fSvg);cl.textContent='INTERNET';
+  el('rect',{x:FK.SV.x-15,y:FK.SV.y-22,width:30,height:44,rx:3,fill:'#0c1522',stroke:'rgba(255,255,255,.6)','stroke-width':1.6},fSvg);
+  for(let i=0;i<3;i++)el('line',{x1:FK.SV.x-9,y1:FK.SV.y-12+i*11,x2:FK.SV.x+9,y2:FK.SV.y-12+i*11,stroke:'rgba(255,255,255,.4)','stroke-width':2},fSvg);
+  const sl=el('text',{x:FK.SV.x,y:FK.SV.y+38,class:'tlabel'},fSvg);sl.textContent='ZENTRALE';
+  el('rect',{x:FK.PH.x-21,y:FK.PH.y-40,width:42,height:80,rx:8,fill:'#0c1522',stroke:'rgba(255,255,255,.6)','stroke-width':1.6},fSvg);
+  el('line',{x1:FK.PH.x-9,y1:FK.PH.y+30,x2:FK.PH.x+9,y2:FK.PH.y+30,stroke:'rgba(255,255,255,.4)','stroke-width':2},fSvg);
+  const pl=el('text',{x:FK.PH.x,y:FK.PH.y+58,class:'tlabel'},fSvg);pl.textContent='SMARTPHONE';
+  function dNodeFK(id,label,shape){const p=FK[id];
+    if(shape==='switch'){el('rect',{x:p.x-38,y:p.y-14,width:76,height:28,rx:5,fill:'#0c1522',stroke:'#5ef0b2','stroke-width':1.8},fSvg);for(let i=0;i<5;i++)el('rect',{x:p.x-28+i*12,y:p.y-4,width:8,height:8,fill:'none',stroke:'#5ef0b2'},fSvg);}
+    else{el('rect',{x:p.x-34,y:p.y-12,width:68,height:26,rx:6,fill:'#0c1522',stroke:'#ffb45e','stroke-width':1.8},fSvg);el('line',{x1:p.x+18,y1:p.y-12,x2:p.x+18,y2:p.y-26,stroke:'#ffb45e','stroke-width':1.8},fSvg);el('circle',{cx:p.x+18,cy:p.y-28,r:2.6,fill:'#ffb45e'},fSvg);}
+    const t=el('text',{x:p.x,y:p.y+34,class:'tlabel'},fSvg);t.textContent=label;}
+})();
+function fkPacket(a,b,color,my,label){
+  return new Promise(res=>{
+    const p=FK[a],q=FK[b];
+    const sx=a.startsWith('TK')?158:(a==='SW'?p.x+38:(a==='R'?p.x+34:p.x));
+    const ex=b==='SW'?q.x-38:(b==='R'?q.x-34:(b==='SV'?q.x-15:q.x-21));
+    const c=el('circle',{r:5.5,fill:color,class:'pkt'},fSvg);
+    let tx=null;if(label){tx=el('text',{class:'tlabel',fill:'#ffb45e','font-size':'10'},fSvg);tx.textContent=label;}
+    const D=Math.hypot(ex-sx,q.y-p.y)*3+300,t0=performance.now();
+    (function step(t){
+      if(my!==fkToken){c.remove();if(tx)tx.remove();return res();}
+      const k=Math.min(1,(t-t0)/D),x=sx+(ex-sx)*k,y=p.y+(q.y-p.y)*k;
+      c.setAttribute('cx',x);c.setAttribute('cy',y);
+      if(tx){tx.setAttribute('x',x);tx.setAttribute('y',y-14);}
+      if(k<1)requestAnimationFrame(step);else{c.remove();if(tx)tx.remove();res();}
+    })(t0);
+  });
+}
+$('#btnStoer').addEventListener('click',async()=>{
+  if(fkBusy)return;fkBusy=true;
+  $('#btnStoer').disabled=true;$('#pushCard').classList.remove('show');
+  fLog.innerHTML='';
+  const my=++fkToken;
+  $('#frR2').classList.add('fridge-hot');
+  addLog(fLog,'TK-2 meldet: Temperatur steigt … −15 °C … −12 °C … −9 °C','c-red');
+  clearInterval(tempTimer);let v=-18;const tt=$('#temp2');
+  tempTimer=setInterval(()=>{v+=1;tt.textContent=(v<0?'−':'')+Math.abs(v)+' °C';tt.setAttribute('fill',v>-14?'#ff6d6d':'#ffb45e');if(v>=-9)clearInterval(tempTimer);},420);
+  await sleep(1500);
+  addLog(fLog,'⚠ GRENZWERT ÜBERSCHRITTEN · TK-2 erzeugt Warnmeldung','c-red');
+  addLog(fLog,'TK-2 sendet · SRC-MAC 8C:3B:AD:11:22:33 → ZIEL-MAC Router (per ARP ermittelt)','c-ice');
+  await fkPacket('TK2','SW','#ff6d6d',my,'IP 192.168.10.22 → 85.13.144.10');
+  addLog(fLog,'SWITCH: Frame nur an den Router-Port (MAC-Tabelle)','c-mint');
+  await fkPacket('SW','R','#ff6d6d',my,'MAC: TK-2 → Router');
+  addLog(fLog,'ROUTER: Ziel liegt außerhalb → NAT, ab ins WAN · MAC wird neu gesetzt','c-amber');
+  await fkPacket('R','CL','#ffb45e',my,'MAC: Router → Server');
+  await fkPacket('CL','SV','#ffb45e',my,null);
+  addLog(fLog,'ZENTRALE empfängt Warnung · gleiche IPs, MACs pro Hop ersetzt','c-mint');
+  await sleep(250);
+  addLog(fLog,'Push-Dienst → WLAN-Zugangspunkt → Smartphone (Zustellung per MAC)','c-ice');
+  $('#pushCard').classList.add('show');
+  addLog(fLog,'✓ Marktleitung informiert – Tür wird geprüft','c-mint');
+  $('#btnFix').disabled=false;fkBusy=false;
+});
+$('#btnFix').addEventListener('click',()=>{
+  fkToken++;clearInterval(tempTimer);
+  $('#frR2').classList.remove('fridge-hot');$('#frR2').classList.add('fridge-ok');
+  const tt=$('#temp2');tt.textContent='−18 °C';tt.setAttribute('fill','#7ad7ff');
+  $('#pushCard').classList.remove('show');
+  addLog(fLog,'Tür geschlossen · TK-2 wieder bei −18 °C · Alarm quittiert ✓','c-mint');
+  setTimeout(()=>$('#frR2').classList.remove('fridge-ok'),1800);
+  $('#btnFix').disabled=true;
+});
+addLog(fLog,'System bereit · TK-1/2/3 senden regelmäßig Statuswerte an die Zentrale','c-dim');
+
+/* ---------- FAQ ---------- */
+$$('.qa-item .q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+})();
+</script>
+</body>
+</html>
