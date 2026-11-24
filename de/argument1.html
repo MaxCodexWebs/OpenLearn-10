@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Argumentation – Der große Deutsch-Test</title>
+<style>
+  :root{
+    --bg-1:#120507;
+    --bg-2:#24080D;
+    --glass:rgba(60,10,18,.38);
+    --glass-strong:rgba(80,12,22,.52);
+    --border:rgba(255,120,140,.20);
+    --border-strong:rgba(255,130,150,.36);
+    --text:#fff2f4;
+    --muted:#e7b8c1;
+    --red:#c81e3c;
+    --wine:#7c0f26;
+    --pink:#ff8fa6;
+    --green:#4ade80;
+    --green-dark:#14532d;
+    --red-alert:#ef4444;
+    --red-dark:#7f1d1d;
+    --radius:22px;
+    --shadow:0 18px 45px rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--text);
+    font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    background:
+      radial-gradient(1100px 620px at 15% -10%, rgba(200,30,60,.22), transparent 60%),
+      radial-gradient(900px 560px at 90% 10%, rgba(124,15,38,.30), transparent 65%),
+      radial-gradient(900px 700px at 50% 110%, rgba(255,80,110,.10), transparent 70%),
+      linear-gradient(160deg,var(--bg-1),var(--bg-2));
+    background-attachment:fixed;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(255,70,100,.13), transparent 28%),
+      radial-gradient(circle at 82% 72%, rgba(255,90,120,.10), transparent 30%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .page{
+    position:relative;
+    z-index:1;
+    max-width:1180px;
+    margin:0 auto;
+    padding:18px 16px 70px;
+  }
+
+  header.hero{
+    padding:36px 22px;
+    margin:14px 0 28px;
+    border:1px solid var(--border);
+    border-radius:32px;
+    background:linear-gradient(145deg,rgba(90,12,25,.48),rgba(24,5,10,.62));
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,170,190,.14);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+
+  header.hero::after{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    right:-90px;
+    top:-120px;
+    background:radial-gradient(circle,rgba(255,110,140,.28),transparent 70%);
+    filter:blur(30px);
+  }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 14px;
+    border-radius:999px;
+    border:1px solid var(--border-strong);
+    background:rgba(255,255,255,.06);
+    color:var(--pink);
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  h1{
+    margin:18px 0 10px;
+    font-size:clamp(1.85rem,6vw,3.4rem);
+    line-height:1.1;
+    letter-spacing:-.02em;
+    text-shadow:0 0 28px rgba(255,80,110,.25);
+  }
+
+  .subtitle{
+    margin:0;
+    max-width:720px;
+    margin-inline:auto;
+    color:var(--muted);
+    font-size:clamp(.95rem,2.6vw,1.12rem);
+  }
+
+  nav{
+    position:sticky;
+    top:10px;
+    z-index:50;
+    margin-bottom:28px;
+    padding:10px;
+    border:1px solid var(--border);
+    border-radius:24px;
+    background:rgba(26,6,11,.72);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    box-shadow:0 14px 34px rgba(0,0,0,.38);
+  }
+
+  .nav-inner{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+
+  .nav-inner::-webkit-scrollbar{display:none}
+
+  .nav-link{
+    flex:1 0 auto;
+    min-width:140px;
+    padding:12px 16px;
+    border:1px solid transparent;
+    border-radius:16px;
+    color:var(--muted);
+    text-decoration:none;
+    font-weight:700;
+    font-size:.92rem;
+    text-align:center;
+    transition:.25s ease;
+    white-space:nowrap;
+  }
+
+  .nav-link:hover{
+    color:#fff;
+    background:rgba(255,255,255,.07);
+    border-color:var(--border);
+    transform:translateY(-2px);
+  }
+
+  .nav-link.active{
+    color:#fff;
+    background:linear-gradient(135deg,rgba(200,30,60,.75),rgba(124,15,38,.75));
+    border-color:var(--border-strong);
+    box-shadow:0 8px 22px rgba(200,30,60,.24);
+  }
+
+  section{
+    scroll-margin-top:100px;
+    margin-bottom:34px;
+  }
+
+  .section-head{
+    margin:0 6px 18px;
+  }
+
+  .section-head h2{
+    margin:8px 0 6px;
+    font-size:clamp(1.4rem,4.4vw,2.2rem);
+    letter-spacing:-.02em;
+  }
+
+  .section-head p{
+    margin:0;
+    color:var(--muted);
+    font-size:.98rem;
+  }
+
+  .glass{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:linear-gradient(145deg,rgba(70,10,20,.42),rgba(22,5,10,.58));
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,170,190,.10);
+    padding:22px;
+    transition:.28s ease;
+  }
+
+  .glass:hover{
+    border-color:var(--border-strong);
+    transform:translateY(-3px);
+    box-shadow:0 22px 55px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,170,190,.16);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+  }
+
+  .type-card{
+    position:relative;
+    overflow:hidden;
+  }
+
+  .type-card::before{
+    content:"";
+    position:absolute;
+    top:-70px;
+    right:-70px;
+    width:180px;
+    height:180px;
+    background:radial-gradient(circle,rgba(255,100,130,.20),transparent 70%);
+    filter:blur(18px);
+  }
+
+  .type-icon{
+    width:46px;
+    height:46px;
+    display:grid;
+    place-items:center;
+    border-radius:15px;
+    margin-bottom:14px;
+    font-size:1.3rem;
+    border:1px solid var(--border-strong);
+    background:linear-gradient(135deg,rgba(200,30,60,.55),rgba(124,15,38,.55));
+    box-shadow:0 8px 20px rgba(200,30,60,.22);
+  }
+
+  .type-card h3{
+    margin:0 0 10px;
+    font-size:1.16rem;
+  }
+
+  .info-line{
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+    margin:9px 0;
+    font-size:.94rem;
+    color:var(--muted);
+  }
+
+  .info-line strong{
+    color:#fff;
+    flex-shrink:0;
+    font-size:.78rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding-top:2px;
+  }
+
+  .merksatz{
+    margin-top:14px;
+    padding:11px 13px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.05);
+    color:var(--pink);
+    font-weight:700;
+    font-size:.92rem;
+  }
+
+  .example{
+    border-left:3px solid var(--red);
+    padding:10px 13px;
+    border-radius:0 12px 12px 0;
+    background:rgba(200,30,60,.10);
+    color:#fff;
+    font-size:.94rem;
+  }
+
+  .counter{
+    border-left:3px solid var(--green);
+    padding:10px 13px;
+    border-radius:0 12px 12px 0;
+    background:rgba(74,222,128,.08);
+    color:#d9ffe6;
+    font-size:.94rem;
+  }
+
+  .table-wrap{
+    overflow-x:auto;
+    margin-top:18px;
+    border-radius:18px;
+    border:1px solid var(--border);
+    background:rgba(18,5,8,.45);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:620px;
+  }
+
+  th,td{
+    padding:14px 16px;
+    text-align:left;
+    border-bottom:1px solid rgba(255,120,140,.10);
+    font-size:.93rem;
+  }
+
+  th{
+    color:var(--pink);
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    background:rgba(200,30,60,.14);
+  }
+
+  tr:last-child td{border-bottom:0}
+
+  .test-panel{
+    padding:20px;
+  }
+
+  .progress-track{
+    height:12px;
+    border-radius:999px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.06);
+    margin:14px 0 20px;
+  }
+
+  .progress-fill{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg,var(--wine),var(--red),var(--pink));
+    box-shadow:0 0 18px rgba(255,80,110,.45);
+    transition:width .4s ease;
+  }
+
+  .question{
+    padding:18px;
+    border-radius:18px;
+    border:1px solid rgba(255,120,140,.13);
+    background:rgba(18,5,8,.38);
+    margin-bottom:14px;
+  }
+
+  .question h3{
+    margin:0 0 12px;
+    font-size:1rem;
+    line-height:1.5;
+  }
+
+  .answers{
+    display:grid;
+    gap:9px;
+  }
+
+  .answer{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:13px 15px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:rgba(255,255,255,.04);
+    cursor:pointer;
+    font-size:.94rem;
+    transition:.2s ease;
+  }
+
+  .answer:hover{
+    background:rgba(255,255,255,.08);
+    border-color:var(--border-strong);
+  }
+
+  .answer input{
+    accent-color:var(--red);
+    width:18px;
+    height:18px;
+    flex-shrink:0;
+  }
+
+  .answer.correct{
+    border-color:rgba(74,222,128,.65);
+    background:rgba(74,222,128,.13);
+    color:#d7ffe4;
+  }
+
+  .answer.wrong{
+    border-color:rgba(239,68,68,.65);
+    background:rgba(239,68,68,.13);
+    color:#ffd9d9;
+  }
+
+  .test-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+    margin-top:18px;
+  }
+
+  button{
+    font:inherit;
+    border:0;
+    cursor:pointer;
+    padding:14px 22px;
+    border-radius:16px;
+    color:#fff;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--red),var(--wine));
+    border:1px solid rgba(255,140,160,.30);
+    box-shadow:0 12px 28px rgba(200,30,60,.28);
+    transition:.25s ease;
+  }
+
+  button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 34px rgba(200,30,60,.38);
+  }
+
+  button.secondary{
+    background:rgba(255,255,255,.07);
+    border:1px solid var(--border-strong);
+    color:var(--pink);
+    box-shadow:none;
+  }
+
+  button.secondary:hover{
+    background:rgba(255,255,255,.12);
+    color:#fff;
+  }
+
+  .result{
+    display:none;
+    margin-top:18px;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid var(--border-strong);
+    background:linear-gradient(145deg,rgba(200,30,60,.22),rgba(18,5,8,.55));
+    text-align:center;
+  }
+
+  .result.show{display:block;animation:fadeUp .45s ease}
+
+  .score-big{
+    font-size:clamp(2.3rem,9vw,3.4rem);
+    font-weight:900;
+    margin-bottom:4px;
+    color:var(--pink);
+    text-shadow:0 0 25px rgba(255,100,130,.35);
+  }
+
+  .result-text{
+    color:var(--muted);
+    font-size:.95rem;
+  }
+
+  .house{
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+
+  .roof{
+    width:min(560px,100%);
+    padding:22px 18px;
+    text-align:center;
+    border:1px solid var(--border-strong);
+    border-radius:22px 22px 8px 8px;
+    background:linear-gradient(180deg,rgba(200,30,60,.42),rgba(90,10,24,.48));
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:0 18px 40px rgba(0,0,0,.42);
+    clip-path:polygon(50% 0,100% 38%,100% 100%,0 100%,0 38%);
+    position:relative;
+  }
+
+  .roof-label{
+    font-size:.72rem;
+    font-weight:800;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--pink);
+  }
+
+  .roof-title{
+    font-size:1.25rem;
+    font-weight:900;
+    margin:6px 0 4px;
+  }
+
+  .roof-text{
+    font-size:.9rem;
+    color:var(--muted);
+  }
+
+  .pillars{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    align-items:stretch;
+  }
+
+  .pillar{
+    padding:18px 14px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:linear-gradient(180deg,rgba(80,12,22,.45),rgba(22,5,10,.60));
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:var(--shadow);
+    text-align:center;
+    transition:.25s ease;
+  }
+
+  .pillar:hover{
+    transform:translateY(-4px);
+    border-color:var(--border-strong);
+  }
+
+  .pillar h4{
+    margin:0 0 7px;
+    font-size:.95rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--pink);
+  }
+
+  .pillar p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--muted);
+  }
+
+  .foundation{
+    width:min(640px,100%);
+    padding:20px;
+    border:1px solid var(--border-strong);
+    border-radius:18px;
+    background:linear-gradient(180deg,rgba(124,15,38,.42),rgba(18,5,8,.60));
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:var(--shadow);
+    text-align:center;
+  }
+
+  .foundation h4{
+    margin:0 0 7px;
+    color:var(--pink);
+    font-size:.9rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+
+  .foundation p{
+    margin:0;
+    font-weight:700;
+  }
+
+  .house-note{
+    margin-top:8px;
+    text-align:center;
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  footer{
+    margin-top:36px;
+    padding:18px;
+    text-align:center;
+    color:var(--muted);
+    font-size:.82rem;
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:rgba(18,5,8,.45);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+
+  .reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media(max-width:760px){
+    .page{padding:12px 10px 60px}
+    .grid{grid-template-columns:1fr}
+    .glass{padding:18px}
+    .pillars{grid-template-columns:1fr}
+    .roof{border-radius:20px 20px 6px 6px}
+    nav{top:6px}
+    .nav-link{min-width:120px;padding:11px 13px;font-size:.85rem}
+    .test-actions{flex-direction:column;align-items:stretch}
+    button{width:100%}
+  }
+
+  @media(max-width:420px){
+    .roof{padding:26px 12px 18px}
+    .pillar{padding:15px 11px}
+    .roof-title{font-size:1.08rem}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <span class="badge">Deutsch • Argumentation</span>
+    <h1>Argumentation<br>Der große Deutsch-Test</h1>
+    <p class="subtitle">Argumenttypen, Scheinargumente und das Argumentenhaus</p>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-link" href="#argumenttypen">Argumenttypen</a>
+      <a class="nav-link" href="#scheinargumente">Scheinargumente</a>
+      <a class="nav-link" href="#test">Interaktiver Test</a>
+      <a class="nav-link" href="#haus">Argumentenhaus</a>
+    </div>
+  </nav>
+
+  <section id="argumenttypen" class="reveal">
+    <div class="section-head">
+      <span class="badge">Bereich 1</span>
+      <h2>Die vier Argumenttypen</h2>
+      <p>Seriöse Argumente stützen eine Meinung sachlich, nachvollziehbar oder auf anerkannten Werten.</p>
+    </div>
+
+    <div class="grid">
+      <article class="glass type-card">
+        <div class="type-icon">📊</div>
+        <h3>Faktenargument</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Zahlen, Studien und überprüfbare Tatsachen.</span></div>
+        <div class="example">„Laut einer Studie bewegen sich Jugendliche zu wenig.“</div>
+        <div class="merksatz">Fakten = Beweise.</div>
+      </article>
+
+      <article class="glass type-card">
+        <div class="type-icon">🎓</div>
+        <h3>Autoritätsargument</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Aussagen von Experten oder Fachpersonen.</span></div>
+        <div class="example">„Laut Ärzten ist ausreichend Schlaf wichtig.“</div>
+        <div class="merksatz">Autorität = Experten.</div>
+      </article>
+
+      <article class="glass type-card">
+        <div class="type-icon">⚖️</div>
+        <h3>Normatives Argument</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Werte, Regeln, Moral und Gerechtigkeit.</span></div>
+        <div class="example">„Jeder Mensch sollte die gleichen Rechte haben.“</div>
+        <div class="merksatz">Normativ = Werte.</div>
+      </article>
+
+      <article class="glass type-card">
+        <div class="type-icon">🔁</div>
+        <h3>Analogisierendes Argument</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Vergleich zweier ähnlicher Situationen.</span></div>
+        <div class="example">„Wie Erwachsene Pausen bei der Arbeit brauchen, brauchen Schüler Pausen beim Lernen.“</div>
+        <div class="merksatz">Analog = Vergleich.</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="scheinargumente" class="reveal">
+    <div class="section-head">
+      <span class="badge">Bereich 2</span>
+      <h2>Die vier Scheinargumente</h2>
+      <p>Scheinargumente wirken wie Argumente, überzeugen aber nicht sachlich. Sie lenken ab, verdrehen Aussagen, greifen Personen an oder schließen vorschnell auf alle.</p>
+    </div>
+
+    <div class="grid">
+      <article class="glass type-card">
+        <div class="type-icon">↪️</div>
+        <h3>Whataboutism</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Jemand lenkt vom eigentlichen Thema ab.</span></div>
+        <div class="example">„Warum kommst du zu spät? Du warst gestern doch auch zu spät!“</div>
+        <div class="counter"><strong>Konter:</strong> „Das hat nichts mit meiner ursprünglichen Aussage zu tun. Bleib bitte beim Thema.“</div>
+      </article>
+
+      <article class="glass type-card">
+        <div class="type-icon">🎭</div>
+        <h3>Strohmann-Argument</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Eine Aussage wird verdreht oder übertrieben dargestellt.</span></div>
+        <div class="example">„Wir sollten weniger Hausaufgaben bekommen.“ – „Du willst also gar nichts mehr lernen!“</div>
+        <div class="counter"><strong>Konter:</strong> „Das habe ich nicht gesagt. Du verdrehst meine Aussage.“</div>
+      </article>
+
+      <article class="glass type-card">
+        <div class="type-icon">🎯</div>
+        <h3>Ad-hominem</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Nicht das Argument, sondern die Person wird angegriffen.</span></div>
+        <div class="example">„Deine Meinung zählt nicht, du bist sowieso dumm.“</div>
+        <div class="counter"><strong>Konter:</strong> „Meine Person hat nichts mit der Richtigkeit meines Arguments zu tun.“</div>
+      </article>
+
+      <article class="glass type-card">
+        <div class="type-icon">🌍</div>
+        <h3>Verallgemeinerung</h3>
+        <div class="info-line"><strong>Erkennen</strong><span>Von einzelnen Personen oder Situationen wird auf alle geschlossen.</span></div>
+        <div class="example">„Ein Schüler hat im Unterricht geschlafen. Alle Schüler sind faul.“</div>
+        <div class="counter"><strong>Konter:</strong> „Das kann man nicht auf alle übertragen. Einzelne Beispiele beweisen keine allgemeine Aussage.“</div>
+      </article>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Scheinargument</th>
+            <th>Merkhilfe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Whataboutism</td><td>Ablenkung</td></tr>
+          <tr><td>Strohmann</td><td>Verdrehen</td></tr>
+          <tr><td>Ad-hominem</td><td>Angreifen</td></tr>
+          <tr><td>Verallgemeinerung</td><td>Von wenigen auf alle schließen</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="test" class="reveal">
+    <div class="section-head">
+      <span class="badge">Bereich 3</span>
+      <h2>Interaktiver Test</h2>
+      <p>Wähle bei jeder Frage eine Antwort aus. Die Auswertung erfolgt erst nach dem Klick auf „Test auswerten“.</p>
+    </div>
+
+    <div class="glass test-panel">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div id="testQuestions"></div>
+
+      <div class="test-actions">
+        <button id="submitTest">Test auswerten</button>
+        <button id="resetTest" class="secondary">Test neu starten</button>
+      </div>
+
+      <div class="result" id="result">
+        <div class="score-big" id="scoreText">0 / 10</div>
+        <div class="result-text" id="percentText">0 % richtig</div>
+        <div class="result-text" id="feedbackText"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="haus" class="reveal">
+    <div class="section-head">
+      <span class="badge">Bereich 4</span>
+      <h2>Das Argumentenhaus</h2>
+      <p>Ein starkes Argument besteht aus These, Begründung, Beispiel und Schlussfolgerung.</p>
+    </div>
+
+    <div class="glass house">
+      <div class="roof">
+        <div class="roof-label">Dach</div>
+        <div class="roof-title">These</div>
+        <p class="roof-text">Was ist meine Meinung?</p>
+        <p><strong>Handys sollten in den Pausen erlaubt sein.</strong></p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <h4>Behauptung</h4>
+          <p>Was sage ich?</p>
+          <p>Handys sollten in den Pausen erlaubt sein.</p>
+        </div>
+        <div class="pillar">
+          <h4>Begründung</h4>
+          <p>Warum sage ich das?</p>
+          <p>Schüler können dadurch ihre Eltern bei wichtigen Angelegenheiten erreichen.</p>
+        </div>
+        <div class="pillar">
+          <h4>Beispiel</h4>
+          <p>Woran sieht man das?</p>
+          <p>Wenn sich der Stundenplan ändert, können Schüler ihre Eltern informieren.</p>
+        </div>
+      </div>
+
+      <div class="foundation">
+        <h4>Fundament</h4>
+        <p>Schlussfolgerung</p>
+        <p>Deshalb ist es sinnvoll, Handys in den Pausen zu erlauben.</p>
+      </div>
+
+      <p class="house-note">Die These steht oben, die Begründung und das Beispiel stützen sie, und die Schlussfolgerung bildet das Fundament.</p>
+    </div>
+  </section>
+
+  <footer>
+    Argumentation – Der große Deutsch-Test | Argumenttypen, Scheinargumente und das Argumentenhaus
+  </footer>
+</div>
+
+<script>
+  const questions = [
+    {
+      text: "„Laut einer Untersuchung lernen Schüler mit ausreichend Schlaf konzentrierter.“",
+      options: ["Faktenargument", "Autoritätsargument", "Normatives Argument", "Analogisierendes Argument"],
+      correct: 0
+    },
+    {
+      text: "„Der Kinderpsychologe Dr. Müller erklärt, dass Pausen wichtig für die Entwicklung sind.“",
+      options: ["Faktenargument", "Autoritätsargument", "Normatives Argument", "Analogisierendes Argument"],
+      correct: 1
+    },
+    {
+      text: "„Jeder Schüler sollte unabhängig von seiner Herkunft gleich behandelt werden.“",
+      options: ["Faktenargument", "Autoritätsargument", "Normatives Argument", "Analogisierendes Argument"],
+      correct: 2
+    },
+    {
+      text: "„So wie Erwachsene Erholungszeiten bei der Arbeit benötigen, brauchen Schüler Pausen im Unterricht.“",
+      options: ["Faktenargument", "Autoritätsargument", "Normatives Argument", "Analogisierendes Argument"],
+      correct: 3
+    },
+    {
+      text: "„Im letzten Jahr haben 78 % der befragten Schüler angegeben, dass sie lieber mit digitalen Büchern lernen.“",
+      options: ["Faktenargument", "Autoritätsargument", "Normatives Argument", "Analogisierendes Argument"],
+      correct: 0
+    },
+    {
+      text: "„Laut dem Bildungsforscher Professor Weber fördern regelmäßige Übungen den Lernerfolg.“",
+      options: ["Faktenargument", "Autoritätsargument", "Normatives Argument", "Analogisierendes Argument"],
+      correct: 1
+    },
+    {
+      text: "„Du bist doch sowieso schlecht in der Schule. Deine Meinung zählt nicht!“",
+      options: ["Whataboutism", "Strohmann-Argument", "Ad-hominem", "Verallgemeinerung"],
+      correct: 2
+    },
+    {
+      text: "„Mein Bruder hat sein Handy einmal verloren. Deshalb sollten alle Schüler ihre Handys zu Hause lassen!“",
+      options: ["Whataboutism", "Strohmann-Argument", "Ad-hominem", "Verallgemeinerung"],
+      correct: 3
+    },
+    {
+      text: "„Andere Schulen haben viel größere Probleme!“",
+      options: ["Whataboutism", "Strohmann-Argument", "Ad-hominem", "Verallgemeinerung"],
+      correct: 0
+    },
+    {
+      text: "„Du willst wahrscheinlich auch, dass jeder den ganzen Unterricht am Handy verbringt!“",
+      options: ["Whataboutism", "Strohmann-Argument", "Ad-hominem", "Verallgemeinerung"],
+      correct: 1
+    }
+  ];
+
+  const testQuestions = document.getElementById("testQuestions");
+  const progressFill = document.getElementById("progressFill");
+  const resultBox = document.getElementById("result");
+  const scoreText = document.getElementById("scoreText");
+  const percentText = document.getElementById("percentText");
+  const feedbackText = document.getElementById("feedbackText");
+  const submitButton = document.getElementById("submitTest");
+  const resetButton = document.getElementById("resetTest");
+
+  let answers = new Array(questions.length).fill(null);
+  let submitted = false;
+
+  function createTest(){
+    testQuestions.innerHTML = "";
+
+    questions.forEach((question, questionIndex) => {
+      const questionBox = document.createElement("div");
+      questionBox.className = "question";
+      questionBox.dataset.index = questionIndex;
+
+      const title = document.createElement("h3");
+      title.textContent = (questionIndex + 1) + ". " + question.text;
+      questionBox.appendChild(title);
+
+      const answerBox = document.createElement("div");
+      answerBox.className = "answers";
+
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        label.className = "answer";
+        label.dataset.question = questionIndex;
+        label.dataset.option = optionIndex;
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "question-" + questionIndex;
+        input.value = optionIndex;
+
+        const span = document.createElement("span");
+        span.textContent = option;
+
+        label.appendChild(input);
+        label.appendChild(span);
+        answerBox.appendChild(label);
+
+        input.addEventListener("change", () => {
+          answers[questionIndex] = optionIndex;
+          updateProgress();
+        });
+      });
+
+      questionBox.appendChild(answerBox);
+      testQuestions.appendChild(questionBox);
+    });
+  }
+
+  function updateProgress(){
+    const answered = answers.filter(answer => answer !== null).length;
+    const percent = Math.round((answered / questions.length) * 100);
+    progressFill.style.width = percent + "%";
+  }
+
+  function evaluateTest(){
+    if(submitted) return;
+
+    if(answers.includes(null)){
+      alert("Bitte beantworte zuerst alle Fragen.");
+      return;
+    }
+
+    submitted = true;
+    let score = 0;
+
+    document.querySelectorAll(".answer").forEach(label => {
+      const questionIndex = Number(label.dataset.question);
+      const optionIndex = Number(label.dataset.option);
+      const isCorrect = optionIndex === questions[questionIndex].correct;
+      const isSelected = answers[questionIndex] === optionIndex;
+
+      if(isCorrect){
+        label.classList.add("correct");
+      }
+
+      if(isSelected && !isCorrect){
+        label.classList.add("wrong");
+      }
+
+      if(isSelected && isCorrect){
+        score++;
+      }
+
+      label.querySelector("input").disabled = true;
+    });
+
+    const percent = Math.round((score / questions.length) * 100);
+    scoreText.textContent = score + " / " + questions.length;
+    percentText.textContent = percent + " % richtig";
+
+    let feedback = "Sehr gut! Du kennst dich mit Argumentation aus.";
+    if(percent < 50){
+      feedback = "Noch etwas üben: Lies die Merksätze zu den Argumenttypen und Scheinargumenten erneut.";
+    } else if(percent < 80){
+      feedback = "Gut gemacht! Wiederhole vor allem die Fragen, die du falsch beantwortet hast.";
+    }
+
+    feedbackText.textContent = feedback;
+    resultBox.classList.add("show");
+    resultBox.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  function resetTest(){
+    answers = new Array(questions.length).fill(null);
+    submitted = false;
+    resultBox.classList.remove("show");
+    progressFill.style.width = "0%";
+    createTest();
+    window.scrollTo({top: document.getElementById("test").offsetTop - 90, behavior:"smooth"});
+  }
+
+  submitButton.addEventListener("click", evaluateTest);
+  resetButton.addEventListener("click", resetTest);
+
+  createTest();
+
+  const navLinks = document.querySelectorAll(".nav-link");
+  const sections = document.querySelectorAll("section");
+
+  function highlightNavigation(){
+    let currentSection = sections[0].id;
+
+    sections.forEach(section => {
+      const top = section.getBoundingClientRect().top;
+      if(top <= 150){
+        currentSection = section.id;
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.toggle("active", link.getAttribute("href") === "#" + currentSection);
+    });
+  }
+
+  window.addEventListener("scroll", highlightNavigation);
+  highlightNavigation();
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("visible");
+      }
+    });
+  }, {threshold: .12});
+
+  document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+</script>
+</body>
+</html>
